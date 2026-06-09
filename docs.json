@@ -1,13 +1,12 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "Lerndokumentation",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
     "dark": "#15803D"
   },
-  "favicon": "/favicon.svg",
   "navigation": {
     "pages": [
       {
@@ -33,10 +32,6 @@
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
   "navbar": {
     "links": [
       {
@@ -59,14 +54,26 @@
       "perplexity",
       "mcp",
       "cursor",
-      "vscode"
+      "vscode",
+      "download-pdf",
+      "assistant"
     ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/levinbaenninger",
+      "github": "https://github.com/levinbaenninger",
+      "linkedin": "https://linkedin.com/levinbaenninger",
+      "website": "https://levin.baenninger.me"
     }
+  },
+  "icons": {
+    "library": "lucide"
+  },
+  "background": {
+    "decoration": "gradient"
+  },
+  "styling": {
+    "latex": true
   }
 }
