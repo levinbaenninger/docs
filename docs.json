@@ -17,20 +17,75 @@
         ]
       }
     ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    "tabs": [
+      {
+        "tab": "Web",
+        "icon": "globe"
+      },
+      {
+        "tab": ".NET",
+        "icon": "computer",
+        "pages": [
+          "page"
+        ]
+      },
+      {
+        "tab": "C",
+        "icon": "code",
+        "pages": [
+          "page-1"
+        ]
+      },
+      {
+        "tab": "Cloud",
+        "icon": "cloud",
+        "pages": [
+          "page-2"
+        ]
+      },
+      {
+        "tab": "Datenbanken",
+        "icon": "database",
+        "pages": [
+          "page-3"
+        ]
+      },
+      {
+        "tab": "Containerisierung",
+        "icon": "container",
+        "pages": [
+          "page-4"
+        ]
+      },
+      {
+        "tab": "Testing",
+        "icon": "test-tube-diagonal",
+        "pages": [
+          "page-5"
+        ]
+      },
+      {
+        "tab": "Security",
+        "icon": "lock-keyhole",
+        "pages": [
+          "page-6"
+        ]
+      },
+      {
+        "tab": "Prozesse",
+        "icon": "repeat",
+        "pages": [
+          "page-7"
+        ]
+      },
+      {
+        "tab": "Diverses",
+        "icon": "compass",
+        "pages": [
+          "page-8"
+        ]
+      }
+    ]
   },
   "navbar": {
     "links": [
