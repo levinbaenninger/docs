@@ -20,7 +20,10 @@
     "tabs": [
       {
         "tab": "Web",
-        "icon": "globe"
+        "icon": "globe",
+        "pages": [
+          "page-9"
+        ]
       },
       {
         "tab": ".NET",
