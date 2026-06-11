@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Lerndokumentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#009689",
+    "light": "#00BBA7",
+    "dark": "#009689"
   },
   "navigation": {
     "pages": [
@@ -91,17 +91,7 @@
     ]
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
-    }
+    "links": []
   },
   "contextual": {
     "options": [
@@ -112,9 +102,7 @@
       "perplexity",
       "mcp",
       "cursor",
-      "vscode",
-      "download-pdf",
-      "assistant"
+      "vscode"
     ]
   },
   "footer": {
@@ -133,5 +121,9 @@
   },
   "styling": {
     "latex": true
+  },
+  "favicon": {
+    "light": "/images/favicon.svg",
+    "dark": "/images/favicon.svg"
   }
 }
