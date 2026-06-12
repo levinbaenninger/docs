@@ -1,0 +1,67 @@
+---
+title: "Function as a Service"
+---
+
+Die Funktionsapp erstellen wir über das Azure Portal.
+
+<Steps>
+<Step title="Ressource erstellen">
+
+Klicke auf "[Create a resource](https://portal.azure.com/#create/hub)" und wähle "Function App" aus.
+
+</Step>
+
+<Step title="Hosting-Option">
+
+Wähle eine Hosting-Option aus, z.B. Flex Consumption
+
+</Step>
+
+<Step title="Funktionsapp konfigurieren">
+
+Wähle eine Subscription, eine Ressourcengruppe, einen Namen, eine Region, etc. Erstelle dann die Funktionsapp und warte bis sie erfolgreich deployed wurde.
+
+</Step>
+</Steps>
+
+Um nun die Funktionen zu entwickeln müssen wir noch folgende Schritte vornehmen.
+
+<Steps>
+<Step title="Azure Functions Core Tools installieren">
+
+Nun müssen wir das [CLI](https://go.microsoft.com/fwlink/?linkid=2174087) installieren.
+
+</Step>
+
+<Step title="Lokales Projekt installieren">
+
+```bash
+func init <PROJECT> --worker-runtime javascript --model V4
+```
+
+</Step>
+
+<Step title="Funktion erstellen">
+
+```bash
+func new --template "Http Trigger" --name <FUNCTION>
+```
+
+</Step>
+
+<Step title="Funktionen starten">
+
+```bash
+func start
+```
+
+</Step>
+
+<Step title="Funktionen deployen">
+
+```bash
+func azure functionapp publish <FUNCTION_APP_NAME>
+```
+
+</Step>
+</Steps>

@@ -1,0 +1,122 @@
+---
+title: "Funktionen"
+icon: "square-function"
+---
+
+In TypeScript kannst du die Typen der Funktionsparameter und Rückgabewerte deklarieren.
+
+```typescript
+const add = (a: number, b: number): number => {
+  return a + b;
+}
+```
+
+Im obigen Beispiel nimmt die Funktion `add` zwei Parameter `a` und `b`, beide vom Typ `number`, und gibt einen Wert vom Typ `number` zurück. Der Rückgabetyp ist optional und kann von TypeScript abgeleitet werden.
+
+```typescript
+const add = (a: number, b: number) => {
+  return a + b;
+}
+```
+
+Das Ergebnis ist immer noch eine Zahl, da TypeScript den Rückgabetyp aus der Rückgabeanweisung ableiten kann. TypeScript weiss, dass `a` und `b` Zahlen sind, also ist das Ergebnis der Addition auch eine Zahl. Es ist jedoch oft hilfreich, den Rückgabetyp explizit zu deklarieren, um die Lesbarkeit und Wartbarkeit zu verbessern.
+
+***
+
+Einige Funktionen geben nichts zurück. In diesem Fall kannst du den Rückgabetyp als `void` deklarieren.
+
+```typescript
+const log = (message: string): void => {
+  console.log(message);
+}
+```
+
+***
+
+Du kannst auch den Typ einer Funktionsvariablen deklarieren.
+
+```typescript
+const multiply: (a: number, b: number) => number = (a, b) => {
+  return a * b;
+};
+```
+
+Im obigen Beispiel ist die Variable `multiply` als Funktion deklariert, die zwei Parameter vom Typ `number` annimmt und einen Wert vom Typ `number` zurückgibt. Die Funktion, die `multiply` zugewiesen ist, entspricht dieser Signatur.
+
+## Optionale Argumente
+
+Was ist, wenn eine Funktion ein optionales Argument hat? Füge dem Namen des Arguments ein Fragezeichen `?` hinzu, um es als optional zu kennzeichnen.
+
+```typescript
+const greet = (name: string, greeting?: string): string => {
+  if (greeting) {
+    return `${greeting}, ${name}!`;
+  } else {
+    return `Hello, ${name}!`;
+  }
+}
+```
+
+Beachte, dass das Argument `greeting` als `string` oder `undefined` eingegeben wird. Das liegt daran, dass das Argument optional ist und weggelassen werden kann.
+
+## Overloading
+
+Funktionsüberladungen sind eine Möglichkeit, mehrere Funktionssignaturen für denselben Funktionsnamen zu definieren. Dadurch hast du mehrere Möglichkeiten, eine Funktion aufzurufen, abhängig von den Argumenten, die du ihr übergibst.
+
+```typescript
+const add: {
+  (a: number, b: number): number;
+  (a: string, b: string): string;
+} = (a: any, b: any): any => a + b;
+
+const sum = add(10, 20);
+const concatenatedString = add("Hello, ", "world!");
+```
+
+<Info>
+Die Überladungen müssen oberhalb der Implementierung deklariert werden. Die Implementierung muss eine einzige Funktion sein, die mit allen Überladungssignaturen kompatibel ist.
+</Info>
+
+Vermeide im Allgemeinen Funktionsüberladungen, wenn du kannst. Sie können dazu führen, dass dein Code schwieriger zu lesen und zu warten ist.
+
+## Restparameter
+
+Restparameter sind eine Möglichkeit, eine unbestimmte Anzahl von Argumenten als Array darzustellen. Du kannst die `...`-Syntax verwenden, um einen Restparameter zu deklarieren. Der Restparameter muss der letzte Parameter in der Funktionssignatur sein.
+
+```typescript
+const sum = (...numbers: number[]): number =>
+  numbers.reduce((total, n) => total + n, 0);
+```
+
+In diesem Beispiel akzeptiert die Funktion `sum` eine beliebige Anzahl von Argumenten und gibt die Summe aller Zahlen zurück. Der Parameter `numbers` ist ein Restparameter, der alle an die Funktion übergebenen Argumente in einem Array sammelt.
+
+## `this`
+
+In JavaScript ist das Schlüsselwort `this` ein Verweis auf das Objekt, das die aktuelle Funktion ausführt.
+
+TypeScript ist intelligent genug, um den Kontrollfluss zu analysieren und Autovervollständigung und Typsicherheit zu bieten, wenn `this` in einer Methode eines Objektliteral verwendet wird.
+
+```typescript
+const person = {
+  name: "Alice",
+  sayHello() {
+    console.log(`Hello, ${this.name}!`);
+  },
+};
+```
+
+***
+
+Auch eine blosse Funktion kann einen solchen Kontext angeben. Wenn eine Funktion aufgerufen wird, wird der Wert von `this` dadurch bestimmt, wie die Funktion aufgerufen wird. In TypeScript kannst du den Typ von `this` in einer Funktion mit dem Schlüsselwort `this` an der Stelle deklarieren, an der du normalerweise den Parameter deklarieren würdest. Diese Syntax funktioniert, weil `this` in JS kein gültiger Parametername ist, sodass TypeScript das Schlüsselwort `this` hier sicher für Typzwecke verwenden kann.
+
+```typescript
+const person = { name: "Alice" };
+
+const sayHello = (this: { name: string }) => {
+  console.log(`Hello, ${this.name}!`);
+}
+
+sayHello.call(person);
+```
+
+Im obigen Beispiel wird die Funktion `sayHello` mit einem `this`-Parameter deklariert, der ein Objekt mit einer `name`-Eigenschaft erwartet. Wenn die Funktion mit der [`call`-Methode](/web/javascript/scope-und-kontext/call-apply-und-bind#call-methode) aufgerufen wird, wird der `this`-Parameter auf das `person`-Objekt gesetzt, und die Funktion kann auf die `name`-Eigenschaft zugreifen.

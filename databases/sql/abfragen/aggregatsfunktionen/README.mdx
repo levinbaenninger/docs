@@ -1,0 +1,88 @@
+---
+title: "Aggregatsfunktionen"
+---
+
+## `COUNT`
+
+Die `COUNT()`-Funktion gibt die Anzahl Datensätze zurück, die dem Kriterium entsprechen.
+
+```sql
+SELECT COUNT(column_name)
+FROM table_name
+WHERE condition;
+```
+
+### Beispiel
+
+```sql
+SELECT COUNT(*)
+FROM Products;
+```
+
+## `AVG`
+
+Die `AVG()`-Funktion gibt den Durchschnitt der Werte eines numerischen Attributes zurück.
+
+```sql
+SELECT AVG(column_name)
+FROM table_name
+WHERE condition;
+```
+
+### Beispiel
+
+```sql
+SELECT AVG(Price)
+FROM Products;
+```
+
+## SUM
+
+Die `SUM()`-Funktion gibt einem die Summe aller Werte eines numerischen Attributs zurück.
+
+```sql
+SELECT SUM(column_name)
+FROM table_name
+WHERE condition;
+```
+
+### Beispiel
+
+```sql
+SELECT SUM(Quantity)
+FROM OrderDetails;
+```
+
+## `MIN`
+
+Die `MIN()`-Funktion gibt den kleinsten Wert eines Attributs zurück.
+
+```sql
+SELECT MIN(column_name)
+FROM table_name
+WHERE condition;
+```
+
+### Beispiel
+
+```sql
+SELECT MIN(Price) AS SmallestPrice
+FROM Products;
+```
+
+## `MAX`
+
+Die `MAX()`-Funktion gibt einem den grössten Wert eines Attributs zurück.
+
+```sql
+SELECT MAX(column_name)
+FROM table_name
+WHERE condition;
+```
+
+### Beispiele
+
+```sql
+SELECT MAX(Price) AS LargestPrice
+FROM Products;
+```

@@ -1,0 +1,32 @@
+---
+title: "Identification and Authentication Failures"
+---
+
+Es beschreibt Schwachstellen bei der Benutzeridentifikation und Authentifizierung, z. B. unsichere Passworthandhabung oder fehlerhafte Login-Mechanismen.
+
+## Problem
+
+Wenn Passwörter oder Authentifizierungsdaten unsicher gespeichert oder schwach überprüft werden, können Angreifer:
+
+* Konten übernehmen
+* vertrauliche Daten einsehen
+* Rechte ausweiten
+
+```php
+$password = $_POST['password'];
+file_put_contents("passwords.txt", $password); // Unsichere Speicherung
+```
+
+## Lösung
+
+* Passwörter sicher hashen (z. B. `bcrypt`)
+* Salzen von Passwörtern
+* Sicheres Authentifizierungsverfahren implementieren
+
+```php
+$password = $_POST['password'];
+$hashed_password = password_hash($password, PASSWORD_BCRYPT);
+store_in_database($hashed_password);
+```
+
+Nur gehashte Passwörter werden gespeichert – Angreifer können die Original-Passwörter nicht direkt auslesen.

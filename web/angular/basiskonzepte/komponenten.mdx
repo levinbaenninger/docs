@@ -1,0 +1,165 @@
+---
+title: "Komponenten"
+---
+
+Komponenten können als grundlegende Bausteine einer Angular-Anwendung betrachtet werden. Wir haben bereits einen kleinen Einblick erhalten – unsere gesamte Anwendung besteht aus Komponenten innerhalb von Komponenten innerhalb von Komponenten.
+
+Wir haben bereits einige grundlegende Komponenten erstellt, die wie folgt aussehen:
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  template: ` <p>Hi, Levin!</p> `,
+})
+export class WelcomeComponent {}
+```
+
+Und diese Komponenten können dann wie folgt zu einem anderen Template hinzugefügt werden:
+
+```typescript
+import { Component } from '@angular/core';
+import { WelcomeComponent } from './ui/welcome.component';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <app-welcome />
+    <p>I am the home component</p>
+  `,
+  imports: [WelcomeComponent]
+})
+export class HomeComponent {}
+```
+
+Oder sie können an einen `<router-outlet>` weitergeleitet und dort angezeigt werden.
+
+***
+
+Dieses Beispiel ist so grundlegend, wie eine Komponente nur sein kann. Der Grund, warum wir eine solche Komponente erstellen, ist lediglich, um unsere Anwendung zu modularisieren – alles, was wir wirklich tun, ist, ein Template anzuzeigen und einige einfache Daten zu binden. Wir werden später noch mehr über Architekturkonzepte sprechen, aber die allgemeine Idee ist, dass es besser ist, viele Komponenten zu haben, die jeweils eine kleine/gezielte Aufgabe erfüllen, als Komponenten, die versuchen, zu viel zu tun.
+
+Allerdings fehlen hier zwei grundlegende Konzepte von Angular-Komponenten, die dabei helfen, die Beziehung zwischen über- und untergeordneten Komponenten zu steuern: Inputs und Outputs.
+
+Wenn wir `ComponentB` in das Template von `ComponentA` einfügen:
+
+```typescript
+@Component({
+    selector: 'component-a',
+    template: `<component-b></component-b>`
+})
+export class ComponentA {}
+```
+
+Dann würden wir sagen, dass `ComponentA` die übergeordnete Komponente und `ComponentB` die untergeordnete Komponente ist. Der Kerngedanke dabei ist, dass eine übergeordnete Komponente mit einer untergeordneten Komponente kommunizieren kann, indem sie ihr einen Input zur Verfügung stellt. Eine untergeordnete Komponente kann mit einer übergeordneten Komponente kommunizieren, indem sie ihr einen Output zur Verfügung stellt.
+
+![Kommunikation unter Komponenten](/images/content/web/file-excalidraw-28.svg)
+
+## Inputs
+
+Stellen wir uns nun vor, wir möchten eine Begrüssung für den Namen eines bestimmten Benutzers anzeigen, nicht nur für `Levin`. Wie wir später noch sehen werden, möchten wir im Allgemeinen nicht, dass unsere untergeordneten/dummen Komponenten sich mit komplexer Geschäftslogik oder dem Abrufen von Daten befassen müssen. Daher möchten wir vielleicht, dass unsere übergeordnete Komponente der untergeordneten Komponente eine Eingabe zur Verfügung stellt, damit diese weiss, welcher Name angezeigt werden soll.
+
+```typescript
+import { Component } from '@angular/core';
+import { WelcomeComponent } from './ui/welcome.component';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <app-welcome [name]="user.name" />
+    <p>I am the home component</p>
+  `,
+  imports: [WelcomeComponent],
+})
+export class HomeComponent {
+  user = {
+    name: 'Josh',
+  };
+}
+```
+
+Wir verwenden hier immer noch nur einen statischen Wert für `Levin`, aber stell dir vor, dass unsere `HomeComponent` diesen Benutzerwert aus einer Art `UserService` abrufen könnte, der den angemeldeten Benutzer zurückgibt.
+
+Um diesen Input zu akzeptieren, müssen wir einige Änderungen an der `WelcomeComponent` vornehmen. 
+
+```typescript
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  template: ` <p>Hi, {{ name() }}!</p> `,
+})
+export class WelcomeComponent {
+  name = input('friend');
+}
+```
+
+## Outputs
+
+Nehmen wir an, dass wir in unserer `WelcomeComponent` eine dieser  Cookie-Hinweise anzeigen möchten. Wir möchten eine Schaltfläche hinzufügen, auf die der Benutzer klicken kann, um die Cookies zu akzeptieren, und wenn dies geschieht, müssen wir auf unserem Server protokollieren, dass der Benutzer diese Schaltfläche angeklickt hat.
+
+Auch hier möchten wir wieder, dass unsere untergeordneten Komponenten „dumm” sind. Wir möchten nicht, dass sie sich mit dem Aufrufen von Diensten zum Senden von HTTP-Anfragen befassen müssen, da sie dafür Kenntnisse über die Funktionsweise der Anwendung benötigen. Eine „dumme” Komponente sollte nichts über das wissen, was ausserhalb der Komponente selbst geschieht. Sie hat ihre Eingaben, ihre Ausgaben, sie zeigt einige Dinge an, und das war's auch schon (wir werden später noch näher darauf eingehen).
+
+Wir möchten, dass unsere übergeordnete Komponente, wenn der Benutzer auf die Schaltfläche klickt, die entsprechende Anfrage an einen Dienst sendet, um anzuzeigen, dass die Cookies akzeptiert wurden. Das bedeutet, dass wir eine Möglichkeit benötigen, mit der unsere untergeordnete Komponente die übergeordnete Komponente benachrichtigt, wenn die Schaltfläche angeklickt wurde.
+
+```typescript
+import { Component, input, output } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  template: `
+    <p>Hi, {{ name() }}!</p>
+    <p>Do you accept the yummy cookies?</p>
+    <button (click)="cookiesAccepted.emit(true)">I do!</button>
+  `,
+})
+export class WelcomeComponent {
+  name = input('friend');
+  cookiesAccepted = output<boolean>();
+}
+```
+
+Wenn etwas Interessantes passiert, können wir die `emit`-Methode darauf anwenden:
+
+```typescript
+cookiesAccepted.emit(true)
+```
+
+Unsere übergeordnete Komponente kann sich genau wie bei der Eingabe daran binden:
+
+```typescript
+import { Component } from '@angular/core';
+import { WelcomeComponent } from "./ui/welcome.component";
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <app-welcome
+      [name]="user.name"
+      (cookiesAccepted)="handleCookies()"
+    />
+    <p>I am the home component</p>
+  `,
+  imports: [WelcomeComponent]
+})
+export class HomeComponent {
+  user = {
+    name: 'Josh',
+  };
+
+  handleCookies() {
+    console.log('do something');
+    // call some service
+  }
+}
+```
+
+Dieses Mal binden wir jedoch an ein Event, genau wie bei einem Standard-Klick. Immer wenn wir diese `emit`-Methode auslösen, wird dieses Event ausgelöst, und wir können das Event verarbeiten. In diesem Fall rufen wir eine Methode auf, die den entsprechenden injizierbaren Dienst aufruft.
+
+## Ohne Inputs und Outputs kommunizieren
+
+Dieses Konzept der Eltern-Kind-Beziehungen und Inputs und Outputs ist wichtig. Es gibt jedoch auch andere Möglichkeiten, wie unsere Komponenten miteinander kommunizieren können. Ein Input oder Output funktioniert gut, wenn eine Komponente ein direktes Kind einer anderen Komponente ist, aber was ist mit einer Situation, in der unsere Komponenten Geschwister sind? Das heisst, eine Komponente befindet sich nicht innerhalb der anderen Komponente.
+
+Ein gutes Beispiel hierfür ist das zuvor betrachtete Beispiel der Startseite und der Einstellungsseite. Diese Komponenten werden über den `<router-outlet>` weitergeleitet. Die Startseite befindet sich nicht innerhalb der Einstellungsseite und die Einstellungsseite befindet sich nicht innerhalb der Startseite.
+
+Möglicherweise müssen wir dennoch zwischen diesen beiden Komponenten kommunizieren. Vielleicht müssen sie denselben Datensatz gemeinsam nutzen. In diesen Fällen verwenden wir in der Regel einen injizierbaren Service, um Daten zwischen beiden Seiten auszutauschen. Es gibt noch andere Methoden, die wir verwenden können, auf die wir später noch eingehen werden.

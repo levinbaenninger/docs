@@ -1,0 +1,20 @@
+---
+title: "Singleton"
+---
+
+Der Singleton ist ein Muster, bei dem wir die Instanziierung einer Klasse auf eine einzige Instanz beschränken. Ein gutes Beispiel für ein Singleton ist ein Logger, da dieser interne Status verwalten muss.
+
+- Stellt sicher, dass eine Klasse nur eine Instanz hat
+- Bietet uns einfachen Zugriff auf die eine Instanz
+
+## Implementierung
+
+```csharp
+public sealed class Singleton
+{
+    private static readonly Lazy<Singleton> _lazyInstance = new(() => new Singleton());
+    public static Singleton Instance => _lazyInstance.Value;
+    
+    private Singleton() { }
+}
+```

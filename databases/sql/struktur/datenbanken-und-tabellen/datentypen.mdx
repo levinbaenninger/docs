@@ -1,0 +1,87 @@
+---
+title: "Datentypen"
+---
+
+Wie auch bei Programmiersprachen wie C oder Java gibt es in Datenbanken Datentypen. Es ist wichtig das wir unsere Daten mit einem passenden Datentyp in der Datenbank ablegen, da dies Einfluss auf Speicherbedarf und Performance der Datenbank, sowie die Integrität der Daten hat.
+
+Den Grossteil unserer Daten können wir entweder Ganzzahlen, Kommazahlen, Zeichenketten oder Datum/Zeit zuordnen. Für diese Art von Daten gibt es auch entsprechend diverse Datentypen in unterschiedlichen Grössen.
+
+## Ganzzahlen
+
+| Datentyp    | Speicherverbrauch | Minimaler Wert | Maximaler Wert |
+| ----------- | ----------------- | -------------- | -------------- |
+| `TINYINT`   | 1 Byte            | -128           | 127            |
+| `SMALLINT`  | 2 Bytes           | -32'768        | 32'767         |
+| `MEDIUMINT` | 3 Bytes           | -8'388'608     | 8'388'607      |
+| `INTEGER`   | 4 Bytes           | -2'147'483'648 | 2'147'483'647  |
+| `BIGINT`    | 8 Bytes           | -263           | 263-1          |
+
+Zudem gibt es noch den Zusatz `UNSIGNED`, also Zahlen ohne Vorzeichen.
+
+## Fliesskommazahlen
+
+| Datentyp        | Speicherverbrauch | Genauigkeit                       |
+| --------------- | ----------------- | --------------------------------- |
+| `DOUBLE`        | 8 Bytes           | 15 Stellen                        |
+| `DECIMAL(M, D)` | Je nach dem       | `M` Stellen, `D` Nachkommastellen |
+
+## Textformate
+
+| Datentyp     | Eigenschaft                                                         |
+| ------------ | ------------------------------------------------------------------- |
+| `CHAR(m)`    | Eine Zeichenkette fester Länge mit max. 255 Zeichen                 |
+| `VARCHAR(m)` | Eine Zeichenkette variabler Länge mit max. 65'535 Zeichen           |
+| `TEXT`       | Längere Texte, variabler Länge, extern gespeichert, etwas langsamer |
+| `LONGTEXT`   | Ein Text mit variabler Länge, max. 4.2GB                            |
+
+### Verschlüsselung
+
+In SQL ist es möglich Daten mit dem SHA256 bzw. SHA512 Algorithmus zu verschlüsseln. Das sieht so aus:
+
+```sql
+INSERT INTO Users (Name, Password) 
+VALUES
+    ('Marco',  sha2('Passwort123', 512)),
+    ('Martin', sha1('Hallo0987'));
+```
+
+Der Wert sieht im Feld dann beispielsweise so aus: `5bf77a370c08f5f5b20fab75849116...`
+
+## Datum/Zeit
+
+| Datentyp    | Format              | Gültigkeitsbereich                                      |
+| ----------- | ------------------- | ------------------------------------------------------- |
+| `DATE`      | YYYY-MM-DD          | '`1000-01-01`' bis '`9999-12-31`'                       |
+| `TIME`      | \[h]hh:mm:ss        | '`-838:59:59`' bis '`838:59:59`'                        |
+| `DATETIME`  | YYYY-MM-DD hh:mm:ss | '`1000-01-01 00:00:00`' bis '`9999-12-31 23:59:59`'     |
+| `TIMESTAMP` | YYYY-MM-DD hh:mm:ss | '`1970-01-01 00:00:00`' bis '`2038-01-19 03:14:07`' UTC |
+
+### CURRENT\_DATE
+
+In SQL gibt es noch die Variable `CURRENT_DATE` diese gibt uns das aktuelle Datum zurück im `TIMESTAMP`-Format. Das ist beispielsweise für Abfragen praktisch:
+
+```sql
+SELECT * FROM Persons 
+WHERE BirthDate < CURRENT_DATE;
+```
+
+### TIMESTAMP
+
+Ein Timestamp ist beispielsweise praktisch für solche Tabellen:
+
+```sql
+CREATE TABLE Users (
+	Id INT PRIMARY KEY AUTO_INCREMENT,
+	Name VARCHAR(40) NOT NULL,
+	Password VARCHAR(256) NOT NULL,
+	CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	UpdatedAt TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+## Weitere Datentypen
+
+| `BOOL` | Wahr oder falsch           |
+| ------ | -------------------------- |
+| `ENUM` | Liste von möglichen Werten |
+| `BLOB` | Dateien (z.B. Bilder)      |

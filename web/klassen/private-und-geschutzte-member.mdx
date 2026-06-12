@@ -1,0 +1,71 @@
+---
+title: "Private und Geschützte Member"
+---
+
+In TypeScript kannst du ein Klassenmember als `private` markieren, um zu verhindern, dass von ausserhalb der Klasse darauf zugegriffen wird.
+
+```typescript
+class Person {
+  private name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  public greet() {
+    console.log(`Hello, my name is ${this.name}`);
+  }
+}
+
+const person = new Person("Alice");
+person.greet();
+```
+
+Du kannst auch einen Konstruktorparameter als `private` markieren, um automatisch ein privates Feld mit demselben Namen zu erstellen.
+
+```typescript
+class Person {
+  constructor(private name: string) {}
+
+  public greet() {
+    console.log(`Hello, my name is ${this.name}`);
+  }
+}
+
+const person = new Person("Alice");
+person.greet(); 
+```
+
+***
+
+TypeScript unterstützt auch das Schlüsselwort `protected`, um geschützte Felder zu deklarieren.
+
+```typescript
+class Person {
+  protected name: string;
+}
+```
+
+In diesem Beispiel ist <kbd>name</kbd> ein geschütztes Feld. Auf geschützte Felder kann nur von Unterklassen zugegriffen werden.
+
+```typescript
+class Chef {
+  public cook() {
+    console.log("Cooking " + this.getDish());
+  }
+  
+  protected getDish() {
+    return "pasta";
+  }
+}
+
+class SpecialChef extends Chef {
+  public prepareSpecialDish() {
+    console.log("Preparing special dish: " + this.getDish());
+  }
+}
+
+const chef = new SpecialChef();
+chef.cook();
+chef.getDish()
+```

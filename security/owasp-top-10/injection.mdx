@@ -1,0 +1,35 @@
+---
+title: "Injection"
+---
+
+Dabei schleusen Angreifer schädlichen Code (z. B. SQL-, System- oder Script-Befehle) über unsichere Benutzereingaben in eine Anwendung ein. Dieser Code wird dann von der Anwendung oder Datenbank ausgeführt.
+
+## Problem
+
+Wenn Eingaben nicht überprüft oder gefiltert werden, können Angreifer die ursprüngliche Abfrage manipulieren.
+
+```php
+$username = $_POST['username'];
+$query = "SELECT * FROM users WHERE username = '$username'";
+$result = mysqli_query($conn, $query);
+```
+
+Hier wird die Benutzereingabe direkt in die SQL-Abfrage eingefügt.
+
+## Lösung
+
+Um Injection-Angriffe zu verhindern, sollte man:
+
+* Eingaben validieren
+* Prepared Statements (vorbereitete SQL-Abfragen) verwenden
+* Benutzereingaben nicht direkt in SQL einbauen
+
+```php
+$username = $_POST['username'];
+$stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+```
+
+Prepared Statements sorgen dafür, dass Benutzereingaben nicht als SQL-Code interpretiert werden.

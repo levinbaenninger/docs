@@ -1,0 +1,50 @@
+---
+title: "Volumes"
+---
+
+Normalerweise werden Daten eines Containers gelöscht, sobald auch der Container gelöscht wurde. Um das zu verhindern, nutzen wir Volumes. Volumes sind dauerhafte Datenspeicher für Container, die von Docker erstellt und verwaltet werden. 
+
+## Unbenannte Volumes
+
+```bash
+docker run -d \
+-p 3306:5432 \
+--name my-postgres \
+-e POSTGRES_PASSWORD=secret \
+postgres
+```
+
+Dieser Befehl erstellt im Hintergrund automatisch ein Volume, welches die ID des Containers für den Pfad nimmt. 
+
+<Warning>
+Wenn wir diesen Container löschen und dann einen neuen Container mit der exakt selben Konfiguration starten, wird das Volume dennoch nicht angehängt. 
+
+Da die ID bei jedem Container anders ist, dann ist so auch der Pfad zum Volume immer anders.
+</Warning>
+
+## Benannte Volumes
+
+```bash
+docker run -d \ 
+-p 3306:5432 \
+--name my-postgres \
+-e POSTGRES_PASSWORD=secret \
+-v my-postgres-data:/var/lib/postgresql/data \
+postgres
+```
+
+Hier wird nun ein Volume mit dem Namen `my-postgres-data` erstellt und mappt es zu den Datenbank-Daten im Container. 
+
+<Info>
+Auch nach dem Löschen und erneuten Erstellen eines Containers mit identischer Konfiguration bleiben die gespeicherten Daten verfügbar.
+
+Den Pfad auf den wir mappen müssen, können wir im Image auslesen.
+</Info>
+
+## Pfad des Volumes anzeigen
+
+```bash
+docker inspect -f '{{.Mounts}}' my-postgres
+```
+
+Dieser Befehl gibt uns sowohl den Pfad des Volumes auf dem Rechner zurück, als auch den Pfad auf dem Container, mit welchem das Volume verknüpft ist.

@@ -1,0 +1,131 @@
+---
+title: "MSTest"
+---
+
+MSTest ist ein Unit-Testing-Framework von Microsoft für .NET. Es wird verwendet, um einzelne Methoden oder Klassen automatisch zu testen und Fehler frühzeitig zu erkennen.
+
+```csharp
+[TestClass]
+public class HeatingValveDecoratorTests
+{
+    [TestMethod]
+    public void Trigger_ShouldStayClosed_WhenTooHot()
+    {
+        var mockRoom = new Mock<Room>();
+        mockRoom.SetupGet(r => r.PreferredTemperature).Returns(20.0);
+
+        var mockSensor = new Mock<IWeatherSensor>();
+        mockSensor.SetupGet(s => s.Temperature).Returns(21.0);
+
+        var decorator = new HeatingValveDecorator(mockRoom.Object);
+
+        decorator.Trigger(mockSensor.Object);
+
+        Assert.IsFalse(decorator.IsHeatingOn);
+    }
+
+    [TestMethod]
+    public void Trigger_ShouldOpen_WhenTemperatureOk()
+    {
+        var mockRoom = new Mock<Room>();
+        mockRoom.SetupGet(r => r.PreferredTemperature).Returns(22.0);
+
+        var mockSensor = new Mock<IWeatherSensor>();
+        mockSensor.SetupGet(s => s.Temperature).Returns(21.0);
+
+        var decorator = new HeatingValveDecorator(mockRoom.Object);
+
+        decorator.Trigger(mockSensor.Object);
+
+        Assert.IsTrue(decorator.IsHeatingOn);
+    }
+
+    [TestMethod]
+    public void Trigger_ShouldCallTriggerOnInnerRoom_WhenCalled()
+    {
+        var mockRoom = new Mock<Room>();
+        var mockSensor = new Mock<IWeatherSensor>();
+
+        var decorator = new HeatingValveDecorator(mockRoom.Object);
+
+        decorator.Trigger(mockSensor.Object);
+
+        mockRoom.Verify(r => r.Trigger(mockSensor.Object), Times.Once);
+    }
+}
+```
+
+## Organisation
+
+Tests werden in speziellen Klassen organisiert, die mit dem Attribut `[TestClass]` gekennzeichnet sind. Eine solche Testklasse enthält mehrere Testmethoden, die jeweils einen bestimmten Aspekt des Programms überprüfen. Damit der Test Runner diese Methoden erkennt und ausführt, müssen sie mit dem Attribut `[TestMethod]` versehen sein. Eine Testmethode führt dabei eine konkrete Aktion aus und überprüft anschliessend das Ergebnis.
+
+```csharp
+[TestClass]
+public class WeatherSensorTests
+{
+    [TestMethod]
+    public void Tick_ShouldNotChangeTemperatureByMoreThan0Point15_WhenCalledWithMinimum()
+    {
+        ...
+    }
+}
+```
+
+## Assertions
+
+Assertions überprüfen, ob ein Ergebnis den Erwartungen entspricht. Schlägt eine Assertion fehl, ist der Test nicht bestanden. Beispiele für Assertions sind:
+
+* `Assert.AreEqual(expected, actual)`
+* `Assert.IsTrue(condition)`
+* `Assert.IsFalse(condition)`
+* `Assert.IsNull(value)`
+* `Assert.IsNotNull(value)`
+
+### Exceptions
+
+Mit MSTest kann geprüft werden, ob eine Methode eine Exception wirft, z. B. bei ungültigen Eingaben.
+
+```csharp
+Assert.ThrowsException<DivideByZeroException>(() => calculator.Divide(5, 0));
+```
+
+## Parametrisierte Tests
+
+Parametrisierte Tests ermöglichen es, denselben Test mit verschiedenen Werten auszuführen.
+
+```csharp
+[DataTestMethod]
+[DataRow(2, 3, 5)]
+[DataRow(1, 1, 2)]
+[DataRow(0, 5, 5)]
+public void Add_WithDifferentValues(int a, int b, int expected)
+{
+    ...
+    var actual = calculator.add(a, b)
+    Assert.AreEqual(expected, actual);
+}
+```
+
+## AAA-Pattern
+
+Eine bewährte Struktur für Testmethoden ist das AAA-Pattern. AAA steht für Arrange, Act und Assert und beschreibt die drei logischen Phasen eines Tests. Zuerst werden im _Arrange_-Teil alle benötigten Objekte und Ausgangswerte vorbereitet. Danach wird im _Act_-Teil die zu testende Methode ausgeführt. Abschliessend wird im _Assert_-Teil überprüft, ob das Ergebnis korrekt ist.
+
+```csharp
+[TestMethod]
+public void Tick_ShouldNotChangeTemperatureByMoreThan0Point15_WhenCalledWithMaximum()
+{
+    // Arrange
+    var mockRandom = new Mock<Random>();
+    mockRandom.Setup(r => r.NextDouble()).Returns(1.0); // Max: (1.0 - 0.5) * 0.3 = 0.15
+
+    var sensor = new WeatherSensor(mockRandom.Object);
+    double initialTemp = sensor.Temperature;
+
+    // Act
+    sensor.Tick();
+
+    // Assert
+    Assert.IsLessThanOrEqualTo(0.15, Math.Abs(sensor.Temperature - initialTemp));
+    Assert.AreEqual(0.15, sensor.Temperature - initialTemp, 0.0001);
+}
+```

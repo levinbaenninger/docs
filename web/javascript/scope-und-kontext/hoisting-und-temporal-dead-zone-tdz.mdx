@@ -1,0 +1,31 @@
+---
+title: "Hoisting und Temporal Dead Zone (TDZ)"
+icon: "arrow-up-from-line"
+---
+
+## Hoisting﻿
+
+<AccordionGroup>
+<Accordion title="Hoisting">
+
+Macht einige Arten von Variablen im Code zugänglich/verwendbar, bevor sie tatsächlich deklariert werden. "Variablen, die an den Anfang ihres Scopes gehoben werden".
+
+</Accordion>
+</AccordionGroup>
+
+Hinter den Kulissen geschieht nun Folgendes: Vor der Ausführung wird der Code nach Variablendeklarationen durchsucht und für jede Variable wird eine neue Eigenschaft im Variable Environment Object erstellt.
+
+Jedoch funktioniert Hoisting nicht für alle Variablentypen gleich:
+
+| Deklaration | Hoisted | Initial Value | Scope |
+| --- | --- | --- | --- |
+| `function`-Deklarationen | Ja | Eigentliche Funktion | Block (Strict Mode: ansonsten Funktion) |
+| `var` Variablen | Ja | `undefined` | Funktion |
+| `let` und `const` Variablen | Nein | `<uninitialized>`, TDZ | Block |
+| `function`-Ausdrücke und Pfeilfunktionen | Abhängig davon, ob `var` oder `let`/`const` verwendet wird |  |  |
+
+## Temporal Dead Zone (TDZ)﻿
+
+![Die Temporal Dead Zone](/images/content/web/image-5.png)
+
+Die Temporal Dead Zone

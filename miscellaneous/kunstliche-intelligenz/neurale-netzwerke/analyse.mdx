@@ -1,0 +1,13 @@
+---
+title: "Analyse"
+---
+
+Nachdem wir unsere neurales Netzwerk trainiert haben, analysieren wir es nun. Bei der [Funktionsweise](/miscellaneous/kunstliche-intelligenz/neurale-netzwerke/funktionsweise#kanten-erkennung) haben wir uns überlegt, dass unser neurales Netzwerk im ersten versteckten Layer verschiedene Kanten erkennt und diese dann im zweiten versteckten Layer zusammensetzt um dann eine Vorhersage zu geben, was die Zahl ist.
+
+Jedoch funktioniert das, in diesem Fall, überhaupt nicht so. Weisst du noch, wie ich in der ersten Lektion sagte, dass die Gewichtungen, die zu einem bestimmten Neuron in der zweiten Schicht führen, als Pixelmuster visualisiert werden können, das das Neuron der zweiten Schicht aufnimmt?
+
+Wenn wir uns die Gewichtungen ansehen, die mit dem Übergang von der ersten Schicht zur nächsten verbunden sind, sehen sie, anstatt vereinzelte kleine Kanten hier und da aufzugreifen, fast zufällig aus. Es gibt ein paar lose Muster, aber kaum die, die wir erwarten würden.
+
+![Abbildung](/images/content/miscellaneous/image-34.png)
+
+Es scheint, dass das Netzwerk in dem unergründlich grossen 13'002-dimensionalen Raum möglicher Gewichtungen und Verzerrungen ein kleines lokales Minimum gefunden hat, das zwar die meisten Bilder erfolgreich klassifiziert, aber keine verallgemeinerbaren Muster erkennt.

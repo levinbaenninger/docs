@@ -1,0 +1,51 @@
+---
+title: "Referenz- und Wertetypen"
+icon: "copy"
+---
+
+In C# gibt es Referenz und Wertetypen. Diese sind wichtig zu unterscheiden, damit wir grundlegende Konzepte verstehen könnnen. [Klassen](../objektorientierte-programmierung/#klassen-und-objekte) in C# sind Referenztypen, während primitive Typen, wie [Integers](/dotnet/c/variablen/integers), [Doubles](/dotnet/c/variablen/floats-und-doubles) und [Booleans](/dotnet/c/variablen/booleans) Wertetypen sind.
+
+Wenn wir also eine Methode haben, welche bspw. eine Liste, also einen Refenztyp annimmt, dann verändern wir genau die Liste, die wir beim Aufruf als Argument mitgeben.
+
+```csharp
+List<string> names = new List<string>();
+
+void AddToList(List<string> list)
+{
+    list.add("Levin");
+    list.add("Nick");
+}
+
+AddToList(names);
+Console.WriteLine(names);
+```
+
+Wenn wir jedoch eine Methode haben, die einen Werttyp annimmt, dann wird der Wert vom Argument nur kopiert.
+
+```csharp
+string text = "Hello, World!";
+
+void EditText(string text)
+{
+    text = "Goodbye, World!";
+}
+
+EditText(text);
+Console.WriteLine(text);
+```
+
+## `ref`
+
+Um nun einen Wertetypen als Referenztypen zu übergeben können wir das Keyword `ref` nutzen.
+
+```csharp
+string text = "Hello, World!";
+
+void EditText(ref string text)
+{
+    text = "Goodbye, World!";
+}
+
+EditText(ref text);
+Console.WriteLine(text);
+```

@@ -1,0 +1,58 @@
+---
+title: "Tupel"
+icon: "parentheses"
+---
+
+Tupel sind leichtgewichtige DTOs, die mehrere Werte unterschiedlicher Typen enthalten können. In C# gibt es zwei Arten von Tupeln.
+
+<AccordionGroup>
+<Accordion title="`Tuple`">
+
+* Referenztyp
+* Unveränderlich
+* Werte sind Properties
+
+```csharp
+Tuple<int, string> tuple = new Tuple<int, string>(1, "one");
+```
+
+</Accordion>
+
+<Accordion title="`ValueTuple`">
+
+* Wertetyp
+* Veränderlich
+* Werte sind Fields
+
+```csharp
+ValueTuple<int, string> valueTuple = new ValueTuple<int, string>(1, "one");
+```
+
+</Accordion>
+</AccordionGroup>
+
+## Return-Types
+
+```csharp
+(int Min, int Max) GetMinAndMax(int[] numbers)
+{
+    if (numbers.Length == 0)
+    {
+        throw new ArgumentException("Cannot find minimum and maxiumum of an empty array.")
+    }
+    
+    int min = numbers[0];
+    int max = numbers[0];
+    
+    foreach (int number in numbers) 
+    {
+        if (number < min)
+            min = number;
+            
+        if (number > max)
+            max = number;
+    }
+    
+    return (min, max);
+}
+```

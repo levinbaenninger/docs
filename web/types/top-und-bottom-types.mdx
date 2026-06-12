@@ -1,0 +1,93 @@
+---
+title: "Top- und Bottom-Types"
+icon: "arrow-up-down"
+---
+
+## `any`
+
+Was ist, wenn du nicht weisst, welchen Typ eine Variable haben wird? Oder wenn du jeden Typ zulassen willst? TypeScript hat einen Typ für solche Fälle: `any`.
+
+```typescript
+let age: any = 42;
+age = "fortytwo";
+```
+
+***
+
+Ich kann auch eine Funktion deklarieren, die einen beliebigen Typ annimmt:
+
+```typescript
+const log = (value: any) => {
+  console.log(value);
+};
+
+log(42);
+log("Hello, TypeScript!");
+```
+
+***
+
+JavaScript's `fetch` gibt standardmässig ein `Promise` vom Typ `any` zurück:
+
+```typescript
+const getUserById = async (id: number) => {
+  const resp = await fetch("http://example.com/user/1");
+  return resp.json();
+};
+
+let user = getUserById(1);
+```
+
+***
+
+Wenn du keinen Typ angibst, wird TypeScript den Typ `any` ableiten:
+
+```typescript
+const add = (a, b) => {
+  return a + b;
+};
+```
+
+***
+
+`any` ist der flexibelste Typ in TypeScript. Er deaktiviert die Typüberprüfung für diese Variable. Dies ist nützlich, wenn du ein JavaScript-Projekt nach TypeScript migrierst und noch nicht mit allen Typfehlern umgehen kannst. Es ist auch in den seltenen Fällen nützlich, in denen du wirklich alles akzeptieren willst. Aber vermeide es so weit wie möglich, `any` zu verwenden. Der Sinn von TypeScript ist es, Typfehler abzufangen, und `any` macht das unmöglich!
+
+## `unknown`
+
+`unknown` ist eine sicherere Alternative zu `any`. Bei `unknown` musst du eine Typüberprüfung durchführen, bevor du etwas damit tun kannst. `unknown` ist also nützlich für Werte, die zur Laufzeit akzeptiert werden, wenn wir den erwarteten Typ nicht kennen.
+
+```typescript
+const getUserAge = async (id: number): Promise<unknown> => {
+  const resp = await fetch("http://example.com/user/" + id);
+  return resp.json();
+};
+
+const isOldEnoughToVote = (age: number): boolean => {
+  return age >= 18;
+};
+
+const process = async () => {
+  const age = await getUserAge(1);
+
+  if (typeof age === "number") {
+    console.log(isOldEnoughToVote(age));
+  }
+};
+```
+
+## `never`
+
+Wenn du etwas darstellen willst, das niemals passieren soll, kannst du `never` verwenden. `never` ist nützlich für erschöpfende Conditionals und erschöpfende Switch-Anweisungen.
+
+```typescript
+function example(x: string | number) {
+  if (typeof x === "string") {
+    x.toUpperCase();
+  } else if (typeof x === "number") {
+    x.toFixed(2);
+  } else {
+    const _exhaustiveCheck: never = x; // type 'never' applies if we forget to handle a value in the union
+    return _exhaustiveCheck;
+  }
+}
+```

@@ -1,0 +1,129 @@
+---
+title: "Anatomie"
+---
+
+Dein neu generiertes Angular-Projekt sollte in etwa so aussehen:
+
+```
+.angular/
+.vscode/
+node_modules/
+src
+├── app
+│   ├── app.component.css
+│   ├── app.component.html
+│   ├── app.component.spec.ts
+│   ├── app.components.ts
+│   ├── app.config.ts
+│   └── app.routes.ts
+├── assets/
+├── favicon.ico
+├── index.html
+├── main.ts
+└── styles.css
+.editorconfig
+.gitignore
+angular.json
+package.json
+package-lock-json
+README.md
+tsconfig.app.json
+tsconfig.json
+tsconfig.spec.json
+```
+
+## `src`
+
+Der wichtigste Ordner in deinem Projekt ist der Ordner `src`. Dieser Ordner enthält die meisten Dateien und Ordner, an denen du tatsächlich arbeiten wirst, um deine Anwendung zu erstellen.
+
+### Erstellung der Anwendung
+
+In der `main.ts`-Datei wird unsere Applikation erstellt. Dafür geben wir der Funktion unsere [root-komponente.md](../../react/komponenten/root-komponente.md "mention") und [#anwendungskonfiguration](/web/angular/erste-schritte/anatomie#anwendungskonfiguration "mention")mit.
+
+```typescript
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent, appConfig).catch((err) =>
+  console.error(err),
+);
+```
+
+### Globale Styles
+
+In Angular können wir Styles auf zwei verschiedene Weisen anwenden: komponentenbasiert oder global. Die globalen Styles definieren wir in der Datei `styles.css`.
+
+## `app`
+
+In diesem Ordner wird deine eigentliche Anwendung geschrieben werden. Hier werden wir auch unsere Features hinzufügen, z.B. unter `app/checkout` für einen Warenkorb. 
+
+### Root-Komponente
+
+Im Moment ist hier drin jedoch nur eine Komponente. Sie besteht aus:
+
+* `app.component.ts`
+* `app.component.html`
+* `app.component.css`
+
+Diese drei Dateien definieren unsere Root-Komponente, welche der Einstiegspunkt in unsere Anwendung ist. Diese Komponente wird unsere gesamte Applikation beinhalten und alle anderen Features werden darin eingefügt.
+
+<Info>
+Standardmässig werden Komponenten in drei Files unterteilt: Logik, Template und Styles. Später werden wir alles in einer Datei definieren.
+</Info>
+
+### Tests
+
+Zu einer Komponente gehören Tests dazu. Die Tests für die Root-Komponente werden in der `app.component.spec.ts`-Datei definiert.
+
+### Konfigurationsdateien
+
+Nebst der Root-Komponente haben wir in unserem `app`-Ordner noch folgende Dateien:
+
+* `app.config.ts`
+* `app.routes.ts`
+
+#### Routingkonfiguration
+
+In der `app.routes.ts`-Datei definieren wir die einzelnen Routes (URLs), die unsere Anwendung haben wird. Beispielsweise soll dem Nutzer wenn er `example.com/playlist` aufruft, die Playlist-Komponente angezeigt werden. 
+
+```typescript
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [];
+```
+
+#### Anwendungskonfiguration
+
+Die `app.config.ts`-Datei definiert verschiedenste Konfigurationsinformationen für unsere Applikation. Beispielsweise müssen wir hier unserer Anwendung die [#routingkonfiguration](/web/angular/erste-schritte/anatomie#routingkonfiguration "mention") bereitstellen.
+
+```typescript
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes)],
+};
+```
+
+## `assets`
+
+In diesem Ordner speichern wir unsere statischen Dateien wie zum Beispiel Bilder.
+
+## `dist`
+
+Dieser Ordner existiert nur, nachdem wir unsere Applikation gebuildet haben.
+
+```bash
+ng build
+```
+
+Bei diesem Command wird der Code, den wir schreiben, in Code kompiliert, welcher der Browser versteht. Unser Browser kennt Angular und TypeScript nicht. Wenn wir also unsere Applikation also builden, dann wird Standard-JavaScript-Code generiert, welcher der Browser verstehen kann.
+
+Der `dist`-Ordner enthält den Output dieses Build-Prozesses; der Code darin ist der eigentliche Code der beim User ausgeführt wird.
+
+<Warning>
+Nimm keine Änderungen im `dist`-Ordner vor, da diese beim nächsten Build überschrieben werden.
+</Warning>

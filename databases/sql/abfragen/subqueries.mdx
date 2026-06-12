@@ -1,0 +1,58 @@
+---
+title: "Subqueries"
+---
+
+Unterabfragen sind einfach gesagt verschachtelte Queries. Bei Subqueries gibt es keine Syntax, wie beispielsweise bei Joins, aber es gibt gewisse Regeln, welche in den Beispielen visualisiert werden.
+
+## Beispiele
+
+```sql
+SELECT Name FROM Cities
+WHERE Id IN (
+    SELECT CityId FROM Customers
+    WHERE FirstName LIKE 'F%'
+);
+```
+
+```sql
+SELECT AVG(NumOfIngredients) FROM (
+    SELECT COUNT(*) AS NumOfIngredients FROM PizzaIngredients
+    GROUP BY PizzaId
+) T;
+```
+
+```sql
+SELECT Street, City.ZipCode, City.Name FROM Customers
+JOIN City ON Customers.CityId = City.Id
+WHERE Customers.Id IN (
+    SELECT CustomerId FROM Orders
+    WHERE Id = 3
+);
+```
+
+```sql
+SELECT Name FROM Ingredients
+WHERE Id IN (
+    SELECT IngredientId FROM PizzaIngredients
+    WHERE PizzaId IN (
+        SELECT Id FROM Pizzas
+        WHERE Price = (
+            SELECT MAX(Price) FROM Pizzas
+        )
+    )
+);
+```
+
+```sql
+SELECT Name FROM Ingredients
+WHERE Id IN (
+    SELECT IngredientId
+    FROM (SELECT IngredientId, COUNT(*) as Count
+          FROM PizzaIngredients GROUP BY IngredientId) T
+    WHERE Count = (
+        SELECT MAX(Count)
+        FROM (SELECT IngredientId, COUNT(*) as Count
+              FROM PizzaIngredients GROUP BY IngredientId) TT
+    )
+);
+```

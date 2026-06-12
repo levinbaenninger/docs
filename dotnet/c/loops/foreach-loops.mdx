@@ -1,0 +1,27 @@
+---
+title: "foreach-Loops"
+icon: "list-restart"
+---
+
+Mit dem `foreach`-Loop können wir über [Collections](/dotnet/c/collections/README) iterieren.
+
+<Tabs>
+<Tab title="Syntax">
+```csharp
+foreach (type variable in collection) 
+{
+    ..
+}
+```
+</Tab>
+
+<Tab title="Beispiel">
+```csharp
+string[] cars = { "Volvo", "BMW", "Ford", "Mazda" };
+foreach (string car in cars) 
+{
+  Console.WriteLine(car);
+}
+```
+</Tab>
+</Tabs>

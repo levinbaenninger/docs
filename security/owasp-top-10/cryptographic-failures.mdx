@@ -1,0 +1,33 @@
+---
+title: "Cryptographic Failures"
+---
+
+Es tritt auf, wenn sensible Daten nicht oder nur unzureichend verschlüsselt werden. Dadurch können Angreifer Daten abfangen, lesen oder manipulieren.
+
+## Problem
+
+Wenn Anwendungen keine starke Verschlüsselung verwenden, können Angreifer Daten während der Übertragung oder Speicherung auslesen.
+
+```php
+$data = "sensible Daten";
+$encoded = base64_encode($data);
+```
+
+Base64 ist keine Verschlüsselung, sondern nur eine Kodierung. Jeder kann den Wert leicht wieder entschlüsseln.
+
+## Lösung
+
+Sensible Daten sollten:
+
+* mit starker Verschlüsselung geschützt werden
+* über HTTPS/TLS übertragen werden
+* mit sicheren Algorithmen verarbeitet werden
+
+```php
+$data = "sensible Daten";
+$key = "geheimer_schluessel";
+$iv = random_bytes(16);
+$encrypted = openssl_encrypt($data, "aes-256-cbc", $key, 0, $iv);
+```
+
+Nutzung moderner Verschlüsselungsalgorithmen (z. B. AES-256) sowie Schutz sensibler Daten bei Übertragung und Speicherung.

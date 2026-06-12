@@ -1,0 +1,14 @@
+---
+title: "Kodierung von Strings und Bytes"
+icon: "binary"
+---
+
+Strings in C# repräsentieren eine Zeichenfolge, jedoch können Computer, wenn wir Daten senden, nur mit Binärdaten arbeiten. Das heisst wir müssen zwischen Strings und Binärdaten konvertieren können.
+
+```csharp
+byte[] ascii = Encoding.ASCII.GetBytes("Levin");
+string name = Encoding.ASCII.GetString(ascii);
+
+byte[] utf8 = Encoding.UTF8.GetBytes("Bänninger");
+string lastName = Encoding.UTF8.GetString(utf8)
+```

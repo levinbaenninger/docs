@@ -1,0 +1,28 @@
+---
+title: "Fremdschlüssel"
+---
+
+Mit dem `FOREIGN KEY`-Constraint können wir auf den Primärschlüssel in einer anderen Tabelle verweisen.  
+
+```sql
+CREATE TABLE Orders (
+    Id INTEGER NOT NULL,
+    OrderNumber INTEGER NOT NULL,
+    PersonId INTEGER,
+    CONSTRAINT FK_Order_PersonOrder_Person FOREIGN KEY (PersonId) REFERENCES Person(PersonId)
+);
+```
+
+<Info>
+Die Tabelle mit dem Fremdschlüssel wird Child-Table genannt, die Tabelle mit dem Primärschlüssel wir Parent-Table genannt.
+</Info>
+
+```sql
+ALTER TABLE Orders
+ADD CONSTRAINT FK_Order_PersonOrder_Person FOREIGN KEY (PersonId) REFERENCES Person(PersonId);
+```
+
+```sql
+ALTER TABLE Orders
+DROP FOREIGN KEY FK_Order_PersonOrder_Person;
+```

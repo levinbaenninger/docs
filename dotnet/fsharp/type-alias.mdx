@@ -1,0 +1,21 @@
+---
+title: "Type Alias"
+---
+
+Typenaliase sind keine Datentypen, sondern Ersatznamen für andere Datentypen. So kann man Typen einen gesonderten Sinn geben.
+
+```fsharp
+type Age = int
+type Price = float
+type Fraction = int * int
+
+let diffAge (a1: Age) (a2: Age) : Age =
+    a1 - a2
+
+let addPrice (p1: Price) (p2: Price) : Price =
+    p1 + p2
+
+let multiplyFraction (f1: Fraction) (f2: Fraction) : Fraction =
+    (fst f1 * fst f2, snd f1 * snd f2)
+
+```

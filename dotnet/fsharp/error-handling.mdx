@@ -1,0 +1,48 @@
+---
+title: "Error Handling"
+---
+
+In F# können Fehler mit Exceptions behandelt werden. Eine Exception wird zuerst definiert und dann mit `raise` ausgelöst, wenn ein Fehlerfall eintritt.
+
+Exceptions können mit `try ... with` abgefangen werden. So kann das Programm statt eines Absturzes eine sinnvolle Ausgabe zurückgeben, z. B. eine Fehlermeldung.
+
+```fsharp
+exception QuadraticEquationError
+
+let solveQuadraticEquation (a: float, b: float, c: float) : float * float =
+    let d = b * b - 4.0 * a * c
+
+    if a = 0.0 || d < 0.0 then 
+        raise QuadraticEquationError
+    else
+        let sqrtD = sqrt d
+
+        ((-b + sqrtD) / (2.0 * a),
+        (-b - sqrtD) / (2.0 * a))
+
+let printSolution (coefficients: float * float * float) : string =
+    try
+        let (x1, x2) = solveQuadraticEquation coefficients
+        printfn "Solutions: x1 = %f, x2 = %f" x1 x2
+    with
+    | QuadraticEquationError -> "No real solutions"
+```
+
+Alternativ kann die eingebaute Funktion `failwith` verwendet werden, um direkt eine Exception mit Text auszulösen. Diese kann ebenfalls mit `try ... with` behandelt werden.
+
+```fsharp
+let solveQuadraticEquation (a: float, b: float, c: float) : float * float =
+    ...
+    if a = 0.0 then
+        failwith "The coefficient a must not be 0."
+    elif discriminant < 0.0 then
+        failwith "The discriminant is negative, so there are no real solutions."
+    else
+        ...
+
+let printSolution (coefficients: float * float * float) : string =
+    try
+        ...
+    with
+    | Failure msg -> msg
+```

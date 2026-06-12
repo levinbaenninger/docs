@@ -1,0 +1,76 @@
+---
+title: "Statische Member"
+---
+
+Statische Member sind Member einer Klasse, die von allen Instanzen dieser Klasse gemeinsam genutzt werden. Sie sind nicht an eine bestimmte Instanz gebunden, sondern an die Klasse selbst. Das bedeutet, dass sie zugänglich sind, ohne eine Instanz der Klasse zu erzeugen.
+
+```typescript
+class DatabaseManager {
+    private static instance: DatabaseManager | null = null;
+    private static activeConnections: number = 0;
+    private static readonly MAX_CONNECTIONS: number = 5;
+    private static connectionLog: string[] = [];
+    
+    private connectionId: string;
+    private isConnected: boolean = false;
+    
+    private constructor(id: string) {
+        this.connectionId = id;
+    }
+    
+    static getInstance(): DatabaseManager {
+        if (!DatabaseManager.instance) {
+            DatabaseManager.instance = new DatabaseManager("main-connection");
+            DatabaseManager.logEvent("Database manager initialized");
+        }
+        return DatabaseManager.instance;
+    }
+    
+    static createConnection(id: string): DatabaseManager | null {
+        if (DatabaseManager.activeConnections >= DatabaseManager.MAX_CONNECTIONS) {
+            DatabaseManager.logEvent(`Connection limit reached. Cannot create connection: ${id}`);
+            return null;
+        }
+        
+        const connection = new DatabaseManager(id);
+        DatabaseManager.activeConnections++;
+        DatabaseManager.logEvent(`New connection created: ${id}`);
+        return connection;
+    }
+    
+    static getActiveConnectionCount(): number {
+        return DatabaseManager.activeConnections;
+    }
+    
+    static logEvent(message: string): void {
+        const timestamp = new Date().toISOString();
+        DatabaseManager.connectionLog.push(`[${timestamp}] ${message}`);
+    }
+    
+    static getConnectionLog(): string[] {
+        return [...DatabaseManager.connectionLog];
+    }
+    
+    static clearLog(): void {
+        DatabaseManager.connectionLog = [];
+    }
+    
+    connect(): boolean {
+        if (!this.isConnected) {
+            this.isConnected = true;
+            DatabaseManager.logEvent(`Connection ${this.connectionId} established`);
+            return true;
+        }
+        return false;
+    }
+    
+    disconnect(): boolean {
+        if (this.isConnected) {
+            this.isConnected = false;
+            DatabaseManager.activeConnections--;
+            DatabaseManager.logEvent(`Connection ${this.connectionId} closed`);
+            return true;
+        }
+        return false;
+    }
+```

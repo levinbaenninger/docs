@@ -1,0 +1,83 @@
+---
+title: "Dictionaries"
+icon: "book-key"
+---
+
+In Dictionaries können wir Key-Value-Paare speichern. Dictionaries haben folgende Eigenschaften:
+
+* Keys sind einzigartig
+* Werte müssen nicht einzigartig sein
+* Sie haben eine dynamische Grösse
+* Wir können Werte aus einem Dictionary erhalten
+* Wir können Werte in einem Dictionary setzen
+* Wir können Werte zu einem Dictionary hinzufügen
+* Wir können Werte in einem Dictionary entfernen
+* Wir können ein Dictionary leeren
+* Wir können überprüfen, ob ein Dictionary einen bestimmten Schlüssel enthält
+
+## Deklarieren und initialisieren
+
+Hier deklarieren wir ein Dictionary, in welchem die Keys und die Values den Datentyp [`string`](/dotnet/c/variablen/strings) haben.
+
+```csharp
+Dictionary<string, string> openWith = new Dictionary<string, string>();
+```
+
+Wir können ein Dictionary auch initialisieren.
+
+```csharp
+Dictionary<string, string> openWith = new Dictionary<string, string>
+{
+    ["txt"] = "notepad.exe",
+    ["bmp"] = "paint.exe",
+    ["html"] = "chrome.exe",
+};
+```
+
+## Lesen und setzen
+
+Wir lesen Einträge, indem wir den Key referenzieren.
+
+```csharp
+string programTextFiles = openWith["txt"];
+```
+
+Aussdem können wir neue Werte setzen, indem wir ebenfalls den Key referenzieren.
+
+```csharp
+openWith["txt"] = "vscode.exe"
+```
+
+## Hinzufügen, löschen und leeren
+
+Wir fügen Einträge in ein Dictionary ein, indem wir die `Add()`-Methode nutzen.
+
+```csharp
+openWith.Add("txt", "notepad.exe");
+```
+
+Wir können Einträge löschen, indem wir die `Remove()`-Methode nutzen.
+
+```csharp
+openWith.Remove("bmp");
+```
+
+Das Dictionary können wir mit der Methode `Clear()` leeren.
+
+```csharp
+openWith.Clear();
+```
+
+## Keys überprüfen
+
+Wir können mit der Methode `ContainsKey()` überprüfen, ob ein Dictionary einen bestimmten Key enthält.
+
+```csharp
+bool hasTxt = openWith.ContainsKey("txt");
+```
+
+Zudem können wir mit der Methode `TryGetValue()` überprüfen, ob das Dictionary einen bestimmten Key enthält und diesen Wert direkt in eine Variable speichern.
+
+```csharp
+bool hasTxt = openWith.TryGetValue("txt", out string? programTextFiles);
+```

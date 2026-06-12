@@ -1,0 +1,133 @@
+---
+title: "Daten"
+---
+
+## Einfügen
+
+Um Daten einzufügen, gibt es zwei Funktionen: 
+
+* `insertOne()`: Fügt einen Datensatz ein
+* `insertMany()`: Fügt einen oder mehrere Datensätze ein
+
+### `insertOne()`
+
+<Tabs>
+<Tab title="Funktion">
+```java
+db.inventory.insertOne(
+    { item: "canvas", qty: 100, tags: ["cotton"], size: { h: 28, w: 35.5, uom: "cm" }, status: "A" }
+)
+```
+</Tab>
+
+<Tab title="Output">
+```javascript
+{
+  acknowledged: true,
+  insertedId: ObjectId("632f1fd57042d849480e4747")
+}
+```
+
+Als Rückgabewert erhalten wir also ein Objekt mit einem Acknowledgement und einer eindeutigen ID.
+</Tab>
+</Tabs>
+
+### `insertMany()`
+
+<Tabs>
+<Tab title="Funktion">
+```javascript
+db.inventory.insertMany([
+    { item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "A", tags: ["blank", "red"] },
+    { item: "notebook", qty: 50, size: { h: 8.5, w: 11, uom: "in" }, status: "A", tags: ["red", "blank"] },
+    { item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D", tags: ["red", "blank", "plain"] },
+    { item: "planner", qty: 75, size: { h: 22.85, w: 30, uom: "cm" }, status: "D", tags: ["blank", "red"] },
+    { item: "postcard", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "A", tags: ["blue"] }
+])
+```
+</Tab>
+
+<Tab title="Output">
+```javascript
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("632f4cad7042d849480e4750"),
+    '1': ObjectId("632f4cad7042d849480e4751"),
+    '2': ObjectId("632f4cad7042d849480e4752"),
+    '3': ObjectId("632f4cad7042d849480e4753"),
+    '4': ObjectId("632f4cad7042d849480e4754")
+}
+```
+</Tab>
+</Tabs>
+
+## Aktualisieren
+
+Um Daten zu aktualisieren gibt es drei verschiedene Funktionen:
+
+* `updateOne()`: Aktualisiert ein einzelnes Dokument
+* `updateMany()`: Aktualisiert mehrere Dokumente gleichzeitig
+* `replaceOne()`: Ersetzt ein Dokument durch ein anderes
+
+### `updateOne()`
+
+```javascript
+db.inventory.updateOne(
+   { item: "paper" },
+   {
+     $set: { "size.uom": "cm", status: "P" },
+     $currentDate: { lastModified: true }
+   }
+)
+```
+
+Diese Funktion aktualisiert das erste Feld, welches im Feld `item` den Wert `paper` hat. Mit dem `$set`-Operator wird angegeben, welche Daten geändert werden. Der `$currentDate`-Operator aktualisiert das aktuelle Datum der Modifikation im Feld `lastModified`.
+
+### `updateMany()`
+
+```javascript
+db.inventory.updateMany(
+   { "qty": { $lt: 50 } },
+   {
+     $set: { "size.uom": "in", status: "P" },
+     $currentDate: { lastModified: true }
+   }
+)
+```
+
+Diese Funktion aktualisiert alle Felder die eine `qty` haben, die kleiner als 50 ist.
+
+### `replaceOne()`
+
+```javascript
+db.inventory.replaceOne(
+   { item: "paper" },
+   { item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D", tags: ["red", "blank", "plain"] }
+)
+```
+
+Diese Funktion ersetzt das gefundene Dokument durch das Neue.
+
+## Löschen
+
+Um Daten zu löschen gibt es zwei Funktionen:
+
+* `deleteOne()`
+* `deleteMany()`
+
+### `deleteOne()`
+
+```javascript
+db.inventory.deleteOne( { status: "D" } )
+```
+
+Diese Funktion löscht das erste Dokument, welches den `status` `D` hat.
+
+### `deleteMany()`
+
+```javascript
+db.inventory.deleteMany( { status: "D" } )
+```
+
+Diese Funktion löscht alle Dokumente, die dem Kriterium entsprechen.

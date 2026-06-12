@@ -1,0 +1,21 @@
+---
+title: "Schreibgeschützte Felder"
+---
+
+Du kannst ein Klassenfeld als schreibgeschützt kennzeichnen, um zu verhindern, dass es nach seiner Initialisierung geändert wird.
+
+```typescript
+class Person {
+  name: string;
+  readonly age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+}
+
+const person = new Person("Alice", 30);
+person.name = "Bob";
+person.age = 20; 
+```

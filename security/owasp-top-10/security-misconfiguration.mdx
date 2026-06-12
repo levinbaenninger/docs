@@ -1,0 +1,36 @@
+---
+title: "Security Misconfiguration"
+---
+
+Es beschreibt Sicherheitsprobleme durch falsche oder unsichere Systemkonfigurationen. Dadurch entstehen unnötige Angriffsflächen, die von Angreifern ausgenutzt werden können.
+
+## Problem
+
+Unsichere Konfigurationen entstehen z. B. durch:
+
+* Standardpasswörter
+* aktivierte Debug- oder Testfunktionen
+* unnötig offene Ports
+* fehlende Sicherheitsupdates
+* falsche Servereinstellungen
+
+```php
+// Unsicher: Standard-Passwort verwenden
+$admin_password = 'admin';
+```
+
+Standardpasswörter sind leicht zu erraten und oft öffentlich bekannt. Ein Angreifer kann sich damit direkt Zugriff auf das System verschaffen.
+
+## Lösung
+
+Die Angriffsfläche kann reduziert werden durch:
+
+* starke Passwörter
+* sichere Serverkonfiguration
+* deaktivieren unnötiger Funktionen
+* regelmässige Sicherheitsupdates
+* Einschränkung von offenen Ports
+
+```php
+$admin_password = 'R4nd0m$Tr0ngP@ssw0rd';
+```

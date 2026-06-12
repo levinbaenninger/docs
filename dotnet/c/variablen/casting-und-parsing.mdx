@@ -1,0 +1,37 @@
+---
+title: "Casting und Parsing"
+icon: "repeat-2"
+---
+
+## Casting
+
+Wenn wir Variablen casten, dann konvertieren wir sie zu einem anderen Datentypen.
+
+```csharp
+int number = 5;
+double otherNumber = number;
+
+otherNumber = 5.5;
+number = (int)otherNumber;
+```
+
+<Warning>
+Wir können keine inkompatiblen Typen casten, z.B. String → Integer
+
+```csharp
+string input = "5";
+int number = (int)input;
+```
+</Warning>
+
+## Parsing
+
+Wenn wir inkompatible Typen konvertieren wollen, dann können wir die Variable parsen.
+
+```csharp
+string input = "5";
+int number = int.Parse(input); 
+
+input = "5.5";
+double decimalNumber = double.parse(input);
+```

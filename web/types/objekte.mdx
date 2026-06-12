@@ -1,0 +1,277 @@
+---
+title: "Objekte"
+icon: "box"
+---
+
+JavaScript unterstützt die Deklaration eines Objekts über die Objektliteral-Syntax. Wenn in TypeScript ein Objekt mit der Objektliteral-Syntax erstellt wird, leitet TypeScript den Typ des Objekts anhand der Eigenschaften ab.
+
+```typescript
+const user = { name: "Cory" };
+```
+
+Beachte, dass ich keinen Typ für `user` deklariert habe. TypeScript schlussfolgert den Typ von `user` als `{ name: string }`. Dies wird als Typinferenz bezeichnet. TypeScript leitet den Typ aus dem zugewiesenen Wert ab.
+
+***
+
+In JavaScript gibt der Verweis auf eine nicht existierende Eigenschaft eines Objekts ein undefiniertes Ergebnis zurück. In TypeScript gibt der Verweis auf eine nicht existierende Eigenschaft eines Objekts einen Fehler zurück. Das ist eine gute Sache. Es hilft, Fehler frühzeitig zu erkennen.
+
+Dieses Verhalten hilft auch, Tippfehler zu erkennen. Wenn du einen Eigenschaftsnamen falsch schreibst, wird TypeScript dies erkennen.
+
+```typescript
+const uppercaseName = user.name.toUppercase();
+```
+
+Dieser Fehler tritt auf, weil `toUppercase` eigentlich `toUpperCase` sein sollte. In JavaScript können diese Arten von Tippfehlern eine Menge Zeit vergeuden.
+
+## Schnittstellen und Typ-Aliase
+
+TypeScript unterstützt die Typisierung von Objekten mit zwei anderen Ansätzen: Schnittstellen und Typ-Aliase.
+
+```typescript
+interface User {
+  id: number;
+  name: string;
+}
+
+const user: User = { id: 1, name: "Cory" };
+
+type User = {
+  id: number;
+  name: string;
+};
+
+const user: User = { id: 1, name: "Cory" };
+```
+
+Im Allgemeinen kannst du beides verwenden. Wir werden die Unterschiede später im Detail untersuchen. 
+
+***
+
+Wenn ich vergesse, eine Eigenschaft zuzuweisen, gibt TypeScript einen Fehler zurück. 
+
+```typescript
+const user2: User = { id: 2 };
+```
+
+***
+
+Wenn ich versuche, eine Eigenschaft hinzuzufügen, die nicht in der Schnittstelle oder dem Typ definiert ist, wird TypeScript fehlschlagen.
+
+```typescript
+const user: User = { id: 1, name: "Cory", age: 1 };
+```
+
+Wenn du zusätzliche Eigenschaften zulassen willst, kannst du die Indexsignatur verwenden.
+
+```typescript
+interface User {
+  id: number;
+  name: string;
+  [key: string]: any;
+}
+```
+
+Dies besagt, dass das Benutzerobjekt beliebige zusätzliche Eigenschaften haben kann. Dies ist nützlich, wenn du nicht alle Eigenschaften im Voraus kennst.
+
+## Optionale Felder
+
+Wir können auch optionale Felder für Objekte definieren. Dazu verwenden wir den Modifikator `?`.
+
+```typescript
+type User = {
+  name: string;
+  age?: number;
+};
+
+const cory: User = {
+  name: "Cory",
+};
+
+const alice: User = {
+  name: "Alice",
+  age: undefined,
+};
+```
+
+Du kannst auch explizit sagen, dass das optionale Feld `undefined` sein muss.
+
+```typescript
+type User = {
+  name: string;
+  age: number | undefined;
+};
+
+const bob: User = {
+  name: "Bob",
+  age: undefined,
+};
+```
+
+## Schreibgeschützte Felder
+
+Mit dem Keyword `readonly` können wir bestimmte Properties unveränderlich machen.
+
+```typescript
+interface Point {
+  readonly x: number;
+  readonly y: number;
+}
+
+const point: Point = { x: 10, y: 20 };
+
+point.x = 5;
+```
+
+In diesem Beispiel sind die `x`- und `y`-Eigenschaften der Schnittstelle `Point` schreibgeschützt. Das bedeutet, dass du ihre Werte nicht mehr ändern kannst, nachdem sie festgelegt wurden.
+
+***
+
+Ein Objektliteral kann mit der Syntax `as const` als schreibgeschützt gekennzeichnet werden. Hier ist ein Beispiel:
+
+```typescript
+const point = { x: 10, y: 20 } as const;
+```
+
+## Interfaces oder Typ-Aliase
+
+Wie wir bereits gesehen haben, kannst du in TypeScript entweder `type` oder `interface` verwenden, um benutzerdefinierte Typen zu definieren. Sie sind oft austauschbar. Oft kannst du beide verwenden. Aber es gibt einige wichtige Unterschiede, also lass uns die Unterschiede untersuchen.
+
+Diese zwei Beispiele sind äquivalent.
+
+```typescript
+type UserType = { name: string; age: number };
+
+interface UserInterface {
+  name: string;
+  age: number;
+}
+```
+
+Beide können auch eine Funktionssignatur beschreiben.
+
+```typescript
+type UserFunctionType = (name: string, age: number) => void;
+
+interface UserFunctionInterface {
+  (name: string, age: number): void;
+}
+```
+
+### Type-Only-Features
+
+Diese folgenden Features können nur mit Typ-Aliasen verwendet werden.
+
+```typescript
+// 1. Type alias for primitives
+type Age = number;
+
+// 2. Union
+type WindowState = "open" | "closed" | "minimized";
+
+// 3. Tuple
+type StringNumberPair = [string, number];
+
+// 4. Type intersection
+type PartialStyle = { width: number };
+type Style = PartialStyle & { height: number };
+
+// 5. Mapped types / Utility types (create new type from existing type)
+interface User {
+  name: string;
+  age: number;
+  email: string;
+}
+
+type ReadonlyUser = Readonly<User>;
+
+const readonlyUser: ReadonlyUser = {
+  name: "John",
+  age: 30,
+  email: "john@example.com",
+};
+
+// 6. Typed arrays
+type Users = User[];
+```
+
+### Interface-Only-Features
+
+Dahingegen können diese beiden Features nur mit `interface` implementiert werden.
+
+```typescript
+// 1. Extend Class
+class Animal {
+  name = "animal";
+}
+
+interface Bear extends Animal {
+  honey: boolean;
+}
+
+const bear: Bear = {
+  name: "bear",
+  honey: true,
+};
+
+// 2. Declaration Merging
+interface User {
+  name: string;
+}
+
+interface User {
+  age: number;
+}
+
+const user: User = {
+  name: "Cory",
+  age: 22,
+};
+```
+
+### Interaktionen zwischen `type` und `interface`
+
+Interfaces und Typ-Aliase können jedoch auch miteinander interagieren.
+
+```typescript
+// 1. Interface can extend type
+type User = { name: string };
+
+interface UserWithAge extends User {
+  age: number;
+}
+
+// 2. Type can extend interface
+interface User {
+  name: string;
+}
+type UserWithAge = User & { age: number };
+
+// 3. Both can extend a class:
+type Point2 = {
+  x: number;
+  y: number;
+};
+
+class SomePoint2 implements Point2 {
+  x = 1;
+  y = 2;
+}
+
+interface Point {
+  x: number;
+  y: number;
+}
+
+class SomePoint implements Point {
+  x = 1;
+  y = 2;
+}
+```
+
+***
+
+In den meisten Fällen wird beides funktionieren. Aber wir haben gerade einige einzigartige Merkmale von beiden gesehen.
+
+Und was ist, wenn sowohl `type` als auch `interface` funktionieren? Normalerweise spielt das keine Rolle. Aber die TypeScript-Entwickler empfehlen diese Faustregel: Bevorzuge, wenn möglich, Schnittstellen, da die TypeScript-Language-Engine manchmal weniger Arbeit für Schnittstellen leisten muss, weil sie im Hintergrund implementiert sind.
+
+**Zusammenfassend lässt sich also sagen: Bevorzuge Schnittstellen, wenn es möglich ist, aber verwende Typen, wenn du Funktionen von ihnen nutzen musst.**

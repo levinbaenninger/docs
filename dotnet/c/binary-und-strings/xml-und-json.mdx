@@ -1,0 +1,62 @@
+---
+title: "XML und JSON"
+icon: "braces"
+---
+
+XML und JSON sind beides wichtige Formate, um Daten im Internet zu übertragen. 
+
+## XML
+
+C# stellt uns die Klasse `XmlDocument` zu Verfügung, mit welcher wir ein XML-Dokument laden können. Mit diesem XML-Dokument können wir dann alles möglich machen, neue Nodes erstellen, Nodes extrahieren, Daten bearbeiten, etc.
+
+<Tabs>
+<Tab title="C#">
+```csharp
+XmlDocument xmlDocument = new();
+xmlDocument.Load("people.xml");
+
+XmlNodeList? people = xmlDocument.selectNodes("/people/person");
+if (people is null)
+{
+    Console.WriteLine("No people found!");
+}
+else 
+{
+    foreach (XmlNode person in people)
+    {
+        Console.WriteLine(person["name"].InnerText);
+        Console.WriteLine(person["age"].InnerText);
+        
+        person["name"].InnerText = person["name"].InnerText.ToUpper();
+    } 
+}
+
+xmlDocument.Save("people_edited.xml")
+
+```
+</Tab>
+
+<Tab title="XML">
+```xml title="people.xml"
+<people>
+    <person>
+        <name>John Doe</name>
+        <age>42</age>
+    </person>
+    <person>
+        <name>Jane Doe</name>
+        <age>39</age>
+    </person>
+<people>
+```
+</Tab>
+</Tabs>
+
+## JSON
+
+In C# können wir JSON-Objekte in C#-Objekt umwandeln, das nennt sich deserialisieren. Anders herum können wir C#-Objekte auch in JSON-Objekte konvertieren, auch serialisieren genannt.
+
+```csharp
+string json = JsonSerializer.Serialize(people);
+People people = JsonSerializer.Deserialize<People>(json);
+```

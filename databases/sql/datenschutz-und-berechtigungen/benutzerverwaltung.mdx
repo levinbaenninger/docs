@@ -1,0 +1,46 @@
+---
+title: "Benutzerverwaltung"
+---
+
+## Benutzer erstellen
+
+Mit `CREATE USER` können wir einen Benutzer erstellen.
+
+```sql
+CREATE USER
+username@hostname
+IDENTIFIED BY password;
+```
+
+### Beispiele
+
+Hier erstellen wir einen User nur für den `localhost`.
+
+```sql
+CREATE USER
+hr_manager@localhost
+IDENTIFIED BY 'secret';
+```
+
+Um einen User für alle Hosts zu verwenden, können wir folgendes machen.
+
+```sql
+CREATE USER
+hr_manager@'%'
+IDENTIFIED BY 'secret';
+```
+
+## Benutzer löschen
+
+Mit `DROP USER` können wir einen Benutzer löschen
+
+```sql
+DROP USER username@hostname;
+```
+
+### Beispiel
+
+```sql
+DROP USER
+hr_manager@localhost;
+```

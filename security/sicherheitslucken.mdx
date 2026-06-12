@@ -1,0 +1,109 @@
+---
+title: "Sicherheitslücken"
+---
+
+Sicherheitslücken können an vielen Stellen entstehen, nicht nur im Programmcode. Sie können durch technische Schwächen, menschliche Fehler oder fehlende Sicherheitsmassnahmen entstehen.
+
+Mögliche Folgen sind z. B.:
+
+* unbefugter Zugriff auf Systeme
+* Datendiebstahl
+* Manipulation von Informationen
+* Systemausfälle
+
+## Ausserhalb der Applikation
+
+Sicherheitsprobleme beginnen oft bereits vor der eigentlichen Software, z. B. durch mangelnde physische Sicherheit oder unachtsames Verhalten.
+
+### Beispiele
+
+<Columns cols={2}>
+  <Card title="Tailgating">Unbefugte gelangen durch Mitgehen hinter Mitarbeitenden ins Gebäude</Card>
+  <Card title="Ungesperrtes Notebook">Zugriff auf sensible Daten</Card>
+</Columns>
+
+### Folgen
+
+- Zugriff auf interne Systeme und Netzwerke
+- Missbrauch von Benutzerkonten
+- Diebstahl vertraulicher Informationen
+
+### Prävention
+
+- Klare Zugangsrichtlinien
+- Schulungen zur physischen Sicherheit
+- Automatisches Sperren von Arbeitsstationen
+
+## Social Engineering
+
+Social Engineering nutzt das Vertrauen von Menschen aus, um an vertrauliche Informationen zu gelangen. Der Mensch gilt oft als schwächstes Glied der Sicherheit.
+
+### Beispiele
+
+<Columns cols={2}>
+  <Card title="Phishing-E-Mails">Gefälschte Nachrichten fordern Passwörter oder Daten</Card>
+  <Card title="Telefonbetrug">Angreifer gibt sich als IT-Support aus</Card>
+</Columns>
+
+### Folgen
+
+- Weitergabe von Passwörtern oder Bankdaten
+- unbefugter Zugriff auf Systeme
+
+### Prävention
+
+- Sicherheits-Schulungen
+- E-Mail-Filter
+- Multi-Faktor-Authentifizierung
+
+## In der Softwareentwicklung
+
+Viele Sicherheitsprobleme entstehen während der Entwicklung von Anwendungen.
+
+### Beispiele
+
+<Columns cols={2}>
+  <Card title="Unvalidierte Eingaben">Angriffe wie SQL-Injection oder XSS</Card>
+  <Card title="Unsichere Authentifizierung">Schwache Passwörter oder Klartextspeicherung</Card>
+  <Card title="Veraltete Bibliotheken">Bekannte Sicherheitslücken</Card>
+</Columns>
+
+### Folgen
+
+- Datendiebstahl oder Manipulation
+- Übernahme von Benutzerkonten
+
+### Prävention
+
+- Nutzung von Sicherheitsrichtlinien
+- Regelmässige Sicherheitsprüfungen und Tests
+
+## Weitere Sicherheitsrisiken
+
+<AccordionGroup>
+<Accordion title="Unsichere Netzwerkkonfiguration">
+
+**Probleme**: Offene Ports, fehlende Firewall
+
+**Prävention**: Firewalls, VPN, regelmässige Sicherheitsaudits
+
+</Accordion>
+
+<Accordion title="Unsichere APIs">
+
+**Probleme**: APIs ohne Authentifizierung oder Verschlüsselung
+
+**Prävention**: API-Gateways, sichere Authentifizierungsverfahren
+
+</Accordion>
+
+<Accordion title="Denial of Service">
+
+**Probleme**: Angreifer senden extrem viele Anfragen, Anwendung oder Server wird überlastet
+
+**Folgen**: System oder Webseite wird nicht mehr erreichbar
+
+**Prävention**: Rate Limiting, Monitoring Systeme
+
+</Accordion>
+</AccordionGroup>

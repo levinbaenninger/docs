@@ -1,0 +1,47 @@
+---
+title: "Ambient Types"
+icon: "cloud"
+---
+
+Falls eine Library keine Typescript Types zur Verfügung stellt, dann kannst du einen Ambien Type deklarieren.
+
+<AccordionGroup>
+<Accordion title="Global">
+
+Sie müssen es nicht importieren. Deshalb heisst es ja auch Ambient. Das Wort Ambient ist definiert als "ein Aspekt der Umgebung, der dich vollständig umgibt". Ein Umgebungstyp ist automatisch in allen Dateien enthalten. Sei also vorsichtig, Umgebungstypen sind mächtig, aber selten notwendig.
+
+</Accordion>
+
+<Accordion title="Definition von untypisiertem Code">
+
+Es gibt also keine Implementierung in einem Umgebungstyp. Es handelt sich lediglich um eine Typdefinition. Es besteht also die Gefahr, dass der Umgebungstyp nicht mit der Implementierung übereinstimmt.
+
+</Accordion>
+</AccordionGroup>
+
+```typescript title="math.d.ts"
+declare const math: {
+  version: string;
+  add: (a: number, b: number) => number;
+  subtract: (a: number, b: number) => number;
+  multiply: (a: number, b: number) => number;
+  divide: (a: number, b: number) => number;
+};
+```
+
+In diesem Beispiel wird ein Umgebungstyp für eine Bibliothek deklariert, die ein `version`-Property und vier Funktionen hat: `add`, `subtract`, `multiply` und `divide`. Die Funktionen nehmen zwei Zahlen entgegen und geben eine Zahl zurück.
+
+Jetzt kannst du das `math`-Objekt in deinem Code verwenden, ohne dass TypeScript sich über die fehlenden Typen beschwert. Du erhälst Autovervollständigungsunterstützung und Typüberprüfung für das `math`-Objekt.
+
+```typescript
+console.log(math.version);
+console.log(math.add(1, 2));
+```
+
+<Info>
+Beachte, dass der Dateiname mit `d.ts` endet. Dies ist eine Konvention für TypeScript-Deklarationsdateien. Die Erweiterung `d.ts` teilt TypeScript mit, dass diese Datei nur Typdefinitionen enthält.
+
+Füge also keine einfachen Typen oder ausführbaren Code in eine `d.ts`-Datei ein. Wenn du dies tust, wird die globale Natur der `d.ts`-Datei unterbrochen. 
+
+Zusammenfassend lässt sich sagen, dass `d.ts`-Dateien, die du erstellst, nur globale Typdefinitionen enthalten sollten.
+</Info>

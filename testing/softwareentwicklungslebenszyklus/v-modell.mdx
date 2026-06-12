@@ -1,0 +1,67 @@
+---
+title: "V-Modell"
+---
+
+Das V-Modell ist eine Erweiterung des Wasserfallmodells. Es ist ein sequenzielles Entwicklungsmodell, das ein fundamentales Verständnis des Softwaretests vermittelt und das Testen nachhaltig beeinflusst hat.
+
+Die Grundidee des V-Modells ist, dass Entwicklungsarbeiten und Testarbeiten gleichberechtigte, korrespondierende Tätigkeiten sind. Dies wird bildlich durch die zwei Äste eines »V« dargestellt.
+
+![Abbildung](/images/content/testing/file-excalidraw-2.svg)
+
+## Die zwei Äste
+
+<AccordionGroup>
+<Accordion title="Linker Ast">
+
+Dieser Ast steht für die Entwicklungsschritte, in deren Verlauf das System schrittweise und zunehmend detaillierter entworfen und schliesslich programmiert wird.
+
+</Accordion>
+
+<Accordion title="Rechter Ast">
+
+Dieser Ast steht für die Teststufen, die den Phasen des linken Astes korrespondierend zugeordnet sind.
+
+</Accordion>
+</AccordionGroup>
+
+## Bedeutung des V-Modells beim Testen
+
+Das V-Modell hat mehrere zentrale Prinzipien, die für das Testen wegweisend sind.
+
+### Verifizierung und Validierung
+
+Das V-Modell veranschaulicht die Prüfaspekte Verifizierung und Validierung.
+
+<AccordionGroup>
+<Accordion title="Verifizierung">
+
+Verifizierung (_Verifikation_) untersucht, ob das Testobjekt seine Spezifikationen korrekt und vollständig erfüllt (z. B. Komponententests) – also: **Ist das System richtig?**.
+
+</Accordion>
+
+<Accordion title="Validierung">
+
+Validierung (_Validation_) untersucht, ob das Testobjekt im Kontext seiner beabsichtigten Nutzung sinnvoll ist (z. B. Abnahmetests) – also: **Ist es das richtige System?**.
+
+</Accordion>
+</AccordionGroup>
+
+Jeder Test beinhaltet in der Praxis beide Aspekte, wobei der Validierungsanteil mit steigender Teststufe zunimmt.
+
+### Spezifische Teststufen
+
+Das V-Modell unterscheidet arbeitsteilige Teststufen, wobei jede Stufe gegen ihre korrespondierende Entwicklungsstufe testet. Die Unterscheidung dieser Stufen ist mehr als nur eine zeitliche Unterteilung.
+
+***
+
+Jede Teststufe betrachtet und prüft das Produkt bzw. die Entwicklungsergebnisse auf einer anderen Abstraktionsebene und verfolgt spezifische, unterschiedliche Testziele.
+
+Dementsprechend kommen unterschiedliche Testmethoden, Testwerkzeuge und spezialisiertes Testpersonal zum Einsatz.
+
+Beispielsweise prüft der Komponententest, ob jeder elementare Softwarebaustein die Vorgaben seiner Spezifikation erfüllt, während der Abnahmetest prüft, ob das System aus der Kunden- und Nutzersicht die vertraglich vereinbarten Leistungsmerkmale aufweist.
+
+### Grundsatz des frühen Testens (_Shift-Left_)
+
+Obwohl die Teststufen im rechten Ast die Phasen der Testdurchführung darstellen, ist der Eindruck, Testen würde erst spät beginnen, falsch. Die zugehörige Testvorbereitung (Testplanung, Testanalyse, Testentwurf) startet früher und wird parallel mit den Entwicklungsschritten im linken Ast durchgeführt.
+
+Dies entspricht dem Grundsatz des frühen Testens (_Shift-Left_), bei dem Testaktivitäten so früh wie möglich im Softwarelebenszyklus beginnen sollen, um die Kosten für spätere, aufwendige Änderungen zu reduzieren oder zu vermeiden. Das V-Modell fordert deshalb Verifizierungsmaßnahmen (wie z. B. Reviews) nach Abschluss jeder Entwicklungsphase, um die Ausbreitung von Fehlern zu vermindern.

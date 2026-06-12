@@ -1,0 +1,291 @@
+---
+title: "Template-Syntax"
+---
+
+## Property Binding
+
+Mit Property Binding kann man Eigenschaften von HTML-Elementen dynamisch an Daten aus der Component-Klasse binden. Dadurch wird die Darstellung der Benutzeroberfläche automatisch aktualisiert, wenn sich die zugrunde liegenden Daten ändern.
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: ` <input [value]="firstName" /> `,
+})
+export class AppComponent {
+  firstName = 'Levin';
+}
+```
+
+In diesem Beispiel wird das HTML-Attribut value des `<input>`-Elements an die Klassenvariable `firstName` gebunden. Dabei kommen eckige Klammern zum Einsatz: `[value]="firstName"`.
+
+### Unterschiede zur statischen Zuweisung
+
+<Columns cols={2}>
+<Column>
+**Ausdruck statt String**
+
+Die eckigen Klammern signalisieren Angular, dass der Inhalt als Ausdruck interpretiert werden soll.
+
+* `[value]="firstName"` bedeutet: Setze die Eigenschaft value auf den aktuellen Wert der Variablen `firstName`.
+* `value="firstName"` behandelt „firstName“ als Zeichenkette und gibt diesen Text wortwörtlich ins Feld ein – unabhängig vom tatsächlichen Wert der Variable.
+</Column>
+
+<Column>
+**Automatische Aktualisierung**
+
+Wenn sich der Wert von `firstName` in der Komponente ändert (z. B. von „Levin“ auf „Kathy“), wird auch die `value`-Eigenschaft des Input-Feldes automatisch angepasst. Angular übernimmt das mithilfe seines Change Detection Mechanismus. So bleibt die Benutzeroberfläche stets synchron mit den Daten im Hintergrund.
+</Column>
+</Columns>
+
+## Event Binding
+
+Event Binding erlaubt es in Angular, auf Benutzeraktionen zu reagieren – zum Beispiel Mausklicks oder Tastatureingaben. Dabei wird ein HTML-Event mit einer Methode aus der Component-Klasse verknüpft.
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `<button (click)="handleClick($event)">click me</button>`,
+})
+export class AppComponent {
+  handleClick(ev: MouseEvent) {
+    console.log('I was clicked!');
+    console.log(ev);
+  }
+}
+```
+
+Im Template des Beispiels wird mit `(click)="handleClick($event)"` eine Methode an das `click`-Event des Buttons gebunden.
+
+* Runde Klammern `()` signalisieren Angular, dass es sich um ein Event Binding handelt.
+* `click` ist das native DOM-Event, das beim Klicken des Buttons ausgelöst wird.
+* `handleClick($event)` ruft die Methode `handleClick` auf, wenn der Klick passiert. `$event` steht dabei für das Event-Objekt, das alle Details über das Ereignis enthält.
+
+Man kann statt `click` auch andere native oder benutzerdefinierte Events verwenden, z. B. `mouseenter`, `keyup`, `blur` oder eigene Event-Namen bei Komponenten.
+
+## Interpolation
+
+Interpolation ist ein einfacher Mechanismus in Angular, um Werte direkt im HTML-Template darzustellen. Sie wird durch doppelte geschweifte Klammern `{{ }}` verwendet und eignet sich ideal, um Werte aus der Component-Klasse in Textinhalte einzubinden.
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `<p>Hi, {{ name }}</p>`,
+})
+export class AppComponent {
+  name = 'Levin';
+}
+```
+
+In diesem Beispiel wird der Wert der Variablen name im HTML-Template ausgegeben. Angular ersetzt `{{ name }}` automatisch durch den aktuellen Wert von `name`, in diesem Fall „Levin“. Das Ergebnis ist:
+
+```html
+<p>Hi, Levin</p>
+```
+
+## Two-Way Data Binding
+
+Mit `[(ngModel)]` kannst du in Angular ganz einfach eine Variable aus der Komponente mit einem Eingabefeld im Template synchronisieren – in beide Richtungen.
+
+```typescript
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  template: `<input [(ngModel)]="firstName" />`,
+  imports: [FormsModule],
+})
+export class AppComponent {
+  firstName = 'Levin';
+}
+```
+
+* `[(ngModel)]` bindet die Variable `firstName` an das Eingabefeld.
+* Änderungen im Feld aktualisieren automatisch `firstName` in der Klasse.
+* Änderungen an `firstName` in der Klasse aktualisieren automatisch das Feld.
+
+<Info>
+Damit `ngModel` funktioniert, musst du das `FormsModule` importieren. Ohne diesen Import ist `ngModel` nicht verfügbar.
+</Info>
+
+## Template Variable
+
+Mit einer lokalen Template-Variable kannst du direkt auf ein HTML-Element im Template zugreifen – ohne es über die Component-Klasse anzusprechen.
+
+```html
+<p #myParagraph></p>
+<button (click)="myParagraph.innerHTML = 'Once upon a time...'">Click me</button>
+```
+
+* `#myParagraph` erstellt eine lokale Variable, die sich auf das `<p>`-Element bezieht.
+* In der Button-Click-Methode greifen wir direkt auf `innerHTML` des Elements zu.
+
+<Info>
+Diese Technik ist eher selten im Einsatz, kann aber in bestimmten Situationen hilfreich sein – z. B. bei direktem Zugriff auf DOM-Elemente im Template.
+</Info>
+
+## Embedded Templates
+
+Mit kannst du einen DOM-Abschnitt vorbereiten, der zunächst nicht gerendert wird. Er dient als Vorlage, die du später bei Bedarf „abstempeln“ kannst – z. B. für wiederholte oder bedingte Anzeige von Inhalten.
+
+```html
+<ng-template #myTemplate>
+  <p>Hello there</p>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="myTemplate"></ng-container>
+```
+
+* `#myTemplate` ist eine lokale Template-Variable
+* `*ngTemplateOutlet="myTemplate"` rendert den Inhalt des Templates an dieser Stelle
+* `<ng-container>` erzeugt kein eigenes DOM-Element, ist also ideal für strukturelle Steuerung
+
+<Info>
+Damit `*ngTemplateOutlet` funktioniert, muss `NgTemplateOutlet` importiert werden.
+</Info>
+
+### Kontext
+
+Du kannst Templates mit unterschiedlichen Daten (Kontext) wiederverwenden:
+
+```html
+<ng-template #myTemplate let-greeting="greeting">
+  <p>{{ greeting }} there</p>
+</ng-template>
+
+<ng-container
+  [ngTemplateOutlet]="myTemplate"
+  [ngTemplateOutletContext]="{ greeting: 'Hi' }"
+/>
+<ng-container
+  [ngTemplateOutlet]="myTemplate"
+  [ngTemplateOutletContext]="{ greeting: 'Hello' }"
+/>
+<ng-container
+  [ngTemplateOutlet]="myTemplate"
+  [ngTemplateOutletContext]="{ greeting: 'Yo' }"
+/>
+```
+
+Hier wird der Template-Inhalt mehrfach dargestellt, aber jeweils mit einem anderen greeting.
+
+## Directives
+
+Eine Direktive in Angular ist ein Baustein, mit dem du das Verhalten eines bestehenden HTML-Elements oder einer Komponente erweitern oder verändern kannst – ohne ein eigenes Template zu definieren.
+
+```typescript
+import { Directive, ElementRef } from '@angular/core';
+
+@Directive({
+  selector: '[highlightRed]',
+})
+export class HighlightRedDirective {
+  constructor(private el: ElementRef) {
+    this.el.nativeElement.style.backgroundColor = 'red';
+  }
+}
+```
+
+* `@Directive` funktioniert ähnlich wie `@Component`, aber ohne Template.
+* Die Direktive wird an ein bestehendes Element angehängt.
+* Der selector: '`[highlightRed]`' bedeutet: Diese Direktive gilt für alle Elemente mit dem Attribut `highlightRed`.
+
+```html
+<my-component highlightRed></my-component>
+```
+
+Hier wird `highlightRed` auf ein bestehendes Element angewendet. Die zugehörige Logik aus `HighlightRedDirective` wird dann aktiv,
+
+### Structural Directives
+
+Strukturelle Direktiven ändern die Struktur des DOMs. Zwei häufig genutzte Beispiele sind:
+
+```html
+<section *ngIf="showSection"></section>
+<li *ngFor="let item of items">{{ item }}</li>
+```
+
+* `*ngIf` zeigt ein Element nur an, wenn die Bedingung wahr ist.
+* `*ngFor` erzeugt ein Element für jedes Item in einer Liste.
+
+Damit das funktioniert, musst du `CommonModule` (oder gezielt `NgIf`/`NgFor`) importieren:
+
+```typescript
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `<p *ngIf="shouldDisplay">hello</p>`,
+  imports: [CommonModule],
+})
+export class AppComponent {
+  shouldDisplay = true;
+}
+```
+
+<Info>
+Es gibt inzwischen auch eine neue Syntax mit `@if` und `@for`, aber `*ngIf` und `*ngFor` sind weiterhin weit verbreitet.
+</Info>
+
+## `@`-Syntax für Kontrollfluss
+
+Angular unterstützt eine neue eingebaute Syntax zur Steuerung der Anzeige von Elementen:
+
+<Columns cols={2}>
+<Column>
+**`@if`**
+
+```html
+@if (showSection) {
+  <section></section>
+}
+```
+
+**Mehrere Bedingungen**
+
+```html
+@if (a) {
+  <p>A</p>
+} @else if (b) {
+  <p>B</p>
+} @else {
+  <p>Fallback</p>
+}
+```
+
+
+</Column>
+
+<Column>
+**`@for`**
+
+```html
+@for (item of items; track $index) {
+  <li>{{ item }}</li>
+}
+```
+
+<Info>
+`track $index` optimiert die Darstellung, indem Angular jedes Element eindeutig verfolgen kann.
+
+Falls Items eindeutige IDs haben, ist das besser:
+
+```html
+@for (item of items; track item.id) {
+  <li>{{ item.title }}</li>
+}
+```
+</Info>
+</Column>
+</Columns>
+
+* Kein Import von Direktiven notwendig.
+* Klarere Syntax für komplexere Bedingungen.
+* Performance-Tracking wird automatisch eingefordert.

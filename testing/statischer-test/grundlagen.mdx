@@ -1,0 +1,95 @@
+---
+title: "Grundlagen"
+---
+
+Statische Tests basieren auf der Prüfung von Arbeitsergebnissen, ohne dass der Programmtext auf einem Rechner ausgeführt wird. Im Gegensatz zum dynamischen Testen können hierbei nicht nur der Quellcode, sondern alle Arten von Dokumenten (wie Anforderungen, Entwürfe oder Benutzerhandbücher) untersucht werden.
+
+## Formen
+
+Man unterscheidet grundsätzlich zwei Herangehensweisen.
+
+<AccordionGroup>
+<Accordion title="Manuelle Prüfung (Reviews)">
+
+Hierbei werden Dokumente von einer oder mehreren Personen systematisch gelesen und bewertet. Das Ziel ist es, inhaltliche Fehler, Unklarheiten oder Lücken durch menschliche Analyse- und Denkfähigkeit aufzudecken. Mehr dazu [hier](/testing/statischer-test/reviews).
+
+</Accordion>
+
+<Accordion title="Werkzeuggestützte statische Analyse">
+
+Spezialisierte Software prüft Dokumente (vor allem Quellcode) auf formale Strukturen, die Einhaltung von Programmierstandards oder Anomalien im Daten- und Kontrollfluss.
+
+</Accordion>
+</AccordionGroup>
+
+## Ziele und Nutzen
+
+Der Hauptzweck statischer Tests ist die Prävention.
+
+<AccordionGroup>
+<Accordion title="Frühe Fehlererkennung (Shift-Left)">
+
+Fehlerzustände werden identifiziert, noch bevor sie in nachfolgende Entwicklungsschritte einfliessen oder im dynamischen Test zu teuren Ausfällen führen.
+
+</Accordion>
+
+<Accordion title="Direktes Finden von Fehlerzuständen">
+
+Während dynamische Tests nur die Auswirkungen eines Fehlers (Fehlerwirkungen) zeigen, finden statische Tests den Fehlerzustand direkt im Dokument oder Programmtext.
+
+</Accordion>
+
+<Accordion title="Verbesserung der Qualität">
+
+Geprüft werden Merkmale wie Lesbarkeit, Wartbarkeit, Vollständigkeit und Testbarkeit der Dokumente.
+
+</Accordion>
+
+<Accordion title="Wissensaustausch">
+
+Besonders manuelle Reviews fördern das gemeinsame Verständnis im Team und verbessern die Arbeitsmethoden.
+
+</Accordion>
+</AccordionGroup>
+
+## Unterschied zum dynamischen Testen
+
+Der wesentliche Unterschied zwischen statischen und dynamischen Tests liegt in der Ausführung des Testobjekts. Während beim statischen Test Dokumente und Programmtext ohne eine Ausführung auf einem Rechner geprüft werden, setzt der dynamische Test ein ablauffähiges Programm voraus, das mit Testdaten versorgt und tatsächlich ausgeführt wird.
+
+<AccordionGroup>
+<Accordion title="Gegenstand der Prüfung">
+
+Statische Tests können auf alle Arten von Arbeitsergebnissen (Anforderungen, Entwürfe, Quellcode, Verträge, Benutzerhandbücher) angewendet werden. Dynamische Tests konzentrieren sich ausschliesslich auf den ausführbaren Programmcode.
+
+</Accordion>
+
+<Accordion title="Art der gefundenen Fehler">
+
+Statische Tests entdecken Fehlerzustände (Defekte) direkt im Dokument. Dynamische Tests weisen dagegen Fehlerwirkungen (Ausfälle) nach, also die sichtbaren Konsequenzen von im Code verborgenen Fehlerzuständen.
+
+</Accordion>
+
+<Accordion title="Zeitpunkt im Lebenszyklus">
+
+Statische Verfahren können sehr früh (z.B. direkt nach der Erstellung einer Spezifikation) eingesetzt werden. Dynamische Tests können erst durchgeführt werden, wenn ein ausführbares Programmfragment vorliegt.
+
+</Accordion>
+
+<Accordion title="Qualitätsmerkmale">
+
+Statische Tests bewerten vor allem die innere Qualität und Wartbarkeit (Struktur, Einhaltung von Standards). Dynamische Tests messen Eigenschaften, die erst zur Laufzeit sichtbar werden, wie Performanz, Antwortzeiten oder das Ressourcenverhalten.
+
+</Accordion>
+</AccordionGroup>
+
+## Vor- und Nachteile
+
+- Frühes Feedback
+- Effizienz
+- Wissensaustausch
+- Prävention
+
+***
+
+- Keine Laufzeitprüfung
+- Abhängigkeit von Fähigkeiten

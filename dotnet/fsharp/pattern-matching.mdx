@@ -1,0 +1,17 @@
+---
+title: "Pattern Matching"
+---
+
+Pattern Matching ist ein zentrales Konzept in F#, um Werte anhand ihrer Struktur zu überprüfen und unterschiedliche Fälle zu behandeln. Es wird mit dem Ausdruck `match ... with` verwendet.
+
+Dabei wird ein Wert mit verschiedenen Mustern (Patterns) verglichen. Sobald ein passendes Muster gefunden wird, wird der entsprechende Code ausgeführt.
+
+```fsharp
+let describeNumber number =
+    match number with
+    | 0 -> "Zero"
+    | n when n < 0 -> "Negative number"
+    | n when n > 0 && n <= 10 -> "Small positive number"
+    | n when n > 10 -> "Large positive number"
+    | _ -> "Unknown"
+```

@@ -1,0 +1,78 @@
+---
+title: "Strings"
+icon: "type"
+---
+
+Strings werden zum Speichern von Text verwendet. Eine String-Variable enthält eine Sammlung von Zeichen, die von doppelten Anführungszeichen umgeben sind.
+
+```csharp
+string greeting;
+greeting = "Hello, World!";
+
+string firstName = "John";
+```
+
+## Methoden und Properties
+
+Wir können auf die Länge eines Strings über das Property `Length` zugreifen.
+
+```csharp
+string upperCaseAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+Console.WriteLine(upperCaseAlphabet.Length);
+```
+
+***
+
+Wir können Strings auch mit verschiedenen Methoden manipulieren.
+
+```csharp
+string greeting = "Hello, World!";
+
+Console.WriteLine(greeting.ToUpper());
+Console.WriteLine(greeting.ToLower());
+```
+
+<Info>
+Es gibt noch [viele weitere Methoden](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-9.0) für Strings.
+</Info>
+
+## Concatenation
+
+Wir können Strings mit dem `+`-Operator zusammenführen.
+
+```csharp
+string firstName = "Levin";
+string lastName = "Bänninger";
+
+string fullName = firstName + " " + lastname;
+```
+
+## Interpolation
+
+Bei der Interpolation, werden die Werte von Variablen durch Platzhalter in einem String ersetzt. 
+
+```csharp
+string firstName = "Levin";
+string lastName = "Bänninger";
+
+string fullName = $"{firstName} {lastName}";
+```
+
+<Info>
+Wir müssen uns nicht um Leerzeichen kümmern, wie bei der [#concatenation](/dotnet/c/variablen/strings#concatenation "mention")
+</Info>
+
+## Zeichen in Strings
+
+Du kannst auf die Zeichen in einer Zeichenkette zugreifen, indem du dich auf den Index in eckigen Klammern `[]` beziehst.
+
+```csharp
+string firstName = "Levin";
+Console.WriteLine(firstName[0]);
+```
+
+## Zeichen
+
+```csharp
+char firstLetterOfName = 'l';
+```

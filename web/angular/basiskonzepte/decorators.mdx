@@ -1,0 +1,167 @@
+---
+title: "Decorators"
+---
+
+Wir werden Decorator überall in Angular finden, egal ob bei Services, Directives, Pipes oder Services. Das Konzept des Decorators ist jedoch kein Angular spezifisches Konzept. Es ist ein übliches Design Pattern in der objektorientierten Programmierung.
+
+In Angular verarbeitet unsere Klasse die Logik, jedoch ist das nicht alles, was Angular braucht, um zu wissen, wie es die Komponente erstellen muss. Die ganzen weiteren Informationen geben wir Angular eben genau über diesen Decorator.
+
+```typescript
+@Component({
+  selector: 'my-component',
+  template: `<p>Hello</p>`,
+  styles: [
+    `
+      .some-class {
+        display: none;
+      }
+    `
+  ]
+})
+export class MyComponent {}
+```
+
+## Directives
+
+Der `@Directive`-Decorater erlaubt es uns unsere eigenen Direktiven zu erstellen. Mit einer Direktive können wir ein gewisses Verhalten zu einer gewissen Komponente bzw. einem Element hinzufügen.
+
+```typescript
+@Directive({
+  selector: '[my-selector]'
+})
+```
+
+So können wir zum Beispiel eine Direktive erstellen, welche die Hintergrundfarbe zu einer zufälligen Farbe wechselt.
+
+```typescript
+import { Directive, HostBinding } from '@angular/core';
+
+@Directive({
+  selector: '[randomColor]',
+})
+export class RandomColor {
+  @HostBinding('style.backgroundColor') color = `#${Math.floor(
+    Math.random() * 16777215
+  ).toString(16)}`;
+}
+```
+
+<Info>
+Der `@HostBinding`-Decorator bindet sich an den Host, also das Element oder die Komponente, an welche die Direktive angehängt wird. Dieses Host Binding können wir dann nutzen, um ein Property des Hosts zu ändern.
+</Info>
+
+Nun nutzen wir die Direktive wie folgt.
+
+```typescript
+import { Component } from '@angular/core';
+import { RandomColor } from './ui/random-color.directive';
+import { WelcomeComponent } from './ui/welcome.component';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <app-welcome />
+    <p>I am the home component</p>
+    <p randomColor>I am stylish</p>
+  `,
+  imports: [WelcomeComponent, RandomColor],
+})
+export class HomeComponent {}
+```
+
+## Pipes
+
+Der `@Pipe`-Decorater erlaubt es uns eigene Pipes zu erstellen, um Daten zu filtern, die dem Nutzer angezeigt werden.
+
+```typescript
+@Pipe({
+  name: 'myPipe'
+})
+```
+
+Die folgende Pipe kehrt ein Wort um.
+
+```typescript
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'reverse',
+})
+export class ReversePipe implements PipeTransform {
+  transform(value: string) {
+    return value.split('').reverse().join('');
+  }
+}
+```
+
+Die Idee dahinter ist, dass wir einen bestimmten Wert bekommen und diesen in irgendeiner Weise transformieren und ihn zurückgeben.
+
+Nun nutzen wir unsere Pipe, um den String `reverse me` umzukehren.
+
+```typescript
+import { Component } from '@angular/core';
+import { RandomColor } from './ui/random-color.directive';
+import { WelcomeComponent } from './ui/welcome.component';
+import { ReversePipe } from './ui/reverse.pipe';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <app-welcome></app-welcome>
+    <p>I am the home component</p>
+    <p>Time for a little: {{ magic | reverse }}</p>
+  `,
+  imports: [WelcomeComponent, RandomColor, ReversePipe],
+})
+export class HomeComponent {
+  magic = 'reverse me';
+}
+```
+
+Es gibt noch [viele weitere Pipes](https://angular.dev/api?type=pipe), die uns Angular bereits zur Verfügung stellt.
+
+## Services
+
+Um einen Service zu erstellen nutzen wir den `@Injectable`-Decorator. Injectables stehen in engem Zusammenhang mit dem Konzept der [Dependency Injection](/web/angular/basiskonzepte/dependency-injection) in Angular. Es steht auch in Zusammenhang mit einigen Aspekten der [Architektur](/web/angular/architektur/README), wie dem Prinzip der Single Responsibility.
+
+Oftmals müssen wir in unseren Komponenten Daten anzeigen, welche von einer API kommen. Unsere Komponente müsste einen HTTP-Request machen, um die Daten abzurufen. Das ist jedoch nicht ideal aus folgenden Gründen:
+
+1. Es fügt der Komponente zusätzliche Verantwortlichkeiten zu. Unsere Komponente soll nur diese Liste anzeigen und sich nicht um die Business-Logik kümmern.
+2. Was, wenn eine andere Komponente ebenfalls Zugriff auf diese Daten braucht? Wenn wir das in unserer Komponente machen, können andere Komponenten nicht auf die Daten zugreifen und es muss erneut eine Request gemacht werden.
+
+Ein injizierbarer Service erlaubt es uns Business-Logik zu definieren und Daten in einem Singleton-Objekt zu cachen (das bedeutet in der Regel, dass unsere gesamte Anwendung dieselbe Instanz einer einzigen Klasse gemeinsam nutzt). Wir können diesen Service dann in alle Komponenten einbinden, die seine Methoden oder Daten nutzen müssen.
+
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  someData = 'multiple components can share/access me!'
+
+  someMethod(){
+    // Any component that injects me can access me!
+    // I might just return some data
+    // or I might update this.someData so that all of the
+    // components who inject me can get the updated data!
+  }
+}
+```
+
+Beachte, dass wir ein `providedIn`-Property bereitstellen. Durch die Bereitstellung dieses Services  in der `root` wird eine einzige Instanz davon für die gesamte Anwendung gemeinsam genutzt. Das bedeutet, wenn eine Komponente eine Änderung an `someData` auslöst, können alle anderen Komponenten auf dieselben aktualisierten Daten zugreifen. Auch dies hängt mit der Dependency Injection zusammen, auf die wir später noch näher eingehen werden.
+
+Um nun den Service zu nutzen, müssen wir ihn wie folgt injizieren.
+
+```typescript
+import { Component } from '@angular/core';
+import { DataService } from './data-access/data.service';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <p>I am the home component</p>
+  `,
+})
+export class HomeComponent {
+  private readonly dataService = inject(DataService)
+}
+```

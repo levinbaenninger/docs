@@ -1,0 +1,107 @@
+---
+title: "Computerdienste"
+---
+
+## Virtual Machine
+
+Virtuelle Computer sind Softwareemulationen physischer Computer. Sie besitzen Komponenten wie einen physischen Computer (Prozessor, RAM, Netzwerk, Speicher). Mit dem Remotedesktopdienst kann ein virtueller Verwendet werden, als sässe man davor. Wenn die vollständige Kontrolle über ein Betriebssystem und die Umgebung erforderlich ist, sind VMs eine optimale Wahl.
+
+* Vollständige Kontrolle über das Betriebssystem
+* Die Möglichkeit, benutzerdefinierte Software auszuführen
+* Die Möglichkeit, benutzerdefinierte Hostingkonfigurationen zu verwenden
+
+### Anwendungsbeispiele
+
+* Testing und Entwicklung
+* Ausführen bestimmter Anwendungen in der Cloud mit schwankender Nachfrage (bspw. Black Friday)
+* Erweiterung des eigenen RZ in die Cloud
+
+### Skalierungsgruppen
+
+* Es können Gruppen von identischen Computerressourcen erstellt werden
+* Die Skalierung kann automatisch oder manuell erfolgen (Scale up und Scale out)
+
+## Container
+
+Containerinstanzen sind schlanke, virtualisierte Anwendungsumgebungen. Sie sind schnell erstellt. Horizontal hochskaliert und dynamisch beendbar.
+
+Vorteil gegenüber VM’s: Die benötigte Hardware ist nicht dauernd besetzt (und entsprechend zu\
+bezahlen). Container sind schlank und so konzipiert, dass sie dynamisch erstellt, skaliert und beendet werden können. Während es möglich ist, virtuelle Computer bei steigender Anwendungsnachfrage zu\
+erstellen und bereitzustellen, sind Container so konzipiert, dass Sie bei Bedarf auf Änderungen reagieren. Zudem können Container im Falle eines Absturzes oder einer Hardwareunterbrechung schnell neu gestartet werden. Eine der beliebtesten Container-Engines ist Docker.
+
+Die Verwaltung mehrerer Container kann über Kubernetes sichergestellt werden (Die Aufgabe des\
+Automatisierens und Verwaltens einer grossen Anzahl von Containern sowie der Interaktion damit wird als „Orchestrierung“ bezeichnet.)
+
+### Anwendungsbeispiele
+
+* Aufbau einer Microservicearchitektur
+
+## Functions
+
+Functions werden eingesetzt, um Anwendungslogiken aufgrund bestimmter Ereignisse zu steuern. Mit anderen Worten: Die Anwendung wartet über einen längeren Zeitraum auf eine bestimmte Eingabe, bevor eine Verarbeitung ausgeführt wird. Um die Kosten zu senken, möchtest du nicht für die Zeit bezahlen, in der die Anwendung auf eine Eingabe wartet.
+
+Beim serverlosen Computing werden Server, Infrastruktur und Betriebssysteme abstrahiert. Mit\
+serverlosem Computing übernimmt Azure die Verwaltung der Serverinfrastruktur und die Zuteilung/Aufhebung der Zuteilung von Ressourcen entsprechend dem Bedarf. Für die Infrastruktur sind Sie nicht verantwortlich. Skalierung und Leistungsanpassung erfolgen automatisch. Ihnen werden nur\
+die tatsächlich genutzten Ressourcen in Rechnung gestellt. Das Reservieren von Kapazitäten ist nicht\
+notwendig.
+
+### Implementierungen
+
+<AccordionGroup>
+<Accordion title="Azure Functions">
+
+Functions ist in der Lage, Code in fast jeder modernen Programmiersprache\
+auszuführen.
+
+</Accordion>
+
+<Accordion title="Azure Logic Apps">
+
+Logic Apps wurde in einem webbasierten Designer entworfen und kann ohne\
+das Schreiben von Code die von Azure-Diensten ausgelöste Logik ausführen.
+
+</Accordion>
+</AccordionGroup>
+
+## Speicher
+
+### Disk Storage
+
+Azure Disk Storage ist für die Verwendung mit Azure Virtual Machines konzipiert und bietet\
+hochleistungsfähigen, robusten Blockspeicher für unternehmenskritischen Anwendungen.
+
+### Blob Storage
+
+Blob Storage ist für die Speicherung grosser Mengen unstrukturierter Daten optimiert. Unstrukturierte\
+Daten sind Daten, die keinem bestimmten Datenmodell und keiner bestimmten Definition entsprechen\
+(also beispielsweise Text- oder Binärdaten).
+
+* Speichern von Bildern oder Dokumenten direkt für einen Browser
+* Speichern von Dateien für verteilten Zugriff
+* Video- und Audiostreaming
+* Schreiben in Protokolldateien
+* Speichern von Daten für Sicherung und Wiederherstellung, Notfallwiederherstellung und Archivierung
+* Speichern von Daten für Analysen durch einen lokalen oder von Azure gehosteten Dienst
+
+### Azure Files
+
+Azure Files bietet vollständig verwaltete Dateifreigaben in der Cloud, auf die über das\
+Branchenstandardprotokoll Server Message Block (SMB) sowie über das Network File System-Protokoll\
+(NFS) zugegriffen werden kann. Azure Files-Dateifreigaben können gleichzeitig über die Cloud oder\
+durch lokale Bereitstellungen eingebunden werden.
+
+## Netzwerk
+
+Ein wichtiger und komplexer Part ist immer das Erstellen der Netzwerke. In der Cloud können virtuelle\
+Netzwerke gebaut werden. Dazu werden private IP-Adressen verwendet
+
+Der Zugriff auf eine Ressource kann über unterschiedliche Arten geschehen.
+
+Zum einen gibt es Services, welche von aussen (WAN) verfügbar sein müssen. Dieser Zugriff muss über\
+eine öffentliche IP sichergestellt werden. Um den Service zu schützen, kann beispielsweise eine Firewall\
+oder ein DDOS-Schutz eingerichtet werden. Um den Zugriff von aussen zu gewährleisten, ist es auch\
+möglich mit Loadbalancern oder anderen Systemen zu arbeiten.
+
+Um die Netze innerhalb des Tenants zu trennen oder zu verbinden sind so genannte NSG (Network\
+Security Groups) notwendig. Damit ist es möglich, bestimmt Protokolle zuzulassen oder zu unterbinden.\
+Wichtig ist, dass der Datentraffic auf dem gesamten Weg durch alle NSG aufgemacht wird.

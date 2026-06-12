@@ -1,0 +1,586 @@
+---
+title: "Lists"
+---
+
+Eine Liste ist eine geordnete Sammlung von Werten desselben Typs.
+
+```fsharp
+let numbers = [1; 2; 3; 4; 5]         // int list
+let names = ["Anna"; "Ben"; "Carla"]  // string list
+```
+
+## Erstellung
+
+```fsharp
+let numbers = [1; 2; 3; 4]
+let emptyList = []
+let emptyNumbers: int list = []
+let numbers = [1 .. 10]
+let evenNumbers = [2 .. 2 .. 10]
+```
+
+## Zugriff
+
+Man kann mit `list[index]` auf ein Element zugreifen.
+
+```fsharp
+let numbers = [10; 20; 30; 40]
+
+let first = numbers[0]
+let second = numbers[1]
+```
+
+Wenn der Index nicht existiert, gibt es einen Fehler.
+
+## Head und Tail
+
+`List.head` gibt das erste Element einer Liste zurück.
+
+```fsharp
+let numbers = [10; 20; 30]
+let first = List.head numbers
+```
+
+<Warning>
+**Achtung**: Bei einer leeren Liste gibt `List.head` einen Fehler.
+
+```fsharp
+List.head [] // Fehler
+```
+
+***
+
+Sauberer ist oft Pattern Matching:
+
+```fsharp
+let getFirst list =
+    match list with
+    | [] -> None
+    | x :: _ -> Some x
+```
+</Warning>
+
+***
+
+`List.tail` gibt die Liste ohne das erste Element zurück.
+
+```fsharp
+let numbers = [10; 20; 30]
+let rest = List.tail numbers
+```
+
+<Warning>
+Auch hier gilt: Bei einer leeren Liste gibt es einen Fehler.
+
+```fsharp
+List.tail [] // Fehler
+```
+
+***
+
+Sauber mit Pattern Matching:
+
+```fsharp
+let getTail list =
+    match list with
+    | [] -> []
+    | _ :: xs -> xs
+```
+</Warning>
+
+## Cons Operator `::`
+
+Der Cons Operator `::` fügt ein Element vorne an eine Liste an.
+
+```fsharp
+let numbers = [2; 3; 4]
+let newNumbers = 1 :: numbers
+```
+
+<Info>
+**Wichtig**: Das Element links muss den gleichen Typ haben wie die Elemente der Liste.
+</Info>
+
+***
+
+Der Cons Operator wird auch oft in Pattern Matching verwendet:
+
+```fsharp
+let describe list =
+    match list with
+    | [] -> "Die Liste ist leer"
+    | x :: xs -> $"Erstes Element: {x}, Rest: {xs}"
+
+describe [1; 2; 3]
+```
+
+## Append Operator `@`
+
+Der Append Operator `@` verbindet zwei Listen.
+
+```fsharp
+let list1 = [1; 2; 3]
+let list2 = [4; 5; 6]
+
+let combined = list1 @ list2
+```
+
+## List Comprehensions
+
+List Comprehensions sind eine kompakte Möglichkeit, Listen zu erzeugen.
+
+```fsharp
+[ for x in collection do yield expression ]
+```
+
+**Beispiel:**
+
+```fsharp
+let squares = [ for x in 1 .. 5 do yield x * x ]
+```
+
+### Mit Bedingung
+
+```fsharp
+let evenNumbers =
+    [ for x in 1 .. 10 do
+        if x % 2 = 0 then
+            yield x ]
+```
+
+### Mehrere `yield`
+
+Man kann pro Durchlauf mehrere Werte erzeugen.
+
+```fsharp
+let numbers =
+    [ for x in 1 .. 3 do
+        yield x
+        yield x * 10 ]
+```
+
+### `yield!`
+
+`yield!` fügt eine ganze Liste in die neue Liste ein.
+
+```fsharp
+let values =
+    [ for x in 1 .. 3 do
+        yield! [x; x * x] ]
+```
+
+## Listenfunktionen
+
+### `List.map`
+
+`List.map` verändert jedes Element einer Liste nach einer Regel.
+
+```fsharp
+let numbers = [1; 2; 3; 4]
+
+let doubled =
+    numbers |> List.map (fun x -> x * 2)
+
+
+let names = ["anna"; "ben"; "carla"]
+
+let upperNames =
+    names |> List.map (fun name -> name.ToUpper())
+
+        
+type Student = {
+    Name: string
+    Grade: float
+}
+
+let students = [
+    { Name = "Anna"; Grade = 5.5 }
+    { Name = "Ben"; Grade = 4.0 }
+    { Name = "Carla"; Grade = 3.5 }
+]
+
+let names =
+    students |> List.map (fun student -> student.Name)
+```
+
+### `List.filter`
+
+`List.filter` behält nur Elemente, die eine Bedingung erfüllen.
+
+```fsharp
+let numbers = [1; 2; 3; 4; 5; 6]
+
+let evenNumbers =
+    numbers |> List.filter (fun x -> x % 2 = 0)
+    
+
+let grades = [5.5; 4.0; 3.5; 6.0; 2.5]
+
+let passedGrades =
+    grades |> List.filter (fun grade -> grade >= 4.0)
+
+let passedStudents =
+    students |> List.filter (fun student -> student.Grade >= 4.0)
+```
+
+### `List.length`
+
+`List.length` gibt die Anzahl Elemente zurück.
+
+```fsharp
+let numbers = [10; 20; 30]
+let count = numbers |> List.length
+
+let names = ["Anna"; "Ben"; "Carla"; "Daniel"]
+let amount = names |> List.length
+
+let empty = [] |> List.length
+```
+
+### `List.sum`
+
+`List.sum` addiert alle Elemente einer numerischen Liste.
+
+```fsharp
+let numbers = [1; 2; 3; 4]
+let total = numbers |> List.sum
+
+let prices = [10.50; 20.0; 5.25]
+let totalPrice = prices |> List.sum
+```
+
+#### `List.sumBy`
+
+`List.sumBy` berechnet zuerst pro Element einen Wert und summiert diese Werte danach.
+
+```fsharp
+type Product = {
+    Name: string
+    Price: float
+    Amount: int
+}
+
+let products = [
+    { Name = "Book"; Price = 20.0; Amount = 2 }
+    { Name = "Pen"; Price = 2.5; Amount = 4 }
+    { Name = "Bag"; Price = 50.0; Amount = 1 }
+]
+
+let total =
+    products |> List.sumBy (fun product -> product.Price * float product.Amount)
+```
+
+### `List.min` und `List.max`
+
+Gibt das kleinste bzw. das grösste Element zurück.
+
+```fsharp
+let numbers = [5; 2; 9; 1; 7]
+let minimum = numbers |> List.min
+let maximum = numbers |> List.max
+```
+
+<Warning>
+**Achtung**: Bei einer leeren Liste gibt es einen Fehler.
+</Warning>
+
+#### `List.minBy` und `List.maxBy`
+
+`List.minBy` gibt das Element zurück, bei dem ein berechneter Wert am kleinsten ist.
+
+```fsharp
+let cheapestProduct =
+    products |> List.minBy (fun product -> product.Price)
+```
+
+`List.maxBy` gibt das Element zurück, bei dem ein berechneter Wert am grössten ist.
+
+```fsharp
+let mostExpensiveProduct =
+    products |> List.maxBy (fun product -> product.Price)
+```
+
+### `List.rev`
+
+`List.rev` dreht die Reihenfolge einer Liste um. Die ursprüngliche Liste wird nicht verändert.
+
+```fsharp
+let numbers = [1; 2; 3; 4]
+let reversed =
+    numbers |> List.rev
+    
+let names = ["Anna"; "Ben"; "Carla"]
+let reversedNames =
+    names |> List.rev
+```
+
+### `List.sort`
+
+`List.sort` sortiert eine Liste aufsteigend.
+
+```fsharp
+let numbers = [5; 1; 9; 2]
+let sorted =
+    numbers |> List.sort
+    
+let names = ["Carla"; "Anna"; "Ben"]
+let sortedNames =
+    names |> List.sort
+```
+
+#### `List.sortBy`
+
+`List.sortBy` sortiert nach einem berechneten Wert.
+
+```fsharp
+let studentsByGrade =
+    students |> List.sortBy (fun student -> student.Grade)
+    
+let studentsByName =
+    students |> List.sortBy (fun student -> student.Name)
+```
+
+### `List.sortDescending`
+
+`List.sortDescending` sortiert eines Liste absteigend.
+
+```fsharp
+let numbers = [5; 1; 9; 2]
+let sortedDescending =
+    numbers |> List.sortDescending
+    
+let names = ["Carla"; "Anna"; "Ben"]
+let sortedNames =
+    names |> List.sortDescending
+```
+
+#### `List.sortDescendingBy`
+
+```fsharp
+let studentsBestFirst =
+    students |> List.sortByDescending (fun student -> student.Grade)
+```
+
+### `List.zip`
+
+`List.zip` verbindet zwei Listen elementweise zu Tupeln.
+
+```fsharp
+let names = ["Anna"; "Ben"; "Carla"]
+let grades = [5.5; 4.0; 3.5]
+
+let combined =
+    List.zip names grades
+```
+
+<Warning>
+Wenn die Listen unterschiedlich lang sind, gibt `List.zip` einen Fehler.
+</Warning>
+
+### `List.forAll`
+
+`List.forall` prüft, ob alle Elemente eine Bedingung erfüllen.
+
+```fsharp
+let grades = [5.0; 4.5; 6.0]
+
+let allPassed =
+    grades |> List.forall (fun grade -> grade >= 4.0)
+```
+
+### `List.exists`
+
+`List.exists` prüft, ob mindestens ein Element eine Bedingung erfüllt.
+
+```fsharp
+let grades = [5.0; 3.5; 4.5]
+
+let hasFailedGrade =
+    grades |> List.exists (fun grade -> grade < 4.0)
+```
+
+### `List.reduce`
+
+`List.reduce` fasst eine Liste zu einem einzelnen Wert zusammen.
+
+```fsharp
+let numbers = [1; 2; 3; 4]
+let total =
+    numbers |> List.reduce (fun acc x -> acc + x)
+    
+let maximum =
+    numbers |> List.reduce (fun acc x -> if x > acc then x else acc)
+    
+let words = ["F#"; "ist"; "cool"]
+let sentence =
+    words |> List.reduce (fun acc word -> acc + " " + word)
+```
+
+<Warning>
+**Wichtig**: `reduce` nimmt das erste Element als Startwert. Darum funktioniert `reduce` nicht mit einer leeren Liste:
+
+```fsharp
+[] |> List.reduce (fun acc x -> acc + x) // Fehler
+```
+</Warning>
+
+### `List.fold`
+
+`List.fold` ist ähnlich wie `reduce`, aber man gibt einen Startwert mit.
+
+```fsharp
+let numbers = [1; 2; 3; 4]
+let total =
+    numbers |> List.fold (fun acc x -> acc + x) 0
+```
+
+#### Unterschied zwischen `reduce` und `fold`
+
+<AccordionGroup>
+<Accordion title="Startwert">
+
+`List.reduce` nimmt das erste Listenelement als Startwert, während `List.fold` einen eigenen Startwert bekommt.
+
+```fsharp
+[1; 2; 3] |> List.reduce (fun acc x -> acc + x) // Startet mit 1
+[1; 2; 3] |> List.fold (fun acc x -> acc + x) 0 // Startet mit 0
+```
+
+Deshalb funktioniert `fold` auch mit leeren Listen im Gegensatz zu `reduce`, wo ein Fehler geworfen wird.
+
+```fsharp
+[] |> List.fold (fun acc x -> acc + x) 0
+```
+
+</Accordion>
+
+<Accordion title="Datentyp des Resultats">
+
+Nur `fold` kann z.B. aus einer `int list` einen `string` machen.
+
+```fsharp
+let numbers = [1; 2; 3]
+
+let text =
+    numbers |> List.fold (fun acc x -> acc + string x) ""
+```
+
+</Accordion>
+</AccordionGroup>
+
+### `List.foldBack`
+
+`List.foldBack` läuft von rechts nach links durch die Liste.
+
+```fsharp
+let numbers = [1; 2; 3]
+let result =
+    List.foldBack (fun x acc -> acc + string x) numbers ""
+```
+
+### Kombination mehrerer Funktionen
+
+In F# kombiniert man Listenfunktionen oft mit der Pipe `|>`.
+
+```fsharp
+// Gerade Zahlen verdoppeln und summieren
+let numbers = [1; 2; 3; 4; 5; 6]
+
+let result =
+    numbers
+    |> List.filter (fun x -> x % 2 = 0)
+    |> List.map (fun x -> x * 2)
+    |> List.sum
+    
+
+
+type Student = {
+    Name: string
+    Grade: float
+}
+
+let students = [
+    { Name = "Anna"; Grade = 5.5 }
+    { Name = "Ben"; Grade = 4.0 }
+    { Name = "Carla"; Grade = 3.5 }
+    { Name = "Daniel"; Grade = 6.0 }
+]
+
+// Alle bestandenen Schülernamen sortiert
+let passedNames =
+    students
+    |> List.filter (fun student -> student.Grade >= 4.0)
+    |> List.sortBy (fun student -> student.Name)
+    |> List.map (fun student -> student.Name)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    `xs = [2; 3]`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      `{ Name = "Anna"; Grade = 5.5 }`\
+      `{ Name = "Ben"; Grade = 4.0 }`\
+    `]`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     `{ Name = "Carla"; Grade = 3.5 }`\
+     `{ Name = "Ben"; Grade = 4.0 }`\
+     `{ Name = "Anna"; Grade = 5.5 }`\
+    `]`

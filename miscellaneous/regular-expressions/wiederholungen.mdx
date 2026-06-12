@@ -1,0 +1,33 @@
+---
+title: "Wiederholungen"
+---
+
+Mit Hilfe der geschweiften Klammern können wir angeben, wie viele Wiederholungen jedes Zeichen haben soll. Zum Beispiel wird `a{3}` das Zeichen `a` genau dreimal wiederholen. Bestimmte Suchmaschinen für reguläre Ausdrücke erlauben es dir sogar, einen Bereich für die Wiederholung anzugeben, so dass `a{1,3}` nicht mehr als 3 Mal, aber auch nicht weniger als ein Mal auf das Zeichen `a` zutrifft.
+
+Dieser Quantifizierer kann mit jedem Zeichen oder speziellen Metazeichen verwendet werden, zum Beispiel `w{3}` (drei `w`'s), `[wxy]{5}` (fünf Zeichen, von denen jedes ein `w`, `x` oder `y` sein kann) und `.{2,6}` (zwischen zwei und sechs beliebige Zeichen).
+
+```regex
+waz{3,5}up
+```
+
+## Kleene Stern und Kleene Plus
+
+Ein Konzept in regulären Ausdrücken ist die Möglichkeit, eine beliebige Anzahl von Zeichen abzugleichen. Stell dir zum Beispiel vor, du hast ein Formular mit einem Spendenfeld geschrieben, das einen numerischen Wert in Dollar annimmt. Ein wohlhabender Nutzer könnte vorbeikommen und 25'000 Dollar spenden wollen, während ein normaler Nutzer vielleicht 25 Dollar spenden möchte.
+
+Eine Möglichkeit, ein solches Muster auszudrücken, wäre die Verwendung des so genannten Kleene Sterns und des Kleene Plus, das im Wesentlichen entweder 0 oder mehr oder 1 oder mehr des Zeichens darstellt, dem es folgt (es folgt immer einem Zeichen oder einer Gruppe). Für die obigen Spenden können wir zum Beispiel das Muster `\d*` verwenden, das auf eine beliebige Anzahl von Ziffern passt, aber ein engerer regulärer Ausdruck wäre `\d+`, der sicherstellt, dass die Eingabezeichenfolge mindestens eine Ziffer enthält.
+
+Diese Quantifizierer können mit jedem Zeichen oder speziellen Metazeichen verwendet werden, zum Beispiel `a+` (ein oder mehrere `a`'s), `[abc]+` (ein oder mehrere beliebige `a`-, `b`- oder `c`-Zeichen) und `.*` (null oder mehr beliebige Zeichen).
+
+```regex
+aa+b*c+
+```
+
+## Optionale Zeichen
+
+Ein weiterer Quantifizierer, der beim Abgleichen und Extrahieren von Text sehr häufig vorkommt, ist das Metazeichen `?` (Fragezeichen), das die Optionalität kennzeichnet. Mit diesem Metazeichen kannst du entweder null oder eins der vorangehenden Zeichen oder Gruppen abgleichen. Zum Beispiel passt das Muster `ab?c` entweder auf die Zeichenfolge "`abc`" oder "`ac`", da das `b` als optional gilt.
+
+Ähnlich wie das Punkt-Metazeichen ist das Fragezeichen ein Sonderzeichen und du musst es mit einem `\?` abtrennen, um ein einfaches Fragezeichen in einer Zeichenfolge zu finden.
+
+```regex
+\d+ files? found\?
+```

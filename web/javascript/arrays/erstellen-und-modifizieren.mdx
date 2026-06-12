@@ -1,0 +1,91 @@
+---
+title: "Erstellen und Modifizieren"
+icon: "square-plus"
+---
+
+## Arrays erstellen
+
+Es gibt verschiedene Optionen, um Arrays in JavaScript zu erstellen.
+
+```javascript
+let items = [];
+let names = ['Levin', 'Jonas', 'Thierry'];
+let ranking = new Array(5);
+let numbers = Array.of(1, 2, 3);
+let selection = Array(5).fill(1);
+```
+
+Ein Arrays kann jede Art von Daten enthalten, sogar [Objekte ](/web/javascript/objekte-und-datenstrukturen/README)oder andere [Arrays](/web/javascript/arrays/README). Dabei können in einem Array **verschiedene** Datentypen erhalten sein.
+
+## Datenzugriff
+
+Wir können auf einen Wert im Array über den Index des Elementes zugreifen. Der Index ist **nullbasiert**.
+
+```javascript
+const friends = ['Michael', 'Peter', 'John', 'Trina', 'Fred'];
+
+friends[0];
+friends[2];
+friends[friends.length - 1];
+```
+
+## Länge
+
+Wir können die Länge des Arrays herausfinden, indem wir auf das Property `length` zugreifen.
+
+```javascript
+const friends = ['Michael', 'Peter', 'John', 'Trina', 'Fred'];
+
+friends.length;
+```
+
+## Arrays modifizieren
+
+### Daten direkt modifizieren
+
+Wir können über den Index den Wert eines Elementes direkt verändern.
+
+```javascript
+const friends = ['Michael', 'Peter', 'John', 'Trina', 'Fred'];
+
+friends[1] = "Paul";
+```
+
+<Info>
+Hier können wir die Konstante "modifizieren", da wir nicht den eigentlichen Wert, den Array verändern, sondern nur den Wert darin. 
+
+Anders gesagt, da ein Array ein **Referenztyp** ist, können wir die Werte darin verändern, aber nicht das Array selber.
+</Info>
+
+### `push()`
+
+Die `push()`-Methode fügt Elemente an das Ende eines Arrays an. Der Rückgabewert ist die **Länge des Arrays**. Du kannst mehr als ein Element auf einmal hinzufügen.
+
+```javascript
+const friends = ['Michael', 'Steven', 'Peter'];
+friends.push('Jay');
+```
+
+### `unshift()`
+
+Die Methode `unshift()` fügt Elemente am Anfang eines Arrays hinzu. Sie gibt auch die **Länge des Arrays** zurück. Du kannst mehr als ein Element auf einmal hinzufügen.
+
+```javascript
+friends.unshift('John');
+```
+
+### `pop()`
+
+Die Methode `pop()` entfernt das letzte Element aus einem Array. Der Rückgabewert ist das **entfernte Element**. Wenn das Array leer ist, wird `undefined` zurückgegeben und das Array wird nicht verändert.
+
+```javascript
+friends.pop();
+```
+
+### `shift()`
+
+Die Methode `shift()` entfernt das erste Element eines Arrays. Sie gibt auch das **entfernte Element** zurück. Wenn das Array leer ist, wird `undefined` zurückgegeben und das Array wird nicht verändert.
+
+```javascript
+friends.shift()
+```

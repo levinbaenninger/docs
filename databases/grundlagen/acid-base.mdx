@@ -1,0 +1,52 @@
+---
+title: "ACID - BASE"
+---
+
+Transaktionen sind ein zentraler Bestandteil von Datenbanken, um die Konsistenz und Integrität der gespeicherten Daten zu gewährleisten. Es gibt zwei grundlegende Modelle zur Transaktionsverarbeitung: das **ACID-Modell**, welches typischerweise in relationalen Datenbanken zum Einsatz kommt, und das **BASE-Modell**, das oft in NoSQL-Datenbanken verwendet wird. Beide Modelle haben unterschiedliche Schwerpunkte und sind für verschiedene Anwendungsfälle optimiert.
+
+## ACID-Modell
+
+Das ACID-Modell steht für **Atomicity (Atomarität), Consistency (Konsistenz), Isolation (Isolation) und Durability (Dauerhaftigkeit)**. Es stellt sicher, dass Transaktionen in relationalen Datenbanken zuverlässig und vorhersehbar ausgeführt werden.
+
+### Eigenschaften
+
+* **Atomicity (Atomarität):** Eine Transaktion wird entweder vollständig ausgeführt oder gar nicht. Falls ein Fehler auftritt, werden alle bereits durchgeführten Änderungen rückgängig gemacht (Rollback).
+* **Consistency (Konsistenz):** Nach jeder abgeschlossenen Transaktion befindet sich die Datenbank in einem konsistenten Zustand. Die Datenintegrität wird nicht verletzt.
+* **Isolation (Isolation):** Parallel laufende Transaktionen beeinflussen sich nicht gegenseitig, und das Ergebnis einer Transaktion ist erst sichtbar, wenn sie abgeschlossen ist.
+* **Durability (Dauerhaftigkeit):** Nach Abschluss einer Transaktion bleiben die vorgenommenen Änderungen auch bei Systemausfällen bestehen.
+
+### Vorteile
+
+* Garantiert eine hohe Datenintegrität.
+* Ideal für kritische Anwendungen wie Finanzsysteme oder Buchhaltung.
+* Bietet vorhersehbare und zuverlässige Datenoperationen.
+
+### Nachteile
+
+* Kann bei hohen Lasten zu Leistungseinbussen führen.
+* Skalierbarkeit ist durch strikte Konsistenzanforderungen begrenzt.
+
+## BASE-Modell
+
+Das BASE-Modell ist eine Alternative zu ACID und wird vor allem in verteilten, hochskalierbaren NoSQL-Datenbanken verwendet. BASE steht für **Basically Available, Soft state, Eventually consistent**.
+
+### Eigenschaften
+
+* **Basically Available (Grundsätzlich verfügbar):** Das System garantiert eine hohe Verfügbarkeit, auch wenn es temporäre Inkonsistenzen gibt.
+* **Soft State (Weicher Zustand):** Der Zustand der Datenbank kann sich im Laufe der Zeit ohne direkte Eingriffe ändern, da sie ständig synchronisiert wird.
+* **Eventually Consistent (Letztendlich konsistent):** Die Datenbank garantiert keine sofortige Konsistenz, sondern stellt sicher, dass sich alle Knoten im verteilten System nach einer gewissen Zeit angleichen.
+
+### Vorteile
+
+* Hohe Skalierbarkeit und Performance für grosse Datenmengen.
+* Geeignet für verteilte Systeme mit vielen gleichzeitigen Zugriffen.
+* Fehlertolerant und robust gegenüber Netzwerkausfällen.
+
+### Nachteile
+
+* Keine garantierte sofortige Konsistenz.
+* Komplexere Entwicklung, da Anwendungen mit temporären Inkonsistenzen umgehen müssen.
+
+***
+
+Das ACID-Modell eignet sich für Anwendungen, die strikte Konsistenz und Transaktionssicherheit benötigen, während das BASE-Modell für hochskalierbare und verteilte Systeme optimiert ist, in denen eine gewisse Inkonsistenz akzeptabel ist. Die Wahl zwischen ACID und BASE hängt daher stark von den Anforderungen der jeweiligen Anwendung ab.

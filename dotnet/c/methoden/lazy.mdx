@@ -1,0 +1,29 @@
+---
+title: "Lazy"
+icon: "clock"
+---
+
+`Lazy<T>` ist ein generischer Typ in C#, der es uns erlaubt, die Erstellung eines Wertes zu verschieben. Wir können der `Lazy<T>`-Klasse ein Delegate übergeben. Dieser Delegate wird dann ausgeführt, wenn wir das erste Mal nach dem Wert fragen. Das nächste Mal erhalten wir einfach eine Kopie des Wertes.
+
+```csharp
+Lazy<int> max = new Lazy<int>(() => 
+{
+    int[] numbers = [35, 20, 30, 40, 50];
+    
+    int max = int.MinValue;
+    foreach (var number in numbers)
+    {
+        if (number > max)
+        {
+            max = number;
+        }
+        
+        Thread.Sleep(1000);
+    }
+    
+    return max;
+});
+
+Console.WriteLine($"Value is: {max.Value}");
+Console.WriteLine($"Value is: {max.Value}");
+```

@@ -1,0 +1,44 @@
+---
+title: "Auditing"
+---
+
+Auditing ist ein zentrales Sicherheits- und Kontrollinstrument in produktiven Datenbanksystemen. Es ermöglicht die Nachverfolgung von sicherheitsrelevanten Ereignissen wie Anmeldeversuchen, Datenänderungen oder administrativen Aktionen.
+
+## Konfiguration
+
+Um Auditing zu aktivieren, muss die `mongod.conf`-Datei erweitert werden.
+
+```yaml
+auditLog:
+  destination: file
+  format: JSON
+  path: /var/log/mongodb/auditLog.json
+```
+
+### Optionen
+
+<AccordionGroup>
+<Accordion title="`destination`">
+
+Ziel der Audit-Daten (`file`, `syslog`, `console`)
+
+</Accordion>
+
+<Accordion title="`format`">
+
+Format (BSON für maschinenlesbar, JSON für lesbare Logs)
+
+</Accordion>
+
+<Accordion title="`path`">
+
+Pfad zur Log-Datei (nur bei `destination: file`)
+
+</Accordion>
+
+<Accordion title="`filter`">
+
+Optionaler Audit-Filter als JSON-Ausdruck (z. B. nur bestimmte Aktionen protokollieren)
+
+</Accordion>
+</AccordionGroup>

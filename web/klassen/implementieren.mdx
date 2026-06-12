@@ -1,0 +1,28 @@
+---
+title: "Implementieren"
+---
+
+TypeScript bietet ein `implements`-Schlüsselwort, um zu deklarieren, dass eine Klasse eine bestimmte Schnittstelle erfüllt. Auf diese Weise kann sichergestellt werden, dass eine Klasse über einen bestimmten Satz von Methoden und Eigenschaften verfügt.
+
+```typescript
+interface Animal {
+  name: string;
+  speak(message: string): void;
+}
+
+class Dog implements Animal {
+  name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  speak(message: string) {
+    console.log(message);
+  }
+}
+```
+
+<Info>
+Eine Klasse kann entweder eine Schnittstelle oder einen Typ implementieren. Wenn ich die Schnittstelle Animal in einen Typ ändere, funktioniert der Code trotzdem.
+</Info>

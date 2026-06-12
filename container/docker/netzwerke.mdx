@@ -1,0 +1,132 @@
+---
+title: "Netzwerke"
+---
+
+Docker-Netzwerke ermöglichen die Kommunikation zwischen Containern und der Aussenwelt. Sie sind essenziell, um verteilte Anwendungen bereitzustellen, Container voneinander zu isolieren oder gezielt zu verbinden.
+
+## Sinn und Zweck von Docker-Netzwerken
+
+Container sind standardmässig voneinander isoliert. Docker-Netzwerke bieten eine Möglichkeit, sie sicher miteinander kommunizieren zu lassen. Es gibt verschiedene Netzwerkmodi:
+
+* **bridge** (Standard): Container können untereinander kommunizieren, aber sind von aussen nicht direkt erreichbar.
+* **host**: Container nutzt das Netzwerk des Hosts direkt.
+* **none**: Keine Netzwerkanbindung.
+* **overlay**: Verbindet Container über mehrere Hosts hinweg (Swarm Mode erforderlich).
+* **macvlan**: Ermöglicht Containern eine direkte Verbindung mit dem physischen Netzwerk.
+
+## Docker-Netzwerke verwalten
+
+### Netzwerk erstellen
+
+Ein benutzerdefiniertes Netzwerk mit einer bestimmten Subnetzmaske und einem Gateway kann mit folgendem Befehl erstellt werden:
+
+```bash
+docker network create \
+  --subnet=192.168.1.0/24 \
+  --gateway=192.168.1.1 \
+  my-network
+```
+
+### Netzwerke anzeigen
+
+Um eine Liste aller Netzwerke anzuzeigen:
+
+```bash
+docker network ls
+```
+
+Details zu einem bestimmten Netzwerk:
+
+```bash
+docker network inspect my-network
+```
+
+### Container einem Netzwerk zuweisen
+
+Beim Start eines Containers kann dieser einem Netzwerk hinzugefügt werden:
+
+```bash
+docker run -d --name my-web-server --network my-network nginx
+```
+
+Einem bereits laufenden Container ein Netzwerk hinzufügen:
+
+```bash
+docker network connect my-network my-web-server
+```
+
+Von einem Netzwerk entfernen:
+
+```bash
+docker network disconnect my-network my-web-server
+```
+
+### Interaktion zwischen Containern
+
+Container im selben Netzwerk können sich gegenseitig per Namen erreichen. Zum Beispiel kann ein Container `webs-erver` auf einen Container `database` zugreifen mit:
+
+```bash
+ping database
+```
+
+### IP-Adressen zuweisen
+
+Docker vergibt standardmässig IP-Adressen per DHCP. Eine feste IP kann beim Start eines Containers gesetzt werden:
+
+```bash
+docker network create \
+  --subnet=192.168.1.0/24 \
+  my-network
+
+docker run -d --network my-network --ip 192.168.1.100 --name my-web-server nginx
+```
+
+## WordPress mit PostgreSQL
+
+Hier wird eine WordPress-Umgebung mit einer PostgreSQL-Datenbank in einem benutzerdefinierten Netzwerk erstellt.
+
+<Steps>
+<Step title="Erstellen des Netzwerks">
+
+```bash
+docker network create --subnet=192.168.1.0/24 wordpress-network
+```
+
+</Step>
+
+<Step title="PostgreSQL-Datenbank starten">
+
+```bash
+docker run -d \
+  --name postgres-db \
+  --network wordpress-network \
+  -e POSTGRES_USER=wordpress \
+  -e POSTGRES_PASSWORD=secret \
+  -e POSTGRES_DB=wordpress \
+  postgres
+```
+
+</Step>
+
+<Step title="Wordpress starten und mit Datenbank verbinden">
+
+```bash
+docker run -d \
+  --name wordpress \
+  --network wordpress-network \
+  -e WORDPRESS_DB_HOST=postgres-db:5432 \
+  -e WORDPRESS_DB_USER=wordpress \
+  -e WORDPRESS_DB_PASSWORD=secret \
+  -e WORDPRESS_DB_NAME=wordpress \
+  -p 8080:80 \
+  wordpress
+```
+
+</Step>
+</Steps>
+
+Jetzt ist WordPress unter `http://localhost:8080` erreichbar und verwendet PostgreSQL als Datenbank.
+
+***
+
+Docker-Netzwerke sind essenziell, um Container sicher und flexibel miteinander kommunizieren zu lassen. Durch die Verwendung benutzerdefinierter Netzwerke lassen sich IP-Bereiche, Gateway-Adressen und Container-Kommunikation gezielt steuern. Das Beispiel zeigt, wie Anwendungen ohne Docker Compose vernetzt werden können.

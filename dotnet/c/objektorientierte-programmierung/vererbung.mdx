@@ -1,0 +1,193 @@
+---
+title: "Vererbung"
+icon: "git-merge"
+---
+
+In C# ist es möglich, Felder und Methoden von einer Klasse an eine andere zu vererben. Wir unterteilen das Vererbungskonzept in zwei Kategorien:
+
+* **Abgeleitete Klasse** (Child) - die Klasse, die von einer anderen Klasse erbt
+* **Basisklasse** (Parent) - die Klasse, von der geerbt wird
+
+Um von einer Klasse zu erben, verwendest du das Symbol `:`.
+
+```csharp
+public class Vehicle
+{
+    public string Make { get; set; }
+    public string Model { get; set; }
+    public int Year { get; set; }
+
+    public void Start()
+    {
+        Console.WriteLine("Vehicle is starting...");
+    }
+
+    public void Stop()
+    {
+        Console.WriteLine("Vehicle is stopping...");
+    }
+}
+
+public class Automobile : Vehicle
+{
+    public int NumberOfWheels { get; set; } = 4;
+    public string FuelType { get; set; }
+
+    public void Honk()
+    {
+        Console.WriteLine("Automobile is honking...");
+    }
+}
+
+public class Car : Automobile
+{
+    public int NumberOfDoors { get; set; }
+
+    public void OpenTrunk()
+    {
+        Console.WriteLine("Car trunk is opening...");
+    }
+}
+
+public class Truck : Automobile
+{
+    public double LoadCapacity { get; set; } // in tons
+
+    public void LoadCargo()
+    {
+        Console.WriteLine("Truck is loading cargo...");
+    }
+}
+
+public class Van : Automobile
+{
+    public bool HasSlidingDoor { get; set; }
+
+    public void OpenSlidingDoor()
+    {
+        if (HasSlidingDoor)
+            Console.WriteLine("Van sliding door is opening...");
+        else
+            Console.WriteLine("This van has no sliding door.");
+    }
+}
+
+public class Bike : Vehicle
+{
+    public bool HasPedals { get; set; }
+    public bool IsElectric { get; set; }
+
+    public void RingBell()
+    {
+        Console.WriteLine("Bike bell is ringing...");
+    }
+}
+
+public class Plane : Vehicle
+{
+    public int NumberOfEngines { get; set; }
+    public double WingSpan { get; set; }
+
+    public void TakeOff()
+    {
+        Console.WriteLine("Plane is taking off...");
+    }
+
+    public void Land()
+    {
+        Console.WriteLine("Plane is landing...");
+    }
+}
+```
+
+## Schnittstellen
+
+Schnittstellen in C# definieren einen Vertrag mit Methoden-, Eigenschafts-, Ereignis- oder Indexerdeklarationen, ohne eine Implementierung bereitzustellen. 
+
+Klassen implementieren diesen Vertrag, was Polymorphismus ermöglicht, indem ein Typ mehrere Schnittstellen implementieren kann. Dies fördert flexibles Verhalten und lose Kopplung, da die implementierenden Klassen den Vertrag unabhängig erfüllen.
+
+```csharp
+public interface IMotorized
+{
+    bool IsEngineRunning { get; }
+    void StartEngine();
+    void StopEngine();
+}
+
+public class MotorCycle : IMotorized
+{
+    private bool _isEngineRunning;
+
+    public bool IsEngineRunning => _isEngineRunning;
+
+    public void StartEngine()
+    {
+        _isEngineRunning = true;
+        Console.WriteLine("Motorcycle engine started.");
+    }
+
+    public void StopEngine()
+    {
+        _isEngineRunning = false;
+        Console.WriteLine("Motorcycle engine stopped.");
+    }
+}
+```
+
+## Abstrakte Klassen
+
+Abstrakte Klassen in C# haben folgende Eigenschaften:
+
+* Sie können nicht instanziiert werden
+* Sie können Basis- bzw. geteilten Code definieren
+* Sie können abstrakte Methoden haben
+
+```csharp
+public abstract class Vehicle
+{
+    public string Make { get; set; }
+    public string Model { get; set; }
+
+    public Vehicle(string make, string model)
+    {
+        Make = make;
+        Model = model;
+    }
+
+    public abstract void DisplayInfo();
+}
+
+public class Car : Vehicle
+{
+    public Car(string make, string model) : base(make, model) { }
+
+    public override void DisplayInfo()
+    {
+        Console.WriteLine($"Car Make: {Make}, Model: {Model}");
+    }
+}
+```
+
+## Virtuelle Methoden
+
+Mit virtuellen Methoden geben wir der Basisklasse eine Standardimplementation. Jedoch kann die abgeleitete Klasse diese Implementation überschreiben.
+
+```csharp
+public abstract class Appliance
+{
+    public virtual void TurnOn()
+    {
+        Console.WriteLine("The appliance is now on.");
+    }
+}
+
+public class WashingMachine : Appliance
+{
+    public override void TurnOn()
+    {
+        Console.WriteLine("The washing machine is now on and ready to use.");
+    }
+}
+
+public class Refigerator : Appliance { }
+```

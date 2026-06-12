@@ -1,0 +1,59 @@
+---
+title: "Was ist Docker?"
+---
+
+Oft wird das Produkt **Docker** synonym mit [**Containerisierung**](/container/grundlagen/containerisierung) verwendet. Docker hat als Pionier viel zum Erfolg der Containerisierung beigetragen und gilt auch heute noch als De-facto-Container-Standard. Der Markt ist jedoch sehr umkämpft und es existieren mit [Buildah](https://buildah.io/) , [Containerd](https://containerd.io/) , [LXD](https://canonical.com/lxd) , [Podman](https://podman.io/) , etc. verschiedene Alternativen zu Docker.
+
+## Architektur
+
+Docker-Engine ist eine Open-Source-Containerisierungstechnologie zum Erstellen und Containerisieren von Anwendungen. Docker Engine ist als Client-Server-Anwendung aufgebaut:
+
+* Server mit einem langlaufenden Daemon-Prozess **`dockerd`**.
+* Docker-Client (`docker`) als Command Line Interface (CLI).
+* APIs, die Schnittstellen definieren, über die Programme mit dem Docker-Daemon kommunizieren und ihn anweisen können.
+
+Docker-Daemon und -Client können auf demselben oder unterschiedlichen Hosts ausgeführt werden.
+
+![Docker-Architektur](/images/content/container/image-6.png)
+
+Docker-Architektur
+
+## Begriffe
+
+<AccordionGroup>
+<Accordion title="Image">
+
+Ein Docker Image ist eine schreibgeschützte Vorlage, die die Anwendung und alle notwendigen Abhängigkeiten enthält. Es ist die Basis, um Container zu erstellen. Images werden oft in Schichten (Layers) aufgebaut, um effizienter wiederverwendet zu werden.
+
+</Accordion>
+
+<Accordion title="Container">
+
+Ein Container ist eine laufende Instanz eines Docker Images. Er enthält alles, was die Anwendung benötigt, um zu laufen, und ist isoliert vom restlichen System.
+
+</Accordion>
+
+<Accordion title="Dockerfile">
+
+Eine Textdatei, die die Befehle enthält, um ein Docker Image zu erstellen. Das Dockerfile beschreibt Schritt für Schritt, wie die Umgebung des Containers aufgebaut werden soll.
+
+</Accordion>
+
+<Accordion title="Registry">
+
+Eine Registry ist ein Speicherort für Docker Images. Die bekannteste Registry ist [Docker Hub](https://hub.docker.com/), es gibt aber auch private Registries. Aus der Registry werden Images heruntergeladen (pull) oder hochgeladen (push).
+
+</Accordion>
+
+<Accordion title="Repository">
+
+Ein **Docker Repository** ist ein Speicherort für Docker-Images. Es dient dazu, Images zu verwalten, zu versionieren und für den späteren Einsatz bereitzustellen. Repositories befinden sich in einer **Registry**, die entweder öffentlich oder privat sein kann.
+
+</Accordion>
+
+<Accordion title="Docker Engine">
+
+Dies ist die zentrale Komponente von Docker, die für das Erstellen, Ausführen und Verwalten von Containern verantwortlich ist. Sie besteht aus einem Server (Docker Daemon) und einem Client (Docker CLI).
+
+</Accordion>
+</AccordionGroup>

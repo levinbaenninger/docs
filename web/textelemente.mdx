@@ -1,0 +1,257 @@
+---
+title: "Textelemente"
+icon: "pilcrow"
+---
+
+## Absätze
+
+Absätze bzw. Paragraphen werden mit dem `<p>`-Element erstellt.
+
+```html
+<p>I am a paragraph, oh yes I am.</p>
+```
+
+## Hervorhebungen
+
+<AccordionGroup>
+<Accordion title="Dick und Kursiv">
+
+Mit den beiden Keywords `<em>` und `<strong>` kann man Text _kursiv_ bzw. **fett** machen.
+
+```html
+<p>This liquid is <strong>highly toxic</strong> — if you drink it, <strong>you may <em>die</em></strong>.</p>
+```
+
+</Accordion>
+
+<Accordion title="Markieren">
+
+Mit dem `<mark>`-Element kann man Text mit einem Leuchtstift **markieren**.
+
+```html
+<p>Do not forget to buy
+    <mark>milk</mark>
+    today.
+</p>
+```
+
+</Accordion>
+
+<Accordion title="Löschen">
+
+Mit dem `<del>`-Element kann man Text als **gelöscht** definieren. Oft wird es als durchgestrichene Linie gerendert:
+
+```html
+<p>My favorite color is
+    <del>blue</del>
+    red.
+</p>
+```
+
+</Accordion>
+
+<Accordion title="Einfügen">
+
+Mit dem `<ins>`-Element kann man Text als **eingefügt** definieren. Oft wird es als unterstrichene Linie gerendert:
+
+```html
+<p>My favorite color is
+    <del>blue</del>
+    <ins>red</ins>
+    .
+</p>
+```
+
+</Accordion>
+</AccordionGroup>
+
+## Headings
+
+Übertitel sind ein guter Weg eine gewisse Struktur in eine Webseite zu bringen. Übertitel werden mit den Elementen `<h1>`, `<h2>`, ..., `<h6>` erstellt.
+
+```html
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+```
+
+<Info>
+Headings sind wichtig, da eine Suchmaschine die Headings benutzt, um die Struktur und den Inhalt der Webseite zu analysieren.
+</Info>
+
+## Listen
+
+Es gibt drei verschiedene Arten von Listen: ungeordnete Listen, geordnete Listen und Beschreibungslisten.
+
+<Tabs>
+<Tab title="Ungeordnete Listen">
+Ungeordnete Listen werden verwendet, um Listen von Elementen zu kennzeichnen, bei denen die Reihenfolge der Elemente nicht wichtig ist.
+
+```html
+<ul>
+    <li>Apfel</li>
+    <li>Birne</li>
+    <li>Banane</li>
+</ul>
+```
+</Tab>
+
+<Tab title="Geordnete Listen">
+Geordnete Listen sind Listen, in denen die Reihenfolge der Elemente wichtig ist.
+
+```html
+<ol>
+    <li>Apfel</li>
+    <li>Birne</li>
+    <li>Banane</li>
+</ol>
+```
+</Tab>
+
+<Tab title="Untitled">
+Der Zweck von Beschreibungslisten besteht darin, eine Reihe von Elementen und deren zugehörige Beschreibungen zu kennzeichnen, z. B. Begriffe und Definitionen oder Fragen und Antworten.
+
+```html
+<dl>
+    <dt>soliloquy</dt>
+    <dd>
+        In drama, where a character speaks to themselves, representing their inner
+        thoughts or feelings and in the process relaying them to the audience (but
+        not to other characters.)
+    </dd>
+    <dt>monologue</dt>
+    <dd>
+        In drama, where a character speaks their thoughts out loud to share them
+        with the audience and any other characters present.
+    </dd>
+    <dt>aside</dt>
+    <dd>
+        In drama, where a character shares a comment only with the audience for
+        humorous or dramatic effect. This is usually a feeling, thought, or piece of
+        additional background information.
+    </dd>
+</dl>
+```
+</Tab>
+</Tabs>
+
+## Zitate
+
+Bei den Zitaten gibt es zwei verschiedene Arten: Blockzitate und Inline-Zitate.
+
+<Tabs>
+<Tab title="Blockzitate">
+```html
+<blockquote cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote">
+    The <strong>HTML <code><blockquote></code> Element</strong> (or
+    <em>HTML Block Quotation Element</em>) indicates that the enclosed text is
+    an extended quotation.
+</blockquote>
+```
+</Tab>
+
+<Tab title="Inline-Zitate">
+```html
+The quote element — <code><q></code> — is
+<q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q">
+    intended for short quotations that don't require paragraph breaks.
+</q>
+```
+</Tab>
+</Tabs>
+
+## Abkürzungen
+
+Das `<abbr>`-Element wird benutzt um Abkürzungen zu erklären.
+
+```html
+I think <abbr title="Reverend">Rev.</abbr> Green did it in the kitchen with the chainsaw.
+```
+
+Wenn man nun mit der Maus über das Wort hovert, wird einem der Inhalt vom `title`-Attribut angezeigt.
+
+## Hoch- und Tiefstellen
+
+Mit dem Element `<sup>` können wir Text hochstellen und mit dem `<sub>`-Element tiefstellen.
+
+```html
+<p>My birthday is on the 25<sup>th</sup> of May 2001.</p>
+<p>
+  Caffeine's chemical formula is
+  C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>.
+</p>
+<p>If x<sup>2</sup> is 9, x must equal 3 or -3.</p>
+```
+
+## Kontaktinformationen
+
+HTML hat ein Element zum Kennzeichnen von Kontaktinformationen — `<address>`. Dies umschliesst deine Kontaktinformationen, zum Beispiel:
+
+```html
+<address>Chris Mills, Manchester, The Grim North, UK</address>
+```
+
+Es könnte auch komplexeres Markup und andere Formen von Kontaktinformationen enthalten, zum Beispiel:
+
+```html
+<address>
+    <p>
+        Chris Mills<br />
+        Manchester<br />
+        The Grim North<br />
+        UK
+    </p>
+
+    <ul>
+        <li>Tel: 01234 567 890</li>
+        <li>Email: me@grim-north.co.uk</li>
+    </ul>
+</address>
+```
+
+## Code
+
+Es gibt eine Reihe von Elementen, die für die Kennzeichnung von Computer-Code mithilfe von HTML verfügbar sind:
+
+* `<code>`: Zum Kennzeichnen generischer Teile von Computer-Code.
+* `<pre>`: Zum Beibehalten von Leerzeichen (allgemein Code-Blöcke) — wenn du Einrückungen oder übermässige Leerzeichen innerhalb deines Textes verwendest, ignorieren Browser dies und du wirst es auf deiner gerenderten Seite nicht sehen. Wenn du den Text jedoch in `<pre>`-Tags umschliesst, werden deine Leerzeichen identisch mit der Anzeige in Ihrem Texteditor gerendert.
+* `<var>`: Zum speziellen Kennzeichnen von Variablennamen.
+* `<kbd>`: Zum Kennzeichnen von Tastatur- (und anderen Arten von) Eingaben, die in den Computer eingegeben werden.
+* `<samp>`: Zum Kennzeichnen der Ausgabe eines Computerprogramms.
+
+```javascript
+const para = document.querySelector('p');
+
+para.onclick = function() {
+  alert('Owww, stop poking me!');
+}
+```
+
+```html
+<p>
+    You shouldn't use presentational elements like <code><font></code> and
+    <code><center></code>.
+</p>
+
+<p>
+    In the above JavaScript example, <var>para</var> represents a paragraph
+    element.
+</p>
+
+<p>Select all the text with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>A</kbd>.</p>
+
+<pre>$ <kbd>ping mozilla.org</kbd>
+<samp>PING mozilla.org (63.245.215.20): 56 data bytes
+64 bytes from 63.245.215.20: icmp_seq=0 ttl=40 time=158.233 ms</samp></pre>
+```
+
+## Uhrzeiten und Daten
+
+HTML bietet auch das `<time>`-Element, um Zeiten und Daten in einem maschinenlesbaren Format zu kennzeichnen.
+
+```html
+<time datetime="2016-01-20">20 January 2016</time>
+```

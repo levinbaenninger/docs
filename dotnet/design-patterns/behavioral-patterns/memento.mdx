@@ -1,0 +1,178 @@
+---
+title: "Memento"
+---
+
+Mit dem Memento-Pattern kann man ohne die Kapselung zu verletzen, den internen Zustand eines Objekts erfassen und externalisieren, so dass das Objekt später wieder in diesen Zustand versetzt werden kann.
+
+## Klassendiagramm
+
+![Abbildung](/images/content/dotnet/class-diagram.png)
+
+## Implementierung
+
+<Tabs>
+<Tab title="Originator">
+```csharp title="Originator.cs"
+public class Originator
+{
+    private string _state = "";
+
+    public void SetState(string state)
+    {
+        _state = state;
+    }
+
+    public string GetState()
+    {
+        return _state;
+    }
+
+    public Memento CreateMemento()
+    {
+        return new(_state);
+    }
+
+    public void Restore(Memento memento)
+    {
+        _state = memento.GetState();
+    }
+}
+```
+</Tab>
+
+<Tab title="Memento">
+```csharp title="Memento.cs"
+public class Memento
+{
+    private readonly string _state;
+
+    public Memento(string state)
+    {
+        _state = state;
+    }
+
+    public string GetState()
+    {
+        return _state;
+    }
+}
+```
+</Tab>
+
+<Tab title="Caretaker">
+```csharp title="Caretaker.cs"
+public class Caretaker
+{
+    private readonly List<Memento> _mementos = [];
+
+    public void AddMemento(Memento memento)
+    {
+        _mementos.Add(memento);
+    }
+
+    public Memento GetMemento(int index)
+    {
+        return _mementos[index];
+    }
+}
+```
+</Tab>
+</Tabs>
+
+## Beispiel
+
+### Klassendiagramm
+
+![Abbildung](/images/content/dotnet/class-diagram-3.png)
+
+### Implementierung
+
+<Tabs>
+<Tab title="Originator">
+```csharp title="TextBox.cs"
+public class TextBox
+{
+    private string _text = "";
+
+    public void SetText(string text)
+    {
+        _text = text;
+    }
+
+    public string GetText()
+    {
+        return _text;
+    }
+
+    public TextState Save()
+    {
+        return new(_text);
+    }
+
+    public void Restore(TextState textState)
+    {
+        _text = textState.GetText();
+    }
+}
+```
+</Tab>
+
+<Tab title="Memento">
+```csharp title="TextState.cs"
+public class TextState
+{
+    private readonly string _text;
+
+    internal TextState(string text)
+    {
+        _text = text;
+    }
+
+    internal string GetText()
+    {
+        return _text;
+    }
+}
+```
+</Tab>
+
+<Tab title="Caretaker">
+```csharp title="TextHistory.cs"
+public class TextHistory
+{
+    private readonly Stack<TextState> _undoStack = [];
+    private readonly Stack<TextState> _redoStack = [];
+
+    public void Backup(TextState textState)
+    {
+        _undoStack.Push(textState);
+        _redoStack.Clear();
+    }
+
+    public void Undo(TextBox textBox)
+    {
+        if (_undoStack.Count < 1)
+        {
+            return;
+        }
+
+        _redoStack.Push(_undoStack.Pop());
+        textBox.Restore(_undoStack.Peek());
+    }
+
+    public void Redo(TextBox textBox)
+    {
+        if (_redoStack.Count < 1)
+        {
+            return;
+        }
+
+        var redoState = _redoStack.Pop();
+
+        _undoStack.Push(redoState);
+        textBox.Restore(redoState);
+    }
+}
+```
+</Tab>
+</Tabs>

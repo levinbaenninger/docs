@@ -1,0 +1,48 @@
+---
+title: "Erstellen"
+---
+
+Mit dem `CREATE`-Befehl können wir Datenbanken und Tabellen erstellen.
+
+## Datenbank erstellen
+
+Wir können folgende Syntax nutzen, um eine Datenbank zu erstellen.
+
+```sql
+CREATE DATABASE databasename;
+```
+
+### Beispiel
+
+In folgendem Beispiel erstellen wir eine Datenbank namens `my-db.`
+
+```sql
+CREATE DATABASE my-db;
+```
+
+## Tabelle erstellen
+
+Wir können folgende Syntax nutzen, um eine Tabelle zu erstellen.
+
+```sql
+CREATE TABLE table_name (
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+    ...
+);
+```
+
+### Beispiel
+
+In folgendem Beispiel erstellen wir eine Tabelle namens `Persons` mit verschiedenen Attributen, wie Vorname und Nachname.
+
+```sql
+CREATE TABLE Persons (
+    Id int,
+    LastName varchar(50),
+    FirstName varchar(50),
+    Address varchar(50),
+    City varchar(50)
+);
+```

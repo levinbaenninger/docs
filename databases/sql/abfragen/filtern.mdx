@@ -1,0 +1,24 @@
+---
+title: "Filtern"
+---
+
+Die `WHERE`-Klausel wir benutzt, um Datensätze zu filtern.
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+```
+
+<Info>
+Die `WHERE`-Klausel wird nicht nur bei `SELECT`-Statements, sondern auch bei `UPDATE`, `DELETE`, etc. verwendet
+</Info>
+
+## Beispiel
+
+```sql
+SELECT * FROM Customers
+WHERE Country = 'Mexico';
+```
+
+In diesem Beispiel werden alle Kunden aus Mexiko ausgewählt.

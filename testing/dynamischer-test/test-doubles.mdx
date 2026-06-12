@@ -1,0 +1,154 @@
+---
+title: "Test-Doubles"
+---
+
+Beim Unit Testing werden Abhängigkeiten des zu testenden Objekts (DOC – _Depended-On Component_) durch Test-Doubles ersetzt, damit das Testobjekt isoliert geprüft werden kann. Dadurch wird verhindert, dass fehlende, fehlerhafte oder aufwendige Komponenten das Testergebnis beeinflussen.
+
+<AccordionGroup>
+<Accordion title="Stub">
+
+Ein Stub ersetzt eine benötigte Komponente durch ein Objekt mit gleichem Interface, das vorher festgelegte Reaktionen oder Rückgabewerte liefert.
+
+* Dient als indirekter Test-Input.
+* Keine Logik, nur fest definierte Antworten.
+
+</Accordion>
+
+<Accordion title="Spy">
+
+Ein Spy ist ein Stub, der zusätzlich alle Aufrufe und Daten protokolliert, die vom Testobjekt an ihn übergeben werden.
+
+* Erfasst indirekte Outputs des Testobjekts.
+* Wird für Diagnose oder Verifikation genutzt.
+
+</Accordion>
+
+<Accordion title="Mock">
+
+Ein Mock ist ein „intelligenteres“ Stub: Er nimmt Aufrufe entgegen, wertet sie aus und reagiert abhängig von Zulässigkeit und Korrektheit der Aufrufe.
+
+* Verifiziert das Verhalten des Testobjekts (z. B. ob eine Methode korrekt aufgerufen wurde).
+* Liefert bei Bedarf ebenfalls Rückgabewerte.
+
+</Accordion>
+
+<Accordion title="Fake">
+
+Ein Fake ersetzt eine reale Komponente durch eine vereinfachte, lauffähige Implementierung.
+
+* Hat funktionale Logik, aber einfacher umgesetzt.
+* Beispiel: In-Memory-Datenbank statt echter Datenbank.
+
+</Accordion>
+
+<Accordion title="Dummy">
+
+Ein Dummy ist ein leeres Objekt oder Nullobjekt, das nur aus syntaktischen Gründen benötigt wird.
+
+* Wird nicht ausgewertet.
+* Hat keinerlei Bedeutung für das Testergebnis.
+
+</Accordion>
+</AccordionGroup>
+
+## Eigene Test-Doubles
+
+Eigene Testdoubles werden häufig als Fake oder Stub umgesetzt. Voraussetzung dafür ist meist ein Interface, das die Abhängigkeit beschreibt. Dieses Interface kann im Test durch eine eigene Implementierung ersetzt werden.
+
+<Tabs>
+<Tab title="Interface">
+```csharp
+public interface IUserService
+{
+    bool UserExists(string username);
+}
+```
+</Tab>
+
+<Tab title="Klasse">
+```csharp
+public class LoginManager
+{
+    private readonly IUserService _userService;
+
+    public LoginManager(IUserService userService)
+    {
+        _userService = userService;
+    }
+
+    public bool CanLogin(string username)
+    {
+        return _userService.UserExists(username);
+    }
+}
+```
+</Tab>
+
+<Tab title="Fake">
+```csharp
+public class FakeUserService : IUserService
+{
+    public bool UserExists(string username)
+    {
+        return username == "admin";
+    }
+}
+```
+</Tab>
+
+<Tab title="Test">
+```csharp
+[TestMethod]
+public void CanLogin_ReturnsTrue_WhenUserExists()
+{
+    // Arrange
+    var fakeService = new FakeUserService();
+    var loginManager = new LoginManager(fakeService);
+
+    // Act
+    bool result = loginManager.CanLogin("admin");
+
+    // Assert
+    Assert.IsTrue(result);
+}
+```
+</Tab>
+</Tabs>
+
+Der Vorteil eigener Testdoubles liegt darin, dass sie sehr verständlich sind und ohne zusätzliche Bibliotheken auskommen. Der Nachteil ist, dass sie bei vielen Tests viel zusätzlichen Code verursachen.
+
+## Moq-Framework
+
+Moq ist ein Mocking-Framework für .NET, mit dem Testdoubles dynamisch zur Laufzeit erstellt werden. Es wird vor allem für Mocks verwendet, also Objekte, deren Verhalten gezielt konfiguriert und überprüft werden kann.
+
+Nach der Installation des NuGet-Pakets Moq kann dasselbe Beispiel deutlich kompakter getestet werden:
+
+```csharp
+[TestMethod]
+public void CanLogin_ReturnsTrue_WhenUserExists()
+{
+    // Arrange
+    var mockUserService = new Mock<IUserService>();
+    mockUserService
+        .Setup(us => us.UserExists("admin"))
+        .Returns(true);
+
+    var loginManager = new LoginManager(mockUserService.Object);
+
+    // Act
+    bool result = loginManager.CanLogin("admin");
+
+    // Assert
+    Assert.IsTrue(result);
+}
+```
+
+Hier übernimmt Moq die Rolle des Testdoubles. Mit Setup wird festgelegt, wie sich das Objekt bei einem bestimmten Methodenaufruf verhalten soll. Über mock.Object erhält man das fertige Ersatzobjekt, das in die zu testende Klasse injiziert wird.
+
+Ein grosser Vorteil von Moq ist, dass man zusätzlich überprüfen kann, ob Methoden aufgerufen wurden:
+
+```csharp
+mockUserService.Verify(us => us.UserExists("admin"), Times.Once);
+```
+
+Damit wird sichergestellt, dass die Abhängigkeit tatsächlich verwendet wurde.

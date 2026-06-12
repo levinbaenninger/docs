@@ -1,0 +1,15 @@
+---
+title: "Start und Ende"
+---
+
+Bislang haben wir reguläre Ausdrücke geschrieben, die teilweise auf den gesamten Text passen. Manchmal ist das nicht wünschenswert. Stell dir vor, wir wollten zum Beispiel das Wort "`success`" in einer Logdatei finden. Wir wollen sicher nicht, dass dieses Muster auf eine Zeile passt, in der "`Error: unsuccessful operation`" steht! Deshalb ist es oft am besten, so spezifische reguläre Ausdrücke wie möglich zu schreiben, um sicherzustellen, dass wir beim Abgleich mit realem Text keine falsch positiven Ergebnisse erhalten.
+
+Eine Möglichkeit, unsere Muster zu verschärfen, besteht darin, ein Muster zu definieren, das sowohl den Anfang als auch das Ende der Zeile mit den speziellen Metazeichen `^` (Hut) und `$` (Dollarzeichen) beschreibt. Im obigen Beispiel können wir das Muster `^success` verwenden, um nur eine Zeile zu finden, die mit dem Wort "`success`" beginnt, aber nicht die Zeile "`Error: unsuccessful operation`". Und wenn du sowohl den Hut als auch das Dollarzeichen kombinierst, erstellst du ein Muster, das die ganze Zeile am Anfang und am Ende vollständig abdeckt.
+
+<Info>
+Beachte, dass dies etwas anderes ist als der Hut, der innerhalb eines Klammersatzes `[^...]` zum Ausschluss von Zeichen verwendet wird, was beim Lesen regulärer Ausdrücke verwirrend sein kann.
+</Info>
+
+```regex
+^Mission: successful$
+```

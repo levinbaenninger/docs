@@ -1,0 +1,24 @@
+---
+title: "Bilder"
+icon: "image"
+---
+
+Für Bilder sind vor allem die Properties `max-width` und `object-fit` wichtig. `max-width` ist nützlich, um bei grossen Bildern der Overflow zu entfernen. 
+
+```css
+img {
+  display: block;
+  max-width: 100%;
+}
+```
+
+Bei der Verwendung von `object-fit` kann das Bild auf verschiedene Weise dimensioniert werden, um in eine Box zu passen. Dabei kann `object-fit` die drei folgenden Werte annehmen:
+
+* `cover`: Verkleinert das Bild und behält die Seitenverhältnisse bei, sodass das Bild perfekt in die Box passt
+* `contain`: Bild wird so lange verkleinert, bis es klein genug ist, um in die Box zu passen
+* `fill`: Füllt die Box komplett mit dem Bild, behält jedoch nicht die Seitenverhältnisse bei.
+
+Weitere nützliche Properties für das generelle Styling von Bildern findest du im folgenden Video:
+
+[Video](https://youtu.be/345V2MU3E_w?si=fRDXPT3CREMyl-ks)
+Styling von Bildern

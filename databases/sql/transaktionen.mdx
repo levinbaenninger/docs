@@ -1,0 +1,42 @@
+---
+title: "Transaktionen"
+---
+
+Eine Transaktion fässt mehrere Arbeitsschritte zusammen und sorgt dafür, dass diese alle zusammen ausgeführt werden, oder alle zusammen nicht ausgeführt werden (Alles-oder-nichts-Prinzip).
+
+Wenn irgendeine Aufgabe fehlschlägt, fehlt die gesamte Transaktion fehl. Somit werden keine fehlerhaften Daten geschrieben.
+
+## ACID
+
+Eine Transaktion muss immer diese vier Eigenschaften erfüllen:
+
+* **Atomic:** Die komplette Transaktion muss erfolgreich sein, ansonsten werden alle Änderungen rückgängig gemacht
+* **Consistency:** Datenbank muss bei einer Transaktion in einem gültigen Zustand bleiben
+* **Isolation:** Gleichzeitige Transaktionen sind isoliert voneinander, somit können dieselben Daten nicht von verschiedenen Transaktionen bearbeitet werden
+* **Durability:** Mit Commit abgeschlossene Änderungen sind persistent
+
+## Transaktionen implementieren
+
+### Transaktion starten
+
+Um eine Transaktion zu starten, machen wir Folgendes.
+
+```sql
+START TRANSACTION
+```
+
+### COMMIT
+
+Wenn mit den Statements alles in Ordnung ist, werden alle Änderungen zusammen gespeichert. Der `COMMIT`-Command speichert alle Transaktionen in der Datenbank.
+
+```sql
+COMMIT
+```
+
+### ROLLBACK
+
+Wenn irgendwelche Fehler in den gruppierten SQL-Statements auftreten, müssen alle Änderungen rückgängig gemacht werden. Das geht mit dem `ROLLBACK`-Command:
+
+```sql
+ROLLBACK
+```

@@ -1,0 +1,216 @@
+---
+title: "Images"
+---
+
+Eigene Docker-Images ermöglichen die Erstellung massgeschneiderter Container mit individuellen Konfigurationen, Abhängigkeiten und Anwendungen. Sie basieren auf einer `Dockerfile`, die die Anweisungen zum Aufbau des Images enthält.
+
+## Kommandos
+
+<AccordionGroup>
+<Accordion title="`FROM`">
+
+`FROM` legt das Basis-Image fest, auf dem das neue Image aufbaut.
+
+```docker
+FROM node:lts-alpine
+```
+
+</Accordion>
+
+<Accordion title="`LABEL`">
+
+`LABEL` fügt Metadaten zum Image hinzu.
+
+```docker
+LABEL maintainer="Levin" version="1.0"
+```
+
+</Accordion>
+
+<Accordion title="`ENV`">
+
+`ENV` setzt Umgebungsvariablen, die innerhalb des Containers verfügbar sind.
+
+```docker
+ENV NODE_ENV=production
+```
+
+</Accordion>
+
+<Accordion title="`WORKDIR`">
+
+`WORKDIR` setzt das Arbeitsverzeichnis innerhalb des Containers.
+
+```docker
+WORKDIR /usr/src/app
+```
+
+</Accordion>
+
+<Accordion title="`COPY` und `ADD`">
+
+Beide Befehle dienen dazu, Dateien in das Image zu kopieren.
+
+* `COPY` kopiert Dateien oder Verzeichnisse aus dem Build-Kontext ins Image.
+* `ADD` kann zusätzlich Archive extrahieren und Dateien aus einer URL herunterladen.
+
+```docker
+COPY local.txt ./directory/
+ADD archiv.tar.gz ./directory/
+```
+
+<Info>
+`COPY` sollte bevorzugt werden, ausser wenn das automatische Entpacken von Archiven benötigt wird.
+</Info>
+
+</Accordion>
+
+<Accordion title="`RUN`">
+
+`RUN` führt Befehle während des Build-Prozesses aus.
+
+```docker
+RUN npm install --production --silent && mv node_modules ../
+```
+
+</Accordion>
+
+<Accordion title="`USER`">
+
+`USER` setzt den Benutzer, unter dem der Container-Prozess läuft.
+
+```docker
+USER node
+```
+
+</Accordion>
+
+<Accordion title="`VOLUME`">
+
+`VOLUME` definiert ein persistentes Verzeichnis, das änderbar bleibt, selbst wenn das Image neu erstellt wird. Es eignet sich für Datenbanken oder Logs.
+
+</Accordion>
+
+<Accordion title="`EXPOSE`">
+
+`EXPOSE` gibt an, auf welchem Port der Container läuft (nur dokumentarisch, öffnet keinen Port).
+
+```docker
+EXPOSE 3000
+```
+
+</Accordion>
+
+<Accordion title="`ENTRYPOINT` und `CMD`">
+
+Beide definieren den Standardbefehl für den Container.
+
+* `CMD` setzt einen Standardbefehl, kann aber durch Argumente beim Start überschrieben werden.
+* `ENTRYPOINT` setzt einen festen Befehl, dem zusätzliche Argumente übergeben werden können.
+
+```docker
+CMD ["echo", "Hallo Welt"]
+ENTRYPOINT ["echo"]
+```
+
+Startet man den Container mit `docker run my-image Test`, ergibt sich:
+
+* **CMD** wird überschrieben → Ausgabe: `Test`
+* **ENTRYPOINT** bleibt bestehen → Ausgabe: `echo Test`
+
+<Info>
+`ENTRYPOINT` für festgelegte Startbefehle, `CMD` für Standardwerte.
+</Info>
+
+</Accordion>
+</AccordionGroup>
+
+## Beispiel
+
+Dieses Beispiel erstellt ein einfaches Node.js-Backend mit Express.
+
+```docker
+FROM node:lts-alpine
+ENV NODE_ENV=production
+WORKDIR /usr/src/app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install --production --silent && mv node_modules ../
+COPY . .
+VOLUME /usr/src/app/data
+EXPOSE 3000
+RUN chown -R node /usr/src/app
+USER node
+CMD ["npm", "start"]
+```
+
+## Docker-Image builden
+
+```bash
+docker build -t express-server .
+```
+
+## Image auf Docker Hub veröffentlichen
+
+<Steps>
+<Step title="Login">
+
+```bash
+docker login
+```
+
+</Step>
+
+<Step title="Image umbenennen">
+
+```bash
+docker tag express-server username/express-server:latest
+```
+
+</Step>
+
+<Step title="Image hochladen">
+
+```bash
+docker push username/express-server:latest
+```
+
+</Step>
+</Steps>
+
+## Multi-Stage-Images
+
+Multi-Stage-Builds ermöglichen es, schlanke und optimierte Docker-Images zu erstellen, indem sie verschiedene Build-Stufen in einem `Dockerfile` nutzen.
+
+### **Beispiel**
+
+```docker
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+USER $APP_UID
+WORKDIR /app
+ENV ASPNETCORE_URLS=http://*:5001
+EXPOSE 5001
+
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["api/Api.csproj", "api/"]
+RUN dotnet restore "api/Api.csproj"
+COPY . .
+WORKDIR "/src/api"
+RUN dotnet build "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Api.dll"]
+```
+
+### **Vorteile**
+
+* Kleinere Images, da nur die tatsächlich benötigten Dateien ins finale Image übernommen werden.
+* Trennung von Build- und Laufzeitumgebung.
+* Vermeidung unnötiger Abhängigkeiten im finalen Image.

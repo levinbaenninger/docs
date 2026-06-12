@@ -1,0 +1,68 @@
+---
+title: "Priorisierung"
+---
+
+Der Product Owner verantwortet die Priorisierung des Product Backlogs zur Wertoptimierung des Produkts. Scrum gibt dabei keine spezifische Priorisierungsmethode vor. Es existieren verschiedene bewährte Methoden, deren Wert besonders darin liegt, dass sie hilfreiche Diskussionen anstoßen. Da unterschiedliche Methoden zu verschiedenen Ergebnissen führen können, ist es oft sinnvoll, mehrere Ansätze zu kombinieren, um verschiedene Perspektiven zu gewinnen.
+
+## Kosten-Wert
+
+![Priorisierung nach Kosten-Wert](/images/content/processes/file-excalidraw.svg)
+
+Die Priorisierung nach Kosten-Nutzen-Verhältnis erscheint zunächst logisch: Features mit dem besten Verhältnis werden zuerst entwickelt. Diese Methode funktioniert durch relative Vergleiche von Features, ohne exakte Quantifizierung. Allerdings hat dieser Ansatz zwei wesentliche Schwächen:
+
+1. Bei innovativen Produkten ist der tatsächliche Wert schwer vorhersehbar
+2. Die Entwicklungskosten sind oft weniger relevant als die Zeit bis zur Markteinführung (Time-to-Market)
+
+Stattdessen sind häufig die Verzögerungskosten (Cost of Delay) wichtiger, da die meiste Zeit nicht für die aktive Entwicklung, sondern für Wartezeiten aufgewendet wird.
+
+## Risiko-Wert
+
+![Priorisierung nach Risiko-Wert](/images/content/processes/file-excalidraw-1.svg)
+
+Die Risiko-Wert-Priorisierung berücksichtigt zwei Dimensionen:
+
+* Den Wert eines Features
+* Das Risiko (unterteilt in Realisierungs- und Marktrisiko)
+
+Die empfohlene Priorisierungsreihenfolge ist:
+
+1. Features mit hohem Wert und hohem Risiko (um frühzeitig kritische Hindernisse zu erkennen)
+2. Features mit hohem Wert und niedrigem Risiko
+3. Features mit niedrigem Wert und niedrigem Risiko
+4. Features mit niedrigem Wert und hohem Risiko (sollten vermieden werden)
+
+<Warning>
+Diese Methode dient als Diskussionsgrundlage und ist nicht starr. Es kann gute Gründe geben, von dieser Reihenfolge abzuweichen, zum Beispiel wenn:
+
+* Ein hochriskantes Feature trotz hohem Wert nicht marktentscheidend ist
+* Ein riskantes Feature mit geringem Wert Voraussetzung für wertvollere Features ist
+</Warning>
+
+## Verzögerungskosten
+
+Die Priorisierung nach Verzögerungskosten (Cost of Delay) nach Don Reinertsen bietet einen umfassenden Ansatz zur Feature-Priorisierung im Produktmanagement. Diese Methode betrachtet die monatlichen Kosten, die entstehen, wenn ein Feature nicht verfügbar ist.
+
+### Grundkonzept
+
+Ein Feature A könnte beispielsweise 1.000 Euro pro Monat an Kundeneinnahmen generieren - dies wären die Verzögerungskosten. Ein Feature B, das eine gesetzliche Anforderung erfüllt, könnte hingegen Verzögerungskosten von 2.000 Euro pro Monat durch potenzielle Abmahnungen verursachen. Auf den ersten Blick würde dies für eine Priorisierung von Feature B vor A sprechen.
+
+![Konstante Verzögerungskosten](/images/content/processes/file-excalidraw-2.svg)
+
+
+
+### Zeitliche Dimension
+
+Die Verzögerungskosten sind jedoch oft nicht konstant. Bei gesetzlichen Anforderungen gibt es typischerweise einen Stichtag. Vor diesem Datum liegen die Verzögerungskosten bei 0 Euro, danach können sie sprunghaft ansteigen. Dies führt zu einer komplexeren Entscheidungsfindung, bei der der gesamte Zeitverlauf berücksichtigt werden muss.
+
+![Verzögerungskosten mit Stichtag](/images/content/processes/file-excalidraw-3.svg)
+
+### Weighted Shortest Job First (WSJF)
+
+$$
+WSJF = \dfrac{Verzögerungskosten}{Entwicklungsdauer}
+$$
+
+Die Priorisierungsformel WSJF berücksichtigt beide Aspekte:
+
+* Die Höhe der Verzögerungskosten
+* Die noch benötigte Zeit bis zur Auslieferung

@@ -1,0 +1,101 @@
+---
+title: "Cross-Site Scripting (XSS)"
+---
+
+Cross-Site Scripting (XSS) ist eine Sicherheitslücke in Webapplikationen, bei der bösartiger JavaScript-Code in eine Webseite eingeschleust wird. Dieser Code wird anschliessend im Browser anderer Benutzer ausgeführt. XSS gehört zu den Injection-Angriffen, weil ein Angreifer eigenen Code in eine Anwendung einfügt. Der Angreifer nutzt dabei meist nicht ausreichend überprüfte Benutzereingaben.
+
+## Entstehung von XSS-Schwachstellen
+
+XSS entsteht, wenn eine Webapplikation Benutzereingaben nicht korrekt überprüft oder filtert.
+
+### Ablauf
+
+1. Ein Benutzer gibt Daten in ein Formular oder eine URL ein.
+2. Die Anwendung übernimmt diese Daten ohne Prüfung.
+3. Die Daten werden direkt auf der Webseite ausgegeben.
+4. Der Browser interpretiert den eingeschleusten Code als JavaScript und führt ihn aus.
+
+### Typische Orte
+
+- URL-Parameter
+- Formularfelder
+- Kommentare
+
+## Angriff durchführen
+
+Ein einfacher Proof-of-Concept-Angriff kann mit folgendem JavaScript erfolgen:
+
+```html
+<script>alert('XSS');</script>
+```
+
+Wenn dieser Code in einer verwundbaren Webseite eingefügt wird, erscheint im Browser ein Popup-Fenster. Dies zeigt, dass JavaScript-Code erfolgreich ausgeführt werden kann.
+
+## Auswirkungen
+
+Ein erfolgreicher XSS-Angriff kann verschiedene Folgen haben:
+
+* Diebstahl von Session-Cookies
+* Übernahme von Benutzerkonten
+* Ausspähen von Benutzereingaben
+* Manipulation von Webseiteninhalten
+* Weiterleitung auf Schadseiten
+* Durchführung von Aktionen im Namen des Benutzers
+
+Dadurch können Vertraulichkeit, Integrität und Sicherheit der Webapplikation gefährdet werden.
+
+## Arten von XSS
+
+### Reflektiertes XSS
+
+Reflektiertes XSS tritt auf, wenn Benutzereingaben vom Server direkt wieder auf der Webseite angezeigt werden, ohne sie ausreichend zu prüfen.
+
+* Schadcode wird nicht gespeichert
+* Code wird nur temporär über eine manipulierte Anfrage eingeschleust
+* Opfer wird meist über präparierte Links (z. B. per E-Mail) zum Klick gebracht
+
+#### Beispiel
+
+Eine manipulierte URL enthält schädlichen Code:
+
+```
+http://example.com/login.php?user=<script>...</script>
+```
+
+Die Webanwendung zeigt den Parameter ungeprüft an → der Browser führt den Code aus.
+
+### Persistentes XSS
+
+Beim persistenten XSS wird der Schadcode dauerhaft auf dem Server gespeichert.
+
+* Code wird z. B. in Datenbanken gespeichert
+* Jeder Besucher der Seite führt automatisch den Schadcode aus
+* Besonders gefährlich bei Webseiten mit vielen Nutzern
+
+#### Beispiel
+
+Ein Angreifer postet einen Kommentar mit schädlichem JavaScript. Der Code wird gespeichert und bei jedem Aufruf des Beitrags ausgeführt.
+
+### DOM-basiertes XSS
+
+DOM-basiertes XSS entsteht nur im Browser (Client-Seite) und nicht auf dem Server.
+
+* Der Server liefert eine eigentlich harmlose Seite
+* Der Client-seitige JavaScript-Code verarbeitet unsichere Daten
+* Die Manipulation erfolgt im DOM (Document Object Model)
+
+#### Beispiel
+
+Ein Script liest den Namen aus der URL:
+
+```
+http://example.com/index.html?name=Markus
+```
+
+Wenn der Parameter manipuliert wird:
+
+```
+http://example.com/index.html?name=<script>alert('XSS')</script>
+```
+
+wird der Code vom Browser ausgeführt.

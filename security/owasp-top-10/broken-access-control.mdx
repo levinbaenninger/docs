@@ -1,0 +1,43 @@
+---
+title: "Broken Access Control"
+---
+
+Dabei handelt es sich um fehlerhafte Zugriffskontrollen, durch die Benutzer auf Ressourcen zugreifen können, für die sie keine Berechtigung haben.
+
+## Problem
+
+Wenn eine Anwendung nicht korrekt überprüft, ob ein Benutzer berechtigt ist, können Angreifer:
+
+* geschützte Seiten aufrufen
+* Adminfunktionen nutzen
+* sensible Daten einsehen oder verändern
+
+```php
+if ($_GET['isAdmin'] == true) {
+    echo "Admin-Funktionalität zugänglich.";
+}
+```
+
+Der Zugriff wird nur über einen URL-Parameter gesteuert. Ein Angreifer kann einfach folgende Anfrage senden:
+
+```php
+GET /admin.php?isAdmin=true
+```
+
+Dadurch erhält er Admin-Zugriff ohne echte Authentifizierung.
+
+## Lösung
+
+Eine sichere Anwendung überprüft:
+
+1. Authentifizierung (Ist der Benutzer eingeloggt?)
+2. Autorisierung (Hat der Benutzer die richtigen Rechte?)
+
+```php
+session_start();
+if ($_SESSION['role'] !== 'admin') {
+    die("Zugriff verweigert.");
+}
+```
+
+Hier werden die Rechte werden serverseitig geprüft und der Zugriff erfolgt nur bei gültiger Session und Rolle.

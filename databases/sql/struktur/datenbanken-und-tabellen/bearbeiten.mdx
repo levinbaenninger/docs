@@ -1,0 +1,69 @@
+---
+title: "Bearbeiten"
+---
+
+Das `ALTER`-Statement wird benutzt, um bei einer existierenden Tabelle Attribute hinzuzufügen, zu löschen oder zu modifizieren.
+
+## Attribut hinzufügen
+
+```sql
+ALTER TABLE table_name
+ADD COLUMN column_name datatype;
+```
+
+### Beispiel
+
+Im folgenden Beispiel fügen wir der Tabelle `Customers` das Attribut `Email` hinzu.
+
+```sql
+ALTER TABLE Customers
+ADD COLUMN Email VARCHAR(50);
+```
+
+## Attribut löschen
+
+```sql
+ALTER TABLE table_name
+DROP COLUMN column_name;
+```
+
+### Beispiel
+
+Im folgenden Beispiel wird in der Tabelle `Customers` das Attribut `Username` entfernt.
+
+```sql
+ALTER TABLE Customers
+DROP COLUMN Username;
+```
+
+## Datentyp ändern
+
+```sql
+ALTER TABLE table_name
+MODIFY COLUMN column_name datatype;
+```
+
+### Beispiel
+
+In diesem Beispiel ändern wir den Datentypen von `DateOfBirth` von `DATE` auf `YEAR`.
+
+```sql
+ALTER TABLE Persons
+MODIFY COLUMN DateOfBirth YEAR;
+```
+
+## Attribut umbenennen
+
+```sql
+ALTER TABLE table_name
+CHANGE oldColumnName newColumnName dataType;
+```
+
+### Beispiel
+
+In diesem Beispiel ändern wir den Namen der Spalte `Name` auf `Surname`.
+
+```sql
+ALTER TABLE Persons
+CHANGE Name Surname VARCHAR(45);
+```

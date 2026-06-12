@@ -1,0 +1,237 @@
+---
+title: "Struktur"
+---
+
+## Startpunkt
+
+Wie auch jede andere Webseite startet Angular mit einer `index.html`-Datei.
+
+```html title="src/index.html"
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MyAngularApp</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
+```
+
+Es sieht alles ganz normal aus, ausser dieses `<app-root>`-Element. Hier beginnt die ganze Magie von Angular. Innerhalb des `<body>`-Tags dieses Dokuments fügen wir unsere [#root-komponente](/web/angular/basiskonzepte/struktur#root-komponente "mention") hinzu.
+
+## Root-Komponente
+
+Die Root-Komponente ist eine Angular-Komponente. Wir haben diese immer standardmässig.
+
+```typescript title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
+})
+export class AppComponent {
+  title = 'my-angular-app';
+}
+```
+
+Wichtig ist hier das `selector`-Property des `@Component`-Decorators. Es ist der Tag-Name, welche wir in unserer `index.html`-Datei genutzt haben. Anhand des Selektors weiss Angular, wie diese Komponente kompliert und an der Stelle in das DOM eingefügt werden muss, an der sich `<app-root></app-root>`.
+
+***
+
+Du wirst vielleicht bemerkt haben, dass diese Komponente für ihr Template auf eine andere Datei verweist.
+
+```html title="src/app/app.component.html"
+<router-outlet></router-outlet>
+```
+
+<Info>
+Damit wir das `<router-outlet>`-Tag in unserem Template nutzen können, müssen wir `RouterOutlet` im `app.component.ts` importieren und in den `imports`-Array einfügen.
+</Info>
+
+Die Hauptaufgabe unserer Root-Komponente (`AppComponent`) besteht darin, als Container für unsere Anwendung zu dienen. Im Allgemeinen verfügen fast alle Angular-Anwendungen über eine einzige Root-Komponente, innerhalb derer sich weitere Komponenten befinden, die wiederum weitere Komponenten enthalten können, sodass eine Baumstruktur aus verschachtelten Komponenten entsteht:
+
+![Komponentenbaum](/images/content/web/file-excalidraw-1.svg)
+
+Um die Struktur im obigen Diagramm zu erstellen, könnte unser Template wie folgt aussehen (vorausgesetzt, wir hätten bereits alle diese zusätzlichen Komponenten erstellt):
+
+```html title="src/app/app.component.html"
+<app-layout>
+  <app-header></app-header>
+  <app-content>
+    <app-button></app-button>
+  </app-content>
+</app-layout>
+```
+
+## Bootstrapping
+
+Wir wissen nun, dass die Root-Komponente zu unserer `index.html`-Datei hinzugefügt wurde und als grundlegender Container für den Rest der Anwendung dient. Wir können zusätzliche Komponenten innerhalb der Root-Komponente hinzufügen oder mithilfe des `<router-outlet>` innerhalb der Root-Komponente zu diesen zusätzlichen Komponenten navigieren.
+
+Aber wir sind hier noch nicht tief genug eingegangen. Wir definieren eine Root-Komponente und verwenden sie in `index.html`, aber es sind noch weitere Schritte erforderlich, damit dies tatsächlich funktioniert.
+
+```typescript title="src/main.ts"
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent, appConfig).catch((err) =>
+  console.error(err),
+);
+```
+
+Wir müssen unsere Root-Komponente „bootstrappen“, bevor wir sie verwenden können – im obigen Code geben wir unsere `AppComponent` als Root-Komponente an, zusammen mit einer `appConfig` aus einer anderen Datei.
+
+Obwohl wir vielleicht nicht genau wissen, was hier auf der Ebene des Angular-Compilers geschieht, haben wir nun ein vollständiges Bild davon, wie unsere Root-Komponente an die Seite `index.html` übergeben werden kann.
+
+1. Unsere Root-Komponente oder unser Root-Modul wird in `main.ts` gebootstrappt.
+2. Durch das Bootstrapping wird die Komponente erstellt und zum DOM hinzugefügt, sodass sie in `index.html` verwendet werden kann.
+3. Nachdem unsere Root-Komponente gebootstrappt wurde, können wir weitere Komponenten hinzufügen, um unsere Anwendung zu erstellen.
+
+## Komponente erstellen
+
+Um eine neue Komponente zu erstellen können wir entweder die [CLI](/web/angular/erste-schritte/cli#generate) nutzen oder wir können die Datei selber anlegen.
+
+```typescript title="src/app/home/home.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  template: ` <p>I am the home component</p> `,
+})
+export class HomeComponent {}
+```
+
+Wir haben unsere Komponente definiert und möchten sie nun in der Anwendung anzeigen. Eine Möglichkeit hierfür besteht darin, sie einfach zur Root-Komponente hinzuzufügen.
+
+<Tabs>
+<Tab title="Template">
+```html
+<app-home></app-home>
+<router-outlet></router-outlet>
+```
+</Tab>
+
+<Tab title="Logik">
+```typescript
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { HomeComponent } from "./home/home.component";
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet, HomeComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent {}
+```
+</Tab>
+</Tabs>
+
+<Warning>
+Wir müssen die `HomeComponent` zum `imports`-Array hinzufügen, dass die `AppComponent` weiss, dass die `HomeComponent` existiert.
+</Warning>
+
+## Routing
+
+Lass uns hier ein Problem hervorheben und den Sinn von anhand einer weiteren neuen Komponente verdeutlichen. Die erste Komponente sollte als Startseite dienen. Erstellen wir nun eine Seite, die als Einstellungsseite fungieren soll.
+
+```typescript title="src/app/settings/settings.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-settings',
+  template: ` <p>I am the settings component</p> `,
+})
+export class SettingsComponent {}
+```
+
+Um zu konfigurieren, welche Komponenten wann angezeigt werden sollen, müssen wir einige Routes definieren. Dies können wir in unserer Datei `src/app/app.routes.ts` tun. 
+
+```typescript
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./settings/settings.component').then(
+        (m) => m.SettingsComponent,
+      ),
+  },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+];
+```
+
+Dieses Array definiert, welche Komponente wir für eine bestimmte Route aktivieren möchten. Wir haben auch einen Standardpfad, der zur Startseite weiterleitet.
+
+Wenn wir nun zu [`http://localhost:4200/`](http://localhost:4200/) (aufgrund unseres Standardpfads) oder [`http://localhost:4200/home`](http://localhost:4200/home) gehen, sehen wir die `HomeComponent`, und wenn wir zu [`http://localhost:4200/settings`](http://localhost:4200/settings) gehen, sehen wir die `SettingsComponent`.
+
+## Komponentenstruktur
+
+Jetzt haben wir zwei „Seiten“- oder „geroutete“ Komponenten (später werden wir diese auch als „intelligente“ Komponenten bezeichnen): die Startseite und die Einstellungsseite. Wir ändern, welche davon angezeigt wird, basierend auf der aktuell aktiven Route.
+
+Aber wir haben nicht nur geroutete Komponenten. Wir können zusätzliche Komponenten innerhalb unserer Seiten-/Ansichtskomponenten haben, um unsere Anwendung modularer zu gestalten. Wir könnten einfach die gesamte Vorlage für unsere Startseite innerhalb der HomeComponent selbst definieren, oder wir könnten weitere Komponenten erstellen, die darin verschachtelt sind.
+
+Nehmen wir an, wir möchten eine `WelcomeComponent`, die auf der Startseite einfach die Meldung „Hi, Levin!“ anzeigt.
+
+<Tabs>
+<Tab title="Willkommensnachricht">
+```typescript title="src/app/home/ui/welcome.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  template: ` <p>Hi, Levin!</p> `,
+})
+export class WelcomeComponent {}
+```
+</Tab>
+
+<Tab title="Startseite">
+```typescript title="src/app/home/home.component.ts"
+import { Component } from '@angular/core';
+import { WelcomeComponent } from './ui/welcome.component';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <app-welcome />
+    <p>I am the home component</p>
+  `,
+  imports: [WelcomeComponent],
+})
+export class HomeComponent {}
+```
+</Tab>
+</Tabs>
+
+Nun wird unsere `WelcomeComponent` innerhalb unserer `HomeComponent` angezeigt wird. Dies kann beliebig viele Ebenen tief gehen – du kannst auch eine weitere Komponente innerhalb der `WelcomeComponent` hinzufügen.
+
+Unser vollständiger Komponentenbaum sieht nun in etwa so aus:
+
+![Komponentenbaum](/images/content/web/file-excalidraw.svg)
+
+Der Grund, warum wir auf dem Bildschirm sehen, was wir sehen, ist folgender:
+
+1. Unsere Root-Komponente hat einen `<router-outlet>` in ihrem Template.
+2. Wir haben eine Route eingerichtet, um die `HomeComponent` im `<router-outlet>` anzuzeigen, wenn der Pfad `/home` (oder `/`) lautet.
+3. Wir haben unsere `WelcomeComponent` zur Vorlage unserer `HomeComponent` hinzugefügt.

@@ -1,0 +1,98 @@
+---
+title: "Dependency Injection"
+---
+
+Dependency Injection ist ein weiteres Konzept, das nicht nur für Angular gilt, sondern ein allgemeines Pattern ist. Im Zusammenhang mit Angular bedeutet dies, dass wir keine Instanzen von Klassen selbst erstellen, z. B.:
+
+```typescript
+export class AppComponent {
+  myService = new MyService();
+}
+```
+
+Angular übernimmt die Erstellung neuer Instanzen unserer Klassen und stellt sie uns über Dependency Injection zur Verfügung, was wie folgt aussieht:
+
+```typescript
+export class AppComponent {
+  private readonly myService = inject(MyService);
+}
+```
+
+Angular verwendet hier den Typ `MyService` als `InjectionToken`. Auf diese Weise weiss Angular, dass wir eine Instanz von `MyService` benötigen. Die Instanz von `MyService` wird `myService` zugewiesen, sodass wir sie verwenden können. 
+
+## Warum Dependency Injection?
+
+Warum sollte man dies in Angular tun? Warum nicht einfach selbst neue Instanzen erstellen? Einige Vorteile sind:
+
+1. Es erleichtert automatisierte Tests, da wir leicht gefälschte Versionen von Abhängigkeiten anstelle von echten bereitstellen können.
+2. Es ermöglicht uns, Instanzen unserer Objekte einfacher zu teilen. Auf diese Weise können zwei separate Komponenten dieselbe Instanz eines Dienstes gemeinsam nutzen, was bedeutet, dass sie Daten austauschen können, oder wir könnten zwei separate Instanzen des Dienstes erstellen, wenn wir dies bevorzugen.
+3. Es erleichtert die Erstellung von Instanzen erheblich, da wir nicht alle Abhängigkeiten übergeben müssen, von denen der Dienst selbst abhängt.
+
+## Tokens und Providers
+
+Wir haben bereits gesehen, wie Dependency Injection funktioniert:
+
+```typescript
+export class AppComponent {
+  private readonly myService = inject(MyService);
+}
+```
+
+Es scheint, als würden wir einfach ein Argument unserer `inject`-Funktion übergeben, den Angular für uns injizieren soll. Wenn wir ihm den Typ `MyService` zuweisen, erhalten wir eine Instanz von `MyService`.
+
+Was wir hier wirklich tun, ist die Bereitstellung eines Typ-Tokens (wir könnten auch String-Tokens verwenden, aber das ist nicht so üblich). Du denkst vielleicht, dass Angular weiss, was `MyService` ist, weil wir das am Anfang unserer Datei importieren würden:
+
+```typescript
+import { MyService } from './shared/data-access/my-service';
+
+export class AppComponent {
+  private readonly myService = inject(MyService);
+}
+```
+
+Es erscheint sinnvoll anzunehmen, dass Angular einfach `MyService` aus dieser Datei sucht und eine neue Instanz davon erstellt, aber so funktioniert es nicht ganz. Dieser Typ wird als Token verwendet, und was dieses Token darstellt, hängt davon ab, wie es bereitgestellt wird.
+
+### Tokens bereitstellen
+
+Ein Aspekt von Komponenten, den wir noch nicht betrachtet haben, ist das `providers`-Array, und dieser ist für die Bereitstellung von Tokens relevant. Zunächst einmal ist die manuelle Bereitstellung von Tokens bei weitem nicht so verbreitet wie die folgende Vorgehensweise:
+
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class MyService {}
+```
+
+Dadurch wird das `MyService`-Token so konfiguriert, dass es eine Instanz der `MyService`-Klasse auf der Stammebene der Anwendung darstellt. Das bedeutet, dass jeder Teil der Anwendung, der `MyService` injiziert, dieselbe einzelne Instanz davon gemeinsam nutzt. So verfahren wir in den meisten Fällen.
+
+Nehmen wir an, wir möchten, dass eine unserer Komponenten eine eigene Instanz von `MyService` hat. Dies könnten wir erreichen, indem wir das `providers`-Array in unseren Komponenten-Metadaten verwenden:
+
+```typescript
+@Component({
+  selector: 'app-my-component',
+  template: `<p>hello</p>`,
+  providers: [MyService]
+})
+export class MyComponent {}
+```
+
+Selbst wenn wir unseren `MyService` in der Root bereitstellen, überschreibt unsere Komponente dies, um eine eigene Instanz zu erstellen. Wir könnten diesen Service auch nicht in der Root bereitstellen und würden ihn nur dort verwenden können, wo wir die Providers manuell definieren:
+
+```typescript
+@Injectable()
+export class MyService {}
+```
+
+Kurz gesagt: Verwende `providedIn: 'root'`, wenn du eine einzelne Instanz des Dienstes für Ihre gesamte Anwendung freigeben möchten. Wenn Sie möchten, dass eine Komponente über eine eigene Instanz des Dienstes verfügt, übergeben Sie diese an das providers-Array dieser Komponente.
+
+### Tokens überschreiben
+
+Dies wird weitaus seltener verwendet und dient hauptsächlich dazu, Abhängigkeiten in automatisierten Tests zu simulieren, aber mit Tokens lassen sich noch weitere Dinge tun. Ein Token muss nicht unbedingt das sein, woraus sein Typ abgeleitet wurde. Beispielsweise muss `MyService` keine Instanz von `MyService` sein.
+
+Bei der Bereitstellung eines Tokens können wir überschreiben, was es tatsächlich ist:
+
+```typescript
+providers: [{ provide: MyService, useClass: CoolService }]
+```
+
+Jetzt sagen wir, dass wir das Token `MyService` bereitstellen möchten, aber wenn dieses Token verwendet wird, möchten wir stattdessen eigentlich eine Instanz von `CoolService` verwenden.

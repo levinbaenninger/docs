@@ -1,0 +1,78 @@
+---
+title: "Indizes"
+---
+
+Indizes sind essenzielle Strukturen in Datenbanken, die dazu dienen, den Zugriff auf Daten zu beschleunigen. Sie ermöglichen eine effizientere Suche und reduzieren die Zeit für Leseoperationen erheblich. Zwei der wichtigsten Indexierungsarten sind der **B-Tree-Index** und der **Hash-Index**, die unterschiedliche Vorteile und Anwendungsbereiche haben.
+
+## Bedeutung
+
+Indizes verbessern die Leistung von Datenbanken, indem sie schnelle Such- und Sortieroperationen ermöglichen. Ohne Indizes müsste die Datenbank für jede Abfrage eine vollständige Suche (Full Table Scan) durchführen, was ineffizient ist.
+
+### Vorteile
+
+* Schnellere Abfragegeschwindigkeit durch Reduzierung der Anzahl der zu durchsuchenden Datensätze.
+* Optimierung von `JOIN`-Operationen.
+* Verbesserte Skalierbarkeit grosser Datenmengen.
+
+### Nachteile
+
+* Erhöhter Speicherbedarf.
+* Zusätzlicher Verwaltungsaufwand beim Einfügen, Aktualisieren und Löschen von Daten.
+
+## B-Tree-Index
+
+Ein **B-Tree (Balanced Tree)** ist eine selbstbalancierende Baumstruktur, die Daten in einer geordneten Weise speichert und effiziente Such-, Einfüge- und Löschoperationen gewährleistet.
+
+### **Eigenschaften eines B-Trees**
+
+* Die Daten sind in aufsteigender Reihenfolge gespeichert.
+* Jeder Knoten hat mehrere Kindknoten.
+* Die Suche nach einem Wert erfolgt durch Vergleiche auf verschiedenen Ebenen des Baums.
+* Selbstbalancierend, sodass die Baumhöhe logarithmisch mit der Anzahl der Elemente wächst.
+
+![B-Tree](/images/content/databases/image-1.png)
+
+B-Tree
+
+### Vorteile
+
+* Effiziente Suche mit logarithmischer Komplexität `O(log n)`.
+* Gute Performance für Bereichsabfragen und sortierte Datenzugriffe.
+* Geeignet für grosse Datenmengen mit vielen Leseoperationen.
+
+### Nachteile
+
+* Etwas langsamer als Hash-Index bei exakten Suchen.
+* Mehr Speicher- und Verwaltungsaufwand im Vergleich zu einfachen Indexstrukturen.
+
+## Hash-Index
+
+Ein **Hash-Index** basiert auf einer Hash-Tabelle, die Schlüssel-Wert-Paare speichert und durch eine Hash-Funktion direkten Zugriff auf die gespeicherten Werte ermöglicht.
+
+### **Eigenschaften eines Hash-Index**
+
+* Jeder Schlüssel wird durch eine Hash-Funktion in eine Speicheradresse umgewandelt.
+* Die Suche erfolgt direkt über den berechneten Hash-Wert.
+* Keine geordnete Speicherung der Daten.
+
+![Hash-Index](/images/content/databases/image-4.png)
+
+Hash-Index
+
+### Vorteile
+
+* Sehr schnelle Suche mit konstanter Zeitkomplexität `O(1)` bei eindeutigen Schlüsseln.
+* Effizient für exakte Suchen (z. B. Primärschlüssel-Lookups).
+
+### Nachteile
+
+* Nicht geeignet für Bereichsabfragen oder sortierte Datenzugriffe.
+* Kann zu Kollisionen führen, die zusätzliche Speicherverwaltung erfordern.
+* Erhöhter Speicherverbrauch, insbesondere bei vielen Hash-Kollisionen.
+
+***
+
+Die Wahl zwischen B-Tree- und Hash-Index hängt stark vom Anwendungsszenario ab:
+
+* **B-Tree-Index** eignet sich gut für Bereichsabfragen, sortierte Zugriffe und große Datenmengen.
+* **Hash-Index** ist optimal für schnelle, exakte Suchabfragen auf eindeutigen Werten.

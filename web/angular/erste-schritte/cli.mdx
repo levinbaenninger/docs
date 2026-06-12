@@ -1,0 +1,102 @@
+---
+title: "CLI"
+---
+
+Die Angular CLI ist ein extrem mächtiges Tool, mit welchem wir beispielsweise neue Projekte generieren können und dieses Projekt dann starten können.
+
+## Hilfebefehl
+
+Der Hilfebefehl gibt uns sämtliche Informationen, wie Befehle, Parameter, etc. aus, die wir nuten können. So müssen wir nicht immer zur [Dokumentation](https://angular.dev/cli) greifen.
+
+```bash
+ng --help
+ng generate --help
+```
+
+## `new`
+
+Wir können mit der CLI auch eine Applikation erstellen.
+
+```bash
+ng new
+```
+
+<Info>
+Wir können dem Befehl ein Haufen Parameter übergeben
+
+```bash
+ng new my-app --defaults --style=scss --standalone --routing --inline-template --inline-style
+```
+
+Eine ganze Liste findest du mit dem [#hilfebefehl](/web/angular/erste-schritte/cli#hilfebefehl "mention") oder in der [Dokumentation](https://angular.dev/cli/new).
+</Info>
+
+## `serve`
+
+Mit dem folgenden Befehl können wir unsere Angular-Anwendung starten.
+
+```bash
+ng serve
+```
+
+## `generate`
+
+Wenn du eine Applikation entwickelst wirst du irgendwann mehr Seiten, Komponenten, Services, etc. hinzufügen müssen. Diese können wir entweder manuell erstellen oder wir können den `ng generate`-Befehl defür nutzen.
+
+Die Angular CLI kann sehr viele verschieden Dinge für uns erstellen – eine Auswahl:
+
+* Komponenten
+* Directives
+* Services
+* Resolver
+* Pipes
+* Configs
+* Environments
+* Guards
+
+```bash
+ng generate component
+```
+
+Dieser Befehl erstellt eine Komponente und fragt dich nach dem Namen. Auch hier kannst du weitere Parameter übergeben.
+
+```bash
+ng generate component home --style=none --inline-template --standalone
+```
+
+<Info>
+Wenn du etwas in einem Unterordner erstellen möchtest, dann musst du den ganzen Pfad relativ zum `app`-Ordner mitgeben.
+
+```bash
+ng generate service shared/data-access/settings
+```
+</Info>
+
+## `environments`
+
+Mit Environments können wir verschiedene Konfigurationswerte je nach Umgebung z.B. Development und Production setzen.
+
+```bash
+ng g environments
+```
+
+Dieser Befehl erstellt zwei Dateien:
+
+* `environment.ts`
+* `environment.development.ts`
+
+## `build`
+
+Wenn wir ein Production-Build unserer Applikation erstellen wollen, brauchen wir folgenden Befehl.
+
+```bash
+ng build
+```
+
+## `update`
+
+Mit dem `update`-Befehl können wir unser Angular-Applikation aktualisieren.
+
+```bash
+ng update @angular/cli @angular/core
+```

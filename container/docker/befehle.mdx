@@ -1,0 +1,118 @@
+---
+title: "Befehle"
+---
+
+Die Docker-CLI bietet uns viele Befehle an, um mit Containern, Images, etc. zu arbeiten. Hier findest du die wichtigsten.
+
+![Docker Zustandsdiagramm](/images/content/container/file-excalidraw.svg)
+
+## `docker run`
+
+Der Befehl `docker run` erstellt und startet einen neuen Container aus einem Image, wobei das Image bei Bedarf gepulled wird wird.
+
+### Optionen
+
+<table><thead><tr><th width="240">Option</th><th>Beschreibung</th></tr></thead><tbody><tr><td><code>--detach</code>, <code>-d</code></td><td>Führt den Container im Hintergrund aus. Gibt beim Start die Container-ID in der Konsole aus.</td></tr><tr><td><code>--interactive</code>, <code>-i</code></td><td>Lässt STDIN (Standard Input) geöffnet, auch wenn der Container im Hintergrund ausgeführt wird.</td></tr><tr><td><code>--name</code></td><td>Weist dem Container einen Namen zu. Standardmässig wird ein zufälliger Name zugewiesen.</td></tr><tr><td><code>--publish</code>, <code>-p</code></td><td>Veröffentlicht den Port eines Containers für den Host z.B. <code>-p 80:8080</code> mappt Container-Port <code>8080</code> zu Host-Port <code>80</code>.</td></tr><tr><td><code>--tty</code>, <code>-t</code></td><td>Ordnet eine Pseudo-TTY (Pseudo-Terminal) zu.</td></tr><tr><td><code>--rm</code></td><td>Entfernt den Container bei Programmende.</td></tr></tbody></table>
+
+### Beispiel
+
+```bash
+docker run -d --name nginx-nexus -p 8080:80 nginx
+```
+
+## `docker pull`
+
+Der Befehl `docker pull` lädt ein Image aus einer [Registry](/container/docker/was-ist-docker#registry) herunter.
+
+### Beispiel
+
+```bash
+docker pull nginx
+```
+
+## `docker stop`
+
+Der Befehl `docker stop` stoppt einen oder mehrere laufende Container.
+
+### Beispiel
+
+```bash
+docker stop nginx-nexus
+```
+
+## `docker start`
+
+Der Befehl `docker start` startet einen oder mehrere Container.
+
+### Beispiel
+
+```bash
+docker start nginx-nexus
+```
+
+## `docker rm`
+
+Der Befehl `docker rm` löscht einen oder mehrere Container.
+
+<Info>
+Der Container muss gestoppt sein.
+</Info>
+
+### Beispiel
+
+```bash
+docker rm nginx-nexus
+```
+
+## `docker rmi`
+
+Der Befehl `docker rmi` entfernt ein oder mehrere Images. 
+
+<Info>
+Es dürfen keine von diesem Image abgeleiteten Container mehr vorhanden sein, egal ob laufend oder gestoppt.
+</Info>
+
+### Beispiel
+
+```bash
+docker rmi nginx
+```
+
+## `docker ps`
+
+Der Befehl `docker ps` listet alle laufenden Container auf.
+
+### Optionen
+
+<table><thead><tr><th width="254">Option</th><th>Beschreibung</th></tr></thead><tbody><tr><td><code>--all</code>, <code>-a</code></td><td>Listet alle Container auf, auch die gestoppten.</td></tr></tbody></table>
+
+### Beispiel
+
+```bash
+docker ps
+docker ps -a
+```
+
+## `docker images`
+
+Der Befehl `docker images` listet alle Images auf.
+
+### Beispiel
+
+```bash
+docker images
+```
+
+## `docker exec`
+
+Der Befehl `docker exec` führt einen Befehl auf einem laufenden Container aus.
+
+### Optionen
+
+<table><thead><tr><th width="254">Option</th><th>Beschreibung</th></tr></thead><tbody><tr><td><code>--interactive</code>, <code>-i</code></td><td>Lässt STDIN (Standard Input) geöffnet, auch wenn der Container im Hintergrund ausgeführt wird.</td></tr><tr><td><code>--tty</code>, <code>-t</code></td><td>Ordnet eine Pseudo-TTY (Pseudo-Terminal) zu.</td></tr></tbody></table>
+
+### Beispiel
+
+```bash
+docker exec -it nginx-nexus /bin/sh
+```

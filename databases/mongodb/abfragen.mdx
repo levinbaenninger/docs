@@ -1,0 +1,333 @@
+---
+title: "Abfragen"
+---
+
+Abfragen können wir mit der `find()`-Methode machen.
+
+<Tabs>
+<Tab title="Funktion">
+```javascript
+db.inventory.find()
+```
+</Tab>
+
+<Tab title="Output">
+```json
+[
+  {
+    _id: ObjectId("632f57a67042d849480e4755"),
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A',
+    tags: [ 'blank', 'red' ]
+  },
+  {
+    _id: ObjectId("632f57a67042d849480e4756"),
+    item: 'notebook',
+    qty: 50,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'A',
+    tags: [ 'red', 'blank' ]
+  },
+  ...
+]
+```
+</Tab>
+</Tabs>
+
+## Filtern
+
+Wir können der `find()`-Methode ein Objekt mit Bedingungen mitgeben, um nach bestimmten Kriterien zu filtern.
+
+<Tabs>
+<Tab title="Funktion">
+```javascript
+db.inventory.find( { status: "D" } )
+```
+</Tab>
+
+<Tab title="Output">
+```json
+[
+  {
+    _id: ObjectId("632f57a67042d849480e4757"),
+    item: 'paper',
+    qty: 100,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'D',
+    tags: [ 'red', 'blank', 'plain' ]
+  },
+  ...
+]  
+```
+</Tab>
+</Tabs>
+
+### AND-Condition
+
+Um eine AND-Condition in unsere Query hinzuzufügen, müssen wir unseren Bedingungen mit Kommas trennen.
+
+<Tabs>
+<Tab title="Funktion">
+```javascript
+db.inventory.find( { status: "A", qty: { $lt: 30 } } )
+```
+</Tab>
+
+<Tab title="Output">
+```json
+[
+  {
+    _id: ObjectId("632f57a67042d849480e4755"),
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A',
+    tags: [ 'blank', 'red' ]
+  }
+]
+```
+</Tab>
+</Tabs>
+
+### OR-Condition
+
+Um eine OR-Condition in unsere Query hinzuzufügen, müssen wir den `$or`-Operator nutzen.
+
+```javascript
+db.inventory.find( { $or: [ { status: "A" }, { qty: { $lt: 30 } } ] } )
+```
+
+### Operatoren
+
+<table><thead><tr><th width="179">Operator</th><th>Beschreibung</th></tr></thead><tbody><tr><td><code>$eq</code></td><td>Vergleicht Werte, die gleich einem angegebenen Wert sind.</td></tr><tr><td><code>$ne</code></td><td>Vergleicht Werte, die nicht gleich einem angegebenen Wert sind.</td></tr><tr><td><code>$gt</code></td><td>Vergleicht Werte, die grösser als ein angegebener Wert sind.</td></tr><tr><td><code>$gte</code></td><td>Vergleicht Werte, die grösser oder gleich einem angegebenen Wert sind.</td></tr><tr><td><code>$lt</code></td><td>Vergleicht Werte, die kleiner als ein angegebener Wert sind.</td></tr><tr><td><code>$lte</code></td><td>Vergleicht Werte, die kleiner oder gleich einem angegebenen Wert sind.</td></tr><tr><td><code>$in</code></td><td>Vergleicht Werte, die einem der in einem Array angegebenen Werte entsprechen.</td></tr><tr><td><code>$nin</code></td><td>Vergleicht Werte, die keinem der in einem Array angegebenen Werte entsprechen.</td></tr></tbody></table>
+
+### Verschachtelte Dokumente
+
+<Tabs>
+<Tab title="Funktion">
+```javascript
+db.inventory.find( { "size.uom": "in" } )
+```
+
+Der Schlüssel muss in `""` stehen.
+</Tab>
+
+<Tab title="Output">
+```json
+[
+  {
+    _id: ObjectId("632f57a67042d849480e4756"),
+    item: 'notebook',
+    qty: 50,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'A',
+    tags: [ 'red', 'blank' ]
+  },
+  ...
+]
+```
+</Tab>
+</Tabs>
+
+## Keys selektieren
+
+Mit einem zweiten Objekt in der `find()`-Funktion können wir bestimmen, welche Daten zurückgegeben werden sollen und welche nicht.
+
+<Tabs>
+<Tab title="Funktion">
+```javascript
+db.inventory.find( { status: "A" }, { item: 1, status: 1 } )
+```
+
+<Info>
+Verschachtelte Felder müssen mit `""` umschlossen sein.
+</Info>
+</Tab>
+
+<Tab title="Output">
+```json
+[
+  {
+    _id: ObjectId("632f4c977042d849480e474f"),
+    item: 'canvas',
+    status: 'A'
+  },
+  {
+    _id: ObjectId("632f4cad7042d849480e4750"),
+    item: 'journal',
+    status: 'A'
+  },
+  ...
+]
+```
+
+<Info>
+Die ID wird standardmässig immer angezeigt. Um die ID zu unterdrücken, muss man explizit angeben, dass man sie nicht möchte.
+</Info>
+</Tab>
+</Tabs>
+
+## Sortieren
+
+Um zu sortieren, nutzen wir die `sort()`-Funktion. Dabei steht `1` für **Ascending** und `-1` für **Descending**.
+
+```javascript
+db.inventory.find().sort( { "qty": 1} )
+```
+
+Natürlich kann auch auf mehreren Sortierebenen sortiert werden.
+
+```javascript
+db.inventory.find().sort( { "status": 1, "item": 1 } )
+```
+
+## Aggregation
+
+Aggregation ist eine Methode um eine grosse Anzahl verschiedenener Dokumente einer Collection zu bearbeiten und auszuwerten. Eine Aggregation durchläuft eine oder mehrere Stages (Einzeloperationen), mit welchen gefiltert, sortiert, groupiert oder modifiziert werden kann. Der häufigste Anwendungsfall ist die Berechnung von Summen, Durchschnitten, Minium, oder Maximum.
+
+### Konzept
+
+* Jede Aggregation Pipeline besteht aus mehreren **Stages**, welche die Dokumente bearbeiten. Die Stages sind ein einem Array `[..]` angeordnet
+* Jede Stage **bearbeitet** ihre Inputdokumente. Zum Beispiel kann eine Stage Filteroperationen ausführen oder Dokumente gruppieren und bestimmte Werte berechnen.
+* Die **Output** Dokumente einer Stage dienen als **Input** Dokumente für die nächste Stage. Eine Aggregation Pipeline gleicht daher einer klassischen Unix Pipeline.
+* Eine Aggregation Pipeline kann **Resultate für Gruppen** von Dokumenten zurückliefern, z.B. Anzahl, Summe, Durchschnitt, Minimum und Maximum.
+
+### Syntax
+
+```javascript
+db.<collection>.aggregate([ { <stage> }, ... ])
+```
+
+### Stages
+
+### `$match`
+
+Filtert Dokumente nach den gegebenen Kriterien.
+
+```mongodb
+$match: {
+  $or: [ 
+   { score: { $gt: 70, $lt: 90 } }, 
+   { views: { $gte: 1000 } } 
+  ] 
+}
+```
+
+### `$group`
+
+Gruppiert die Dokumente nach einem Datenfeld
+. Folgende Aggregationsfunktionen stehen zur Verfügung:
+
+* `$avg`
+* `$sum`
+* `$count`
+* `$min`
+* `$max`
+* `$first`
+* `$last`
+* ...
+
+```javascript
+$group: { 
+  _id: "$name", 
+  totalQuantity: { $sum: "$quantity" } 
+}
+```
+
+### `$sort`
+
+Sortiert die Dokumente nach dem angegebenen Feld.
+
+```javascript
+$sort : { 
+  age : -1, 
+  posts: 1 
+}
+```
+
+### `$project`
+
+Fügt neue Felder zu den Dokumenten hinzu oder unterdrückt sie:
+
+* `<field>: 1` - übernimmt das angegebene Feld
+* `<field>: 0` - unterdrückt das angegebene Feld
+* `<field>: <expression>` - fügt ein Feld hinzu oder ersetzt es
+
+```javascript
+$project : { 
+  size: 1, 
+  _id: 0, 
+  name: { $toUpper: "$_id" } 
+}
+```
+
+### `$out`
+
+Schreibt Dokumente in eine Collection.
+
+```javascript
+$out: "authors"
+```
+
+### `$unwind`
+
+Dekonstruiert ein Array-Feld und erstellt für jedes Element im Array ein separates Dokument.
+
+```javascript
+$unwind: "$copies"
+```
+
+## Beispiele
+
+Für wie viele CHF hat jeder Kunde mit dem Status A eingekauft?
+
+```javascript
+db.orders.aggregate([
+  {
+    $match: { status: "A" }
+  },
+  {
+    $group: { _id: "$cust_id", order_totals: { $sum: "$amount" } }
+  }
+])
+```
+
+***
+
+Wie viele Pizzen mit der Grösse Medium wurden von jeder Sorte bestellt?
+
+```javascript
+db.orders.aggregate([
+  {
+    $match: { size: "medium" }
+  },
+  {
+    $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
+  }
+])
+```
+
+***
+
+Für wie viele Franken wurde zwischen dem 30. Januar 2020 und dem 30. Januar  2020 pro Tag bestellt?
+
+```javascript
+db.orders.aggregate([
+  {
+    $match: {
+      "date": { $gte: new ISODate( "2020-01-30" ), $lt: new ISODate( "2022-01-30" ) }
+    }
+  },
+  {
+    $group: {
+      _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+      totalOrderValue: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+    }
+  },
+  {
+    $sort: { totalOrderValue: -1 }
+  }
+])
+```

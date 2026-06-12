@@ -1,0 +1,115 @@
+---
+title: "Indexing"
+---
+
+In Datenbanken sorgt ein Index dafür, dass Abfragen schneller durchgeführt werden können – ähnlich wie ein Inhaltsverzeichnis in einem Buch. Ohne Index müsste MongoDB alle Dokumente durchgehen (Full Collection Scan), was bei grossen Datenmengen sehr ineffizient ist.
+
+## Single Field Index
+
+Ein **Single Field Index** wird auf ein einzelnes Feld in den Dokumenten angewendet. Er ist die einfachste Form eines Indexes und wird am häufigsten verwendet.
+
+```javascript
+db.users.createIndex({ email: 1 })
+```
+
+Die `1` steht für aufsteigende Sortierung. Mit `-1` wäre es absteigend.
+
+***
+
+* Schnelle Suche nach einem bestimmten Wert (`email: "test@example.com"`)
+* Auch geeignet für Sortierungen (`sort({ email: 1 })`)
+
+## Compound Index
+
+Ein **Compound Index** (zusammengesetzter Index) deckt mehrere Felder gleichzeitig ab.
+
+```javascript
+db.orders.createIndex({ customerId: 1, orderDate: -1 })
+```
+
+<Info>
+**Wichtig:** Die Reihenfolge der Felder ist entscheidend. Ein solcher Index kann Anfragen effizient beantworten, die mit dem ersten Feld beginnen oder mit den ersten paar Feldern – aber **nicht** mit einem nachfolgenden.
+</Info>
+
+***
+
+* Optimierung komplexer Queries mit mehreren Bedingungen
+* Effiziente Sortierungen nach mehreren Feldern
+
+## Text Index
+
+Ein **Text Index** erlaubt die Volltextsuche in Zeichenfolgenfeldern. Er analysiert den Text (Tokenisierung, Normalisierung) und ermöglicht Suchanfragen mit natürlicher Sprache.
+
+```javascript
+db.articles.createIndex({ content: "text" })
+```
+
+<Warning>
+* Pro Collection darf es **nur einen Textindex** geben.
+* Textindex unterstützt keine regulären Ausdrücke oder Teilzeichenfolgen.
+</Warning>
+
+### Abfragen
+
+```javascript
+db.articles.find({ $text: { $search: "climate change" } })
+```
+
+### Sortieren nach Relevanz
+
+Bei Textsuchen berechnet MongoDB für jedes Dokument einen **Relevanz-Score** basierend darauf, wie gut es zur Suchanfrage passt. Dieser Score kann über das spezielle Feld `textScore` abgerufen werden.
+
+```javascript
+db.articles.find(
+  { $text: { $search: "climate change" } },
+  { score: { $meta: "textScore" } }
+)
+```
+
+Das ist besonders hilfreich, wenn du dem Benutzer die relevantesten Treffer zuerst anzeigen möchtest – ähnlich wie bei einer Suchmaschine.
+
+```javascript
+db.articles.find(
+  { $text: { $search: "climate change" } },
+  { score: { $meta: "textScore" } }
+).sort({ score: { $meta: "textScore" } })
+```
+
+## Hashed Index
+
+Ein **Hashed Index** speichert einen Hashwert eines Felds. Er wird vor allem für **Sharding** (Verteilung auf mehrere Server) verwendet.
+
+```javascript
+db.customers.createIndex({ customerId: "hashed" })
+```
+
+***
+
+* Gleichmässige Verteilung der Daten im Cluster
+* Eignet sich **nicht** für Bereichsanfragen (`$gt`, `$lt`), da die Hashwerte keine Reihenfolge haben
+
+## Indexe verwalten
+
+Du kannst dir alle Indexe einer Collection mit folgendem Befehl anzeigen lassen:
+
+```javascript
+db.<collection>.getIndexes()
+```
+
+Das Resultat zeigt dir eine Liste aller vorhandenen Indexe inklusive Informationen wie Feldnamen, Sortierrichtung, Typ und Name des Index.
+
+***
+
+Wenn ein Index nicht mehr benötigt wird oder die Performance negativ beeinflusst, kann er mit folgendem Befehl gelöscht werden:
+
+```javascript
+db.<collection>.dropIndex("<indexName>")
+```
+
+***
+
+Mit dem folgenden Befehl können wir alle Indexe innerhalb einer Collection löschen:
+
+```javascript
+db.<collection>.dropIndexes()
+```

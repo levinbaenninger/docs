@@ -1,0 +1,104 @@
+---
+title: "Funktionen"
+---
+
+Funktionen werden mit `let` definiert. Sie nehmen Parameter entgegen und geben ein Ergebnis zurück. In F# bestehen Funktionen aus Eingaben (Parametern) und genau einem Rückgabewert.
+
+```fsharp
+let add a b = a + b  // int -> int -> int
+let result = add 3 5 // 8
+```
+
+## Anonyme Funktionen
+
+Anonyme Funktionen (Lambda-Funktionen) haben keinen Namen und werden meist direkt dort verwendet, wo sie gebraucht werden. Sie werden mit `fun` definiert.
+
+```fsharp
+let result = (fun x -> x + 1) 5 // 6
+```
+
+Anonyme Funktionen sind besonders nützlich für kurze, einmalige Operationen.
+
+## Higher Order Functions
+
+Higher Order Functions sind Funktionen, die andere Funktionen als Parameter erhalten oder Funktionen zurückgeben. Sie sind ein zentrales Konzept der funktionalen Programmierung.
+
+```fsharp
+let applyFunction f x = f x
+let result = applyFunction (fun x -> x * 2) 4 // 8
+```
+
+Typischer Einsatz ist z. B. bei Listenoperationen wie `List.map` oder `List.filter`.
+
+```fsharp
+let numbers = [1; 2; 3]
+let doubled = List.map (fun x -> x * 2) numbers
+```
+
+## Rekursion
+
+Rekursion bedeutet, dass eine Funktion sich selbst aufruft. In F# wird sie häufig anstelle von Schleifen verwendet.
+
+Wichtig ist, dass eine Abbruchbedingung definiert wird, damit die Funktion nicht unendlich läuft.
+
+```fsharp
+let rec factorial n =
+    if n = 0 then 1
+    else n * factorial (n - 1)
+```
+
+<Info>
+Ohne `rec` kann sich eine Funktion nicht selbst aufrufen.
+</Info>
+
+## Currying
+
+In F# sind Funktionen standardmässig curried. Das bedeutet, dass eine Funktion mehrere Parameter nicht auf einmal, sondern schrittweise entgegennimmt.
+
+```fsharp
+let add a b = a + b
+
+let addFive = add 5 // int -> int
+let result = addFive 3 // 8
+```
+
+## Partielle Anwendung
+
+Einer Funktion wird nur ein Teil ihrer Parameter übergeben, wodurch eine neue Funktion entsteht, die die restlichen Parameter erwartet.
+
+```fsharp
+let multiply a b = a * b      // int -> int -> int
+
+let double = multiply 2       // int -> int
+let result = double 5         // 10
+```
+
+## Closures
+
+Closures sind Funktionen, die auf Variablen aus ihrem äusseren Kontext zugreifen können, selbst wenn dieser Kontext eigentlich schon beendet ist.
+
+```fsharp
+let addTen = createAdder 10
+let result = addTen 5 // 15
+```
+
+Hier „merkt“ sich die Funktion den Wert von `offset`.
+
+## Callback Funktionen
+
+Callback Funktionen sind Funktionen, die als Argument übergeben werden, um später aufgerufen zu werden. Sie werden häufig verwendet, um Verhalten flexibel zu gestalten.
+
+```fsharp
+let processValue x callback =
+    callback x
+
+let double x = x * 2
+
+let result = processValue 5 double // 10
+```
+
+Auch anonyme Funktionen werden oft als Callbacks verwendet:
+
+```fsharp
+let result = processValue 5 (fun x -> x + 3) // 8
+```

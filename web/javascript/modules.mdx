@@ -1,0 +1,189 @@
+---
+title: "Modules"
+icon: "package"
+---
+
+Module sind wiederverwendbare Codeteile, die Implementierungsdetails kapseln. Dabei sind Module meistens in einem File. 
+
+```javascript
+import { rand } from './math.js';
+
+const diceP1 = rand(1, 6, 2);
+const diceP2 = rand(1, 6, 2);
+const scores = { diceP1, diceP2 }
+
+export { scores };
+```
+
+## Vorteile
+
+* **Software zusammensetzen**: Module sind kleine Bausteine, die wir zusammenfügen, um komplexe Anwendungen zu erstellen
+* **Komponenten isolieren**: Module können isoliert entwickelt werden, ohne an die gesamte Codebasis denken zu müssen
+* **Code abstrahieren**: Low-Level-Code in Modulen implementieren und diese Abstraktionen in andere Module importieren
+* **Code organisieren**: Module führen auf natürliche Weise zu einer besser organisierten Codebase
+* **Code wiederverwenden**: Module ermöglichen es uns, denselben Code einfach wiederzuverwenden, auch über mehrere Projekte hinweg
+
+## ES6 Modules
+
+Bei ES6 Modulen beinhaltet eine Datei genau ein Modul.
+
+### Unterschiede: Modules vs. Scripts
+
+| Eigenschaft | ES6 Module | Script |
+| --- | --- | --- |
+| Top-Level-Variablen | Auf Modul beschränkt | Global |
+| Standardmodus | Strict Mode | "Sloppy" Mode |
+| Top-Level `this` | `undefined` | `window` |
+| Imports und Exports | Ja | Nein |
+| HTML-Linking | `<script type="module">` | `<script>` |
+| Download | Asynchron | Synchron |
+
+### Importieren und exportieren
+
+Wir können ein File einfach über ein `import`-Statement importieren.
+
+<Tabs>
+<Tab title="script.js">
+```javascript
+import './shoppingCart.js';
+console.log('Importing module');
+```
+</Tab>
+
+<Tab title="shoppingCart.js">
+```javascript
+console.log('Exporting module');
+```
+</Tab>
+
+<Tab title="Output">
+```bash
+Exporting module
+Importing module
+```
+</Tab>
+</Tabs>
+
+Wie wir sehen können, wird also einfach der Code des importieren Files ausgeführt. Dabei spielt die Reihenfolge keine Rolle, da das `import`-Statement sowieso gehoisted wird.
+
+***
+
+Weiter gibt es sogenannte Named Exports, das heisst, dass wir den Namen des zu importierenden Codes angeben müssen.
+
+<Tabs>
+<Tab title="script.js">
+```javascript
+import { addToCart, totalPrice as price, tq } from './shoppingCart.js';
+
+addToCart('bread', 5);
+addToCart('milk', 3);
+console.log(price, tq);
+```
+</Tab>
+
+<Tab title="shoppingCart.js">
+```javascript
+const shippingCost = 10;
+const cart = [];
+
+export const addToCart = (product, quantity) => {
+  cart.push({ product, quantity });
+  console.log(`${quantity} ${product}(s) added to cart`);
+};
+
+const totalPrice = 237;
+const totalQuantity = 23;
+
+export { totalPrice, totalQuantity as tq };
+```
+</Tab>
+
+<Tab title="Output">
+```bash
+5 bread(s) added to cart
+3 milk(s) added to cart
+237 23
+```
+</Tab>
+</Tabs>
+
+***
+
+Wir können auch das ganze Modul als Objekt importieren.
+
+<Tabs>
+<Tab title="script.js">
+```javascript
+import * as ShoppingCart from './shoppingCart.js';
+
+console.log(ShoppingCart.totalPrice);
+```
+</Tab>
+
+<Tab title="Output">
+```bash
+237
+```
+</Tab>
+</Tabs>
+
+***
+
+Wir können auch Default-Exports machen. Diese können wir dann beim importieren nennen, wie wir wollen. 
+
+<Tabs>
+<Tab title="script.js">
+```javascript
+import log from './shoppingCart.js';
+
+log();
+```
+</Tab>
+
+<Tab title="shoppingCart.js">
+```javascript
+export default () => {
+  console.log('Exporting module');
+}
+```
+</Tab>
+
+<Tab title="Output">
+```bash
+Exporting Module
+```
+</Tab>
+</Tabs>
+
+<Warning>
+Technisch ist es möglich Named-Exports und Default-Exports zu mischen, es ist jedoch nicht empfohlen!
+</Warning>
+
+## CommonJS
+
+CommonJS Imports und Export wurden vor allem in Node.js gebraucht und sind dadurch auch heute noch weit verbreitet.
+
+<Tabs>
+<Tab title="script.js">
+```javascript
+const { addToCart } = require(./shoppingCart.js);
+```
+</Tab>
+
+<Tab title="shoppingCart.js">
+```javascript
+exports.addToCart = () => {
+  cart.push({ product, quantity });
+  console.log(`${quantity} ${product}(s) added to cart`);
+}
+```
+</Tab>
+</Tabs>
+
+
+
+
+
+
+
+    Imports werden gehoisted.

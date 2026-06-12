@@ -1,0 +1,16 @@
+---
+title: "Records"
+icon: "album"
+---
+
+Der Utility-Typ `Record` erzeugt einen Objekttyp, dessen Schlüssel von einem bestimmten Typ sind und dessen Werte von einem anderen bestimmten Typ sind.
+
+```typescript
+type UserAges = Record<string, number>;
+
+const userAges: UserAges = {
+  Alice: 30,
+  Bob: 25,
+  Charlie: 35,
+};
+```

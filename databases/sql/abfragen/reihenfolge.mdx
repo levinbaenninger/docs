@@ -1,0 +1,23 @@
+---
+title: "Reihenfolge"
+---
+
+Das `ORDER BY`-Keyword wird benutzt, um das Resultat in aufsteigender oder absteigender Reihenfolge zu sortieren.Standardmässig sortiert das `ORDER BY`-Keyword in aufsteigender Reihenfolge.
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1, column2, ... ASC|DESC;
+```
+
+## Beispiele
+
+```sql
+SELECT * FROM Customers
+ORDER BY Country;
+```
+
+```sql
+SELECT * FROM Customers
+ORDER BY Country DESC;
+```

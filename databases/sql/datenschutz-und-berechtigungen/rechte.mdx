@@ -1,0 +1,49 @@
+---
+title: "Rechte"
+---
+
+## Zugriffsrechte vergeben
+
+Um Zugriffsrechte zu vergeben, nutzen wir das `GRANT`-Statement. Dabei ist zu beachten, dass nur der `root`-User Rechte vergeben kann.
+
+```sql
+GRANT rightlist 
+ON db.table
+TO username@hostname;
+```
+
+### Beispiele
+
+Alle Rechte vergeben für die Datenbank `nexus` und Tabelle `Employees`.
+
+```sql
+GRANT ALL 
+ON nexus.Employees
+TO hr_manager@localhost;
+```
+
+Bestimmte Zugriffsrechte verteilen.
+
+```sql
+GRANT SELECT, INSERT, DELETE
+ON nexus.Employees
+TO hr_manager@localhost;
+```
+
+## Zugriffsrechte entziehen
+
+Um Zugriffsrechte zu entziehen, nutzen wir den `REVOKE`-Befehl.
+
+```sql
+REVOKE rightlist
+ON db.table
+FROM benutzer@hostname;
+```
+
+### Beispiel
+
+```sql
+REVOKE ALL
+ON nexus.Employees
+FROM hr_manager@localhost;
+```

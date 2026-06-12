@@ -1,0 +1,42 @@
+---
+title: "Kurzschlussausdrücke"
+icon: "zap"
+---
+
+## OR-Operator
+
+Der ||-Operator hat noch ein paar spezielle Verhaltensweisen, nämlich:
+
+* Sie können jeden Datentypen benutzen
+* Sie können jeden Datentypen zurückgeben
+* Kurzschlüsse
+
+Wir können von dem ||-Operator nicht nur Booleans zurückerhalten, sondern auch alle anderen Datentypen:
+
+```javascript
+3 || 'Levin'
+```
+
+Dabei gibt es ein paar Regeln, welchen Wert wir zurückerhalten:
+
+* Wenn der erste Ausdruck truthy ist, wird uns dieser zurückgegeben und der andere Operand nicht ausgewertet
+* Ist aber der zweite Ausdruck falsy, dann wird der zweite Ausdruck ausgewertet und zurückgegeben
+
+```java
+'' || 'Jonas'
+true || 0
+undefined || null
+```
+
+## AND-Operator
+
+Der &&-Operator funktioniert genau umgekehrt, heisst:
+
+* Wenn der erste Ausdruck falsy ist, wird uns dieser zurückgegeben und der andere Operand nicht ausgewertet
+* Ist aber der zweite Ausdruck truthy, dann wird der zweite Ausdruck ausgewertet und zurückgegeben
+
+```javascript
+0 && 'Levin'
+7 && 'Levin'
+'Hello' && 23 && null && 'Levin'
+```

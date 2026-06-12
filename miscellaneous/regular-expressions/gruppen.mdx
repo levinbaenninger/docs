@@ -1,0 +1,33 @@
+---
+title: "Gruppen"
+---
+
+Mit regulären Ausdrücken können wir nicht nur Text abgleichen, sondern auch Informationen für die weitere Verarbeitung extrahieren. Dies geschieht, indem wir Gruppen von Zeichen definieren und sie mit den speziellen Klammern `(` und `)` erfassen. Jedes Teilmuster innerhalb eines Klammerpaares wird als Gruppe erfasst. In der Praxis kann dies genutzt werden, um Informationen wie Telefonnummern oder E-Mails aus allen möglichen Daten zu extrahieren.
+
+Stell dir zum Beispiel vor, du hättest ein Kommandozeilenprogramm, das alle Bilddateien in deiner Cloud auflistet. Du könntest dann ein Muster wie `^(IMG\d+.png)$` verwenden, um den vollständigen Dateinamen zu erfassen und zu extrahieren. Wenn du aber nur den Dateinamen ohne die Erweiterung erfassen möchtest, könntest du das Muster `^(IMG\d+).png$` verwenden, das nur den Teil vor dem Punkt erfasst.
+
+```regex
+(.+)\.pdf$
+```
+
+## Untergruppen
+
+Wenn du mit komplexen Daten arbeitest, kann es leicht passieren, dass du mehrere Ebenen von Informationen extrahieren musst, was zu verschachtelten Gruppen führen kann. In der Regel sind die Ergebnisse der erfassten Gruppen in der Reihenfolge, in der sie definiert sind (in der Reihenfolge der offenen Klammern).
+
+Nehmen wir das Beispiel von vorhin, in dem du die Dateinamen aller Bilddateien in einer Liste erfasst hast. Wenn jede dieser Bilddateien eine fortlaufende Bildnummer im Dateinamen hätte, könntest du sowohl den Dateinamen als auch die Bildnummer nach demselben Muster extrahieren, indem du einen Ausdruck wie `^(IMG(\d+)).png$` schreibst (mit einer verschachtelten Klammer zur Erfassung der Ziffern).
+
+Die verschachtelten Gruppen werden im Muster von links nach rechts gelesen, wobei die erste Erfassungsgruppe der Inhalt der ersten Klammergruppe ist, usw.
+
+```regex
+(\D+(\d+))
+```
+
+## Pipe
+
+Insbesondere bei der Verwendung von Gruppen kannst du das `|` (logisches ODER, auch bekannt als Pipe) verwenden, um verschiedene mögliche Zeichensätze zu kennzeichnen. 
+
+Wie bei normalen Gruppen kannst du eine beliebige Folge von Zeichen oder Metazeichen in einer Bedingung verwenden, z. B. würde `([cb]ats*|[dh]ogs?)` entweder auf Katzen oder Fledermäuse oder auf Hunde oder Schweine passen. Wenn du Muster mit vielen Bedingungen schreibst, können sie schwer zu lesen sein. Deshalb solltest du in Erwägung ziehen, sie in einzelne Muster aufzuteilen, wenn sie zu komplex werden.
+
+```regex
+I love (cats|dogs)
+```

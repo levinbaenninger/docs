@@ -1,0 +1,37 @@
+---
+title: "Fields und Properties"
+icon: "sliders-horizontal"
+---
+
+## Fields
+
+Fields sind private Felder in Klassen, die nicht nach aussen sichtbar sein sollten, dazu gehören beispielsweise interne Daten, modifizierbare Listen, etc.
+
+```csharp
+class Person
+{
+    private string _name;
+}
+
+var person = new Person();
+person._name;
+```
+
+## Properties
+
+Mit Properties können wir bestimmte Informationen nach aussen tragen.
+
+```csharp
+class Person
+{
+    public string Name { get; set; }
+}
+
+var person = new Person();
+person.Name = "John";
+Console.WriteLine(person.Name);
+```
+
+<Info>
+Der Getter bzw. Setter kann auch weggelassen werden, wenn wir z.B. wollen, dass man den Namen nur Lesen und nicht setzen kann.
+</Info>

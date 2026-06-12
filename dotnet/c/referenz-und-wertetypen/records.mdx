@@ -1,0 +1,38 @@
+---
+title: "Records"
+icon: "album"
+---
+
+Records sind gut geeignet für Situation wo wir Value Equality benötigen, z.B. für DTOs. Ein Record ist jedoch ein Referenztyp.
+
+```csharp
+public record LoginRequest(
+    string Email,
+    string Password);
+    
+LoginRequest request = new LoginRequest("l.baenninger@icloud.com", "passwort");
+```
+
+Bei einem Record müssen wir also keine Properties definieren. Sie werden automatisch aus dem Konstruktor generiert. Die Properties sind jedoch nur `init`-Only. 
+
+Ausserdem können wir mit dem Record direkt auf Value Equality prüfen, ohne die `Equality()`- und `GetHashCode()`-Methode zu überschreiben.
+
+## `with`
+
+Mit dem `with`-Keyword können wir einen neuen Record aus einem alten erstellen und darin etwas übereschreiben.
+
+```csharp
+LoginRequest updatedRequest = request with { Password = "12345678" };
+```
+
+## Deconstruction
+
+Wir können Records in seine Properties dekonstruieren.
+
+```csharp
+var (email, password) = request;
+```
+
+<Info>
+Die Records werden nach Reihenfolge dekonstruiert.
+</Info>

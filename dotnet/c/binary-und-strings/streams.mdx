@@ -1,0 +1,65 @@
+---
+title: "Streams"
+icon: "waves-horizontal"
+---
+
+Streams stellen uns eine standardisierte API bereit, um mit Binärdaten zu arbeiten. Wir haben unteranderem Zugriff auf folgende Eigenschaften:
+
+* Position
+* Länge
+* Kapazität
+
+## Schreiben
+
+Wir können mit der `Write()`-Methode in den Stream schreiben.
+
+```csharp
+var stream = new MemoryStream();
+
+byte[] data = Encoding.UTF8.GetBytes("Levin Bänninger");
+stream.Write(data, 0, data.Length);
+```
+
+## Lesen
+
+<Steps>
+<Step title="Zurück zum Start">
+
+Um den Stream von Anfang an zu lesen, müssen wir zum Start zurück.
+
+```csharp
+stream.Seek(0, SeekOrigin.Begin);
+```
+
+</Step>
+
+<Step title="Buffer erstellen">
+
+Nun können wir einen Buffer erstellen, mit der Länge des Streams.
+
+```csharp
+byte[] readBuffer = new byte[stream.Length];
+```
+
+</Step>
+
+<Step title="Daten auslesen">
+
+Jetzt können wir mit der Methode `Read()` die Daten auslesen und in den Buffer schreiben.
+
+```csharp
+stream.Read(readBuffer, 0, readBuffer.Length);
+```
+
+</Step>
+
+<Step title="Buffer auslesen">
+
+Um nun den Buffer auszulsen nutzen wir die `GetString()`-Methode.
+
+```csharp
+string name = Encoding.UTF8.GetString(readBuffer);
+```
+
+</Step>
+</Steps>

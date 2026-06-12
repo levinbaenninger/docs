@@ -1,0 +1,324 @@
+---
+title: "Selektoren"
+icon: "mouse-pointer-click"
+---
+
+<AccordionGroup>
+<Accordion title="Klassenselektoren">
+
+Der Klassenselektor beginnt mit einem Punkt (`.`). Er wählt alles im Dokument aus, auf das diese Klasse angewendet wurde.
+
+```css
+.highlight {
+  background-color: yellow;
+}
+
+h1.highlight {
+  background-color: pink;
+}
+
+.notebox {
+  border: 4px solid #666;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+.notebox.warning {
+  border-color: orange;
+  font-weight: bold;
+}
+
+.notebox.danger {
+  border-color: red;
+  font-weight: bold;
+}
+```
+
+</Accordion>
+
+<Accordion title="ID-Selektoren">
+
+Der ID-Selektor beginnt mit einem `#` anstelle eines Punktes und wird auf dieselbe Weise wie ein Klassenselektor verwendet.
+
+```css
+#about {
+  background-color: yellow;
+}
+
+h1#about {
+  color: rebeccapurple;
+}
+```
+
+</Accordion>
+
+<Accordion title="Selektorenlisten">
+
+Wenn du mehr als eine Sache hast, die dasselbe CSS verwenden, können die einzelnen Selektoren zu einer _Selektorenliste_ kombiniert werden, sodass die Regel auf alle einzelnen Selektoren angewendet wird. 
+
+```css
+h1,
+.special {
+  color: blue;
+}
+```
+
+</Accordion>
+
+<Accordion title="Universalselektor">
+
+Der universelle Selektor wird durch ein Sternchen (`*`) angezeigt. Es wählt alles im Dokument aus.
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+}
+```
+
+</Accordion>
+</AccordionGroup>
+
+## Attributselektoren
+
+### Anwesenheits- und Wertselektoren
+
+Diese Selektoren ermöglichen die Auswahl eines Elements basierend auf der blossen Anwesenheit eines Attributs (zum Beispiel `href`) oder basierend auf verschiedenen Übereinstimmungen mit dem Wert des Attributs.
+
+<table><thead><tr><th width="172.8984375">Selektor</th><th>Beispiel</th><th>Beschreibung</th></tr></thead><tbody><tr><td><code>[attr]</code></td><td><code>a[title]</code></td><td>Selektiert Elemente mit einem <em><code>attr</code></em> Attribut (dessen Name der Wert in eckigen Klammern ist).</td></tr><tr><td><code>[attr=value]</code></td><td><code>a[href="https://example.com"]</code></td><td>Selektiert Elemente mit einem <em><code>attr</code></em> Attribut, dessen Wert genau <em><code>value</code></em> ist — der String innerhalb der Anführungszeichen.</td></tr><tr><td><code>[attr~=value]</code></td><td><code>p[class~="special"]</code></td><td>Selektiert Elemente mit einem <em><code>attr</code></em> Attribut, dessen Wert genau <em><code>value</code></em> ist oder <em><code>value</code></em> in seiner (durch Leerzeichen getrennten) Liste von Werten enthält.</td></tr><tr><td><code>[attr|=value]</code></td><td><code>div[lang|="zh"]</code></td><td>Selektiert Elemente mit einem <em><code>attr</code></em> Attribut, dessen Wert genau <em><code>value</code></em> ist oder mit <em><code>value</code></em> beginnt, unmittelbar gefolgt von einem Bindestrich.</td></tr></tbody></table>
+
+### Teilstringübereinstimmende Selektoren
+
+Diese Selektoren ermöglichen eine fortgeschrittenere Übereinstimmung von Teilstrings innerhalb des Wertes Ihres Attributs.
+
+<table><thead><tr><th width="190.62890625">Selektor</th><th>Beispiel</th><th>Beschreibung</th></tr></thead><tbody><tr><td><code>[attr^=value]</code></td><td><code>li[class^="box-"]</code></td><td>Selektiert Elemente mit einem <em><code>attr</code></em> Attribut, dessen Wert mit <em><code>value</code></em> beginnt.</td></tr><tr><td><code>[attr$=value]</code></td><td><code>li[class$="-box"]</code></td><td>Selektiert Elemente mit einem <em><code>attr</code></em> Attribut, dessen Wert mit <em><code>value</code></em> endet.</td></tr><tr><td><code>[attr*=value]</code></td><td><code>li[class*="box"]</code></td><td>Selektiert Elemente mit einem <em><code>attr</code></em> Attribut, dessen Wert <em><code>value</code></em> irgendwo im String enthält.</td></tr></tbody></table>
+
+## Pseudeoklassen und -elemente
+
+### Pseudoklassen
+
+Eine Pseudoklasse ist ein Selektor, der Elemente auswählt, die sich in einem bestimmten Zustand befinden, z. B. das erste Element ihres Typs sind oder durch den Mauszeiger berührt werden.
+
+Pseudoklassen sind Schlüsselwörter, die mit einem Doppelpunkt beginnen. Zum Beispiel ist `:hover` eine Pseudoklasse.
+
+<AccordionGroup>
+<Accordion title="`:first-child`">
+
+Die Pseudoklasse `:first-child` wählt das erste Kindelement aus.
+
+```css
+article p:first-child {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+```
+
+</Accordion>
+
+<Accordion title="`:last-child`">
+
+Die Pseudoklasse `:last-child` wählt das letzte Kindelement aus.
+
+```css
+article p:last-child {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+```
+
+</Accordion>
+
+<Accordion title="`:only-child`">
+
+Die Pseudoklasse `:only-child` wählt ein Element aus, wenn es keine Geschwister hat.
+
+```css
+article p:only-child {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+```
+
+</Accordion>
+
+<Accordion title="`:hover`">
+
+Die Pseudoklasse `:hover` gilt, wenn ein Nutzer seine Maus über eine Element bewegt, bspw. ein Link oder ein Button.
+
+```css
+a:hover {
+  color: hotpink;
+}
+```
+
+</Accordion>
+
+<Accordion title="`:focus`">
+
+Die Pseudoklasse `:focus` gilt, wenn ein Nutzer das Element mit Klicken oder Tastatursteuerungen fokussiert.
+
+```css
+a:focus {
+  border: 1px solid hotpink;
+}
+```
+
+</Accordion>
+
+<Accordion title="`:active`">
+
+Die Pseudoklasse `:active` gilt, wenn ein Nutzer das Element anklickt.
+
+```css
+a:active {
+  background-color: red;
+}
+```
+
+</Accordion>
+
+<Accordion title="`:visited`">
+
+Die Pseudoklasse `:active` gilt, wenn der Link in der Browserhistorie ist.
+
+```css
+a:active {
+  background-color: red;
+}
+```
+
+</Accordion>
+</AccordionGroup>
+
+Siehe auch: [Pseudoklassen](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes)
+
+### Pseudoelemente
+
+Pseudoelemente verhalten sich auf ähnliche Weise. Sie tun jedoch so, als ob Sie ein ganz neues HTML-Element in das Markup eingefügt hätten, anstatt einer bestehenden Klassen von Elementen eine Klasse zuzuweisen.
+
+Pseudoelemente beginnen mit einem doppelten Doppelpunkt `::`. `::first-line` ist ein Beispiel für ein Pseudoelement.
+
+#### Generieren von Inhalt mit Pseudoelementen
+
+Es gibt ein paar spezielle Pseudoelemente, die zusammen mit der `content`-Eigenschaft verwendet werden, um Inhalte mit CSS in dein Dokument einzufügen.
+
+<Tabs>
+<Tab title="HTML">
+```html
+<p class="box">Content in the box in my HTML page.</p>
+```
+</Tab>
+
+<Tab title="CSS">
+```css
+.box::before {
+  content: "This should show before the other content. ";
+}
+```
+</Tab>
+</Tabs>
+
+Vor der Box wird jetzt der Text eingefügt. Mit `::after` können wir auch Content nach dem Element einfügen. Das Einfügen von Textstrings aus CSS machen wir jedoch nicht oft im Web, da dieser Text für einige Screenreader unzugänglich ist und für jemanden in der Zukunft schwer zu finden und zu bearbeiten sein könnte.
+
+***
+
+Eine sinnvolle Anwendung dieser Pseudoelemente besteht darin, ein Symbol einzufügen, zum Beispiel den kleinen Pfeil, der im folgenden Beispiel hinzugefügt wird, welcher ein visuelles Zeichen ist, das wir nicht von einem Screenreader vorlesen lassen möchten:
+
+<Tabs>
+<Tab title="HTML">
+```html
+<p class="box">Content in the box in my HTML page.</p>
+```
+</Tab>
+
+<Tab title="CSS">
+```css
+.box::after {
+  content: " ➥";
+}
+```
+</Tab>
+</Tabs>
+
+***
+
+Im nächsten Beispiel haben wir einen leeren String mit dem Pseudoelement `::before` hinzugefügt. Wir haben es auf `display: block` gesetzt, damit wir es mit einer Breite und Höhe gestalten können. Wir verwenden dann CSS, um es wie jedes Element zu stylen.
+
+<Tabs>
+<Tab title="HTML">
+```html
+<p class="box">Content in the box in my HTML page.</p>
+```
+</Tab>
+
+<Tab title="CSS">
+```css
+.box::before {
+  content: "";
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-color: rebeccapurple;
+  border: 1px solid black;
+}
+```
+</Tab>
+</Tabs>
+
+## Kombinatoren
+
+<AccordionGroup>
+<Accordion title="Descendant-Kombinator">
+
+Der **Descendant-Kombinator** — typischerweise durch ein einzelnes Leerzeichen ( ) dargestellt — kombiniert zwei Selektoren so, dass Elemente, die vom zweiten Selektor übereinstimmen, ausgewählt werden, wenn sie ein Vorfahrenelement (Eltern, Eltern des Elternteils, etc.) haben, das mit dem ersten Selektor übereinstimmt.
+
+Im Beispiel unten stimmen wir nur mit dem `<p>`-Element überein, das sich innerhalb eines Elements mit einer Klasse von `.box` befindet.
+
+```css
+.box p {
+  color: red;
+}
+```
+
+</Accordion>
+
+<Accordion title="Child-Kombinator">
+
+Der **Child-Kombinator** (`>`) wird zwischen zwei CSS-Selektoren platziert. Er stimmt nur mit den Elementen überein, die direkte Kinder von Elementen sind, die mit dem ersten Selektor übereinstimmen. Nachfahrende Elemente weiter unten in der Hierarchie stimmen nicht überein.
+
+Zum Beispiel, um nur `<p>`-Elemente auszuwählen, die direkte Kinder von `<article>`-Elementen sind:
+
+```css
+article > p {
+  ...
+}
+```
+
+</Accordion>
+
+<Accordion title="Next-Sibling-Kombinator">
+
+Der **Next-Sibling-Kombinator** (`+`) wird zwischen zwei CSS-Selektoren platziert. Er stimmt nur mit den Elementen überein, die direkt nach dem Element kommen, das mit dem ersten Selektor übereinstimmt. 
+
+Zum Beispiel, um alle `<img>`-Elemente auszuwählen, die unmittelbar von einem `<p>`-Element vorausgegangen werden:
+
+```css
+p + img {
+  ...
+}
+```
+
+</Accordion>
+
+<Accordion title="Subsequent-Sibling-Kombinator">
+
+Wenn du Geschwister eines Elements auswählen möchtest, auch wenn sie nicht direkt benachbart sind, kannst den **Subsequent-Sibling-Kombinator** (`~`) verwenden. Um alle `<img>`-Elemente auszuwählen, die _irgendwo_ nach `<p>`-Elementen kommen, würden wir dies tun:
+
+```css
+p ~ img {
+  ...
+}
+```
+
+</Accordion>
+</AccordionGroup>

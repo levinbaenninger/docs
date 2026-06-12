@@ -1,0 +1,42 @@
+---
+title: "Namespaces"
+icon: "folder-tree"
+---
+
+TypeScript unterstützt auch Namespaces zur Gruppierung von Code. Versuchen Sie jedoch, diese Funktion zu vermeiden. Sie wurde zu TypeScript hinzugefügt, bevor ECMAScript-Module standardisiert wurden.
+
+Namespaces ähneln Modulen, weisen aber einige wichtige Unterschiede auf:
+
+* Namespaces können über mehrere Dateien aufgeteilt werden.
+* Namespaces können über mehrere Deklarationen hinweg zusammengeführt werden.
+
+```typescript
+namespace MathUtils {
+  export function add(a: number, b: number): number {
+    return a + b;
+  }
+
+  export function subtract(a: number, b: number): number {
+    return a - b;
+  }
+
+  export const PI = 3.14159;
+}
+
+const sum = MathUtils.add(5, 3);
+const difference = MathUtils.subtract(10, 4);
+const area = MathUtils.PI * 5 * 5;
+```
+
+Da Module bereits eine Möglichkeit bieten, Code zu organisieren, sind Namespaces weitgehend überflüssig.
+
+***
+
+Dennoch können Namespaces in einigen Fällen nützlich sein:
+
+1. Wenn du in einer älteren Codebasis arbeitest, die keine ES-Module verwendet, oder im globalen Bereich, dann können Namespaces helfen, zusammengehörigen Code zu gruppieren und zu kapseln. Wenn du jedoch ein neues Projekt beginnst, solltest du stattdessen ES-Module verwenden.
+2. Wenn du mit einer einfachen JS-Bibliothek arbeitest und diese erweitern möchtest, können Namespaces hilfreich sein. Dies gilt insbesondere, wenn die Bibliothek bereits Namespaces verwendet.
+3. Du kannst einen Namespace verwenden, um einen Teil des Codes zu kapseln und zu gruppieren, anstatt eine separate Datei zu erstellen. Ich empfehle dieses Muster jedoch nicht.
+4. Schliesslich kann ein Namespace mit einer Klasse verschmelzen, um eine Klasse zu erweitern.
+
+Zusammenfassend lässt sich sagen, dass du Module den Namespaces vorziehen solltest. Vermeide  Namespaces, es sei denn, du hast einen guten Grund, sie zu verwenden.

@@ -1,0 +1,77 @@
+---
+title: "Callbacks und Delegates"
+icon: "phone-call"
+---
+
+Wir können Methoden an andere Methoden als Argument übergeben. Die Methode, die übergeben wurde nennt man Callback, da sie erst zu einem späteren Zeitpunkt ausgeführt wird. Wir können solche Methoden mit Delegates erstellen.
+
+## `Action` und `Func`
+
+```csharp
+Action greet = Greet;
+action();
+
+void Greet()
+{
+    Console.WriteLine("Hello");
+}
+
+Func<int, int, int> addition = Add;
+
+int Add(int a, int b)
+{
+    return a + b;
+}
+```
+
+## Callbacks
+
+Nun können wir unsere erstellten Actions bzw. Funktionen einer anderen Methode übergeben.
+
+```csharp
+void CallMethodAfterUserPressesEnter(Action callback)
+{
+    Console.WriteLine("Press enter for a surprise!");
+    Console.ReadLine();
+    callback();
+}
+
+CallMethodAfterUserPressesEnter(greet);
+
+void Calculate(Func<int, int, int> calculation)
+{
+    Console.WriteLine("Enter the first integer: ");
+    int a = int.Parse(Console.ReadLine());
+    
+    Console.WriteLine("Enter the second integer: ");
+    int b = int.Parse(Console.ReadLine());
+    
+    int result = calculation(a, b);
+    Console.WriteLine($"The result is: {result}")
+}
+
+Calculate(addition);
+```
+
+## Delegates
+
+Mit Delegates haben wir eine deutlich besser DX, da Intellisense uns beim Übergeben der Argumente hilft.
+
+```csharp
+delegate int Calculation(int firstNumber, int secondNumber);
+
+Calcuclation subtraction = Subtract;
+
+int Subtract(int a, int b)
+{
+    return a - b;
+}
+
+void Calculate(Calculation calculation)
+{
+    ...
+    
+    int result = calculation(a, b);
+    Console.WriteLine($"The result is: {result}")
+}
+```

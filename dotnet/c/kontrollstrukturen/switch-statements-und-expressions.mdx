@@ -1,0 +1,38 @@
+---
+title: "Switch-Statements und -Expressions"
+icon: "list-tree"
+---
+
+## `switch`-Statement
+
+Mit dem `switch`-Statement können wir lange `else if`-Ketten verhindern, indem wir eine kompaktere und einfach zu lesende Syntax nutzen.
+
+```csharp
+switch (expression)
+{
+    case x:
+        ..
+        break;
+    case y:
+    case z:
+        ..
+        break;
+    default:
+        ..
+        break;
+}
+```
+
+## `switch`-Expression
+
+Mit der `switch`-Expression können wir einer Variable gleich einen Wert zuteilen.
+
+```csharp
+variable = expression switch
+{
+    x => value,
+    y => value,
+    z => value,
+    _ => value
+}
+```

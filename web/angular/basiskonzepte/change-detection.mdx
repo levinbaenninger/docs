@@ -1,0 +1,214 @@
+---
+title: "Change Detection"
+---
+
+Einer der grossen Vorteile von Signals besteht darin, dass wir uns nicht mehr so genau mit der Funktionsweise der Change Detection in Angular auseinandersetzen müssen.
+
+Vor der Einführung von Signals war es sehr vorteilhaft, das System zu verstehen und deine Anwendung bis zu einem gewissen Grad zu „optimieren”, um sie besser an das Change Detection System anzupassen und die Leistung zu verbessern (oder um zu verstehen, warum sich etwas geändert hat, Sie es aber nicht auf dem Bildschirm sehen).
+
+## Was genau ist Change Detection?
+
+Um es auf den Punkt zu bringen: Angular muss verfolgen, wann sich Dinge in deiner Anwendung ändern. Nehmen wir an, wir haben ein Member in der Klasse für unsere Komponente:
+
+```typescript
+@Component({
+  selector: 'app-home',
+  template: `
+    <p>{{ name }}</p>
+    <button (click)="changeName()">Change name</button>
+  `,
+})
+export class HomeComponent {
+  name = 'Levin';
+
+  changeName() {
+    this.name = 'Kathy';
+  }
+}
+```
+
+Der Wert für `name` lautet zunächst `Levin` und wird im Template angezeigt. Wir haben jedoch einen Button, der beim Klicken die Methode `changeName` auslöst, wodurch dieser Wert `Kathy` geändert wird.
+
+Wenn du auf den Button klickst, wirst du wahrscheinlich nicht überrascht sein, dass sich der im Template angezeigte Wert ändert. Das ist genau das, was wir erreichen wollen, aber die zugrunde liegenden Mechanismen, mit denen Angular diese scheinbar einfache Aufgabe erfüllt, sind gar nicht so einfach.
+
+Wir könnten das Template auch auf andere Weise ändern – wie wäre es mit einem `setTimeout`, das die Änderung nach 2 Sekunden auslöst?
+
+```typescript
+@Component({
+  selector: 'app-home',
+  template: ` <p>{{ name }}</p> `,
+})
+export class HomeComponent implements OnInit {
+  name = 'Levin';
+
+  ngOnInit() {
+    setTimeout(() => (this.name = 'Kathy'), 2000);
+  }
+}
+```
+
+<Info>
+Wir verwenden hier einen der Lifecycle-Hooks von Angular, um beim Initialisieren der Komponente einen bestimmten Code auszuführen. Es gibt auch [andere Lifecycle-Hooks](https://angular.dev/guide/components/lifecycle) von Angular, wie `OnDestroy` und `AfterViewInit`. 
+</Info>
+
+Oder vielleicht haben wir ein `setInterval`, das den Wert jede Sekunde ändert:
+
+```typescript
+@Component({
+  selector: 'app-home',
+  template: ` <p>{{ value }}</p> `,
+})
+export class HomeComponent implements OnInit {
+  value = 1;
+
+  ngOnInit() {
+    setInterval(() => this.value++, 1000);
+  }
+}
+```
+
+Wenn du diese Beispiele ausführst, wirst du feststellen, dass der Wert in jedem Fall korrekt aktualisiert wird. Angular erkennt, wenn diese Änderungen auftreten, und aktualisiert das Template.
+
+### Wie erkennt Angular Änderungen?
+
+Wir werden nicht näher auf die genauen Mechanismen eingehen, die es Angular ermöglichen, Änderungen zu erkennen und darauf zu reagieren. Dies kann für die Leistungsoptimierung nützlich sein, aber darauf müssen wir jetzt nicht näher eingehen.
+
+Unser Hauptziel ist es, den Unterschied zwischen der `Default` Change Detection Strategie und der `OnPush` Change Detection Strategie zu verstehen. Dazu müssen wir ein wenig über die Funktionsweise der Standard Change Detection Strategie wissen.
+
+Der Schlüssel dazu liegt darin, dass Angular mithilfe von Zone.js erkennt, wann Code ausgeführt wird, der eine Änderung verursachen könnte. Zu den Szenarien, die eine Änderung des Status deiner Anwendung verursachen können, gehören:
+
+1. Initialisierung von Komponenten
+2. Ausgelöste Ereignisse (wie unser Button-Klick von zuvor)
+3. Verarbeitung der Antwort einer HTTP-Anfrage
+4. Macro Tasks wie `setTimeout()` und `setInterval()`
+5. Micro Tasks wie die Verarbeitung von Promises
+
+Es gibt jedoch auch einige andere Szenarien, die eine Änderung verursachen können. Da Angular weiss, wann etwas passiert ist, das eine Änderung verursachen könnte, kann es deine Anwendung überprüfen, um festzustellen, ob sich etwas geändert hat, und gegebenenfalls die Aktualisierung rendern.
+
+## Die `OnPush`-Strategie
+
+Sehen wir uns nun an, wie sich die `OnPush` Change Detection Strategie vom Standard unterscheidet. Wir werden alle unsere Beispiele von zuvor noch einmal durchgehen, aber dieses Mal werden wir die Komponente so aktualisieren, dass sie die `OnPush`-Änderungserkennung verwendet:
+
+<Tabs>
+<Tab title="Event">
+```typescript
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <p>{{ name }}</p>
+    <button (click)="changeName()">Change name</button>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class HomeComponent {
+  name = 'Josh';
+
+  changeName() {
+    this.name = 'Kathy';
+  }
+}
+```
+</Tab>
+
+<Tab title="Timeout">
+```typescript
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  template: ` <p>{{ name }}</p> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class HomeComponent implements OnInit {
+  name = 'Josh';
+
+  ngOnInit() {
+    setTimeout(() => (this.name = 'Kathy'), 2000);
+  }
+}
+```
+</Tab>
+
+<Tab title="Interval">
+```typescript
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  template: ` <p>{{ value }}</p> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class HomeComponent implements OnInit {
+  value = 'Josh';
+
+  ngOnInit() {
+    setInterval(() => this.value++, 1000);
+  }
+}
+```
+</Tab>
+</Tabs>
+
+Jetzt wirst du sehen, dass nur das Beispiel funktioniert, bei dem wir auf einen Klick auf einen Button reagieren, alle anderen versuchen, das Template zu aktualisieren, schlagen jedoch fehl.
+
+Der Grund dafür ist, dass die `OnPush`-Änderungserkennungsstrategie einige Regeln hinzufügt, die festlegen, was dazu führen kann, dass eine Komponente während der Änderungserkennung auf Änderungen überprüft wird. Bei der Standardstrategie muss Angular auf jede mögliche Änderung reagieren, während wir mit `OnPush` Angular sozusagen mitteilen können, dass es diese Komponente nur unter bestimmten Umständen auf Änderungen überprüfen muss. Das bedeutet, dass Angular viel weniger Überprüfungsarbeit zu erledigen hat.
+
+Die Möglichkeiten, wie eine Komponente, die die `OnPush`-Änderungserkennungsstrategie verwendet, während der Change Detection zur Überprüfung markiert werden kann, sind:
+
+<AccordionGroup>
+<Accordion title="Event">
+
+Der Event-Handler einer Komponente wird innerhalb der Komponente ausgelöst, z. B.:
+
+```html
+<button (click)="changeName()">Change name</button>
+```
+
+Wenn `(click)` oder andere Event Bindings ausgelöst werden, wird die Änderungserkennung ausgelöst. Wir haben dies bereits gesehen, da es unser einziges Beispiel ist, das noch funktioniert.
+
+</Accordion>
+
+<Accordion title="Inputs">
+
+Die Inputs einer Komponente haben sich geändert, z. B.:
+
+```html
+<some-component [someInput]="someValue"></some-component>
+```
+
+Wenn sich der Wert von `someValue` ändert, wird eine Change Detection für die Komponente und alle übergeordneten Komponenten bis zur Root-Komponente ausgelöst.
+
+<Warning>
+Damit die Änderungserkennung in diesem Szenario ausgelöst wird, muss sich die Referenz des Eingabewerts ändern. Das bedeutet, dass wir den Wert nicht einfach mutieren können, sondern dass es sich um einen völlig neuen Wert handeln muss.
+</Warning>
+
+</Accordion>
+
+<Accordion title="`async`-Pipe">
+
+Die `async`-Pipe wird im Template verwendet, und der Stream/das Promise, auf das sie angewendet wird, gibt einen Wert aus:
+
+```html
+<some-component [someInput]="someStream$ | async"></some-component>
+```
+
+<Info>
+Obwohl normalerweise die `async`-Pipe verwendet wird, um diese Komponente für die Änderungserkennung zu markieren, ist es tatsächlich die `markForCheck`-Funktion, die die `async`-Pipe im Hintergrund verwendet, die diese Aufgabe übernimmt (und auch andere Dinge ausser der `async`-Pipe könnten dieselbe Technik verwenden, um eine `OnPush`-Komponente zu markieren, die während der Änderungserkennung überprüft werden soll).
+</Info>
+
+</Accordion>
+</AccordionGroup>
+
+Wenn wir keine der drei oben genannten Bedingungen erfüllen, werden keine Änderungen für unsere Komponente gerendert. Es ist auch möglich, `ChangeDetectorRef` manuell einzufügen und die Änderungserkennung selbst auszulösen, aber dies sollte generell vermieden werden und nur als letzter Ausweg betrachtet werden.
+
+Dies ist zwar wesentlich restriktiver, erhöht jedoch die Leistung und bietet uns einen noch grösseren Vorteil.

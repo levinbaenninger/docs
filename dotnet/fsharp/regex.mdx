@@ -1,0 +1,33 @@
+---
+title: "Regex"
+---
+
+## Definition
+
+```fsharp
+open System.Text.RegularExpressions
+
+let regex = Regex("^\d{2,4}$")
+```
+
+**Mit Options**:
+
+```fsharp
+let regex = Regex("^\w{2,4}$", RegexOptions.IgnoreCase)
+```
+
+## Matching
+
+```fsharp
+let wordRegex = Regex(@"^hello$", RegexOptions.IgnoreCase)
+let isHello text =
+    wordRegex.IsMatch(text)
+    
+
+let checkEmail email =
+    let regex = Regex(@"^[\w.-]+@[\w.-]+\.(com|ch)$")
+
+    match regex.IsMatch(email) with
+    | true -> "Valid"
+    | false -> "Invalid"
+```

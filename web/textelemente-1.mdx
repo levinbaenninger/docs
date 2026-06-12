@@ -1,0 +1,203 @@
+---
+title: "Textelemente"
+icon: "text-cursor-input"
+---
+
+## Schrift
+
+### Farbe
+
+Die `color`-Eigenschaft setzt die Farbe des Vordergrundinhalts der ausgewählten Elemente, was normalerweise der Text ist, aber auch ein paar andere Dinge einschliessen kann, wie ein Unterstrich oder ein Überstrich.
+
+```css
+p {
+  color: red;
+}
+```
+
+### Schriftartfamilien
+
+Um eine andere Schriftart für deinen Text festzulegen, verwendest du die `font-family`-Eigenschaft — diese ermöglicht es, eine Schriftart (oder eine Liste von Schriftarten) zu spezifizieren, die vom Browser auf die ausgewählten Elemente angewendet wird. Der Browser wird nur eine Schriftart anwenden, wenn sie auf dem Computer verfügbar ist, von dem auf die Webseite zugegriffen wird; wenn nicht, wird eine Standardschriftart des Browsers verwendet.
+
+```css
+p {
+  font-family: Arial;
+}
+```
+
+#### Websichere Schriftarten
+
+es gibt nur eine bestimmte Anzahl von Schriftarten, die im Allgemeinen auf allen Systemen verfügbar sind und daher bedenkenlos verwendet werden können. Dies sind die sogenannten **websicheren Schriftarten**. Dazu gehören Folgende:
+
+* Arial
+* Courier New
+* Georgia
+* Times New Roman
+* Verdana
+
+#### Standardschriftarten
+
+CSS definiert fünf generische Namen für Schriftarten: `serif`, `sans-serif`, `monospace`, `cursive` und `fantasy`. Diese sind sehr allgemein und die genaue Schriftart, die aus diesen generischen Namen verwendet wird, kann je nach Browser und Betriebssystem, auf dem sie angezeigt werden, variieren.
+
+#### Font Stack
+
+Da du die Verfügbarkeit der Schriftarten, die du auf Ihren Webseiten verwenden möchtest, nicht garantieren kannst (auch eine Webschrift könnte aus irgendeinem Grund fehlschlagen), kannst du einen **Font Stack** bereitstellen, sodass der Browser mehrere Schriftarten zur Auswahl hat.
+
+```css
+p {
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+}
+```
+
+In einem solchen Fall beginnt der Browser am Anfang der Liste und prüft, ob diese Schriftart auf dem Computer verfügbar ist. Wenn ja, wird diese Schriftart auf die ausgewählten Elemente angewendet. Wenn nicht, wird zur nächsten Schriftart übergangen und so weiter.
+
+### Schriftgrösse
+
+Die Schirftgrösse wird mit der `font-size`-Eigenschaft eingestellt. Sie wird meistens mit `px`, `em` oder `rem` angegeben.
+
+```css
+h1 {
+  font-size: 2.5rem;
+}
+```
+
+### Schriftstil, Schriftstärke, Texttransformation und Textdekoration
+
+CSS bietet vier allgemeine Eigenschaften, um das visuelle Gewicht/den visuellen Schwerpunkt von Text zu ändern.
+
+<AccordionGroup>
+<Accordion title="`font-style`">
+
+Wird verwendet, um Kursive ein- oder auszuschalten. Mögliche Werte sind wie folgt:
+
+* `normal`: Setzt den Text auf den normalen Schriftstil (schaltet bestehende Kursive aus).
+* `italic`: Setzt den Text auf die Verwendung der kursiven Version der Schrift, wenn verfügbar; falls nicht, wird sie mit `oblique` simuliert.
+* `oblique`: Setzt den Text auf eine simulierte Version einer kursiven Schriftart, die durch Schrägstellung der normalen Version erstellt wird.
+
+</Accordion>
+
+<Accordion title="`font-weight`">
+
+Legt fest, wie fett der Text ist. Diese hat viele verfügbare Werte, falls du viele Schriftvarianten zur Verfügung hast (wie _light_, _normal_, _bold_, _extrabold_, _black_, etc.), aber realistischerweise wirst du selten eine davon verwenden:
+
+* `normal`, `bold`: Normale und fette Schriftstärke.
+* `lighter`, `bolder`: Setzt die Fettdruckstärke des aktuellen Elements um einen Schritt heller oder schwerer als die des Elternelements.
+* `100` – `900`: Numerische Fettheitswerte, die eine feinere Kontrolle als die obigen Schlüsselwörter bieten, falls benötigt.
+
+</Accordion>
+
+<Accordion title="`text-transform`">
+
+Ermöglicht es dir, deinen Text zu transformieren.
+
+* `none`: Verhindert jegliche Transformation.
+* `uppercase`: Wandelt den gesamten Text in Grossbuchstaben um.
+* `lowercase`: Wandelt den gesamten Text in Kleinbuchstaben um.
+* `capitalize`: Wandelt alle Wörter so um, dass der erste Buchstabe grossgeschrieben wird.
+
+</Accordion>
+
+<Accordion title="`text-decoration`">
+
+Setzt/entfernt Textdekorationen auf Schriften.
+
+* `none`: Hebt alle bereits vorhandenen Textdekorationen auf.
+* `underline`: Unterstreicht den Text.
+* `overline`: Verleiht dem Text einen Überstrich.
+* `line-through`: Fügt dem Text einen Durchstrich hinzu.
+
+</Accordion>
+</AccordionGroup>
+
+## Layout
+
+### Textausrichtung
+
+Die `text-align`-Eigenschaft wird verwendet, um zu steuern, wie der Text innerhalb seines enthaltenden Inhaltsbereichs ausgerichtet wird.
+
+* `left`: Richtet den Text linksbündig aus.
+* `right`: Richtet den Text rechtsbündig aus.
+* `center`: Zentriert den Text.
+* `justify`: Lässt den Text sich ausbreiten, indem die Lücken zwischen den Wörtern so variiert werden, dass alle Textzeilen gleich breit sind.
+
+### Zeilenhöhe
+
+Die `line-height`-Eigenschaft legt die Höhe jeder Textzeile fest. Diese Eigenschaft kann nicht nur die meisten Längen- und Grösseneinheiten annehmen, sondern auch einen wertlosen Wert, der als Multiplikator fungiert und im Allgemeinen als die beste Option betrachtet wird. 
+
+Mit einem wertlosen Wert wird die `font-size` multipliziert und ergibt die `line-height`. Fliesstext sieht im Allgemeinen besser aus und ist leichter lesbar, wenn die Zeilen auseinander stehen. Die empfohlene Zeilenhöhe liegt bei etwa 1.5 – 2 (doppelter Abstand).
+
+```css
+p {
+  line-height: 1.6;
+}
+```
+
+### Buchstaben und Wortabstand
+
+Die `letter-spacing` und `word-spacing`-Eigenschaften ermöglichen es dir, den Abstand zwischen Buchstaben und Wörtern in deinem Text festzulegen.
+
+```css
+p::first-line {
+  letter-spacing: 4px;
+  word-spacing: 4px;
+}
+```
+
+## Listen
+
+### Aufzählungszeichenstile
+
+Legt die Art der Aufzählungszeichen fest, die für die Liste verwendet werden sollen, zum Beispiel quadratische oder runde Aufzählungszeichen für eine ungeordnete Liste oder Zahlen, Buchstaben oder römische Ziffern für eine geordnete Liste.
+
+```css
+ol {
+  list-style-type: upper-roman;
+}
+```
+
+Weitere Optionen findest du auf der [`list-style-type`](https://developer.mozilla.org/de/docs/Web/CSS/list-style-type) Referenzseite.
+
+### Position der Aufzählungszeichen
+
+Die `list-style-position`-Eigenschaft legt fest, ob die Aufzählungszeichen innerhalb der Listenelemente oder ausserhalb vor dem Beginn jedes Elements erscheinen. Der Standardwert ist `outside`, wodurch die Aufzählungszeichen ausserhalb der Listenelemente sitzen.
+
+Wenn du den Wert auf `inside` setzt, sitzen die Aufzählungszeichen innerhalb der Zeilen.
+
+```css
+ol {
+  list-style-type: upper-roman;
+  list-style-position: inside;
+}
+```
+
+## Links
+
+### Zustände
+
+Das Erste, was man verstehen sollte, ist das Konzept der Link-Zustände — die verschiedenen Zustände, in denen Links existieren können. Diese können mit verschiedenen [Pseudoklassen](/web/selektoren#pseudoklassen) gestaltet werden:
+
+* **Link**: Ein Link, der ein Ziel hat (d.h. nicht nur ein benannter Anker), gestaltet mit der [`:link`](https://developer.mozilla.org/de/docs/Web/CSS/:link) Pseudoklasse.
+* **Visited**: Ein Link, der bereits besucht wurde (existiert im Verlauf des Browsers), gestaltet mit der [`:visited`](https://developer.mozilla.org/de/docs/Web/CSS/:visited) Pseudoklasse.
+* **Hover**: Ein Link, über den der Mauszeiger eines Benutzers schwebt, gestaltet mit der [`:hover`](https://developer.mozilla.org/de/docs/Web/CSS/:hover) Pseudoklasse.
+* **Focus**: Ein Link, der fokussiert ist (z. B. durch einen Tastaturnutzer mit der <kbd>Tab</kbd>-Taste oder Ähnlichem, oder programmatisch fokussiert über [`HTMLElement.focus()`](https://developer.mozilla.org/de/docs/Web/API/HTMLElement/focus)) — dies wird mit der [`:focus`](https://developer.mozilla.org/de/docs/Web/CSS/:focus) Pseudoklasse gestaltet.
+* **Active**: Ein Link, der aktiviert ist (z. B. angeklickt wird), gestaltet mit der [`:active`](https://developer.mozilla.org/de/docs/Web/CSS/:active) Pseudoklasse.
+
+```css
+a {
+}
+
+a:link {
+}
+
+a:visited {
+}
+
+a:focus {
+}
+
+a:hover {
+}
+
+a:active {
+}
+```

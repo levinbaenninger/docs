@@ -1,0 +1,37 @@
+---
+title: "Vulnerable and Outdated Components"
+---
+
+Es tritt auf, wenn veraltete oder unsichere Softwarebibliotheken und Frameworks verwendet werden. Angreifer nutzen bekannte Schwachstellen in diesen Komponenten aus.
+
+## Problem
+
+Unsichere Anwendungen entstehen, wenn Entwickler:
+
+* alte Bibliotheken einbinden
+* Sicherheitsupdates nicht regelmässig installieren
+* bekannte Schwachstellen ignorieren
+
+```json
+// Verwendung einer veralteten Bibliothek
+"dependencies": {
+    "example-lib": "1.0.0" // bekannt anfällig
+}
+```
+
+Die Version 1.0.0 enthält bekannte Sicherheitslücken, deshalb können Angreifer diese leicht ausnutzen.
+
+## Lösung
+
+* Regelmässige Updates der Abhängigkeiten
+* Ersatz unsicherer Bibliotheken durch aktuelle Versionen
+
+```json
+// Sichere Bibliothek verwenden
+"dependencies": {
+    "example-lib": "^3.1.0" // Sicherheitslücken behoben
+}
+```
+
+* Aktualität der Software schützt vor bekannten Angriffen
+* Minimierung der Angriffsfläche durch aktuelle Komponenten

@@ -1,0 +1,21 @@
+---
+title: "Extension Methods"
+icon: "puzzle"
+---
+
+Mit Extension Methoden können wir neue Methoden zu existierenden Typen hinzufügen, ohne dabei den eigentlichen Typen zu modifizieren oder einen neuen abgeleiteten Typen zu erstellen.
+
+```csharp
+public static class StringExtensions
+{
+    public static string Reverse(this string str)
+    {
+        var reversedChars = str.Reverse<char>().ToArray();
+        var reversed = new string(reversedChars);
+        return reversed;
+    }
+}
+
+string name = "Levin";
+name.Reverse();
+```

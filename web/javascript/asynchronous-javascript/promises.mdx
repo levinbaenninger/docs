@@ -1,0 +1,283 @@
+---
+title: "Promises"
+icon: "handshake"
+---
+
+Ein Promise ist ein Objekt, das als **Platzhalter** für das **zukünftige Ergebnis** einer asynchronen Operation verwendet wird. Ein Beipsiel für ein zukünftiges Ergebnis bspw. die Response von einem AJAX Call. 
+
+## Lifecycle
+
+Ein Promise geht durch mehrere Status, weshalb wir einen Lifecycle durchlaufen.
+
+![Promise Lifecylcle](/images/content/web/file-excalidraw-10.svg)
+
+<Info>
+In unserem Code können wir diese verschiedenen States verarbeiten!
+</Info>
+
+## Consuming Promises
+
+Wir können Promises über die `then()`-Methode konsumieren und so die verschiedenen States behandeln.
+
+```javascript
+const getCountryData = (country) => {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    .then((response) => response.json())
+    .then((data) => renderCountry(data[0]));
+};
+
+getCountryData('portugal');
+```
+
+<Warning>
+Die Methode `response.json()` gibt ebenfalls ein Promise zurück, weshalb wir diesen Promise mit einem zweiten `then()` behandeln müssen.
+</Warning>
+
+### Chaining Promises
+
+Damit wir die Callback Hell verhindern können wir Promises verketten. Das machen wir indem wir den nächsten Promise zurückgeben und danach wieder mit der Methode `then()` behandeln.
+
+```javascript
+const getCountryData = (country) => {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    .then((response) => response.json())
+    .then((data) => {
+      renderCountry(data[0]);
+
+      const neighbour = data[0].borders?.[0];
+      if (!neighbour) return;
+
+      return fetch(`https://restcountries.com/v2/alpha/${neighbour}`);
+    })
+    .then((response) => response.json())
+    .then((data) => renderCountry(data, 'neighbour'));
+};
+
+getCountryData('portugal');
+```
+
+### Rejected Promises
+
+Wir können mit der `catch()`-Methode rejected Promises abfangen.
+
+```javascript
+const renderError = (message) => {
+  countriesContainer.insertAdjacentText('beforeend', message);
+  countriesContainer.style.opacity = 1;
+};
+
+const getCountryData = (country) => {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    ...
+    .catch((err) => {
+      console.error(`🔴 ${err}`);
+      renderError(err.message);
+    });
+};
+```
+
+### Throwing errors manually
+
+Wenn der User bspw. Informationen über ein Land will das gar nicht existiert, lautet die Fehlermeldung:
+
+> Cannot read property 'flag' of undefined
+
+Das bringt dem Nutzer nicht gerade viel. Wenn wir aber einen manuellen Fehler werfen, können wir so die Message darin selbst bestimmen.
+
+```javascript
+const getJSON = (url, errorMessage = 'Something went wrong') => {
+  return fetch(url).then((response) => {
+    if (!response.ok) throw new Error(`${errorMessage} (${response.status})`);
+    return response.json();
+  });
+};
+
+const getCountryData = (country) => {
+  getJSON(`https://restcountries.com/v2/name/${country}`, 'Country not found')
+    .then((data) => {
+      renderCountry(data[0]);
+
+      const neighbour = data[0].borders?.[0];
+      if (!neighbour) throw new Error('No neighbour found!');
+
+      return getJSON(
+        `https://restcountries.com/v2/alpha/${neighbour}`,
+        'Country not found'
+      );
+    })
+    .then((data) => renderCountry(data, 'neighbour'))
+    .catch((err) => {
+      console.error(`🔴 ${err}`);
+      renderError(err.message);
+    });
+};
+```
+
+Wenn wir manuell einen Fehler werfen, dann wird der Promise sofort rejected und wird dann schlussendlich im `catch()` abgefangen und behandlelt.
+
+### `async`/`await`
+
+Mit `async`/`await` bietet uns JavaScript eine einfachere Möglichkeit mir Promises zu arbeiten.
+
+```javascript
+const whereAmI = async () => {
+  const {
+    coords: { latitude: lat, longitude: lng }
+  } = await getPosition();
+
+  const geoLocationResponse = await fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+  );
+  const locationData = await geoLocationResponse.json();
+
+  const countryResponse = await fetch(
+    `https://restcountries.com/v2/name/${locationData.countryName}`
+  );
+  const [countryData] = await countryResponse.json();
+
+  renderCountry(countryData);
+};
+
+whereAmI('portugal');
+```
+
+#### `try`...`catch`
+
+Mit `async`/`await` können wir nicht mehr die `catch()`-Methode nutzen. Deshalb müssen wir hier mit `try`...`catch`-Statements arbeiten.
+
+```javascript
+const whereAmI = async () => {
+  try {
+    ...
+    
+    const geoLocationResponse = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+    );
+    if (!geoLocationResponse.ok)
+      throw new Error('Problem getting location data');
+      
+    ...
+    
+    const countryResponse = await fetch(
+      `https://restcountries.com/v2/name/${locationData.countryName}`
+    );
+    if (!countryResponse.ok) throw new Error('Problem getting country');
+
+    ...
+  } catch (err) {
+    console.error(`🔴 ${err}`);
+    renderError(err.message);
+  }
+};
+```
+
+#### return-Werte
+
+`async`-Funktionen können natürlich auch `return`-Werte haben. Diese sind aber nur über einen Trick zu erhalten.
+
+```javascript
+(async () => {
+  try {
+    const city = await whereAmI();
+    console.log(city);
+  } catch (err) {
+    console.error(`🔴 ${err}`);
+  }
+})();
+```
+
+Wir nutzen also [IIFE](/web/javascript/funktionen/iife-immediately-invoked-function-expressions), um `await` ausführen zu können. So können wir direkt auf die Daten zugreifen. 
+
+<Info>
+Den `try`/`catch`-Teil brauchen wir nur, wenn wir in der asynchronen Funktion den Error wieder werfen:
+
+```javascript
+catch (err) {
+    console.error(`🔴 ${err}`);
+    renderError(err.message);
+    throw err;
+}
+```
+</Info>
+
+<Check>
+In Modules, kann auch ein top-level `await` genutzt werden, das heisst, man braucht keine IIFE mehr.
+
+```javascript
+const getLastPost = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+  const data = await res.json();
+  
+  return { title: data.at(-1).title, text: data.at(-1).body };
+}
+
+const lastPost = await getLastPost();
+```
+</Check>
+
+## Building Promises
+
+```javascript
+const lotteryPromise = new Promise((resolve, reject) => {
+  console.log('The odds are calculated 🔮');
+
+  setTimeout(() => {
+    if (Math.random() >= 0.5) {
+      resolve('You win 💰');
+    } else {
+      reject(new Error('You lost 💩'));
+    }
+  }, 2000);
+});
+
+lotteryPromise
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+```
+
+Über den `Promise`-Constructor können wir einen neuen Promise erstellen. Die Callback-Funktion darin nimmt zwei Funktionen an:
+
+* `resolve`: Markiert den Promise als fullfilled
+* `reject`: Markiert den Promise als rejected
+
+Diesen Promise können wir dann ganz normal über die `then()`-Methode konsumieren.
+
+### Promisifying
+
+Das Bauen eigener Promises ist vor allem dann nützlich, wenn wir mit Callbacks arbeiten, z.B. bei der `setTimeout()`-Methode oder mit der Geolocation API. So können wir nämlich der Callback Hell selbst entkommen.
+
+```javascript
+const getPosition = () => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+getPosition().then((pos) => console.log(pos));
+```
+
+## Promises parallel ausführen
+
+Wenn wir einfach nur sturr mehrere `await`s hintereinander ausführen, die aber nicht voneinander abhängig sind, dann verlieren wir kostbare Zeit. Um dies zu umgehen, können wir `Promise.all()` benutzen. Diese Methode führt alle Calls gleichzeitig aus.
+
+```javascript
+const getCapitals = async (...countries) => {
+  try {
+    const data = await Promise.all(
+      countries.map((country) =>
+        getJSON(`https://restcountries.com/v2/name/${country}`)
+      )
+    );
+
+    return data.map((country) => country[0].capital);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+(async () => {
+  const capitals = await getCapitals('portugal', 'tanzania', 'canada');
+  console.log(capitals);
+})();
+```

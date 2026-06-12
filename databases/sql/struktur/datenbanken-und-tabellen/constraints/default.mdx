@@ -1,0 +1,23 @@
+---
+title: "DEFAULT"
+---
+
+Der `DEFAULT`-Constraint wird verwendet, um einen Standardwert zu setzen, falls keiner spezifiziert wird.
+
+```sql
+CREATE TABLE Orders (
+    OrderId INTEGER NOT NULL,
+    OrderNumber INTEGER NOT NULL,
+    OrderDate date DEFAULT CURRENT_DATE()
+);
+```
+
+```sql
+ALTER TABLE Persons
+ALTER City SET DEFAULT 'New York';
+```
+
+```sql
+ALTER TABLE Persons
+ALTER City DROP DEFAULT;
+```

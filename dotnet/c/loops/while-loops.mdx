@@ -1,0 +1,68 @@
+---
+title: "while-Loops"
+icon: "refresh-cw"
+---
+
+Mit `while`- bzw. `do while`-Loops können wir einen Codeblock so lange wiederholen, bis eine bestimmte Bedingung erfüllt ist.
+
+## `while`-Loop
+
+<Tabs>
+<Tab title="Syntax">
+```csharp
+while (condition) 
+{
+    ..
+}
+```
+</Tab>
+
+<Tab title="Beispiel">
+```csharp
+int i = 1, 
+int sum = 0;
+
+while (i <= 5)
+{
+    sum += i;
+    i++;
+}
+
+Console.WriteLine($"Sum = {sum}");
+```
+</Tab>
+</Tabs>
+
+## `do while`-Loop
+
+<Tabs>
+<Tab title="Syntax">
+```csharp
+do 
+{
+    ..
+}
+while (condition);
+```
+</Tab>
+
+<Tab title="Beispiel">
+```csharp
+int i = 1, 
+int n = 5, 
+int product;
+
+do
+{
+    product = n * i;
+    Console.WriteLine("{0} * {1} = {2}", n, i, product);
+    i++;
+} 
+while (i <= 10);
+```
+</Tab>
+</Tabs>
+
+<Info>
+Im Gegensatz zum [#while-loop](/dotnet/c/loops/while-loops#while-loop "mention") läuft der `do while`-Loop mindestens einmal durch.
+</Info>

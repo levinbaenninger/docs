@@ -1,0 +1,78 @@
+---
+title: "Lists"
+icon: "list"
+---
+
+Listen enthalten mehrere Werte vom selben Typen. Dabei haben Listen folgende Eigenschaften:
+
+* Sie sind nullbasiert
+* Sie haben eine dynamische Grösse
+* Wir können Werte aus einer Liste erhalten
+* Wir können Werte in einer Liste setzen
+* Wir können Werte zu einer Liste hinzufügen
+* Wir können Werte aus einer Liste entfernen
+* Wir können die Liste leeren
+* Wir können die Liste sortieren
+
+## Deklarieren und initialisieren
+
+Hier deklarieren wir eine Liste `words`, mit [Strings](/dotnet/c/variablen/strings).
+
+```csharp
+List<string> words = new List<string>();
+```
+
+Wir können eine Liste aber auch gleichzeitig initialisieren.
+
+```csharp
+List<int> numbers = new List<int>()
+{
+    4,
+    7,
+    1,
+    9
+};
+```
+
+## Lesen und setzen
+
+Wir lesen Werte in einer Liste, indem wir den Index referenzieren.
+
+```csharp
+string firstWord = words[0];
+string lastWord = words[words.Count - 1]
+```
+
+Wir Werte setzen, indem wir ebenfalls den Index referenzieren.
+
+```csharp
+words[0] = "one";
+```
+
+## Hinzufügen, löschen und leeren
+
+Wir können Werte mit der `Add()`-Methode hinzufügen.
+
+```csharp
+words.Add("four");
+```
+
+Wir löschen Werte mit der `Remove()`-Methode.
+
+```csharp
+words.Remove("one");
+```
+
+Wir können unsere Liste mit der Methode `Clear()`-Methode leeren.
+
+```csharp
+words.Clear();
+```
+
+## Sortieren
+
+Mit der Methode `Sort()` können wir unsere Liste sortieren.
+
+```csharp
+words.Sort();
+```

@@ -1,0 +1,82 @@
+---
+title: "Release Planning"
+---
+
+Ein Release ist eine veröffentlichte Version einer Software, die für Kunden verfügbar gemacht wird. In Scrum entsteht mit jedem Sprint ein potenziell auslieferbares Produktinkrement, jedoch werden nicht alle Inkremente sofort an alle Kunden verteilt, da dies Aufwand und Risiken birgt. Daher erfolgt die Softwareverteilung oft in Release-Schritten. Die Release-Planung kann entweder auf Basis von Epics (Storypoints) oder Timeboxed (festgelegte Anzahl an Sprints) erfolgen.
+
+## Release-Rendezvous-Planung
+
+Die Release-Rendezvous-Planung stellt sicher, dass verschiedene Aktivitäten zeitlich aufeinander abgestimmt sind, um einen reibungslosen Produkt-Launch zu gewährleisten. 
+
+<AccordionGroup>
+<Accordion title="Marketing">
+
+Kampagne muss zum Release starten, benötigt aber Vorlaufzeit für Anzeigenbuchung.
+
+</Accordion>
+
+<Accordion title="Vertrieb">
+
+Verkauf soll direkt bei Fertigstellung beginnen (ggf. schon vorher).
+
+</Accordion>
+
+<Accordion title="Schulungen">
+
+Nutzer müssen rechtzeitig vorbereitet werden.
+
+</Accordion>
+
+<Accordion title="Messe">
+
+Produkt soll gezielt auf einer bestimmten Veranstaltung präsentiert werden.
+
+</Accordion>
+
+<Accordion title="Wartungsverträge">
+
+Kunden erwarten regelmässige Releases (z. B. 4 pro Jahr).
+
+</Accordion>
+</AccordionGroup>
+
+## Scope- und zeitbasierte Release-Planung
+
+<Columns cols={2}>
+  <Card title="Scopebasierte Planung">Alle Product Backlog Items müssen umgesetzt werden. Man möchte wissen, wie lange dies dauert.</Card>
+  <Card title="Zeitbasierte Planung">Ein Wunschtermin ist vorgegeben. Man möchte wissen, wie viele Product Backlog Items bis zu diesem Termin umgesetzt werden können.</Card>
+</Columns>
+
+![Scope und zeitbasierte Planung](/images/content/processes/file-excalidraw-5.svg)
+
+### Ermitteln der Velocity
+
+1. Raten der Velocity
+2. Erstes Sprint Planning durchführen
+3. Mit ähnlich zusammengesetzten Teams vergleichen
+
+## Release Charts
+
+### Release-Burndown-Bar-Charts
+
+Die Release-Burndown-Bar-Charts zeigt den Restaufwand nach jedem Sprint. 
+
+![Release-Burndown-Bar-Chart](/images/content/processes/file-excalidraw-6.svg)
+
+Für die Prognose können wir grob die untere Linie (blau) verlängern und schauen, wo diese die Trendlinie des Restaufwands (grün) schneidet: Hier liegt der ungefähre Releasetermin. In der Abbildung haben wir einen Wunschtermin mit der roten Linie visualisiert. Wenn die rote Linie wie in der Abbildung vor dem Schnittpunkt der blauen und grünen Linie liegt, haben wir drei Möglichkeiten:
+
+<Columns cols={2}>
+  <Card title="Termin verschieben">Wir können die rote Linie nach rechts verschieben</Card>
+  <Card title="Produktivität erhöhen">Wir können die grüne Linie nach unten schieben</Card>
+  <Card title="Umfang reduzieren">Wir können die blaue Linie nach oben schieben</Card>
+</Columns>
+
+![Prognose mit Release-Burndown-Bar-Chart](/images/content/processes/file-excalidraw-7.svg)
+
+### Release-Burnup-Charts
+
+Bei Burnup-Charts wird die kumulierte Menge an Features gemessen in Story Points visualisiert (grüne Balken). Ausserdem zeigt das Chart den Gesamtumfang des Release (also das, was bereits erledigt wurde, plus das, was laut Product Backlog noch offen ist). In der Abbildung ist das die blaue Linie.
+
+![Release-Burnup-Chart](/images/content/processes/file-excalidraw-8.svg)
+
+Release-Burndown-Bar-Charts und Release-Burnup-Charts zeigen exakt dieselben Informationen, allerdings auf unterschiedliche Art und Weise. Wenn man sich beide Charts genau ansieht, stellt man fest, dass die Balken aus dem Release-Burndown-Bar-Chart genau der Höhe zwischen den Balken und der oberen Linie im Release-Burndown-Chart entsprechen. Welche Darstellungsform man verwendet, ist also reine Geschmackssache.
