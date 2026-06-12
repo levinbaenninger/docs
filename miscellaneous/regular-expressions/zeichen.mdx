@@ -1,0 +1,66 @@
+---
+title: "Zeichen"
+icon: "font"
+---
+
+Um einfach bestimmte Zeichenketten zu suchen, können wir einfach die Zeichenkette eingeben, die wir suchen. Zu den einfachen Zeichen gehören Buchstaben, Zahlen und verschiedene Sonderzeichen.
+
+```regex
+abc
+123
++41
+```
+
+## Zeichenarten
+
+In RegEx gibt es verschiedene Metazeichen, mit welchen wir nach bestimmten Zeichenarten suchen können.
+
+* `\d` - Irgendeine Ziffer
+* `\D` - Alle Zeichen, die keine Ziffern sind
+* `\w` - Irgendein alphanumerisches Zeichen
+* `\W` - Irgendein nicht alphanumerisches Zeichen
+* `\s` - Irgendein Leerzeichen
+* `\S` - Alle Zeichen, die kein Leerzeichen sind
+
+```regex
+\d
+\D\D
+\w
+\W\W
+\s
+\S\S
+```
+
+## Wildcard
+
+Mit der Wildcard `.` können wir alle Zeichen auswählen.
+
+```regex
+...\.
+```
+
+## Spezifische Zeichen
+
+Es gibt eine Methode, um bestimmte Zeichen mit regulären Ausdrücken zu finden, indem du sie in eckigen Klammern definierst. Das Muster `[abc]` passt zum Beispiel nur auf ein einzelnes `a`, `b` oder `c` und auf nichts anderes.
+
+```regex
+[cmf]an
+```
+
+In manchen Fällen wissen wir vielleicht, dass es bestimmte Zeichen gibt, die wir nicht abgleichen wollen, z.B. wollen wir nur Telefonnummern abgleichen, die nicht aus der Vorwahl `650` stammen.
+
+Um dies darzustellen, verwenden wir einen ähnlichen Ausdruck, der bestimmte Zeichen mit eckigen Klammern und dem `^` (Hut) ausschliesst. Das Muster `[^abc]` passt zum Beispiel auf jedes einzelne Zeichen, ausser auf die Buchstaben `a`, `b` oder `c`.
+
+```regex
+[^b]og
+```
+
+## Zeichenbereiche
+
+Bei der eckigen Klammer gibt es eine Abkürzung, um ein Zeichen in einer Liste von aufeinanderfolgenden Zeichen zu finden, indem du den Bindestrich verwendest, um einen Zeichenbereich anzugeben. Zum Beispiel passt das Muster `[0-6]` nur auf alle einstelligen Zeichen von null bis sechs, und auf nichts anderes. Und auch `[^n-p]` passt nur auf ein einzelnes Zeichen ausser die Buchstaben `n` bis `p`.
+
+In einem Satz von Klammern können auch mehrere Zeichenbereiche und einzelne Zeichen verwendet werden. Ein Beispiel dafür ist das alphanumerische Metazeichen `\w`, das dem Zeichenbereich `[A-Za-z0-9_]` entspricht und oft verwendet wird, um Zeichen in englischem Text zu finden.
+
+```regex
+[A-C][n-p][a-c]
+```

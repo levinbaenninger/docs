@@ -1,0 +1,60 @@
+---
+title: "Umgebungen"
+icon: "server"
+---
+
+Grundsätzlich wird zwischen zwei Umgebungen unterschieden: Test- und Produktivumgebungen. Während die Testumgebung ein geschützter Raum zur Überprüfung der Software ist, stellt die Produktivumgebung den realen Einsatzort dar.
+
+## Unterschiede
+
+Die wesentlichen Unterschiede lassen sich in drei Kategorien unterteilen.
+
+<AccordionGroup>
+<Accordion title="Zweck und Nutzung">
+
+Die Produktivumgebung ist die Umgebung beim Benutzer oder Betreiber, in der das System tatsächlich für den Geschäftsbetrieb eingesetzt wird.
+
+Die Testumgebung hingegen dient dazu, das Testobjekt unter kontrollierten Bedingungen mit spezifizierten Testfällen auszuführen, um Fehlerzustände aufzudecken, bevor diese die Produktion erreichen.
+
+</Accordion>
+
+<Accordion title="Kontrolle und Reproduzierbarkeit">
+
+In der Produktivumgebung hingegen laufen oft viele andere Systeme parallel, was die Randbedingungen ständig verändert. Dies führt dazu, dass dort durchgeführte Tests schwer oder gar nicht reproduzierbar sind.
+
+In einer Testumgebung hat das Team die volle Kontrolle über Parameter und Konfigurationen.
+
+</Accordion>
+
+<Accordion title="Risikopotenzial">
+
+Tests direkt in der Produktivumgebung sind gefährlich, da Fehlerwirkungen zu teuren Systemausfällen und Datenverlusten im produktiven Kundensystem führen können.
+
+Eine separate Testumgebung schirmt diese Risiken ab.
+
+</Accordion>
+</AccordionGroup>
+
+## Zusammenhänge
+
+Trotz ihrer Unterschiede stehen die Umgebungen in einer engen Beziehung zueinander.
+
+<AccordionGroup>
+<Accordion title="Ähnlichkeit als Qualitätsfaktor">
+
+Eine Testumgebung muss der späteren Produktivumgebung so nahe wie möglich kommen (Hardware, Systemsoftware, Netzwerk etc.), damit die Testergebnisse auf den späteren Betrieb übertragbar sind.
+
+</Accordion>
+
+<Accordion title="Übergang im Testprozess">
+
+Während der Systemtest zwingend in einer separaten Testumgebung stattfinden sollte, wird der Abnahmetest (Acceptance Test) oft bereits in der realen Einsatzumgebung beim Auftraggeber oder einer sehr identischen Abnahmeumgebung durchgeführt. Hierbei wird das System unter normalen Betriebsbedingungen validiert.
+
+</Accordion>
+
+<Accordion title="Bereitstellung durch moderne Technik">
+
+Um die Übereinstimmung zwischen den Umgebungen sicherzustellen und diese schnell und reproduzierbar bereitzustellen, werden häufig virtuelle Maschinen (VM) oder Container (wie Docker) eingesetzt. Diese erlauben es, die gesamte Konfiguration der Testumgebung einzufrieren und später in die Produktion zu übertragen.
+
+</Accordion>
+</AccordionGroup>

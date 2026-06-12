@@ -1,0 +1,42 @@
+---
+title: "Derived State"
+icon: "code-branch"
+---
+
+<AccordionGroup>
+<Accordion title="Derived State">
+
+State, der aus einer bereits bestehenden State-Variable oder aus Props abgeleitet bzw. berechnet werden kann.
+
+</Accordion>
+</AccordionGroup>
+
+## Beispiel
+
+```jsx
+const [cart, setCart] = useState([
+  { name: "JaveScript Course", price: 15.99 }
+  { name: "Node.js Bootcamp", price: 14.99 }
+]);
+const [numItems, setNumItems] = useState(2);
+const [totalPrice, setTotalPrice] = useState(30.98);
+```
+
+Dieser Code hat gleich drei Probleme:
+
+* Drei State-Variablen, obwohl `numItems` und `totalPrice` abhängig von `cart` sind
+* Sie müssen synchron bleiben
+* 3 State-Updates -> 3 Re-Renders
+
+***
+
+Wenn wir jedoch den State ableiten können wir alle diese Probleme auf einen Schlag lösen:
+
+```jsx
+const [cart, setCart] = useState([
+  { name: "JaveScript Course", price: 15.99 }
+  { name: "Node.js Bootcamp", price: 14.99 }
+]);
+const numItems = cart.length;
+const totalPrice = cart.reduce((acc, cur) => acc + cur.price, 0)
+```

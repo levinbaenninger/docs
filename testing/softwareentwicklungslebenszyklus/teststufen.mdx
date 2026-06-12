@@ -1,0 +1,234 @@
+---
+title: "Teststufen"
+icon: "stairs"
+---
+
+In der Softwareentwicklung werden Testaktivitäten in verschiedene Teststufen unterteilt, die jeweils unterschiedliche Ziele verfolgen und auf verschiedenen Ebenen der Systemarchitektur ansetzen.
+
+## Komponententests
+
+Dies ist die niedrigste Teststufe, in der die elementaren Bausteine der Software (Module, Units, Klassen) isoliert geprüft werden. Ziel ist es, die Funktionalität gemäss der Komponentenspezifikation sicherzustellen und Fehlerzustände im Code frühzeitig aufzudecken.
+
+<AccordionGroup>
+<Accordion title="Voraussetzungen">
+
+Es muss der Quellcode vorliegen. Da Komponenten meist nicht allein lauffähig sind, ist ein Testrahmen mit Treibern und Platzhaltern (Stubs) erforderlich. Oft kommen hier Frameworks wie JUnit zum Einsatz.
+
+</Accordion>
+
+<Accordion title="Abgrenzung">
+
+Er wird meist von den Entwicklern selbst durchgeführt (Entwicklertest) und konzentriert sich auf interne Aspekte, nicht auf das Zusammenspiel mit anderen Teilen.
+
+</Accordion>
+</AccordionGroup>
+
+## Integrationstests
+
+Hier wird das Zusammenspiel zwischen zwei oder mehreren bereits getesteten Komponenten oder (Teil-)Systemen geprüft. Der Fokus liegt auf der Aufdeckung von Fehlern in den Schnittstellen und der Kommunikation zwischen den Bausteinen.
+
+<AccordionGroup>
+<Accordion title="Voraussetzungen">
+
+Die zu integrierenden Teile sollten den Komponententest erfolgreich durchlaufen haben. Es wird eine Integrationsstrategie (z. B. Top-down oder Bottom-up) benötigt, um die Reihenfolge des Zusammenbaus festzulegen.
+
+</Accordion>
+
+<Accordion title="Abgrenzung">
+
+Man unterscheidet den Komponentenintegrationstest (interne Schnittstellen) vom Systemintegrationstest (Schnittstellen zu externen Systemen). Im Gegensatz zum Komponententest wird nicht die isolierte Logik, sondern die Wechselwirkung geprüft.
+
+</Accordion>
+</AccordionGroup>
+
+### Strategien
+
+Für die Durchführung von Integrationstests gibt es verschiedene Strategien, die festlegen, in welcher Reihenfolge Komponenten zusammengeführt und geprüft werden. Man unterscheidet grundlegend zwischen nicht-inkrementellen und inkrementellen Ansätzen.
+
+#### „Big Bang“-Integration
+
+Bei dieser Strategie werden alle oder eine grosse Anzahl von Komponenten gleichzeitig integriert und als Ganzes getestet.
+
+<AccordionGroup>
+<Accordion title="Vorgehen">
+
+Man wartet, bis alle Bauteile entwickelt sind, und wirft sie dann „auf einmal“ zusammen.
+
+</Accordion>
+
+<Accordion title="Vorteile">
+
+Es werden theoretisch keine Testtreiber oder Platzhalter benötigt.
+
+</Accordion>
+
+<Accordion title="Nachteile">
+
+Fehler sind extrem schwer zu lokalisieren, da viele Komponenten gleichzeitig interagieren. Die Wartezeit bis zum Testbeginn ist verlorene Zeit, und Fehler treten geballt auf, was das System oft kaum lauffähig macht.
+
+</Accordion>
+</AccordionGroup>
+
+#### Top-Down-Integration
+
+Der Test beginnt bei den obersten Komponenten (z.B. der Benutzeroberfläche), die andere aufrufen.
+
+<AccordionGroup>
+<Accordion title="Vorteile">
+
+Es entsteht früh ein Simulationsmodell, das dem Benutzer bereits Teile der Funktionen zeigt.
+
+</Accordion>
+
+<Accordion title="Nachteile">
+
+Untergeordnete Komponenten müssen durch aufwendige Platzhalter (Stubs) simuliert werden.
+
+</Accordion>
+</AccordionGroup>
+
+#### Bottom-Up-Integration
+
+Man beginnt mit den elementaren Basiskomponenten der untersten Schicht.
+
+<AccordionGroup>
+<Accordion title="Vorteile">
+
+Keine Platzhalter erforderlich; das Zusammenwirken mit der Hardware wird früh geprüft.
+
+</Accordion>
+
+<Accordion title="Nachteile">
+
+Erfordert Testtreiber für die oberen Schichten; ein lauffähiges Gesamtsystem ist erst am Ende verfügbar.
+
+</Accordion>
+</AccordionGroup>
+
+#### Backbone-Integration
+
+Es wird ein Programmskelett („Backbone“) erstellt, in das die Komponenten schrittweise eingehängt werden. Eine moderne Form hiervon ist die Continuous Integration (CI), bei der Codeänderungen mindestens täglich in einen vorhandenen Build integriert werden.
+
+#### Ad-hoc-Integration
+
+Die Komponenten werden einfach in der Reihenfolge ihrer Fertigstellung integriert. Dies spart Zeit, erfordert aber sowohl Platzhalter als auch Testtreiber.
+
+#### Geschäftsprozessorientiert
+
+Es werden gezielt die Komponenten zusammengeführt, die einen spezifischen Geschäftsprozess (z.B. eine Bestellung von der Eingabe bis zur Bezahlung) abbilden.
+
+#### Funktionsorientiert
+
+Integration basierend auf funktionalen Testfällen, wobei die dafür benötigten Komponenten schrittweise „zusammenmontiert“ werden.
+
+#### Hardest First
+
+Diese Strategie priorisiert die Integration der kritischsten oder komplexesten Komponenten zuerst.
+
+## Systemtests
+
+Diese Stufe prüft das integrierte Gesamtsystem gegen die ursprünglichen Spezifikationen und Anforderungen. Das Ziel ist die Validierung, ob das Produkt aus Sicht des Kunden und Anwenders die funktionalen und nicht funktionalen Anforderungen (wie Performanz oder Sicherheit) erfüllt.
+
+<AccordionGroup>
+<Accordion title="Voraussetzungen">
+
+Das System muss vollständig integriert sein. Erforderlich ist eine separate Testumgebung, die der späteren Produktivumgebung so nahe wie möglich kommt, um Verfälschungen und Risiken für echte Daten zu vermeiden.
+
+</Accordion>
+
+<Accordion title="Abgrenzung">
+
+Während die unteren Stufen eher die technische Korrektheit prüfen (Verifizierung), steht beim Systemtest die Eignung für den Geschäftszweck im Vordergrund (Validierung).
+
+</Accordion>
+</AccordionGroup>
+
+## Abnahmetests
+
+Dies ist die letzte Validierungsstufe vor der Inbetriebnahme. Hier entscheidet der Kunde oder Anwender auf Basis von Abnahmekriterien, ob das System vertraglich als mangelfrei gilt und für den Betrieb übernommen wird.
+
+<AccordionGroup>
+<Accordion title="Voraussetzungen">
+
+Ein weitgehend stabiler Stand aus dem Systemtest ist die Regel. Der Test findet oft in der Umgebung des Kunden statt.
+
+</Accordion>
+
+<Accordion title="Abgrenzung">
+
+Im Fokus steht nicht das Finden neuer Fehlerzustände, sondern der Aufbau von Vertrauen in das System und die formale Bestätigung der Gebrauchstauglichkeit.
+
+</Accordion>
+</AccordionGroup>
+
+### Strategien
+
+Es gibt verschiedene Strategien und Formen des Abnahmetest, die darauf abzielen, das Vertrauen in das System zu stärken und eine fundierte Entscheidung über dessen Übernahme zu ermöglichen. Dabei wird geprüft, ob das System die Benutzeranforderungen, Geschäftsprozesse und vertraglich vereinbarten Kriterien erfüllt.
+
+#### Benutzerabnahmetest
+
+Diese Form konzentriert sich darauf, ob das System für die vorgesehenen Benutzer in deren Arbeitsumfeld geeignet ist.
+
+<AccordionGroup>
+<Accordion title="Fokus">
+
+Überprüfung der funktionalen Eignung, der Geschäftsprozesse sowie der Gebrauchstauglichkeit (Usability)
+
+</Accordion>
+
+<Accordion title="Ziel">
+
+Sicherstellen, dass die Benutzer ihre Aufgaben effektiv, effizient und zufriedenstellend erledigen können.
+
+</Accordion>
+</AccordionGroup>
+
+#### Betrieblicher Abnahmetest
+
+Hierbei stehen die administrativen und betrieblichen Aspekte des Systems im Vordergrund, die meist durch Systemadministratoren oder Betreiber geprüft werden.
+
+<AccordionGroup>
+<Accordion title="Fokus">
+
+Tests zur Datensicherung und Wiederherstellung, Installation, Konfiguration, Benutzerverwaltung sowie Überprüfung der Sicherheitsmassnahmen.
+
+</Accordion>
+
+<Accordion title="Ziel">
+
+Sicherstellung, dass das System stabil in die vorhandene IT-Infrastruktur integriert werden kann und betriebsbereit bleibt.
+
+</Accordion>
+</AccordionGroup>
+
+#### Vertraglicher Abnahmetest
+
+Prüft die Erfüllung der im Entwicklungsvertrag festgeschriebenen Abnahmekriterien bei Individualsoftware.
+
+#### Regulatorischer Abnahmetest
+
+Verifiziert, ob das System zu relevanten Gesetzen, Normen oder Sicherheitsvorschriften konform ist (z. B. Datenschutz oder branchenspezifische Standards).
+
+#### Feldtests
+
+Diese Strategien werden vor allem für Software auf dem breiten Markt (Standardsoftware) eingesetzt, um Feedback aus realen Nutzungsszenarien zu erhalten.
+
+<AccordionGroup>
+<Accordion title="Alpha-Test">
+
+Findet in einer Simulations- oder Nutzungsumgebung direkt beim Hersteller statt, wird jedoch oft von Personen ausserhalb der Entwicklung durchgeführt.
+
+</Accordion>
+
+<Accordion title="Beta-Test">
+
+Das System wird ausgewählten „Pilot“-Kunden in deren eigener realer Umgebung zur Verfügung gestellt, um unvorhergesehene Probleme vor der endgültigen Markteinführung aufzudecken.
+
+</Accordion>
+</AccordionGroup>
+
+***
+
+Die Teststufen bauen logisch aufeinander auf: Fehler sollen idealerweise auf der Stufe gefunden werden, auf der sie entstanden sind. Ein wesentlicher Zusammenhang wird durch die Testpyramide verdeutlicht: Sie empfiehlt eine grosse Anzahl schneller, automatisierter Komponententests an der Basis und eine geringere Anzahl komplexer System- und Abnahmetests an der Spitze.
+
+In agilen Projekten verschwimmen die zeitlichen Grenzen oft, da alle Teststufen innerhalb einer Iteration (Sprint) parallel oder in enger Folge durchlaufen werden, um kontinuierlich ein potenziell auslieferbares Produktinkrement zu erzeugen.

@@ -1,0 +1,171 @@
+---
+title: "Strategy"
+icon: "chess"
+---
+
+Strategy ist ein verhaltensorientiertes Entwurfsmuster, mit dem du eine Familie von Algorithmen definierst, jeden von ihnen in einer eigenen Klasse unterbringst und ihre Objekte austauschbar machen kannst.
+
+## Klassendiagramm
+
+<Frame caption="Behavioral Patterns">
+  ![Abbildung](/images/content/dotnet/strategy-drawio.png)
+</Frame>
+
+## Implementierung
+
+<Tabs>
+<Tab title="Context">
+```csharp title="Context.cs"
+public class Context
+{
+    private Strategy? _strategy;
+
+    public void SetStrategy(Strategy strategy)
+    {
+        _strategy = strategy;
+    }
+
+    public void ExecuteStrategy()
+    {
+        _strategy?.Execute();
+    }
+}
+```
+</Tab>
+
+<Tab title="IStrategy">
+```csharp title="IStrategy.cs"
+public interface Strategy
+{
+    void Execute();
+}
+```
+</Tab>
+
+<Tab title="ConcreteStrategyA">
+```csharp title="ConcreteStrategyA.cs"
+public class ConcreteStrategyA : Strategy
+{
+    public void Execute()
+    {
+        Console.WriteLine("Executing strategy A");
+    }
+}
+```
+</Tab>
+
+<Tab title="ConcreteStrategyB">
+```csharp title="ConcreteStrategyB.cs"
+public class ConcreteStrategyB : Strategy
+{
+    public void Execute()
+    {
+        Console.WriteLine("Executing strategy B");
+    }
+}
+```
+</Tab>
+
+<Tab title="ConcreteStrategyC">
+```csharp title="ConcreteStrategyC.cs"
+public class ConcreteStrategyC : Strategy
+{
+    public void Execute()
+    {
+        Console.WriteLine("Executing strategy C");
+    }
+}
+```
+</Tab>
+</Tabs>
+
+## Beispiel
+
+### Klassendiagramm
+
+<Frame caption="Behavioral Patterns">
+  ![Abbildung](/images/content/dotnet/class-diagram-5.png)
+</Frame>
+
+### Implementierung
+
+<Tabs>
+<Tab title="Context">
+```csharp title="ShoppingCart.cs"
+public class ShoppingCart
+{
+    private IPaymentStrategy? _strategy;
+
+    public void SetStrategy(IPaymentStrategy strategy)
+    {
+        _strategy = strategy;
+    }
+
+    public void Checkout(decimal amount)
+    {
+        _strategy?.Pay(amount);
+    }
+}
+```
+</Tab>
+
+<Tab title="IStrategy">
+```csharp title="IPaymentStrategy.cs"
+public interface IPaymentStrategy
+{
+    void Pay(decimal amount);
+}
+```
+</Tab>
+
+<Tab title="ConcreteStrategyA">
+```csharp title="CreditCardStrategy.cs"
+public class CreditCardStrategy(
+    string name,
+    string cardNumber,
+    string cvv,
+    string dateOfExpiry) : IPaymentStrategy
+{
+    private string _name = name;
+    private string _cardNumber = cardNumber;
+    private string _cvv = cvv;
+    private string _dateOfExpiry = dateOfExpiry;
+
+    public void Pay(decimal amount)
+    {
+        Console.WriteLine($"Paid {amount} using credit card");
+    }
+}
+```
+</Tab>
+
+<Tab title="ConcreteStrategyB">
+```csharp title="BankTransferStrategy.cs"
+public class BankTransferStrategy(string bankName, string accountNumber) : IPaymentStrategy
+{
+    private readonly string _bankName = bankName;
+    private readonly string _accountNumber = accountNumber;
+
+    public void Pay(decimal amount)
+    {
+        Console.WriteLine($"Paid {amount} using Bank Transfer");
+    }
+}
+```
+</Tab>
+
+<Tab title="ConcreteStrategyC">
+```csharp title="PayPalStrategy.cs"
+public class PayPalStrategy(string email, string password) : IPaymentStrategy
+{
+    private string _email = email;
+    private string _password = password;
+
+    public void Pay(decimal amount)
+    {
+        Console.WriteLine($"Paid {amount} using PayPal");
+    }
+}
+```
+</Tab>
+</Tabs>

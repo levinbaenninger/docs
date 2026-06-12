@@ -1,0 +1,33 @@
+---
+title: "Software and Data Integrity Failures"
+icon: "file-shield"
+---
+
+Es beschreibt Schwachstellen durch unzuverlässige Softwareupdates oder Integritätsverletzungen, bei denen Angreifer manipulierte Dateien oder Updates einschleusen können.
+
+## Problem
+
+Unsichere Anwendungen entstehen, wenn Updates oder Daten nicht auf Integrität geprüft werden.
+
+```json
+// Unsicheres Update
+update_url: "http://example.com/updates/latest.zip"
+```
+
+* Updates werden nicht signiert oder überprüft
+* Angreifer kann die Datei manipulieren
+
+## Lösung
+
+* Updates sollten signiert sein
+* Signaturprüfung vor Installation zwingend
+* Nutzung von HTTPS/TLS für Übertragung
+
+```json
+// Sichere Updates mit Signaturen
+update_url: "https://example.com/updates/latest.zip"
+update_signature: "latest.zip.sig"
+```
+
+* Nur vertrauenswürdige, verifizierte Updates werden installiert
+* Manipulationen werden erkannt

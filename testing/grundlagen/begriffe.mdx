@@ -1,0 +1,202 @@
+---
+title: "Begriffe"
+icon: "tags"
+---
+
+## Fehlerbegriff
+
+<AccordionGroup>
+<Accordion title="Fehler">
+
+Ein Fehler ist eine Nichterfüllung einer festgelegten Anforderung; eine Abweichung zwischen dem Ist- und dem Soll-Verhalten.
+
+</Accordion>
+
+<Accordion title="Fehlerwirkung">
+
+Die Fehlerwirkung (_Failure_) ist ein Ereignis, bei dem eine Komponente oder ein System eine geforderte Funktion nicht im spezifizierten Rahmen ausführt.
+
+</Accordion>
+
+<Accordion title="Fehlerzustand">
+
+Der Fehlerzustand (_Fault_, _Defect_) ist ein Mangel in einem Arbeitsergebnis, der dazu führt, dass dieses seine Anforderungen oder Spezifikationen nicht erfüllt.
+
+</Accordion>
+
+<Accordion title="Fehlermaskierung">
+
+Fehlermaskierung liegt vor, wenn ein vorhandener Fehlerzustand durch andere Fehlerzustände im Testobjekt kompensiert wird, sodass dieser Fehlerzustand keine Fehlerwirkung hervorruft.
+
+</Accordion>
+
+<Accordion title="Fehlerhandlung">
+
+Die Fehlhandlung (_Error_) ist die menschliche Handlung, die zu einem falschen Ergebnis führt.
+
+</Accordion>
+</AccordionGroup>
+
+***
+
+<AccordionGroup>
+<Accordion title="Falsch positiv">
+
+Ein falsch positives Ergebnis (_false-positive result_) tritt auf, wenn das Testergebnis eine Abweichung zwischen Ist- und Sollverhalten anzeigt, obwohl der Fehlerzustand bzw. die Ursache für die Fehlerwirkung nicht im Testobjekt liegt.
+
+</Accordion>
+
+<Accordion title="Falsch negativ">
+
+Ein falsch negatives Ergebnis (_false-negative result_) liegt vor, wenn Fehlerwirkungen nicht auftreten, obwohl das Testobjekt fehlerhaft ist und der Testfall dies nicht anzeigt.
+
+</Accordion>
+</AccordionGroup>
+
+## Testartefakte
+
+<AccordionGroup>
+<Accordion title="Testobjekt">
+
+Das Testobjekt ist die Komponente oder das (Teil-)System, das getestet wird.
+
+</Accordion>
+
+<Accordion title="Testbasis">
+
+Die Testbasis umfasst alle Dokumente und Informationen, die als Basis für die Testanalyse und den Testentwurf verwendet werden können und das Soll-Verhalten des Testobjekts festlegen.
+
+</Accordion>
+
+<Accordion title="Testfall">
+
+Ein Testfall ist eine Menge von Vorbedingungen, Eingaben, Aktionen (falls anwendbar), vorausgesagten Ergebnissen und Nachbedingungen, die auf Basis von Testbedingungen entwickelt wurden.
+
+</Accordion>
+
+<Accordion title="Testlauf">
+
+Ein Testlauf ist die Ausführung eines oder mehrerer Testfälle mit einer bestimmten Version des Testobjekts.
+
+</Accordion>
+
+<Accordion title="Testbedingung">
+
+Eine Testbedingung (_Test Condition_) ist ein aus der Testbasis abgeleiteter Aspekt, der für das Erreichen bestimmter Testziele relevant ist und durch ein oder mehrere Testfälle geprüft wird.
+
+</Accordion>
+
+<Accordion title="Testelement">
+
+Ein Testelement ist das einzelne Element, das getestet wird, wobei gewöhnlich ein Testobjekt und viele Testelemente existieren.
+
+</Accordion>
+
+<Accordion title="Testsuite">
+
+Eine Testsuite ist eine Menge von Testfällen, gruppiert nach einem gemeinsamen Zweck oder einem Testziel, die in einem Testzyklus ausgeführt werden.
+
+</Accordion>
+
+<Accordion title="Testausführungsplan">
+
+Der Testausführungsplan ist ein Zeitplan für die Ausführung von Testsuiten innerhalb eines Testzyklus.
+
+</Accordion>
+
+<Accordion title="Testskript">
+
+Ein Testskript ist eine Abfolge von Anweisungen, die die Schritte zur Durchführung eines Tests festlegen.
+
+</Accordion>
+
+<Accordion title="Testprotokoll">
+
+Ein Testprotokoll ist eine chronologische Aufzeichnung von Einzelheiten der Testausführung, einschliesslich der Ergebnisse der Testläufe.
+
+</Accordion>
+
+<Accordion title="Testkonzept">
+
+Das Testkonzept ist die Dokumentation der Testziele sowie der Massnahmen und der Zeitplanung, um diese zu erreichen, zum Zweck der Koordination von Testaktivitäten.
+
+</Accordion>
+</AccordionGroup>
+
+<Frame caption="Grundlagen">
+  ![Abbildung](/images/content/testing/file-excalidraw.svg)
+</Frame>
+
+## Grundsätze des Testens
+
+<AccordionGroup>
+<Accordion title="Testen zeigt die Anwesenheit von Fehlerzuständen">
+
+Testen kann nur die Existenz von Fehlerzuständen nachweisen, jedoch niemals beweisen, dass keine Fehlerzustände mehr vorhanden sind.
+
+***
+
+Selbst wenn alle ausgeführten Tests keinen Fehler aufdecken, kann (ausser bei trivialen Programmen) nicht ausgeschlossen werden, dass zusätzliche Tests weitere Fehler aufzeigen würden.
+
+</Accordion>
+
+<Accordion title="Vollständiges Testen ist nicht möglich">
+
+Ein vollständiger Test, der alle möglichen Eingabewerte und deren Kombinationen unter Berücksichtigung aller Vor- und Randbedingungen ausführt, ist mit Ausnahme sehr trivialer Testobjekte nicht durchführbar.
+
+***
+
+Im Fallbeispiel der Fahrzeugkonfiguration resultieren 150'000 verschiedene Kombinationen, deren vollständiges Testen zeitlich nicht vertretbar ist.
+
+</Accordion>
+
+<Accordion title="Frühes Testen spart Zeit und Geld">
+
+Testaktivitäten sollen so früh wie möglich im Softwarelebenszyklus beginnen (auch als «Shift-Left» bezeichnet), da frühzeitig erkannte Fehlerzustände spätere, kostenintensive Änderungen reduzieren oder vermeiden.
+
+***
+
+Allein das Aufschreiben sinnvoller Tests und die Diskussion darüber vor der Codierung hat in einem Projekt auf viele Probleme aufmerksam gemacht, lange bevor der erste Test ausgeführt wurde.
+
+</Accordion>
+
+<Accordion title="Häufung von Fehlerzuständen">
+
+Die meisten Fehlerzustände finden sich in wenigen Komponenten oder Teilen eines Systems, da Fehlerzustände in der Regel nicht gleichmässig über das gesamte System verteilt sind.
+
+***
+
+Die beobachtete oder geschätzte Anhäufung von Fehlerzuständen in bestimmten Systemteilen kann zur Risikoanalyse genutzt werden, um den Testaufwand gezielt auf diese fehlerträchtigen Teile zu konzentrieren.
+
+</Accordion>
+
+<Accordion title="Testfälle «nutzen sich ab»">
+
+Wenn dieselben Tests wiederholt ausgeführt werden, ohne dass das System geändert wurde, hören sie auf, neue Fehlerzustände zu finden.
+
+***
+
+Diese Situation erfordert die ständige Anpassung und Ergänzung der Testfälle (z. B. durch neue Testdaten oder Verfahren), um die Wirksamkeit des Testens aufrechtzuerhalten.
+
+</Accordion>
+
+<Accordion title="Testen ist abhängig vom Kontext">
+
+Die Auswahl der Testvorgehensweisen, Techniken und des Testumfangs muss dem jeweiligen Kontext des zu testenden Systems entsprechen.
+
+***
+
+Bei einem Computerspiel bedeutet ein fehlerhaftes Speichern ein sehr hohes Risiko (Absatzverluste), wohingegen sicherheitskritische Systeme (z. B. in der Luftfahrt) gesetzlich aufwendige Testverfahren vorschreiben.
+
+</Accordion>
+
+<Accordion title="Das Fehlschlagen der Abwesenheit von Fehlerzuständen ist ein Irrtum">
+
+Das blosse Finden und Beheben vieler Fehlerzustände führt nicht automatisch dazu, dass das System nützlich und akzeptabel ist, wenn die Anforderungen selbst fehlerhaft oder unvollständig waren.
+
+***
+
+Wenn ein an sich fehlerfreies System von den Anwendern abgelehnt wird, weil es als «umständlich» empfunden wird, kann dies das Scheitern der gesamten Systemeinführung zur Folge haben, obwohl das System funktional in Ordnung ist.
+
+</Accordion>
+</AccordionGroup>

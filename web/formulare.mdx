@@ -1,0 +1,158 @@
+---
+title: "Formulare"
+icon: "wpforms"
+iconType: "brands"
+---
+
+Ein einfaches Formular enthält drei Dinge:
+
+* Ein `<form>`-Element, das den gesamten anderen Formularinhalt umschliesst. Alle Formularsteuerelemente innerhalb der `<form></form>`-Tags gehören zu demselben Formular und ihre Daten werden übermittelt, wenn das Formular abgesendet wird.
+* Ein oder mehrere Paare, die jeweils aus einem `<label>`-Element und einem Formularsteuerelement bestehen (normalerweise ein `<input>`-Element, es gibt aber auch andere Typen, zum Beispiel `<select>`):
+  * Das Formularsteuerelement erlaubt dem Benutzer, Daten auszuwählen oder einzugeben, die an den Server gesendet werden, wenn das Formular übermittelt wird.
+  * Das `<label>`-Element bietet eine Bezeichnung, die mit dem Formularsteuerelement verknüpft ist und die Daten beschreibt, die darin eingegeben werden sollen.
+* Ein `<button>`-Element, das zum Übermitteln des Formulars verwendet wird.
+
+```html
+<form action="./submit_page" method="post">
+    <h2>Subscribe to our newsletter</h2>
+    <p>
+        <label for="name">Name (required):</label>
+        <input type="text" name="name" id="name" required />
+    </p>
+    <p>
+        <label for="email">Email (required):</label>
+        <input type="email" name="email" id="email" required />
+    </p>
+    <p>
+        <button>Sign me up!</button>
+    </p>
+</form>
+```
+
+## Das `<form>`-Element
+
+Wie bereits erwähnt, fungiert das `<form>`-Element als äusserer Wrapper für das Formular und gruppiert alle Formularsteuerelemente darin zusammen. Wenn die `<button>`-Taste gedrückt wird, werden alle durch die Formularsteuerelemente dargestellten Daten an den Server übermittelt. Das `<form>`-Element kann viele Attribute enthalten, aber die beiden wichtigsten, die wir hier eingeschlossen haben, sind folgende:
+
+* `action`: Beinhaltet einen Pfad zu der Seite, an die wir die übermittelten Formulardaten zur Verarbeitung senden möchten.
+* `method`: Gibt die Datenübertragungsmethode an, die du zum Senden der Formulardaten an den Server verwenden möchtest.
+
+## `<input>`-Elemente
+
+Die `<input>`-Elemente repräsentieren die verschiedenen Datenelemente, die ins Formular eingegeben werden.
+
+```html
+<input type="text" name="name" id="name" required />
+```
+
+Die Attribute sind wie folgt:
+
+* `type`: Gibt den Typ der zu erstellenden Formularsteuerung an. Es gibt viele verschiedene Typen von Formularsteuerungen, von einfachen Texteinträgen unterschiedlicher Typen bis hin zu Optionsfeldern, Kontrollkästchen und mehr. Typ `text` rendert ein grundlegendes Textfeld, das jeden Wert akzeptieren kann.
+* `name`: Gibt einen Namen für das Datenelement an. Wenn das Formular übermittelt wird, werden die Daten in Key-Value-Paaren gesendet. In jedem Fall ist der Name gleich dem Wert des Attributs `name`, und der Wert entspricht dem in das Textfeld eingegebenen Text.
+* `id`: Gibt eine ID an, die verwendet werden kann, um das Element zu identifizieren. In diesem Fall wird es verwendet, um die Formularsteuerung mit ihrem `<label>` zu verbinden.
+* `required`: Gibt an, dass ein Wert in das Formularelement eingegeben werden muss, bevor das Formular übermittelt werden kann. Dies sollte nur bei den Eingaben gesetzt werden, die Sie benötigen, nicht bei optionalen Feldern.
+
+### Spezialisierte Texteingabefelde
+
+Es gibt mehrere spezialisierte Texteingabefeldtypen, die darauf ausgelegt sind, spezifische Datentypen zu verarbeiten — `<input type="number">`, `<input type="password">`, `<input type="tel">`, etc.
+
+### Optionsfelder
+
+Optionsfelder werden mit `<input type="radio" />` implementiert. Dabei kann man nur eine Option auswählen.
+
+```html
+<fieldset>
+    <legend>Choose hotel room type (required):</legend>
+    <div>
+        <input type="radio" id="hotelChoice1" name="hotel" value="economy" checked />
+        <label for="hotelChoice1">Economy (+$0)</label>
+        
+        <input type="radio" id="hotelChoice2" name="hotel" value="superior" />
+        <label for="hotelChoice2">Superior (+$50)</label>
+        
+        <input type="radio" id="hotelChoice3" name="hotel" value="penthouse" disabled />
+        <label for="hotelChoice3">Penthouse (+$150)</label>
+    </div>
+</fieldset>
+```
+
+`radio`-Eingabetypen funktionieren grundsätzlich wie `text`-Eingabetypen, jedoch mit einigen Unterschieden:
+
+* Die `name` Attribute für jede Gruppe von Optionsbuttons müssen denselben Wert enthalten, um sie als eine Gruppe zu verknüpfen.
+* Du musst ein `value`-Attribut angeben, das den zu übermittelnden Wert für jeden Optionsbutton enthält.
+* Das `<label>` für jedes Optionsfeld sollte diese spezielle Wertauswahl beschreiben, anstatt den Gesamtwert, den du auswählst.
+
+### Kontrollkästchen
+
+Kontrollkästchen werden mit `<input type="checkbox" />` implementiert. Kontrollkästchen kann man an bzw. ausmachen.
+
+```html
+<fieldset>
+    <legend>Choose classes to attend:</legend>
+    <div>
+        <input type="checkbox" id="yoga" name="yoga" />
+        <label for="yoga">Yoga (+$10)</label>
+        
+        <input type="checkbox" id="coffee" name="coffee" />
+        <label for="coffee">Coffee roasting (+$20)</label>
+        
+        <input type="checkbox" id="balloon" name="balloon" />
+        <label for="balloon">Balloon animal art (+$5)</label>
+    </div>
+</fieldset>
+```
+
+### Dropdown-Menüs
+
+Dropdown-Menüs werden nicht mit einem `<input>` Typ implementiert, sondern mit den `<select>` und `<option>` Elementen:
+
+```html
+<label for="transport">How are you getting here:</label>
+<select name="transport" id="transport">
+  <option value="">--Please choose an option--</option>
+  <option value="plane">Plane</option>
+  <option value="bike">Bike</option>
+  <option value="walk">Walk</option>
+  <option value="bus">Bus</option>
+  <option value="train">Train</option>
+  <option value="jetPack">Jet pack</option>
+</select>
+```
+
+Das `<select>` Element umschliesst alle verschiedenen Wertauswahlmöglichkeiten. Hier legst du das `id`-Attribut fest, das die Steuerung mit seinem Label verknüpft, und das `name`-Attribut, das den Namen des zu übermittelnden Datenelements festlegt.
+
+Jeder mögliche Wert für das Datenelement wird durch ein `<option>`-Element dargestellt, das in das `<select>` Elemente eingebettet ist. Jedes `<option>`-Element kann ein `value`-Attribut aufnehmen, das den zu übermittelnden Wert angibt, wenn diese Auswahl aus der Dropdown-Liste getroffen wird. 
+
+### Mehrzeilige Texteingabefelder
+
+Mehrzeilige Texteingabefelder werden mithilfe von `<textarea>` Elementen erstellt:
+
+```html
+<label for="comments">Any other comments:</label>
+<textarea id="comments" name="comments" rows="5" cols="33"></textarea>
+```
+
+Sie verhalten sich ähnlich wie `<input type="text">`-Elemente, ausser dass sie die Eingabe mehrerer Zeilen Text ermöglichen. Das `rows` Attribut gibt die Anzahl der Zeilen an, die der Textbereich standardmässig hoch ist, während das `cols`-Attribut die Anzahl der Spalten angibt, die der Textbereich standardmässig breit ist.
+
+## `<label>`-Elemente
+
+Wie bereits oben erwähnt, bieten `<label>`-Elemente identifizierende Labels, die mit Formularsteuerelementen verknüpft sind und die Daten beschreiben, die in sie eingegeben werden sollen. Die Zuordnung wird erstellt, indem dem Formularsteuerelement ein `id`-Attribut zugewiesen wird, und dem `<label>`-Element ein `for`-Attribut mit demselben Wert wie die `id` des Steuerelements.
+
+```html
+<label for="name">Name (required):</label>
+<input type="text" name="name" id="name" required />
+```
+
+`<label>`-Elemente sind aus mehreren Gründen wichtig, insbesondere:
+
+* Wenn sehbehinderte Benutzer einen Screenreader verwenden, um ihnen zu helfen, Webseitenelemente zu lesen und damit zu interagieren, liest der Screenreader den zugehörigen `label`-Text vor, wenn jedes Steuerelement aufgerufen wird.
+* Sie ermöglichen es dir, Formularsteuerelemente durch Klicken auf ihren `label`-Text sowie die Steuerelemente selbst zu fokussieren. Dies ist besonders nützlich für mobile Benutzer, bei denen es schwierig sein kann, ein Formularsteuerelement mit dem Finger auf einem Touchscreen genau auszuwählen.
+
+## Das `<button>`-Element
+
+Wenn ein `<button>`-Element in einem `<form>`-Element enthalten ist, wird standardmäßig, sofern keine ungültigen Daten vorliegen, die Übermittlung des Formulars ausgelöst.
+
+Es gibt auch andere Schaltflächenverhalten, die über das Attribut `type` des `<button>`-Elements angegeben werden können:
+
+* `<button type="submit">` erklärt explizit, dass eine Schaltfläche sich wie eine Submit-Schaltfläche verhalten soll.
+* `<button type="reset">` erstellt eine _Reset-Schaltfläche_ — dadurch werden alle Daten im Formular sofort gelöscht und es wird auf seinen ursprünglichen Zustand zurückgesetzt.
+* `<button type="button">` erzeugt eine Schaltfläche mit demselben Verhalten wie Schaltflächen, die ausserhalb von `<form>`-Elementen angegeben sind.

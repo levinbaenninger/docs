@@ -1,0 +1,19 @@
+---
+title: "Operator Overloading"
+icon: "not-equal"
+---
+
+In F# können Operatoren auch als Funktionen definiert werden. Dabei wird ein Operator wie eine normale Funktion mit spezieller Schreibweise (`let (+) ...`) implementiert.
+
+So kann festgelegt werden, wie ein Operator intern arbeitet oder bestehende Funktionen über Operatoren zugänglich gemacht werden. Dies wird häufig genutzt, um Code kompakter oder lesbarer zu gestalten.
+
+```fsharp
+let multiply a b = a * b
+let divide a b = a / b
+let isEqual a b = a = b
+
+let (*) a b = multiply a b
+let (/) a b = divide a b
+let (==) a b = isEqual a b
+let (<>) a b = not (a == b)
+```

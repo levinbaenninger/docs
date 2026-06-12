@@ -1,0 +1,134 @@
+---
+title: "Netzwerk und Firewall"
+icon: "network-wired"
+---
+
+Netzwerke sind ein zentraler Bestandteil jeder Cloud-Infrastruktur. Microsoft Azure stellt verschiedene Komponenten zur Verfügung, um Netzwerke zu planen, zu strukturieren und vor Angriffen zu schützen.
+
+## Schichten der Netzwerksicherheit
+
+Azure verfolgt einen **mehrstufigen Sicherheitsansatz**, um Angriffe auf unterschiedlichen Ebenen zu blockieren:
+
+<table><thead><tr><th width="237.453125">Ebene</th><th>Massnahmen</th></tr></thead><tbody><tr><td>Perimeter</td><td>DDoS Protection, Azure Firewall</td></tr><tr><td>Netzwerk</td><td>Network Security Groups</td></tr><tr><td>Anwendung</td><td>Web Application Firewall, Zero Trust</td></tr><tr><td>Daten</td><td>Verschlüsselung, Zugriffskontrollen</td></tr></tbody></table>
+
+## Zugriffsmöglichkeiten
+
+Azure bietet verschiedene Wege, um z. B. auf VMs zuzugreifen:
+
+<AccordionGroup>
+<Accordion title="Direkter Zugriff">
+
+Über SSH, RDP oder öffentliche IP-Adresse
+
+</Accordion>
+
+<Accordion title="Azure Bastion">
+
+Sicherer Browser-Zugriff ohne geöffnete Ports
+
+</Accordion>
+
+<Accordion title="Drittanbieter">
+
+VPNs, Remote Tools, oder Plattformintegrationen
+
+</Accordion>
+</AccordionGroup>
+
+**Azure Bastion** ist dabei besonders sicher, da keine Ports nach aussen geöffnet werden müssen – der Zugriff erfolgt über das Azure-Portal via HTTPS.
+
+## Globale Infrastruktur
+
+<Tabs>
+<Tab title="Region">
+Geografisches Gebiet mit einem oder mehreren Rechenzentren
+</Tab>
+
+<Tab title="Region Pair">
+Zwei verbundene Regionen für Replikation und Ausfallsicherheit
+</Tab>
+
+<Tab title="Availability Sets">
+Schutz vor Hardwareausfällen innerhalb eines Rechenzentrums durch Trennung in Fault und Update Domains
+</Tab>
+
+<Tab title="Availability Zones">
+Trennung über mehrere Gebäude (Netz, Strom, Kühlung)
+</Tab>
+</Tabs>
+
+Diese Konzepte bilden die Grundlage für hochverfügbare Cloud-Anwendungen.
+
+## Netzwerkkomponenten
+
+<AccordionGroup>
+<Accordion title="Virtual Network">
+
+* Privates Netzwerk in Azure mit eigenen IP-Bereichen
+* Kann in **Subnets** unterteilt werden
+* Ermöglicht sichere Kommunikation zwischen Diensten
+
+</Accordion>
+
+<Accordion title="Load Balancer">
+
+* Verteilt eingehende Anfragen auf mehrere Ressourcen
+* Unterstützt **Health-Probes**
+* Varianten:
+  * **Public Load Balancer**
+  * **Internal Load Balancer**
+
+</Accordion>
+
+<Accordion title="Traffic Manager">
+
+* DNS-basierter Lastverteiler
+* Bietet **Multi-Region Routing**
+* Routing-Strategien:
+  * Performance
+  * Priority (Failover)
+  * Geographic
+
+</Accordion>
+
+<Accordion title="VPN Gateway">
+
+* Baut eine sichere Verbindung zwischen Azure und lokalen Netzwerken auf
+* Unterstützt:
+  * **Policy-based VPN** (statisch)
+  * **Route-based VPN** (flexibel)
+
+</Accordion>
+</AccordionGroup>
+
+## Netzwerksicherheit
+
+<Tabs>
+<Tab title="Network Security Groups">
+* Regelt den **Zugriff auf Subnets oder Netzwerkinterfaces**
+* Regeln bestehen aus:
+  * Richtung (Inbound / Outbound)
+  * Quelle / Ziel / Port / Protokoll
+* Azure hat bereits Grundregeln vordefiniert
+
+<Info>
+Die **erste zutreffende Regel wird angewendet**
+</Info>
+</Tab>
+
+<Tab title="Azure Firewall">
+* Vollständig verwaltete, statusbehaftete **Firewall-as-a-Service**
+* Unterstützt Regeln auf **Layer 3 bis 7** (Netzwerk- bis Anwendungsschicht)
+* Bietet:
+  * **NAT-Regeln**
+  * **Netzwerkregeln** (IP/Port-basiert)
+  * **Anwendungsregeln** (FQDN-basiert)
+</Tab>
+
+<Tab title="Azure DDoS Protection">
+* Erkennt und entschärft Angriffe, bevor sie Azure-Ressourcen erreichen
+* Zwei Varianten:
+  * **Basic**: Für alle Kunden automatisch aktiviert
+  * **Standard**: Zusätzliche Schutzfunktionen, z. B. Analyse, Alerts, SLA
+</Tab>
+</Tabs>

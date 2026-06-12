@@ -1,0 +1,44 @@
+---
+title: "Anwendung erstellen"
+icon: "pen-to-square"
+---
+
+Um ein neues Projekt zu erstellen, müssen wir folgenden Befehl ausführen.
+
+```bash
+ng new
+```
+
+Daraufhin werden wir aufgefordert, einige Optionen für die Erstellung unserer Angular-Applikation auszuwählen.
+
+```bash
+? What name would you like to use for the new workspace and initial project? my-app
+? Which stylesheet format would you like to use? CSS
+? Do you want to enable Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering)? No
+```
+
+Eine wichtige Unterscheidung ist hier der Unterschied zwischen Server Side Rendering, Static Site Generation und einer Single Page Application. Wenn wir nein sagen, werden wir eine Standard-Single-Page-Application generieren.
+
+<Tabs>
+<Tab title="Single Page Application">
+Die gesamte Anwendung wird auf dem Client geladen, und es wird eine einzige Seite geladen. Die Navigation durch die Anwendung wird dynamisch durch JavaScript auf dem Client gesteuert.
+</Tab>
+
+<Tab title="Server-Side Rendering">
+Anstatt die Anwendung vollständig auf dem Client auszuliefern, wird sie auf einem externen Server ausgeführt. Seitenanfragen können an diesen Server gestellt werden, der Server rendert die Seite und liefert sie dann an den Client.
+</Tab>
+
+<Tab title="Static Site Generation">
+Die Anwendung wird einmal erstellt, um viele verschiedene statische Seiten zu erzeugen, und diese Seiten werden dann direkt von einem Server geladen (anstatt vom Server „on the fly“ erzeugt zu werden)
+</Tab>
+</Tabs>
+
+## Anwendung starten
+
+Um nun unsere Angular-Applikation zu starten, führen wir folgenden Befehl aus.
+
+```bash
+ng serve
+```
+
+Wenn du nun auf `localhost:4200` in deinem Browser gehst, siehst du deine laufende Anwendung.

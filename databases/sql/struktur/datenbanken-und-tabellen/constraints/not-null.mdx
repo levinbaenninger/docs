@@ -1,0 +1,20 @@
+---
+title: "NOT NULL"
+icon: "ban"
+---
+
+Standardmässig kann ein Attributwert den Wert `NULL` bekommen. Um das zu verhindern, gibt es den `NOT NULL`-Constraint.
+
+```sql
+CREATE TABLE Persons (
+    Id INTEGER NOT NULL,
+    LastName VARCHAR(45) NOT NULL,
+    FirstName VARCHAR(45) NOT NULL,
+    Age INTEGER
+);
+```
+
+```sql
+ALTER TABLE Persons
+MODIFY Age INTEGER NOT NULL;
+```

@@ -1,0 +1,47 @@
+---
+title: "Methoden"
+icon: "gears"
+---
+
+Eine Methode ist ein Codeblock, welcher eine bestimmte Aufgabe ausführt. Wir nutzen Methoden, um unseren Code in kleinere, handlichere Stücke zu unterteilen. So können wir auch Wiederholungen von Code vermeiden.
+
+```csharp
+void Method()
+{
+    ..
+}
+
+Method();
+```
+
+## Parameter
+
+Mit Parameter können wir unsere Methoden flexibler gestalten, indem wir ihnen beim Aufruf Argumente mitgeben. Diese verhalten sich wie normale Variablen.
+
+```csharp
+void PrintInfo(string name, int age)
+{
+    Console.WriteLine($"Name: {name}");
+    Console.WriteLine($"Age: {age}");
+}
+
+PrintInfo("Levin", 17);
+```
+
+```text title="Output"
+Name: Levin
+Age: 17
+```
+
+## Return-Types
+
+Eine Methode kann auch etwas zurückgeben, z.B. wenn wir eine Methode `Add()` haben, welche zwei Zahlen addiert und uns den Wert zurückgibt.
+
+```csharp
+int Add(int a, int b)
+{
+    return a + b;
+}
+
+int sum = Add(5, 3);
+```

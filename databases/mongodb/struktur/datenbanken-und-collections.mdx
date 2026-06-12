@@ -1,0 +1,60 @@
+---
+title: "Datenbanken und Collections"
+icon: "boxes-stacked"
+---
+
+## Datenbanken
+
+Mit folgendem Befehl zeigen wir alle Datenbanken an:
+
+```javascript
+show databases
+```
+
+***
+
+Mit dem folgenden Befehl können wir eine Datenbank erstellen und nutzen:
+
+```javascript
+use nexus
+```
+
+<Info>
+Die neu erstellte Datenbank wird nicht sofort angezeigt. Wir müssen zuerst eine Collection darin erstellen.
+</Info>
+
+***
+
+Mit dem folgenden Befehl löschen wir eine Datenbank:
+
+```javascript
+nexus.dropDatabase()
+```
+
+## Collections
+
+Mit dem folgenden Befehl können wir uns alle Collections in einer Datenbank anzeigen lassen:
+
+```javascript
+show collections
+```
+
+***
+
+Mit dem folgenden Befehl können wir eine Collection erstellen:
+
+```javascript
+db.createCollection("projects")
+```
+
+<Info>
+Dem `createCollection()`-Befehl können wir auch noch [weitere Optionen](https://www.mongodb.com/docs/manual/reference/method/db.createCollection/) mitgeben.
+</Info>
+
+***
+
+Mit dem folgenden Befehl können wir eine Collection löschen:
+
+```javascript
+db.projects.drop()
+```

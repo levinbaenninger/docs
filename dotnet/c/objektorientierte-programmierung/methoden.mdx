@@ -1,0 +1,26 @@
+---
+title: "Methoden"
+icon: "gear"
+---
+
+Eine Klasse kann auch Methoden beinhalten. Diese Methoden können auch mit den [Fields und Properties](/dotnet/c/objektorientierte-programmierung/fields-und-properties) interagieren.
+
+```csharp
+class Person
+{
+    public string Name { get; set; }
+    public DateOnly DateOfBirth { get; set; }
+    
+    public void PrintInfo() 
+    {
+        Console.WriteLine($"Name: {Name}");
+        PrintSeparator();
+        Console.WriteLine($"Date of birth: {DateOfBirth}");
+    }
+    
+    private void PrintSeparator()
+    {
+        Console.WriteLine("----------------------------");
+    }
+}
+```

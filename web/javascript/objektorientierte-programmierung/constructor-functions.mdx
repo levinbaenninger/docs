@@ -1,0 +1,107 @@
+---
+title: "Constructor Functions"
+icon: "hammer"
+---
+
+Constuctor Functions sind eine Technik, um Objekte von einer Funktion zu erstellen. Constructor Functions sollen traditionelle Klassen simulieren.
+
+```javascript
+const Person = function (firstname, lastname, birthYear) {
+  this.firstname = firstname;
+  this.lastname = lastname;
+  this.birthYear = birthYear;
+};
+
+const levin = new Person('Levin', 'Bänninger', 2007);
+const matilda = new Person('Matilda', 'Johnson', 2009);
+const jay = new Person('Jay', 'Smith', 2010);
+console.log(levin, matilda, jay);
+```
+
+1. Neues `{}` wird erstellt
+2. Funktion wird aufgerufen, `this` = `{}`
+3. `{}` wird mit dem Prototype verknüpft
+4. Funktion gibt neues Objekt automatisch zurück
+
+<Warning>
+Man sollte **keine Methoden** bei Constructor Functions definieren!
+</Warning>
+
+## `instanceof`
+
+Mit `instanceof` können wir überprüfen ob ein Objekt eine Instanz einer bestimmten Constructor Function ist.
+
+```javascript
+const john = 'John';
+
+console.log(levin instanceof Person);
+console.log(john instanceof Person);
+```
+
+## Prototype
+
+Wir können uns nun den Prototype zu nutze machen, indem wir darin die Methoden und gemeinsame Properties für unsere Constructor Function definieren.
+
+```javascript
+Person.prototype.calcAge = function () {
+  const currentYear = new Date().getFullYear();
+  console.log(currentYear - this.birthYear);
+};
+
+levin.calcAge();
+matilda.calcAge();
+
+Person.prototype.species = 'Homo sapiens';
+console.log(levin.species, jay.species);
+```
+
+### `__proto__`
+
+Mit diesem Property können wir nachschauen, welchen Prototype eine Instanz hat.
+
+```javascript
+console.log(levin.__proto__);
+```
+
+## Statische Methoden
+
+Statische Methoden sind nicht an ein Objekt geknüpft sondern an den Constructor. Das heisst wir können die Methode nur auf dem Constructor aufrufen, nicht aber auf dem Objekt.
+
+```javascript
+Person.hey = function () {
+  console.log('Hey there 👋');
+};
+
+Person.hey();
+```
+
+## Vererbung
+
+```javascript
+const Student = function (firstName, lastName, birthYear, course) {
+  Person.call(this, firstName, lastName, birthYear);
+  this.course = course;
+};
+
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.constructor = Student;
+
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstname} and I study ${this.course}`);
+};
+
+const mike = new Student('Mike', 'Johnson', 2010, 'Computer Science');
+mike.introduce();
+mike.calcAge();
+```
+
+Wir setzen den Protoype von Student also auf den Prototype von Person. So können wir alle Methoden vom Person Prototype ebenfalls nutzen.
+
+
+
+
+
+    `Person {firstname: 'Matilda', lastname: 'Johnson', birthYear: 2009}` 
+
+    \
+    `Person {firstname: 'Jay', lastname: 'Smith', birthYear: 2010}`

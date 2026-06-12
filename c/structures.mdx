@@ -1,0 +1,98 @@
+---
+title: "Structures"
+icon: "braces"
+---
+
+In C, ein `struct` (oder `structure`) ist eine Kollektion von Variablen (können verschiedene Datentypen haben) unter einem einzigen Namen.
+
+```c
+struct structureName {
+  dataType member1;
+  dataType member2;
+  ...
+};
+```
+
+Beispielsweise:
+
+```c
+struct Person {
+  char name[50];
+  int citNo;
+  float salary;
+};
+```
+
+## Kreieren von `struct` Variablen﻿
+
+Wenn ein `struct` deklariert wird, werden weder Speicher noch RAM freigegeben. Um mit `structs` arbeiten zu können, müssen wir Variablen erstellen.
+
+```c
+struct Person {
+  // code
+};
+
+int main() {
+  struct Person person1, person2;
+
+  return 0;
+}
+```
+
+## Daten lesen﻿
+
+Es gibt zwei arten von Operatoren, um Zugang zu Daten aus einer `structure` zu bekommen-
+
+1. `.` - Member Operator
+2. `->` - Structure pointer operator
+
+Wenn man beispielsweise von `person2` den Namen wissen möchte, kann man das wie folgt machen.
+
+```c
+person2.firstName
+```
+
+## Beispiel
+
+<Tabs>
+<Tab title="main.c">
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Person {
+  char name[50];
+  int citNo;
+  float salary;
+} person1;
+
+int main() {
+  strcpy(person1.name, "George Orwell");
+
+  person1.citNo = 1984;
+  person1. salary = 2500;
+
+  printf("Name: %s\n", person1.name);
+  printf("Citizenship No.: %d\n", person1.citNo);
+  printf("Salary: %.2f", person1.salary);
+
+  return 0;
+}
+```
+</Tab>
+
+<Tab title="Output">
+```bash
+Name: George Orwell
+Citizenship No.: 1984
+Salary: 2500.00
+```
+</Tab>
+
+<Tab title="Ruby">
+```ruby
+message = "hello world"
+puts message
+```
+</Tab>
+</Tabs>

@@ -1,0 +1,136 @@
+---
+title: "Cloudarten"
+icon: "cloud-sun"
+---
+
+Cloud Computing kann auf unterschiedliche Arten bereitgestellt werden. Man unterscheidet zwischen **Public Cloud**, **Private Cloud** und **Hybrid Cloud**. Jedes Modell bietet spezifische Vorteile, je nach Sicherheitsanforderungen, Budget und Flexibilität.
+
+## Public Cloud
+
+Die **Public Cloud** wird von einem externen Cloud-Anbieter wie **Microsoft Azure, AWS oder Google Cloud** betrieben.
+
+<AccordionGroup>
+<Accordion title="Merkmale">
+
+* **Geteilte Infrastruktur** (Multi-Tenant)
+* Ressourcen sind **öffentlich zugänglich** (gegen Bezahlung)
+* Beispiele: Web-Apps, Entwicklungsumgebungen, Cloud-Speicher
+
+</Accordion>
+
+<Accordion title="Vorteile">
+
+* **Skalierbarkeit** (on-demand)
+* **Geringe Einstiegskosten**
+* **Keine Wartung** durch den Nutzer
+
+</Accordion>
+
+<Accordion title="Nachteile">
+
+* **Abhängigkeit** vom Anbieter
+* **Bedenken bei Datenschutz** und Compliance
+
+</Accordion>
+
+<Accordion title="Anwendungsfälle">
+
+* **Startups und KMU**, die schnell skalieren wollen, ohne eigene Hardware anzuschaffen.
+* **Entwicklungs- und Testumgebungen**, bei denen keine produktiven Kundendaten verwendet werden.
+* **Webanwendungen**, die weltweit verfügbar sein sollen (z. B. ein Onlineshop oder SaaS-Anwendung).
+* **Backup- und Archivlösungen** zur sicheren, kostengünstigen Langzeitaufbewahrung von Daten.
+
+</Accordion>
+
+<Accordion title="Beispiel">
+
+Ein Onlinehändler entwickelt eine E-Commerce-Plattform auf **Azure App Services**, speichert Produktdaten in **Azure SQL**, nutzt **Blob Storage** für Bilder und profitiert von globaler Verfügbarkeit.
+
+</Accordion>
+</AccordionGroup>
+
+## Private Cloud
+
+Die **Private Cloud** wird **ausschliesslich für eine Organisation** betrieben. Sie kann entweder im eigenen Rechenzentrum oder durch einen spezialisierten Anbieter wie OpenStack bereitgestellt werden.
+
+<AccordionGroup>
+<Accordion title="Merkmale">
+
+* **Einzelne Organisation** nutzt die Infrastruktur (Single-Tenant)
+* Mehr **Kontrolle über Sicherheit** und Datenschutz
+* Massgeschneidert auf interne Prozesse
+
+</Accordion>
+
+<Accordion title="Vorteile">
+
+* **Hohe Sicherheit und Kontrolle**
+* Besser geeignet für **regulierte Branchen** (z. B. Banken, Gesundheit)
+
+</Accordion>
+
+<Accordion title="Nachteile">
+
+* **Hohe Kosten**
+* **Wartung und Betrieb** liegen beim Unternehmen
+
+</Accordion>
+
+<Accordion title="Anwendungsfälle">
+
+* **Banken und Versicherungen**, die strenge Datenschutz- und Compliance-Vorgaben erfüllen müssen.
+* **Gesundheitseinrichtungen**, die Patientendaten gemäss Datenschutzgesetzen (z. B. DSG, DSGVO) verarbeiten.
+* **Regierungsbehörden**, bei denen nationale Sicherheitsinteressen im Vordergrund stehen.
+* **Industrieunternehmen** mit Produktionssystemen, die lokal und ohne Internetverbindung laufen müssen.
+
+</Accordion>
+
+<Accordion title="Beispiel">
+
+Ein Spital betreibt seine elektronische Patientendatenverwaltung (EPD) in einer Private Cloud mit eigener Infrastruktur, um höchste Sicherheitsanforderungen zu gewährleisten und jederzeit Zugriff zu behalten.
+
+</Accordion>
+</AccordionGroup>
+
+## Hybrid Cloud
+
+Die **Hybrid Cloud** kombiniert **Private und Public Cloud** z.B. Google Anthos . Unternehmen nutzen beide Modelle je nach Bedarf und Workload.
+
+<AccordionGroup>
+<Accordion title="Merkmale">
+
+* Daten und Anwendungen können **zwischen Clouds verschoben** werden
+* Ermöglicht **Flexibilität** und **Kostenoptimierung**
+
+</Accordion>
+
+<Accordion title="Vorteile">
+
+* **Sensiblen Daten** bleiben intern, während weniger kritische Workloads in der Public Cloud laufen
+* Gute **Skalierbarkeit** bei gleichzeitiger Kontrolle
+* Unterstützt **Business Continuity** und **Disaster Recovery**
+
+</Accordion>
+
+<Accordion title="Nachteile">
+
+* **Komplexere Verwaltung**
+* **Höherer Aufwand** bei der Integration und beim Monitoring
+
+</Accordion>
+
+<Accordion title="Anwendungsfälle">
+
+* Unternehmen, die **sensible Daten lokal** halten, aber **Cloud-Ressourcen für rechenintensive Aufgaben** nutzen.
+* Szenarien mit **schwankender Last**, z. B. E-Learning-Plattformen während Prüfungsphasen.
+* **Disaster Recovery**: Backup in der Cloud, lokale Systeme als Primärsystem.
+* **Migration bestehender Systeme**: Altsystem bleibt vorerst lokal, neue Komponenten laufen in der Cloud.
+
+</Accordion>
+
+<Accordion title="Beispiel">
+
+Ein Industriebetrieb speichert Produktionsdaten lokal (Private Cloud), überträgt sie aber regelmässig in eine Public Cloud für **Big-Data-Analysen** mit **Azure Synapse Analytics**. Bei Systemausfällen kann der Betrieb über die Cloud-Infrastruktur fortgeführt werden.
+
+</Accordion>
+</AccordionGroup>

@@ -1,0 +1,421 @@
+---
+title: "Compose"
+icon: "layer-group"
+---
+
+Docker Compose ist ein Tool zur Definition und Ausführung von Multi-Container-Anwendungen. Es ist der Schlüssel für eine optimierte und effiziente Entwicklung und Bereitstellung.
+
+Compose vereinfacht die Steuerung deines gesamten Application Stacks, indem es die Verwaltung von Diensten, Netzwerken und Volumes in einer einzigen, verständlichen YAML-Konfigurationsdatei erleichtert. Mit einem einzigen Befehl erstellst und startest du dann alle Dienste aus deiner Konfigurationsdatei.
+
+## Services
+
+Services sind die zentralen Bausteine von Docker Compose. Jeder Service stellt eine containerisierte Anwendung oder Komponente dar.
+
+```yaml
+services:
+  service-name:
+    # Konfiguration des Services
+```
+
+### Images und Build
+
+In einem Service kann der Container entweder von einem Image kommen oder aus einem `Dockerfile` gebildet werden.
+
+<AccordionGroup>
+<Accordion title="Image">
+
+```yaml
+services:
+  database:
+    image: postgres:latest
+```
+
+</Accordion>
+
+<Accordion title="Build">
+
+```yaml
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile  # Dockerfile name (optional if named 'Dockerfile')
+      args:
+        - NODE_ENV=production
+        - VERSION=1.0.0
+      target: production
+```
+
+</Accordion>
+</AccordionGroup>
+
+### Konfiguration des Containers
+
+Wir können den Container noch weiter konfigurieren.
+
+<AccordionGroup>
+<Accordion title="Name">
+
+```yaml
+services:
+  web:
+    image: nginx
+    container_name: nexus_web_server
+```
+
+</Accordion>
+
+<Accordion title="Restart Policy">
+
+Mit der Restart Policy legen wir fest, wann ein Container neugestartet werden soll.
+
+* `no`: Wird nie neugestartet
+* `always`: Container wird immer neugestartet, wenn er gestoppt wird
+* `on-failure`: Container wird nur neugestartet, wenn es einen Fehler gab
+* `unless-stopped`: Container wird immer neugestartet, ausser er wird manuell gestoppt
+
+```yaml
+ services:
+  app:
+    image: nexus
+    restart: unless-stopped
+```
+
+</Accordion>
+</AccordionGroup>
+
+### Port Mapping
+
+Das Port Mapping kann entweder intern oder auch extern erfolgen.
+
+<AccordionGroup>
+<Accordion title="Host">
+
+```yaml
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+```
+
+</Accordion>
+
+<Accordion title="Intern">
+
+```yaml
+services:
+  api:
+    image: nexus_api
+    expose:
+      - "3000"
+```
+
+</Accordion>
+</AccordionGroup>
+
+### Umgebungsvariablen
+
+Über Umgebungsvariablen können wir beispielsweise Variablen setzen.
+
+```yaml
+services:
+  app:
+    image: nexus
+    environment:
+      - NODE_ENV=production
+      - DEBUG=false
+      - DATABASE_URL=postgresql://user:pass@db:5432/nexus
+```
+
+### Abhängigkeiten
+
+Mit dem Property `depends_on` können wir Abhängigkeiten zwischen den einzelnen Services definieren.
+
+```yaml
+services:
+  web:
+    image: nginx
+    depends_on:
+      - api
+      - db
+  
+  api:
+    image: nexus_api
+    depends_on:
+      - db
+  
+  db:
+    image: postgres
+```
+
+### Health Checks
+
+```yaml
+services:
+  database:
+    image: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      
+  api:
+    image: myapi
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      
+  web:
+    image: nginx
+    depends_on:
+      api:
+        condition: service_healthy
+      db:
+        condition: service_started
+```
+
+## Netzwerke
+
+Netzwerke ermöglichen die Kommunikation zwischen Diensten und bieten Isolierung. Docker Compose erstellt automatisch ein Standardnetzwerk, aber du kannst benutzerdefinierte Netzwerke für eine bessere Kontrolle definieren.
+
+### Standardnetzwerk
+
+Wenn du keine Netzwerke definierst, dann macht Docker Compose Folgendes:
+
+1. Erstellt ein Standard-Bridge-Netzwerk mit dem Namen `{project_name}_default`
+2. Verbindet alle Services zu diesem Netzwerk
+3. Services können mit ihren jeweiligen Servicenamen untereinander kommunizieren
+
+### Benutzerdefiniertes Netzwerk
+
+<AccordionGroup>
+<Accordion title="Ohne Konfiguration">
+
+```yaml
+networks:
+  nexus-network:
+
+services:
+  web:
+    image: nginx
+    networks:
+      - nexus-network
+  api:
+    image: nexus_api
+    networks:
+      - nexus-network
+```
+
+</Accordion>
+
+<Accordion title="Mit Konfiguration">
+
+```yaml
+networks:
+  frontend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1
+  
+  backend:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.16.0.0/16
+
+services:
+  web:
+    image: nginx
+    networks:
+      frontend:
+        ipv4_address: 192.168.1.2
+  
+  api:
+    image: nexus_backend
+    networks:
+      - frontend
+      - backend
+  
+  database:
+    image: postgres
+    networks:
+      - backend
+```
+
+</Accordion>
+</AccordionGroup>
+
+## Volumes
+
+Volumes bieten persistenten Datenspeicher, der Neustarts und Entfernungen von Containern übersteht. Sie sind unverzichtbar für Datenbanken, Datei-Uploads, Protokolle und alle Daten, die erhalten bleiben müssen.
+
+```yaml
+services:
+  database:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
+## Secrets
+
+Secrets bieten einen sicheren Speicher für sensible Daten wie Kennwörter, API-Schlüssel, Zertifikate und andere vertrauliche Informationen, die Container zur Laufzeit benötigen.
+
+```yaml
+services:
+  app:
+    image: nexus
+    environment:
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      API_KEY_FILE: /run/secrets/api_key
+      JWT_SECRET_FILE: /run/secrets/jwt_secret
+    secrets:
+      - db_password
+      - api_key
+      - jwt_secret
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  api_key:
+    file: ./secrets/api_key.txt
+  jwt_secret:
+    file: ./secrets/jwt_secret.txt
+```
+
+## Beispiel
+
+```yaml
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: nexus_mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongo_root_username
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_root_password
+      MONGO_INITDB_DATABASE: nexus
+    secrets:
+      - mongo_root_username
+      - mongo_root_password
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nexus_backend
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__MongoDB=mongodb://admin:${MONGO_ROOT_PASSWORD}@mongodb:27017/nexus?authSource=admin
+      - JWT_SECRET_FILE=/run/secrets/jwt_secret
+      - CORS_ORIGINS=http://localhost:3000,http://frontend:3000
+    secrets:
+      - jwt_secret
+    ports:
+      - "5000:8080"
+    networks:
+      - nexus-network
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - backend_logs:/app/logs
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+        - REACT_APP_API_URL=http://localhost:5000
+    container_name: nexus_frontend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:80"
+    networks:
+      - nexus-network
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  nginx:
+    image: nginx:alpine
+    container_name: app_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - nexus-network
+    depends_on:
+      - frontend
+      - backend
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  nexus-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  mongodb_data:
+  backend_logs:
+
+secrets:
+  mongo_root_username:
+    file: ./secrets/mongo_root_username.txt
+  mongo_root_password:
+    file: ./secrets/mongo_root_password.txt
+  jwt_secret:
+    file: ./secrets/jwt_secret.txt
+```

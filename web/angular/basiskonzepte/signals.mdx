@@ -1,0 +1,544 @@
+---
+title: "Signals"
+icon: "signal"
+---
+
+Signals sind eine der neuen Funktionen in Angular, und man kann mit ziemlicher Sicherheit sagen, dass sie **die** neue Funktion sind. Es mag schwer zu erkennen sein, warum das so ist ... oder sogar zu verstehen, was genau sie uns ermöglichen.
+
+Hier ist zum Beispiel eine grundlegende Interpolation, die wir bereits behandelt haben:
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  template: `<p>Hi, {{ name }}</p>`,
+})
+export class HomeComponent {
+  name = 'Levin';
+}
+```
+
+So sieht es mit Signals aus:
+
+```typescript
+import { Component, signal } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  template: `<p>Hi, {{ name() }}</p>`,
+})
+export class HomeComponent {
+  name = signal('Levin');
+}
+```
+
+Es ist im Grunde genau dasselbe... ausser dass wir unseren `Levin`-Wert mit dieser Signal-Funktion umschliessen müssen, die aus `@angular/core` importiert wird, und in Template müssen wir auch diese seltsame Syntax verwenden, um auf den Wert zuzugreifen:
+
+```typescript
+{{ name() }}
+```
+
+***
+
+Wenn wir unseren `name` erstellen:
+
+```typescript
+name = signal('Levin');
+```
+
+`name` wird zu dem, was diese Signal-Funktion, die wir aufrufen, zurückgibt. Die Signal-Funktion gibt uns tatsächlich etwas zurück, das `WritableSignal` genannt wird, was eine Art Signal ist (genauer gesagt, eines, das du aktualisieren darfst).
+
+Im Grunde genommen gibt uns die Signal-Funktion also ein Signal zurück. Das bedeutet, dass `name` ein Signal ist. Um auf den Wert eines Signals zuzugreifen, rufen wir es als Funktion auf – genau das tun wir im Template:
+
+```typescript
+{{ name() }}
+```
+
+Es scheint also, dass Signals im Grunde genommen dasselbe tun wie das Deklarieren eines Klassenmitglieds und die Verwendung einer Interpolation, ausser dass sie eine zusätzliche Syntax erfordern und mit einigen zusätzlichen verwirrenden Unsinnigkeiten einhergehen.
+
+## Change Detection
+
+Okay, angesichts der Begeisterung, die diese Dinge auslösen, kann man mit Sicherheit sagen, dass sie einige Vorteile bieten.
+
+Der entscheidende Punkt ist vielleicht, wie sie mit der Change Detection zusammenhängt. Dieses Thema werden wir noch viel ausführlicher behandeln, aber vorerst ist es wichtig zu verstehen, dass Angular wissen muss, wann sich etwas geändert hat, um die View zu aktualisieren und die Änderung tatsächlich für den Benutzer anzuzeigen.
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  template: `<p>Hi, {{ name }}</p>`,
+})
+export class HomeComponent {
+  name = 'Levin';
+}
+```
+
+Wenn sich der Name aus irgendeinem Grund von `Levin` zu `Kathy` ändert, muss Angular darüber informiert werden, damit es das DOM entsprechend aktualisieren kann. Wie verfolgt Angular, wann sich etwas ändert? Einfach ausgedrückt, verwendet es einen Mechanismus (Zone.js), der es benachrichtigt, wenn etwas passiert ist, das eine Änderung verursacht haben könnte. Dinge, die möglicherweise eine Änderung verursachen können, sind beispielsweise `setTimeout` oder `setInterval` oder die Auflösung eines Promises oder der Abschluss einer HTTP-Anfrage und so weiter.
+
+Angular wird benachrichtigt, dass möglicherweise eine Änderung stattgefunden hat, und überprüft dann jede Komponente, um festzustellen, ob etwas aktualisiert werden muss.
+
+Das ist nicht so schlimm, wie es klingt – Angular kann dies tatsächlich recht schnell erledigen, und es gibt Möglichkeiten, dies auf Entwicklerseite zu optimieren. Aber es gibt sicherlich Raum für Verbesserungen.
+
+Hier kommen Signals ins Spiel. Sie stellen das gesamte Problem auf den Kopf. Anstatt dass Angular überprüft, ob sich etwas geändert haben könnte, ist es nun die Aufgabe des Signals, Angular mitzuteilen, wenn sich etwas geändert hat.
+
+Wenn wir Signals für unsere sich ändernden Werte verwenden, muss Angular viel weniger Änderungserkennungsarbeit leisten. Wenn wir also etwas wie Folgendes tun:
+
+```typescript
+name = signal('Levin');
+
+updateName(name: string) {
+  this.name.set(name);
+}
+```
+
+Wir rufen `set` auf unserem Signal auf, das seinen Wert aktualisiert, aber auch Angular darüber informiert, dass es sich geändert hat. Es ist nicht nur Angular, das über die Änderung informiert wird, auch wir können diesen Mechanismus nutzen.
+
+<Info>
+Es ist wichtig zu beachten, dass diese Änderungen an der Change Detection  noch nicht in Angular implementiert wurden, sie werden jedoch bald in einem Update verfügbar sein. Die Verwendung von Signals mit der aktuellen/standardmässigen Change Detection funktioniert weiterhin, und wenn die Aktualisierungen der Change Detection verfügbar sind, profitieren wir einfach von allen Vorteilen, ohne etwas ändern zu müssen.
+</Info>
+
+## APIs
+
+<AccordionGroup>
+<Accordion title="Erstellung">
+
+```typescript
+name = signal('Levin');
+```
+
+</Accordion>
+
+<Accordion title="Zugriff">
+
+```typescript
+name()
+```
+
+</Accordion>
+
+<Accordion title="Aktualisieren">
+
+```typescript
+this.name.set(name);
+```
+
+```typescript
+preferences = signal({
+  fast: true,
+  comfortable: true,
+  expensive: false,
+});
+
+toggleComfort() {
+  this.preferences.update((preferences) => ({
+    ...preferences,
+    comfortable: !preferences.comfortable,
+  }));
+}
+```
+
+</Accordion>
+</AccordionGroup>
+
+### Computed Signals
+
+```typescript
+preferences = signal({
+  fast: true,
+  comfortable: true,
+  expensive: false,
+});
+
+comfortable = computed(() => this.preferences().comfortable);
+```
+
+Nun ist `comfortable` der Wert dessen, was auch immer `comfortable` im `preferences`-Signal ist. Wichtig ist, dass dieses berechnete Signal benachrichtigt wird, sobald sich eines der Signals ändert, von denen es abhängt, und seinen Wert neu berechnet. Das bedeutet, dass sich der Wert unseres `comfortable`-Signals jedes Mal aktualisiert, wenn sich `comfortable` im `preferences`-Signal aktualisiert.
+
+Ein berechnetes Signal ist immer noch ein Signal und verhält sich genauso wie die Signals, die wir mit `signal()` erstellen, ausser dass es nicht beschreibbar ist. Du kannst den Wert eines berechneten Signals nicht manuell durch Aufrufen von `set` oder `update` aktualisieren. Es wird nur aktualisiert, wenn sich die Signals ändern, von denen es abhängt.
+
+Wir extrahieren lediglich einen Wert aus einem anderen Signal, aber wir können auch viel komplexere Berechnungen erstellen. Wir könnten mehrere Signals miteinander kombinieren:
+
+```typescript
+name = signal('Levin');
+
+preferences = signal({
+  fast: true,
+  comfortable: true,
+  expensive: false,
+});
+
+comfortable = computed(() => this.preferences().comfortable);
+
+message = computed(() => {
+  const message = `${this.name()} likes it ${
+    this.comfortable() ? 'comfortable' : 'uncomfortable'
+  }`;
+
+  return message;
+});
+```
+
+### Effects
+
+Dann haben wir die Idee eines `effect`, der dem `computed` sehr ähnlich ist, da er immer dann ausgeführt wird, wenn sich eines der Signals ändert, von denen er abhängt. Ein `effect` dient jedoch dazu, beliebigen Code auszuführen – nicht dazu, den Wert für ein neues Signal zu berechnen:
+
+```typescript
+constructor() {
+  effect(() => {
+    console.log(this.comfortable());
+    console.log(this.name());
+  });
+}
+```
+
+Dieser `effect` wird zunächst einmal ausgeführt und dann jedes Mal erneut, wenn entweder das Signal `comfortable` oder das Signal `name` aktualisiert wird. Dieser `effect` protokolliert beide Werte jedes Mal, wenn einer von ihnen aktualisiert wird. Wenn du nur den geänderten Wert protokollieren möchten, müsstest du zwei separate Effekte verwenden:
+
+```typescript
+constructor() {
+  effect(() => {
+    console.log(this.comfortable());
+  });
+
+  effect(() => {
+    console.log(this.name());
+  });
+}
+```
+
+Wir werden dies später tatsächlich häufig für praktische Zwecke verwenden. Einige Beispiele hierfür sind die Verwendung eines `effect`, um das Speichern von Daten auszulösen, und die Verwendung eines `effect`, um eine Navigation auszulösen, wenn etwas Bestimmtes passiert.
+
+<Info>
+Signals lösen nur dann Aktualisierungen aus, wenn sich ihr Wert ändert. Das bedeutet, dass, wenn der Wert zuvor `Levin` war und dann erneut auf `Levin` gesetzt wird, nichts, was davon abhängt, benachrichtigt wird (der `effect` würde beispielsweise nicht ausgeführt werden).
+</Info>
+
+### Inputs
+
+Wir haben `input`-Signals bereits unter [#inputs](/web/angular/basiskonzepte/komponenten#inputs "mention") gesehen.
+
+```typescript
+name = input.required<string>();
+reversedName = computed(() => [...this.name()].reverse().join(""))
+```
+
+<Info>
+Ich verwende hier `required`, um den Input in die Komponente zu erzwingen – wenn wir dieser Komponente keinen Namen eingeben, würde dies einen Fehler verursachen.
+</Info>
+
+Jetzt nehmen wir den Wert von `name` und erstellen ein neues berechnetes Signal, das den Namen umkehrt. Das Coole daran ist, dass sich unser `reversedName` automatisch aktualisiert, sobald sich `name` ändert.
+
+Was wäre, wenn wir bei einer Änderung von `name` einen Nebeneffekt ausführen wollten? Auch das ist ganz einfach:
+
+```typescript
+name = input.required<string>();
+
+constructor(){
+  effect(() => {
+    console.log(this.name())
+  })
+}
+```
+
+### View Queries
+
+In einigen Fällen möchten wir möglicherweise einen Verweis auf ein Element in unserer Vorlage abrufen. In [#template-variable](/web/angular/basiskonzepte/template-syntax#template-variable "mention") haben wir gesehen, dass wir wie folgt eine Template Variable erstellen können.
+
+```html
+<p #myParagraph></p>
+```
+
+Wenn wir in unserer Klasse einen Verweis darauf abrufen wollten, könnten wir dazu ein „view child“ verwenden.
+
+```typescript
+myParagraph = viewChild('myParagraph');
+```
+
+<Info>
+Das erste Argument, welches wir übergeben, nennt man Query Locator; diesem kann man nicht nur Template Variablen, sondern auch Directives oder Components übergeben.
+</Info>
+
+Auch hier handelt es sich um dasselbe Prinzip wie bei Inputs, wobei `myParagraph` nun als Signal bereitgestellt wird, was bedeutet, dass wir wie folgt auf seinen Wert zugreifen würden: `this.myParagraph()`.
+
+Ebenso wie bei Inputs können wir auch hier abgeleitete Werte aus diesem Signal mithilfe von `computed` erstellen oder Nebeneffekte mit `effect` ausführen.
+
+Neben `viewChild` gibt es auch `viewChildren` zum Abrufen mehrerer Referenzen.
+
+### Content Queries
+
+ `contentChild` und `contentChildren` für Situationen, in denen wir es mit „projiziertem” Inhalt zu tun haben. Die allgemeine Idee bei „projiziertem” Inhalt ist, dass wir nicht wie hier einige Inhalte direkt im Template einer Komponente haben:
+
+```html
+<div>
+  <p>I am directly in the template, I'm a view child!</p>
+</div>
+```
+
+Wir möchten möglicherweise Inhalte dynamisch an eine Komponente liefern – dies ähnelt der Bereitstellung eines Inputs, ist jedoch Teil des Templates. Dazu würde unsere untergeordnete Komponente `ng-content` wie folgt verwenden:
+
+```html
+<div>
+  <ng-content></ng-content>
+</div>
+```
+
+Jetzt gibt es kein `p`-Tag mehr direkt im Template; es handelt sich nicht um ein „View-Child“. Aber jetzt können wir in der übergeordneten Komponente diesen Teil der Vorlage dynamisch übergeben:
+
+```html
+<app-my-comp-with-content-projection>
+  <p #myParagraph>I am passed in from the parent, I will be a content child!</p>
+</app-my-comp-with-content-projection>
+```
+
+Das Endergebnis im DOM wird dasselbe sein, z.B.:
+
+```html
+<div>
+  <p #myParagraph>I am passed in from the parent, I will be a content child!</p>
+</div>
+```
+
+Alles, was sich innerhalb der öffnenden/schliessenden Tags der Komponente in der übergeordneten Komponente befindet, wird an die Stelle „projiziert“, an der das `ng-content`-Tag in der untergeordneten Komponente platziert ist.
+
+Nun können wir mit `contentChild` auf den Content zugreifen.
+
+```typescript
+myParagraph = contentChild('myParagraph')
+```
+
+### Models
+
+Ein `model` sieht täuschend ähnlich wie ein `input` aus. Ein grundlegender Anwendungsfall, den es ermöglicht, ist, dass eine Komponente, die einen „Input“ definiert, auch den Wert dieses Inputs ändern kann.
+
+```typescript
+import { Component, input } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  template: ` <p>Hi, {{ name() }}!</p> `,
+})
+export class WelcomeComponent {
+  name = input('friend');
+}
+```
+
+Der `name`-Input kann nur geändert werden, indem der Wert über die übergeordnete Komponente übergeben wird:
+
+```html
+<app-welcome [name]="user.name" />
+```
+
+Wenn wir den Wert von `name` innerhalb der `WelcomeComponent` festlegen wollten, wäre dies nicht möglich, da ein `input`-Signal schreibgeschützt ist:
+
+```typescript
+import { Component, input } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  template: ` <p>Hi, {{ name() }}!</p> `,
+})
+export class WelcomeComponent {
+  name = input('friend');
+
+  resetName(){
+    this.name.set('');
+  }
+}
+```
+
+Das `model` wird uns jedoch ermöglichen, dies zu tun:
+
+```typescript
+import { Component, model } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  template: ` <p>Hi, {{ name() }}!</p> `,
+})
+export class WelcomeComponent {
+  name = model('friend');
+
+  resetName(){
+    this.name.set('');
+  }
+}
+```
+
+***
+
+Ein weiteres Muster, das das `model` ermöglicht, ist Two-Way Data Binding. Die vielleicht einfachste Art, sich ein `model` in Bezug auf einen `input` vorzustellen, ist, dass ein `model` eine Möglichkeit bietet, ein Signal zwischen einer übergeordneten und einer untergeordneten Komponente zu „teilen”.
+
+<Info>
+Two-Way Data Binding ist auch mit einfachen Eigenschaften möglich, nicht nur mit Signals.
+</Info>
+
+Betrachte einen normalen Input:
+
+```html
+<app-welcome [name]="user.name" />
+```
+
+Hier übergeben wir den Wert von `user.name` als Input. Dies ist ein String. Innerhalb der Komponente `app-welcome` wird dieser Stringwert als Signal bereitgestellt, das einen Stringwert zurückgibt, wenn wir auf seinen Wert zugreifen, z. B.: `this.name()`
+
+Wie wir gesehen haben, kann ein `model` wie folgt definiert werden:
+
+```typescript
+import { Component, model } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  template: ` <p>Hi, {{ name() }}!</p> `,
+})
+export class WelcomeComponent {
+  name = model('friend');
+}
+```
+
+Anstelle eines einfachen String-Inputs können wir jedoch ein Signal wie das folgende bereitstellen:
+
+```typescript
+import { Component, model } from '@angular/core';
+
+@Component({
+  selector: 'app-parent-component',
+  template: `<app-welcome [(name)]="name" />`,
+})
+export class WelcomeComponent {
+  name = signal('Levin');
+}
+```
+
+Beachte, dass wir nicht etwa einen String übergeben, der dann in ein Signal umgewandelt wird, sondern das Signal selbst erstellen und bereitstellen. Beachte ausserdem, dass wir für die Bindung von `name` die „Banana-in-a-Box”-Syntax verwenden: `[(name)]`.
+
+Wir werden später, wenn wir `ngModel` besprechen, näher auf diese Syntax eingehen, aber kurz gesagt kannst du dir das so vorstellen: Wir verwenden `[]` zum Binden von Inputs, die Daten an eine Komponente übergeben, und wir verwenden `()` zum Binden von Outputs/Ereignissen, die Daten aus einer Komponente herausgeben. Diese `[()]`-Syntax bedeutet, dass wir sowohl Werte eingeben als auch über denselben Mechanismus Werte zurückerhalten möchten: das `name`-Signal wird als `model`-Input bereitgestellt.
+
+Das bedeutet, dass wir innerhalb der übergeordneten Komponente `set` für das Signal aufrufen könnten, um dessen Wert zu ändern, und die untergeordnete Komponente könnte auf diese Wertänderung reagieren. Ebenso könnten wir `set` für das Signal auch innerhalb der untergeordneten Komponente aufrufen und würden dann auf diese Änderung in der übergeordneten Komponente reagieren können.
+
+Das ist die Grundidee des Two-Way Data Bindings: Daten können über denselben Mechanismus sowohl nach oben als auch nach unten fliessen.
+
+Wir haben bereits die Handhabung des Two-Way Data Bindings mit Inputs und Outputs besprochen; dies ist eine Möglichkeit, den bidirektionalen Datenfluss mit zwei verschiedenen Mechanismen zu erreichen. Mit dem `model` können wir diesen bidirektionalen Datenfluss innerhalb nur eines Mechanismus erreichen.
+
+Das Konzept des Two-Way Data Bindings widerspricht gewissermassen den deklarativen Ideen. Es ist noch etwas früh, um jetzt schon auf die Einzelheiten einzugehen, aber im Allgemeinen basiert ein deklarativer Ansatz eher auf dem Konzept des „unidirektionalen“ oder „einseitigen“ Datenflusses.
+
+Das bedeutet nicht, dass dieses `model` niemals nützlich sein wird (benutzerdefinierte Formularsteuerelemente sind ein besonders relevanter Anwendungsfall für dieses `model`).
+
+### Resources
+
+Signals funktionieren in der Regel am besten in der Welt der synchronen Änderungen. Du klickst auf einen Button, ein Wert wird sofort aktualisiert: Das ist synchron.
+
+Die kürzlich eingeführte `resource`-API ermöglicht es uns jedoch, asynchrone Operationen mit Signals einfacher durchzuführen. Du klickst auf einen Button, wodurch eine Anfrage an eine API ausgelöst wird, und ein Wert wird aktualisiert, sobald die Anfrage abgeschlossen ist: Das ist asynchron. Es gibt eine Wartezeit, und dein Code führt während dieser Wartezeit etwas anderes aus.
+
+Das Abrufen von Daten aus einer API und das Setzen dieser Daten in einem Signal ist ein sehr häufiger Anwendungsfall. Vor der Einführung der `resource`-API konnten wir diese Situation ohne RxJS nur mit imperativem Code, der einen `effect` verwendet, wirklich bewältigen. Das könnte etwa so aussehen:
+
+```typescript
+page = signal(1);
+results = signal([]);
+
+constructor(){
+  effect(() => {
+    const page = this.page();
+    fetch(`https://example.com/${page}/`)
+      .then((res) => this.results.set(res.json()));
+  })
+}
+```
+
+Wir haben einen `effect`, der ausgeführt wird, wenn sich der Wert des `page`-Signals ändert. Wir verwenden diesen Wert, um eine Anfrage zu starten, und wenn die Anfrage abgeschlossen ist, setzen wir ein Signal mit dem zurückgegebenen Wert aus dem Effekt.
+
+Wenn du dir etwas mehr Kontext dazu wünschst, warum „die Nichtverwendung von Effects” oft empfohlen wird, findest du hier ein ergänzendes Video:
+
+[Video](https://youtu.be/IAmWwbKF2Ec)
+
+***
+
+Die `resource`-API ermöglicht es uns stattdessen, Folgendes zu tun:
+
+```typescript
+page = signal(1);
+
+results = resource({
+  params: this.page,
+  loader: ({params, abortSignal}) => {
+    return fetch(`https://example.com/${params}/`, {
+      signal: abortSignal
+    }).then((res) => res.json());
+  }
+});
+```
+
+Keine Effects, dieser Code ist deklarativ und stellt uns ausserdem ein `abortSignal` zur Verfügung, das wir der `fetch`-Anfrage übergeben können. Das bedeutet, dass die zugrunde liegende Anfrage abgebrochen wird, wenn sich die Seite ändert, während eine Anfrage noch läuft.
+
+Es gibt hier noch weitere Vorteile. Durch die Verwendung der `resource`-API erhalten wir unsere Ergebnisse nicht nur als Signal:
+
+```typescript
+this.results.value()
+```
+
+Wir erhalten auch Signals, die uns den aktuellen Status der Ressource mitteilen – beispielsweise, ob sie gerade geladen wird – und ob Fehler aufgetreten sind:
+
+```typescript
+this.results.status()
+this.results.error()
+```
+
+Das Setup solcher Dinge ist nicht trivial, aber in der Praxis meist notwendig. Die `resource`-API bietet hier einen grossen Vorteil, da wir sie einfach verwenden können.
+
+Wichtig ist dabei, dass zumindest derzeit in Angular für HTTP-Anfragen weitaus häufiger der auf Observables basierende `HttpClient` als die auf Promises basierende `fetch`-API verwendet wird. Das obige Beispiel zeigt, wie eine Anfrage deklarativ ohne Observables ausgeführt werden kann, aber die `resource`-API unterstützt auch die Verwendung von Observables und dem HttpClient für Anfragen über die Verwendung von `rxResource`:
+
+```typescript
+import { rxResource } from "@angular/core/rxjs-interop";
+
+http = inject(HttpClient);
+
+page = signal(1);
+results = rxResource({
+  params: this.page,
+  stream: (request) => this.http.get(`https://example.com/${params}/`)
+});
+```
+
+### Linked Signals
+
+Das `linkedSignal` scheint etwas seltsam zu sein, denn oberflächlich betrachtet scheint es dasselbe zu sein wie `computed`.
+
+```typescript
+count = signal(1);
+doubleCount = computed(() => this.count() * 2)
+```
+
+```typescript
+count = signal(1);
+doubleCount = linkedSignal({
+  source: this.count,
+  computation: (source) => source * 2
+});
+```
+
+Was ist hier der Unterschied? Abgesehen davon, dass `linkedSignal` komplizierter zu verwenden scheint. Beide führen zu einem abgeleiteten Signal, bei dem der Wert verdoppelt wird.
+
+Der wesentliche Unterschied besteht darin, dass `linkedSignal` ein `WritableSignal` zurückgibt, während `computed` ein schreibgeschütztes Signal zurückgibt. Das bedeutet, dass wir bei Verwendung von `linkedSignal` das resultierende Signal manuell aktualisieren können, es jedoch weiterhin automatisch neu berechnet wird, sobald sich die Signals ändern, von denen es abhängt:
+
+```typescript
+count = signal(1);
+doubleCount = linkedSignal({
+  source: this.count,
+  computation: (source) => source * 2
+});
+
+increment(){
+  this.doubleCount.update((doubleCount) => doubleCount + 1)
+}
+```
+
+In diesem Beispiel könnten wir den Wert von `doubleCount` durch Aufruf der Methode `increment` weiter erhöhen. Sobald sich jedoch `count` ändert, werden die manuell festgelegten Werte durch die erneute Berechnung überschrieben.
+
+Ohne ein realistisches Beispiel erscheint dies alles etwas abstrakt. Hier also ein Beispiel aus einer kleinen Anwendung:
+
+```typescript
+checklistItems = linkedSignal({
+  source: this.loadedChecklistItems.value,
+  computation: (checklistItems) => checklistItems ?? [],
+});
+```
+
+Unsere `source` stammt aus einer `resource`, die einen Wert aus dem Speicher lädt. Zu Beginn ist dieser Wert noch `undefined`, daher geben wir einfach ein leeres Array zurück. Sobald ein Wert aus dem Speicher zurückgegeben wird, verwenden wir diesen Wert stattdessen. Und im Gegensatz zu `computed` haben wir weiterhin die Möglichkeit, dieser `ChecklistsItems` nach dem Laden manuell weitere Daten hinzuzufügen.

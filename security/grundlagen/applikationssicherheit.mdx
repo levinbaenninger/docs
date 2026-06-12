@@ -1,0 +1,75 @@
+---
+title: "Applikationssicherheit"
+icon: "window-restore"
+---
+
+Applikationssicherheit umfasst alle Prozesse, Tätigkeiten und Infrastrukturen, die für den gesamten Lebenszyklus einer Anwendung notwendig sind, z. B.:
+
+- Spezifikation
+- Entwicklung
+- Integration
+- Betrieb
+- Support
+- Erweiterung
+- Ablösung
+- Rechte- und Rollenverwaltung
+- Datenmanagement
+- Schnittstellen
+- Middleware-Komponenten
+
+Applikationssicherheit baut auf der technischen IT-Sicherheit auf, die Systeme, Netzwerke und Zugänge vor Angriffen (z. B. Hacker, Malware) schützt. Während technische IT-Sicherheit schon länger etabliert ist, entwickelte sich Applikationssicherheit erst später als koordinierte Aufgabe.
+
+## OWASP
+
+Das [Open Web Application Security Project](chatgpt://generic-entity?number=0) (OWASP) ist ein Community-Projekt zur Verbesserung der Sicherheit und Qualität von Webanwendungen.
+
+OWASP beschreibt verschiedene Ebenen, auf denen Schwachstellen entstehen können.
+
+<table data-full-width="false"><thead><tr><th width="40" data-type="number"></th><th width="155">Ebene</th><th width="250">Inhalt</th><th width="300">Beispiele</th></tr></thead><tbody><tr><td>5</td><td>Semantik</td><td>Schutz vor Täuschung und Betrug</td><td><ul><li>Phishing-Schutz</li><li>Informationspreisgabe</li></ul></td></tr><tr><td>4</td><td>Logik</td><td>Absicherung von Prozessen und Workflows</td><td><ul><li>Passwort vergessen</li><li>User Lock-Out</li></ul></td></tr><tr><td>3</td><td>Implementierung</td><td>Vermeiden von Programmierfehlern, die zu Schwachstellen führen</td><td><ul><li>XSS</li><li>SQL-Injection</li></ul></td></tr><tr><td>2</td><td>Technologie</td><td>Richtige Wahl und sicherer Einsatz von Technologie</td><td><ul><li>Verschlüsselung</li><li>Authentisierung</li></ul></td></tr><tr><td>1</td><td>System</td><td>Absicherung der auf der Systemplattform eingesetzten Software</td><td><ul><li>Known Vulnerabilites</li><li>Konfigurationsfehler</li></ul></td></tr><tr><td>0</td><td>Netzwerk und Host</td><td>Absicherung von Host und Netzwerk</td><td></td></tr></tbody></table>
+
+### Ebene 0 – Netzwerk und Host
+
+Grundlegende Sicherheit der Infrastruktur. Die Verantwortlichkeit liegt beim Betrieb bzw. den Systemadministratoren.
+
+- Betriebssystem härten
+- Unnötige Funktionen deaktivieren
+- Updates installieren
+
+### Ebene 1 – System
+
+Programme, die für den Betrieb der Webanwendung notwendig sind. Das sind z. B. Webserver, Applikationsserver, Datenbanken, CMS. Die Verwantwortlichkeit liegt beim Betrieb bzw. den Systemadministratoren.
+
+- Korrekte Konfiguration
+- Keine bekannten Sicherheitslücken
+
+### Ebene 2 – Technologie
+
+Auswahl und korrekte Nutzung der richtigen Technologie für den Schutzbedarf. Die Verantwortlichkeit liegt sowohl beim Betrieb, als auch bei den Entwicklern und den jeweiligen Fachstellen.
+
+- Sensible Daten verschlüsselt übertragen
+- Hashwerte übertragen
+- Sichere Authentifizierungsverfahren
+
+### Ebene 3 – Implementierung
+
+Fehler in der Programmierung oder ungenügende Qualitätssicherung. Die Verantwortlichkeit liegt bei den Entwicklern.
+
+- Programmierfehler
+- Fehlende Eingabevalidierung
+- Falsche Nutzung von Sicherheitstechnologien
+
+### Ebene 4 – Logik
+
+Sicherheitsprobleme durch fehlerhafte oder missbrauchbare Abläufe in der Anwendung. Verantwortlichkeit liegt bei den jeweiligen Fachstellen, die für die Anforderungen zuständig sind.
+
+- Konto wird absichtlich von Angreifer gesperrt
+
+### Ebene 5 – Semantik
+
+Betrifft Vertrauen zwischen Benutzer und Anwendung. Verantwortlichkeit liegt bei den jeweiligen Fachstellen, die für die Anforderungen zuständig sind und bei den Unternehmensrichtlinien.
+
+- Social Engineering
+- Phishing
+- Identitätsdiebstahl
+
+Hier wird oft nicht nur eine Anwendung betrachtet, sondern das gesamte System oder Unternehmen.

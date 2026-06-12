@@ -1,0 +1,90 @@
+---
+title: "Links"
+icon: "link"
+---
+
+Hyperlinks sind sehr wichtig, denn sie sind, was das Web ausmacht. Sie erlauben uns Dokumente mit anderen Dokumenten zu verlinken.
+
+Hyperlinks können mit dem `<a>`-Element und dem `href`-Attribut erstellt werden.
+
+```html
+<a href="https://www.mozilla.org/en-US/">The Mozilla homepage</a>
+```
+
+## Formate
+
+<Tabs>
+<Tab title="Webseiten">
+```html
+<a href="/web/http(s):/subdomain.domain.tld/README">Webseite</a>
+```
+</Tab>
+
+<Tab title="Mails">
+```html
+<a href="mailto:name@domain.tld">Mail</a>
+```
+</Tab>
+
+<Tab title="Telefonnummern">
+```html
+<a href="tel:+41791304289">Telefonnummer</a>
+```
+</Tab>
+
+<Tab title="Dateien">
+```html
+<a href="filename.xml">Datei</a>
+```
+</Tab>
+
+<Tab title="Anker">
+```html
+<a href="#anchor">Anker</a>
+```
+</Tab>
+</Tabs>
+
+## `target`-Attribut
+
+<AccordionGroup>
+<Accordion title="`_self`">
+
+Standard; öffnet das Dokument im selben Fenster oder Tab
+
+```html
+<a href="https://www.mozilla.org/en-US/" target="_self">The Mozilla homepage</a>
+```
+
+</Accordion>
+
+<Accordion title="`_blank`">
+
+Öffnet das Dokument in einem neuen Tab
+
+```html
+<a href="https://www.mozilla.org/en-US/" target="_blank">The Mozilla homepage</a>
+```
+
+</Accordion>
+
+<Accordion title="`_parent`">
+
+Öffnet das Dokument im übergeordneten Frame
+
+```html
+<a href="https://www.mozilla.org/en-US/" target="_parent">The Mozilla homepage</a>
+```
+
+</Accordion>
+
+<Accordion title="`_top`">
+
+Öffnet das Dokument im Vollbild und zuoberst
+
+```html
+<a href="https://www.mozilla.org/en-US/" target="_top">The Mozilla homepage</a>
+```
+
+</Accordion>
+</AccordionGroup>

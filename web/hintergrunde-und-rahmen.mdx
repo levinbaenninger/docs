@@ -1,0 +1,170 @@
+---
+title: "Hintergründe und Rahmen"
+icon: "border-top-left"
+---
+
+## Hintergrundfarben
+
+Die Eigenschaft `background-color` definiert die Hintergrundfarbe jedes Elements in CSS. Die Eigenschaft akzeptiert jede gültige Farbe. Eine `background-color` erstreckt sich unter dem Inhalt und dem Padding-Bereich des Elements.
+
+```css
+.box {
+  padding: 0.5rem;
+  background-color: #567895;
+}
+```
+
+## Hintergrundbilder
+
+Die Eigenschaft `background-image` ermöglicht die Anzeige eines Bildes im Hintergrund eines Elements.
+
+```css
+.box {
+  background-image: url(https://mdn.github.io/shared-assets/images/examples/balloons.jpg);
+}
+```
+
+### Wiederholung
+
+Die Eigenschaft `background-repeat` wird verwendet, um das Kachelverhalten von Bildern zu steuern. Die verfügbaren Werte sind:
+
+* `no-repeat` — stoppt die Hintergrundwiederholung vollständig.
+* `repeat-x` — horizontal wiederholen.
+* `repeat-y` — vertikal wiederholen.
+* `repeat` — die Standardeinstellung; in beide Richtungen wiederholen.
+* `space` — so oft wie möglich wiederholen, wobei zusätzlicher Platz zwischen den Bildern eingefügt wird, wenn zusätzlicher Platz zur Verfügung steht.
+* `round` — ähnlich wie `space`, jedoch werden die Bilder gestreckt, um den zusätzlichen Platz zu füllen.
+
+```css
+.box {
+  background-image: url(https://mdn.github.io/shared-assets/images/examples/star.png);
+  background-repeat: no-repeat;
+}
+```
+
+### Grösse
+
+Das in dem Beispiel für Hintergrundbilder verwendete Bild _balloons.jpg_ ist ein grosses Bild, das auf Grund seiner Grösse in der Box beschnitten wurde. In diesem Fall könnten wir die Eigenschaft `background-size` verwenden, die Längen- oder Prozentwerte akzeptiert, um das Bild so zu skalieren, dass es in den Hintergrund passt.
+
+ Du kannst auch Schlüsselwörter verwenden:
+
+* `cover` — der Browser macht das Bild gross genug, damit es den Boxbereich vollständig abdeckt und dabei das Seitenverhältnis beibehält. In diesem Fall wird wahrscheinlich ein Teil des Bildes ausserhalb der Box landen.
+* `contain` — der Browser macht das Bild gross genug, um in die Box zu passen. In diesem Fall könnten Lücken an den Seiten oder oben und unten des Bildes entstehen, wenn das Seitenverhältnis des Bildes von dem der Box abweicht.
+
+```css
+.box {
+  background-image: url(https://mdn.github.io/shared-assets/images/examples/balloons.jpg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+```
+
+### Positionierung
+
+Die Eigenschaft `background-position` ermöglicht es dir, die Position festzulegen, an der das Hintergrundbild innerhalb der Box erscheint, auf die es angewendet wird. Dies verwendet ein Koordinatensystem, bei dem die obere linke Ecke der Box `(0,0)` ist, und die Box entlang der horizontalen (`x`) und vertikalen (`y`) Achsen positioniert wird.
+
+Die am häufigsten verwendeten `background-position`-Werte bestehen aus zwei einzelnen Werten — einem horizontalen Wert, gefolgt von einem vertikalen Wert.
+
+***
+
+Du kannst Schlüsselwörter wie `top` und `right` verwenden:
+
+```css
+.box {
+  background-image: url(image.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+```
+
+***
+
+Längen sowie Prozentsätze:
+
+```css
+.box {
+  background-image: url(image.png);
+  background-repeat: no-repeat;
+  background-position: 20px 10%;
+}
+```
+
+## Verläufe
+
+Ein Verlauf — wenn er als Hintergrund verwendet wird — verhält sich wie ein Bild und wird ebenfalls durch die Eigenschaft `background-image` festgelegt.
+
+```css
+.box {
+  background-image: linear-gradient(
+    105deg,
+    rgb(0 249 255 / 100%) 39%,
+    rgb(51 56 57 / 100%) 96%
+  );
+}
+```
+
+## Hintergrundanhang
+
+Eine weitere Option, die wir für Hintergründe zur Verfügung haben, ist die Angabe, wie sie scrollen, wenn der Inhalt scrollt. Dies wird durch die Eigenschaft `background-attachment` gesteuert, die folgende Werte annehmen kann:
+
+* `scroll`: bewirkt, dass der Hintergrund des Elements mitgescrollt wird, wenn die Seite gescrollt wird. Wenn der Inhalt des Elements gescrollt wird, bewegt sich der Hintergrund nicht. Der Hintergrund ist also an derselben Position auf der Seite fixiert, sodass er beim Scrollen der Seite gescrollt wird.
+* `fixed`: bewirkt, dass der Hintergrund eines Elements an das Ansichtsfenster fixiert wird, sodass er nicht scrollt, wenn die Seite oder der Inhalt des Elements gescrollt wird. Er verbleibt immer an derselben Position auf dem Bildschirm.
+* `local`: fixiert den Hintergrund an das Element, auf dem er gesetzt ist, sodass beim Scrollen des Elements der Hintergrund mit ihm gescrollt wird.
+
+## Rahmen
+
+Wir können einem Elementrahmen für alle vier Seiten einen Rahmen mit `border` setzen:
+
+```css
+.box {
+  border: 1px solid black;
+}
+```
+
+Oder wir können eine Kante des Rahmens anvisieren, zum Beispiel:
+
+```css
+.box {
+  border-top: 1px solid black;
+}
+```
+
+Die individuellen Eigenschaften umfassen die Kurzformen `border-width`, `border-style` und `border-color`:
+
+```css
+.box {
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+}
+```
+
+Es gibt Langform-Eigenschaften für Breite, Stil und Farbe für jede der vier Seiten:
+
+```css
+.box {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: black;
+}
+```
+
+### Abgerundete Ecken
+
+Das Abrunden von Ecken an einer Box wird durch die Eigenschaft [`border-radius`](https://developer.mozilla.org/de/docs/Web/CSS/border-radius) und zugehörige Langform-Eigenschaften erreicht, die sich auf jede Ecke der Box beziehen. Als Wert können zwei Längen oder Prozentsätze verwendet werden, wobei der erste Wert den horizontalen Radius und der zweite den vertikalen Radius definiert.
+
+Beispielsweise, um allen vier Ecken einer Box einen Radius von `10px` zu geben:
+
+```css
+.box {
+  border-radius: 10px;
+}
+```
+
+Oder um der oberen rechten Ecke einen horizontalen Radius von `1em` und einen vertikalen Radius von 10% zu geben:
+
+```css
+.box {
+  border-top-right-radius: 1em 10%;
+}
+```

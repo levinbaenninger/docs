@@ -1,0 +1,33 @@
+---
+title: "Werte"
+icon: "diamond"
+---
+
+In F# wird hauptsächlich mit Werten (values) gearbeitet, nicht mit veränderbaren Variablen. Ein Wert wird mit `let` definiert und ist standardmässig unveränderlich (immutable).
+
+Jeder Wert hat einen Typ, der festlegt, welche Art von Daten gespeichert wird, z. B. `int`, `float`, `bool` oder `string`. F# verwendet Typinferenz, das heisst, der Typ wird oft automatisch erkannt und muss nicht explizit angegeben werden.
+
+Man kann jedoch auch mit dem Keyword `mutable` einen Wert als veränderbar deklarieren.
+
+```fsharp
+let number = 10    // int
+let pi = 3.14      // float
+let isValid = true // bool
+let name = "Alice" // string
+
+let person = ("Alice", 25)   // string * int
+
+type Category {
+    Name: string
+    Description: string
+}
+let category = { Name = "Electronics" Description = "Lorem Ipsum" } // Category
+
+let numbers = [1; 2; 3; 4; 5] // int list
+
+let mutable counter = 0 // int
+counter <- counter + 1 
+
+let add (a: int) (b: int) : int = // int -> int -> int
+    a + b
+```

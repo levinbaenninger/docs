@@ -1,0 +1,47 @@
+---
+title: "Prop Drilling"
+icon: "arrow-down"
+---
+
+**Prop Drilling** ist der Prozess, bei dem Daten oder Zustände durch mehrere Ebenen einer Komponenten-Hierarchie weitergegeben werden. Es bezieht sich auf die Praxis, Daten von einer Elternkomponente an ihre Kinder und dann von den Kindern an deren eigene Kinder und so weiter weiterzugeben, bis die Daten die gewünschte Komponente erreichen, die sie benötigt.
+
+Obwohl Prop Drilling eine notwendige und effektive Methode sein kann, um den Anwendungszustand zu verwalten, kann es auch problematisch werden, wenn die Komponenten-Hierarchie zu tief oder komplex wird. Dies kann zu mehreren Problemen führen, wie zum Beispiel Code-Duplizierung, erhöhtem kognitiven Aufwand und verminderter Wartbarkeit.
+
+## Beispiel
+
+```jsx
+export function App() {
+  const [movies, setMovies] = useState(moviesData);
+
+  return (
+    <>
+      <NavBar movies={movies} />
+      <main className="main">
+        <MovieBox movies={movies} />
+        ...
+      </main>
+    </>
+  );
+}
+
+const MovieBox = ({ movies }) => {
+  ...
+
+  return (
+    <div className="box">
+      ...
+      {isOpen && <MovieList movies={movies} />}
+    </div>
+  );
+};
+
+const MovieList = ({ movies }) => {
+  return (
+    <ul className="list">
+      {movies?.map((movie) => (
+        <Movie movie={movie} key={movie.imdbID} />
+      ))}
+    </ul>
+  );
+}
+```

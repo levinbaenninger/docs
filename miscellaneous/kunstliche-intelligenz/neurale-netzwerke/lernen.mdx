@@ -1,0 +1,126 @@
+---
+title: "Lernen"
+icon: "graduation-cap"
+---
+
+Der Unterschied zwischen maschinellem Lernen und anderer Informatik besteht darin, dass du keine expliziten Anweisungen für die Ausführung einer bestimmten Aufgabe schreibst. In diesem Fall schreibst du nie einen Algorithmus zur Erkennung von Ziffern. Stattdessen schreibst du einen Algorithmus, der eine Reihe von Beispielbildern mit handgeschriebenen Ziffern und deren Beschriftung aufnimmt und die 13'002 Gewichtungen und Bias' des Netzwerks so anpasst, dass es bei diesen Beispielen besser funktioniert.
+
+Die beschrifteten Bilder, die wir einspeisen, werden als "Trainingsdaten" bezeichnet.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-35.png)
+</Frame>
+
+Es ist zu hoffen, dass die schichtweise Struktur dazu führt, dass das Gelernte auch auf Bilder ausserhalb der Trainingsdaten übertragen werden kann. Um dies zu testen, können wir dem Netzwerk nach dem Training weitere beschriftete Daten zeigen, die es noch nie gesehen hat, und sehen, wie genau es diese klassifiziert.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-36.png)
+</Frame>
+
+Dieser Prozess erfordert eine Menge Daten.
+
+## Die Kostenfunktion
+
+Für den Anfang setzt du alle Gewichte und Bias' als Zufallszahlen ein. Dieses Netzwerk wird bei dem gegebenen Trainingsbeispiel schlecht abschneiden, da es einfach etwas Zufälliges tut.
+
+Wenn du zum Beispiel das Bild einer 3 eingibst, sieht die Ausgabeschicht aus wie ein Durcheinander:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-37.png)
+</Frame>
+
+Wie kannst du also programmatisch feststellen, dass der Computer schlechte Arbeit leistet, und ihm dann helfen, sich zu verbessern?
+
+Du definierst eine Kostenfunktion, mit der du dem Computer sagst: "Nein, böser Computer, diese Ausgabeschicht sollte Aktivierungen haben, die für die meisten Neuronen 0 sind, aber eine 1 für das dritte Neuron. Was du mir gegeben hast, ist absoluter Müll!"
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-38.png)
+</Frame>
+
+Um das etwas mathematischer auszudrücken, addiere die Quadrate der Differenzen zwischen den Aktivierungswerten der einzelnen Müll-Ausgänge und den Werten, die du haben willst. Wir nennen das die "Kosten" für ein einziges Trainingsbeispiel.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-39.png)
+</Frame>
+
+### Kosten über viele Beispiele
+
+Aber wir sind nicht nur daran interessiert, wie das Netzwerk bei einem einzelnen Bild abschneidet. Um seine Leistung wirklich zu messen, müssen wir die durchschnittlichen Kosten über alle zehntausende von Trainingsbeispielen hinweg betrachten. Dieser Durchschnitt ist unser Massstab dafür, wie schlecht das Netzwerk ist.
+
+Das ist eine komplizierte Funktion. Erinnerst du dich daran, dass das Netzwerk selbst eine Funktion ist? Es hat 784 Inputs (die Pixelwerte), 10 Outputs und 13'002 Parameter.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-40.png)
+</Frame>
+
+Die Kostenfunktion ist eine weitere Komplexitätsebene darüber. Die Eingaben der Kostenfunktion sind diese 13'002 Gewichtungen und Bias', und sie gibt eine einzige Zahl aus, die beschreibt, wie schlecht diese Gewichtungen und Bias' sind. Sie wird anhand des Verhaltens des Netzwerks bei all den Zehntausenden von Trainingsdaten definiert, die mit einem Label versehen sind. Mit anderen Worten: Diese Trainingsdaten sind ein riesiger Satz von Parametern für die Kostenfunktion.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-41.png)
+</Frame>
+
+### Minimieren der Kostenfunktion
+
+Dem Computer nur zu sagen, wie schlecht er arbeitet, ist nicht sehr hilfreich. Du musst ihm sagen, wie er die 13'002 Gewichtungen und Verzerrungen ändern soll, um sich zu verbessern.
+
+Um es einfacher zu machen, anstatt sich diese Kostenfunktion mit 13'002 Inputs vorzustellen, stellen wir uns eine einfache Funktion mit einer Zahl als Eingabe und einer Zahl als Ausgabe vor.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-42.png)
+</Frame>
+
+Wie kannst du eine Eingabe finden, die den Wert dieser Kostenfunktion minimiert?
+
+Man kann das Minimum manchmal explizit herausfinden, indem man die Steigung auf Null setzt. Bei wirklich komplizierten Funktionen ist das jedoch nicht immer möglich, und bei unserer Funktion mit 13'002 Inputs, die durch eine unglaubliche Anzahl von Parametern definiert ist, wird das sicher nicht möglich sein.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-43.png)
+</Frame>
+
+Eine flexiblere Taktik ist es, bei einer zufälligen Eingabe zu beginnen und herauszufinden, in welche Richtung du gehen musst, um die Ausgabe zu senken. Finde insbesondere die Steigung der Funktion, an der du dich befindest. Wenn die Steigung negativ ist, verschiebe sie nach rechts. Wenn die Steigung positiv ist, verschiebe sie nach links.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-44.png)
+</Frame>
+
+Wenn du die neue Steigung an jedem Punkt prüfst und dies wiederholt tust, näherst du dich einem lokalen Minimum der Funktion.
+
+<Info>
+Beachte, dass es selbst für diese vereinfachte Kostenfunktion mit nur einer Eingabe viele mögliche Täler gibt, in denen du landen kannst. Es hängt davon ab, mit welcher zufälligen Eingabe du beginnst, und es gibt keine Garantie, dass das lokale Minimum, in dem du landest, der kleinstmögliche Wert für die Kostenfunktion ist.
+</Info>
+
+## Gradienter Abstieg
+
+Um die Komplexität ein wenig zu erhöhen, stell dir eine Funktion mit zwei Eingängen und einem Ausgang vor. Du könntest dir den Eingaberaum als xy-Ebene vorstellen, über der die Kostenfunktion als Fläche aufgetragen ist.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-46.png)
+</Frame>
+
+Anstatt nach der Steigung der Funktion zu fragen, fragst du, in welche Richtung du in diesem Input-Raum gehen solltest, um die Ausgabe der Funktion am schnellsten zu verringern.
+
+In diesem höherdimensionalen Raum macht es keinen Sinn, von der "Steigung" als einer einzelnen Zahl zu sprechen. Stattdessen müssen wir einen Vektor verwenden, um die Richtung des steilsten Anstiegs darzustellen.
+
+Dieser Vektor wird "Gradient" genannt und sagt dir, in welche Richtung du gehen musst, um die Funktion am schnellsten zu steigern.
+
+Wenn du das Negativ dieses Vektors nimmst, erhältst du natürlich die Richtung, in der die Funktion am schnellsten abnimmt. Ausserdem ist die Länge des Steigungsvektors ein Hinweis darauf, wie steil der steilste Anstieg ist.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-47.png)
+</Frame>
+
+Alles, was im Moment zählt, ist, dass es im Prinzip eine Möglichkeit gibt, diesen Vektor zu berechnen, der dir sagt, in welche Richtung es bergab geht und wie steil es ist.
+
+Der Algorithmus zur Minimierung dieser Funktion besteht also darin, diese Steigungsrichtung zu berechnen, einen Schritt bergab zu machen und dies immer wieder zu wiederholen. Dieser Prozess wird "Gradientenabstieg" genannt.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-48.png)
+</Frame>
+
+In der Praxis wird jeder Schritt wie folgt aussehen -η
+∇
+C
+ wobei die Konstante
+ η als Lernrate bezeichnet wird. Je grösser sie ist, desto grösser sind deine Schritte. Das bedeutet, dass du dich vielleicht schneller dem Minimum näherst, aber es besteht das Risiko, dass du über das Minimum hinausschiesst und viel um es herum schwankst.
+
+Das ist die gleiche Grundidee für eine Funktion mit 13'002 Inputs anstelle von zwei Inputs.

@@ -1,0 +1,40 @@
+---
+title: "DOM Traversing"
+icon: "route"
+---
+
+Mit DOM Traversing können wir mit verschiedenen Methoden durch den DOM-Baum wandern.
+
+## Children
+
+```javascript
+const h1 = document.querySelector('h1');
+
+console.log(h1.querySelectorAll('.highlight'));
+console.log(h1.childNodes);
+console.log(h1.children);
+console.log(h1.firstElementChild);
+console.log(h1.lastElementChild);
+```
+
+* Mit `querySelectorAll` wählen wir alle Children-Elemente von `h1` aus, die dem Query entsprechen, auch rekursiv.
+* Mit `childNodes` wählen wir jeden Node der `h1` aus, dazu gehören auch Text und Kommentare.
+* Mit `children` wählen wir nur die Elemente aus.
+* Mit `firstElementChild` und `lastElementChild` wählen wir das erste respektive letzte Child-Element aus.
+
+## Parents
+
+```javascript
+console.log(h1.parentElement);
+console.log(h1.closest('.header'));
+```
+
+* Mit `parentElement` bekommen wir das direkte Parent-Element.
+* Mit der Methode `closest` können wir nach dem nächsten Parent suchen, das mit dem Query übereinstimmt.
+
+## Siblings
+
+```javascript
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+```

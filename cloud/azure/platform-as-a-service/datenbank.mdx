@@ -1,0 +1,54 @@
+---
+title: "Datenbank"
+icon: "database"
+---
+
+Azure bietet verschiedene Arten von Datenbanken zur Verfügung, die vollständig von Azure gemanagt werden. Das heisst, dass wir uns nicht um Dinge wie Ausfallsicherheit und Updates kümmern müssen. Diese Art der Bereitstellung von Datenbanken wird auch DBaaS (Database as a Service) genannt.
+
+## Erstellung
+
+<Steps>
+<Step title="Ressource Erstellen">
+
+Klicke auf "[Create a resource](https://portal.azure.com/#create/hub)" und wähle einen Datenbank-Service aus "Azure Database for MySQL Flexible Server"
+
+</Step>
+
+<Step title="Datenbank konfigurieren">
+
+Nun vergibst du der Datenbank einen Namen, teilst ihr einer Ressourcengruppe zu, spezifizierst eine Region und wählst einen Plan aus. 
+
+</Step>
+
+<Step title="Networking">
+
+Standardmässig ist die Datenbank nun öffentlich (von ausserhalb Azure) zugänglich, allerdings nur von bestimmten, erlaubten IP-Adressen. 
+
+Damit wir später mit der Azure CLI auf die Datenbank zugreifen können, erlauben wir im Tab «Networking» unsere eigene IP-Adresse. Um die Firewall-Regel hinzuzufügen, klicke auf «Add current client IP address (xxx.xxx.xxx.xxx)».
+
+Aktiviere ausserdem die Checkbox «Allow public access from any Azure service within Azure to this server». Mithilfe dessen können wir später mit anderen Ressourcen auf diese Datenbank verbinden.
+
+</Step>
+
+<Step title="Mit der Datenbank verbinden">
+
+<Tabs>
+<Tab title="Docker">
+```bash
+docker run -it --rm mysql mysql --host=<SERVER_URL> --user=<ADMIN_USERNAME> -p
+```
+</Tab>
+
+<Tab title="MySQL-Workbench">
+In der Workbench kannst du eine neue Connection erstellen und darin die Angaben aus dem Azure Portal abfüllen.
+</Tab>
+
+<Tab title="Azure Cloud Shell">
+```bash
+mysql -h sbaenl-mysql-database.mysql.database.azure.com -u sbaenl -p
+```
+</Tab>
+</Tabs>
+
+</Step>
+</Steps>

@@ -1,0 +1,44 @@
+---
+title: "Getter und Setter"
+icon: "right-left"
+---
+
+Wenn `get` existiert, aber kein `set` vorhanden ist, weiss TypeScript, dass die Eigenschaft schreibgeschützt ist.
+
+```typescript
+class Person {
+  private _name: string;
+
+  constructor(name: string) {
+    this._name = name;
+  }
+
+  get name() {
+    return this._name;
+  }
+}
+
+const person = new Person("Alice");
+console.log(person.name);
+person.name = "Bob";
+```
+
+Und wenn der Typ des Setters nicht angegeben ist, wird er abgeleitet. 
+
+```typescript
+class Person {
+  private _name: string;
+
+  constructor(name: string) {
+    this._name = name;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  set name(value) {
+    this._name = value;
+  }
+}
+```

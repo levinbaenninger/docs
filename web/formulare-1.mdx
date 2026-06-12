@@ -1,0 +1,72 @@
+---
+title: "Formulare"
+icon: "sliders"
+---
+
+Formularelemente können ein schwieriges Thema sein, wenn es darum geht, sie mit CSS zu stylen. Das [Web Forms Extensions Module](https://developer.mozilla.org/de/docs/Learn_web_development/Extensions/Forms) behandelt die schwierigeren Aspekte des Stylings bestimmter Formulareingabetypen, die wir hier nicht behandeln werden.
+
+## Texteingabeelemente
+
+Elemente, die Texteingabe zulassen, wie `<input type="text">`, und die spezifischeren `<input type="email">` und `<textarea>`-Elemente, sind relativ einfach zu stylen und verhalten sich in der Regel wie andere Boxen auf Ihrer Seite.
+
+```css
+input[type="text"],
+input[type="email"] {
+  border: 2px solid #000;
+  margin: 0 0 1rem 0;
+  padding: 10px;
+  width: 80%;
+}
+
+input[type="submit"] {
+  border: 3px solid #333;
+  background-color: #999;
+  border-radius: 5px;
+  padding: 10px 2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+  background-color: #333;
+}
+```
+
+## Normierung von Formularverhalten
+
+In einigen Browsern erben Formularelemente die Schriftart-Stil nicht standardmässig.
+
+```css
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+```
+
+***
+
+In verschiedenen Browsern verwenden Formularelemente unterschiedliche Box-Sizing-Regeln für verschiedene Widgets. Für einheitliche Ergebnisse ist es eine gute Idee, die Margin und Padding auf `0` für alle Elemente zu setzen und diese dann beim Stylen bestimmter Steuerelemente wieder hinzuzufügen:
+
+```css
+button,
+input,
+select,
+textarea {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+```
+
+***
+
+Zusätzlich zu den oben genannten Regeln sollten Sie auch `overflow: auto` auf `<textarea>`-Elementen setzen, um zu verhindern, dass einige ältere Browser einen Scrollbalken anzeigen, wenn er nicht benötigt wird:
+
+```css
+textarea {
+  overflow: auto;
+}
+```

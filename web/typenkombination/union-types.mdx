@@ -1,0 +1,55 @@
+---
+title: "Union Types"
+icon: "object-ungroup"
+---
+
+Union Types stellen Werte dar, die einen von mehreren Typen darstellen können.
+
+```typescript
+const printId = (id: number | string) => {
+  console.log(`ID: ${id}`);
+}
+```
+
+Der senkrechte Strich kann als "oder" gelesen werden. Dies ist nützlich, wenn du mehrere Typen akzeptieren willst.
+
+***
+
+Du kannst auch einen benannten Union-Typ deklarieren.
+
+```typescript
+type Id = number | string;
+```
+
+Diesen kannst du dann wie einen normalen Type verwenden.
+
+```typescript
+const printId = (id: Id) => {
+  console.log(`ID: ${id}`);
+}
+```
+
+***
+
+Union Types sind auch bei literalen Typen oft nützlich.
+
+```typescript
+type Direction = "left" | "right" | "up" | "down";
+
+const move = (direction: Direction) => {
+  console.log(`Moving ${direction}`);
+}
+```
+
+***
+
+Mit Union Types können wir auch Objekte verwenden.
+
+```typescript
+type Vehicle = { hasWheels: boolean } | { canFly: boolean };
+
+const car: Vehicle = { hasWheels: true };
+const airplane: Vehicle = { canFly: true };
+const flyingCar: Vehicle = { hasWheels: true, canFly: true };
+flyingCar.hasWheels = true;
+```

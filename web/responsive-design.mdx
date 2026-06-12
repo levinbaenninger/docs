@@ -1,0 +1,62 @@
+---
+title: "Responsive Design"
+icon: "mobile-screen-button"
+---
+
+_Responsive Webdesign_ (RWD) ist ein Ansatz im Webdesign, um sicherzustellen, dass Webseiten auf allen Bildschirmgrössen und Auflösungen gut dargestellt werden, während eine gute Benutzerfreundlichkeit gewährleistet bleibt.
+
+## Media Queries
+
+Media Queries erlauben es uns, eine Reihe von Tests durchzuführen (zum Beispiel, ob der Bildschirm des Benutzers grösser als eine bestimmte Breite oder Auflösung ist) und CSS selektiv anzuwenden, um die Seite entsprechend den Bedürfnissen des Benutzers zu gestalten.
+
+Zum Beispiel testet die folgende Media Query, ob die aktuelle Webseite als Bildschirmmedium (daher kein gedrucktes Dokument) angezeigt wird und der Viewport mindestens `80rem` breit ist. Das CSS für den `.container`-Selektor wird nur angewendet, wenn diese beiden Dinge wahr sind.
+
+```css
+@media screen and (min-width: 80rem) {
+  .container {
+    margin: 1rem 2rem;
+  }
+}
+```
+
+Du kannst mehrere Media Queries in einem Stylesheet hinzufügen und dein gesamtes Layout oder Teile davon anpassen, um die verschiedenen Bildschirmgrössen optimal zu nutzen. Die Punkte, an denen eine Media Query eingeführt wird und sich das Layout ändert, werden als _Breakpoints_ bezeichnet.
+
+## Ansätze
+
+Ein gängiger Ansatz bei der Verwendung von Media Queries ist es, dass du zunächst ein einfaches einspaltiges Layout für schmale Bildschirmgeräte (zum Beispiel Mobiltelefone) erstellst. Danach überprüfst du bei breiteren Bildschirmen, ob genug Platz vorhanden ist, und implementierst ein mehrspaltiges Layout. Dieses Vorgehen wird als Mobile-First-Design bezeichnet.
+
+Best Practices bei der Verwendung von Breakpoints empfehlen dir, Media Query Breakpoints mit relativen Einheiten statt mit absoluten Grössen eines bestimmten Geräts zu definieren.
+
+Es gibt verschiedene Ansätze, wie du die Stile innerhalb eines Media Query-Blocks gestalten kannst – von der Erstellung von Stylesheet-Verknüpfungen auf Basis von Browsergrössenbereichen bis hin zur Verwendung von benutzerdefinierten Eigenschaftsvariablen, um Werte für die jeweiligen Breakpoints zu speichern.
+
+Media Queries können dir beim Responsive Web Design (RWD) helfen, sind aber nicht zwingend notwendig. Du kannst auch flexible Raster, relative Einheiten sowie minimale und maximale Einheitswerte nutzen, ohne Media Queries einzusetzen.
+
+## Technologien
+
+Responsive Seiten basieren auf flexiblen Rastern, was bedeutet, dass Du nicht jede mögliche Gerätegrösse mit pixelgenauen Layouts abdecken musst.
+
+Mehrere Layout-Methoden – einschliesslich [Flexbox](/web/layout/flexbox) und [CSS Grid](/web/layout/grid) – sind von Natur aus responsiv. Sie gehen davon aus, dass du versuchst, ein flexibles Raster zu erstellen, und bieten dir einfachere Wege, das umzusetzen.
+
+## Bilder und Medien
+
+Um sicherzustellen, dass Medien niemals grösser als dein responsiver Container sind, kann der folgende Ansatz verwendet werden:
+
+```css
+img,
+picture,
+video {
+  max-width: 100%;
+}
+```
+
+Dies skaliert Medien, um sicherzustellen, dass sie ihre Container nie überfluten.
+
+## Viewport-Meta-Tag
+
+Wenn Du den HTML-Code einer responsiven Seite betrachtest, wirst du normalerweise folgendes -Tag im des Dokuments sehen:
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+```
+
+Dieses Viewport-Meta-Tag sagt mobilen Browsern, dass sie die Breite des Viewports auf die Gerätebreite setzen und das Dokument auf 100 % seiner beabsichtigten Grösse skalieren sollen. So wird das Dokument in der von dir vorgesehenen, mobil-optimierten Grösse angezeigt.

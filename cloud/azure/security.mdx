@@ -1,0 +1,116 @@
+---
+title: "Security"
+icon: "shield-halved"
+---
+
+Die Nutzung von Cloud-Diensten erfordert ein durchdachtes Sicherheitskonzept. In Azure basiert dieses auf einem **mehrstufigen Sicherheitsmodell**, kombiniert mit einer **klaren Aufteilung der Verantwortlichkeiten** zwischen dem Cloud-Anbieter (Microsoft) und den Kunden. Ziel dieses Moduls war es, diese Ebenen zu verstehen und auf eine Beispielanwendung anzuwenden.
+
+## Defense in Depth
+
+Azure verfolgt das Konzept der **"Tief greifenden Sicherheit"**, bei dem Schutzmechanismen auf mehreren Ebenen eingesetzt werden:
+
+1. **Physisch** – Rechenzentren, Zugangskontrollen
+2. **Administrativ** – Identitäten, Rollen, MFA
+3. **Netzwerk** – Firewalls, NSGs, VPNs
+4. **Geräte** – Endpoint-Schutz, Patchmanagement
+5. **Applikation** – Secure Coding, Validierung
+6. **Daten** – Verschlüsselung, Zugriffsbeschränkungen
+
+Jeder Layer schützt unabhängig, sodass ein Durchbruch nicht direkt zu einem Totalverlust führt.
+
+## Shared Responsibility Model
+
+In der Cloud teilen sich Microsoft und der Kunde die Verantwortung für Sicherheit:
+
+| Bereich                            | Verantwortlich |
+| ---------------------------------- | -------------- |
+| **Physische Infrastruktur**        | Microsoft      |
+| **Netzwerksicherheit**             | Microsoft      |
+| **Plattformdienste (z. B. DBaaS)** | Microsoft      |
+| **Zugriff, Rollen, Daten**         | Kunde          |
+| **App-Sicherheit & Konfiguration** | Kunde          |
+
+Je höher der Abstraktionsgrad (z. B. PaaS vs. IaaS), desto **mehr Sicherheit übernimmt Microsoft** – aber **nie für Daten und Benutzerzugriffe**.
+
+## Sicherheitsverwaltung auf den vier Azure-Ebenen
+
+<AccordionGroup>
+<Accordion title="Management/Tenant">
+
+* Benutzerverwaltung über **Azure Active Directory**
+* Rollenzuweisungen nach dem Prinzip der **geringsten Rechte**
+* Globale Richtlinien (z. B. MFA verpflichtend)
+
+</Accordion>
+
+<Accordion title="Subscriptions">
+
+* Gilt als **Verwaltungseinheit mit Budgetgrenzen**
+* **Rollen und Berechtigungen werden vererbt**
+* Wichtig: Kostenkontrolle und Budgetüberwachung
+
+</Accordion>
+
+<Accordion title="Ressourcengruppen">
+
+* Logische Gruppierung von Ressourcen
+* **Berechtigungen pro Gruppe möglich**
+* Einsatz: Trennung z. B. nach Umgebung (Dev/Test/Prod)
+
+</Accordion>
+
+<Accordion title="Ressourcen">
+
+* Feingranulare Rechte
+* Separater Zugriff auf z. B. eine VM oder Datenbank
+* Für kritische Ressourcen empfohlen
+
+</Accordion>
+</AccordionGroup>
+
+## Replikationsstrategien
+
+<AccordionGroup>
+<Accordion title="Locally Redundant Storage">
+
+* 3 Kopien in einer Region
+* Schutz gegen **Hardwarefehler**
+* Basis-Level
+
+</Accordion>
+
+<Accordion title="Zone Redundant Storage">
+
+* 3 Kopien in **verschiedenen Verfügbarkeitszonen** einer Region
+* Schutz gegen **Zonenausfälle**
+
+</Accordion>
+
+<Accordion title="Geo Redundant Storage">
+
+* 6 Kopien: 3 in Primärregion, 3 in Sekundärregion (>300 Meilen entfernt)
+* **Asynchrone Replikation**
+* Schutz vor **regionalen Katastrophen**
+
+</Accordion>
+
+<Accordion title="Read-Access GRS">
+
+* Wie GRS, aber mit **Lesezugriff auf Sekundärregion**
+
+</Accordion>
+
+<Accordion title="Geographically Zone Redundant Storage">
+
+* Kombination aus Zonen- und Geo-Redundanz
+* **Maximale Ausfallsicherheit**: Zone + Region
+* **Synchroner Write** in der Hauptregion + asynchrone Kopie in andere Region
+
+</Accordion>
+
+<Accordion title="Read-Access GZRS">
+
+* Wie GZRS, aber mit **Lesezugriff auf Sekundärregion**
+
+</Accordion>
+</AccordionGroup>

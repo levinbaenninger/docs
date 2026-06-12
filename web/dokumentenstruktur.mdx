@@ -1,0 +1,187 @@
+---
+title: "Dokumentenstruktur"
+icon: "folder-tree"
+---
+
+Neben der Definition einzelner Bestandteile Ihrer Seite (wie "ein Absatz" oder "ein Bild") verfügt HTML auch über eine Reihe von Block-Elementen, die verwendet werden, um Bereiche deiner Website zu definieren.
+
+## Header
+
+Das `<header>`-Element repräsentiert einleitende Inhalte, in der Regel eine Gruppe von Einführungs- oder Navigationshilfen. Er kann einige Überschriftenelemente, aber auch ein Logo, ein Suchformular, einen Autorennnamen und andere Elemente enthalten.
+
+```html
+<header>
+    <h1>Header</h1>
+</header>
+```
+
+## Navigation
+
+Das `<nav>`-Element repräsentiert eine Sektion einer Webseite, welche die Aufgabe hat Links zu der aktuellen Seite oder anderen Seiten zu zeigen.
+
+```html
+<nav>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Our team</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+
+    <form>
+        <input type="search" name="q" placeholder="Search query" />
+        <input type="submit" value="Go!" />
+    </form>
+</nav>
+```
+
+## Hauptinhalt
+
+Das `<main>`-Element repräsentiert den Hauptinhalt der Seite. Hier sind die Dinge vorhanden, die direkt mit dem Thema des Dokuments verwandt sind und einzigartig auf der Webseite sind.
+
+### Sektion
+
+Das `<section>`-Element repräsentiert eine Sektion in einem Dokument.
+
+### Artikel
+
+Das `<article>`-Element schliesst einen Block von verwandten Inhalten ein, die auch ohne den Rest der Seite Sinn machen.
+
+### Sidebar
+
+Das `<aside>`-Element repräsentiert einen Teil von einem Dokument, wessen Inhalt nur indirekt mit dem Hauptinhalt verwandt ist. Das kann z.B. ein abschnitt mit ähnlichen Blogs sein.
+
+```html
+<main>
+    <article>
+        <h2>Article heading</h2>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam
+            lectus. Set sit amet ipsum mauris. Maecenas congue ligula as quam
+            viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent
+            et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt
+            congue enim, ut porta lorem lacinia consectetur.
+        </p>
+        <section>
+            <h3>Subsection</h3>
+            <p>
+                Donec ut librero sed accu vehicula ultricies a non tortor. Lorem
+                ipsum dolor sit amet, consectetur adipisicing elit. Aenean ut
+                gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id
+                dolor.
+            </p>
+            <p>
+                Pelientesque auctor nisi id magna consequat sagittis. Curabitur
+                dapibus, enim sit amet elit pharetra tincidunt feugiat nist
+                imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed
+                odio eros.
+            </p>
+        </section>
+        <section>
+            <h3>Another subsection</h3>
+            <p>
+                Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum
+                soclis natoque penatibus et manis dis parturient montes, nascetur
+                ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at
+                sem facilisis semper ac in est.
+            </p>
+            <p>
+                Vivamus fermentum semper porta. Nunc diam velit, adipscing ut
+                tristique vitae sagittis vel odio. Maecenas convallis ullamcorper
+                ultricied. Curabitur ornare, ligula semper consectetur sagittis,
+                nisi diam iaculis velit, is fringille sem nunc vet mi.
+            </p>
+        </section>
+    </article>
+    <aside>
+        <h2>Related</h2>
+        <ul>
+            <li><a href="#">Oh I do like to be beside the seaside</a></li>
+            <li><a href="#">Oh I do like to be beside the sea</a></li>
+            <li><a href="#">Although in the North of England</a></li>
+            <li><a href="#">It never stops raining</a></li>
+            <li><a href="#">Oh well…</a></li>
+        </ul>
+    </aside>
+</main>
+```
+
+## Footer
+
+Das `<footer>`-Element repräsentiert eine Fusszeile. Normalerweise enthält es Informationen über den Autor, Copyright oder Links zu sozialen Medien.
+
+```html
+<footer>
+    <p>© Copyright 2025 by nobody. All rights reversed.</p>
+</footer>
+```
+
+## Nicht-Semantische Wrapper
+
+Manchmal stösst du auf eine Situation, in der du kein ideales semantisches Element finden kannst, um einige Elemente zusammenzufassen oder einige Inhalte zu umschliessen. Manchmal möchtest du einfach eine Gruppe von Elementen zusammenfassen, um sie alle als eine einzige Einheit mit etwas CSS oder JavaScript zu beeinflussen.
+
+### `<span>`
+
+Das `<span>`-Element ist ein inline Container. Standardmässig repräsentiert es gar nichts. Es wird also benutzt, um Inhalt miteinander zu gruppieren.
+
+```html
+<p>
+    The King walked drunkenly back to his room at 01:00, the beer doing nothing to
+    aid him as he staggered through the door.
+    <span class="editor-note">
+        [Editor's note: At this point in the play, the lights should be down low].
+    </span>
+</p>
+```
+
+### `<div>`
+
+Das `<div>`-Element ist ein Container. Es hat keinen Effekt auf den Inhalt oder das Layout. Es wird also ebenfalls benutzt, um Inhalt miteinander zu gruppieren.
+
+```html
+<div class="shopping-cart">
+    <h2>Shopping cart</h2>
+    <ul>
+        <li>
+            <p>
+                <a href=""><strong>Silver earrings</strong></a>: $99.95.
+            </p>
+            ![Silver earrings](../products/3333-0985/thumb.png)
+        </li>
+        <li>…</li>
+    </ul>
+    <p>Total cost: $237.89</p>
+</div>
+```
+
+## Zeilenumbrüche
+
+Das `<br>`-Element kreiert einen Zeilenumbruch in einem Paragraphen.
+
+```html
+<p>
+    There once was a man named O'Dell<br />
+    Who loved to write HTML<br />
+    But his structure was bad, his semantics were sad<br />
+    and his markup didn't read very well.
+</p>
+```
+
+## Horizontale Linien
+
+Das `<hr>`-Element kreiert eine horizontale Linie in einem Dokument, welches eine Themenwechsel im Text bezeichnet.
+
+```html
+<p>
+    Ron was backed into a corner by the marauding netherbeasts. Scared, but
+    determined to protect his friends, he raised his wand and prepared to do
+    battle, hoping that his distress call had made it through.
+</p>
+<hr />
+<p>
+   Meanwhile, Harry was sitting at home, staring at his royalty statement and
+   pondering when the next spin off series would come out, when an enchanted
+   distress letter flew through his window and landed in his lap. He read it
+   hazily and sighed; "better get back to work then", he mused.
+</p>
+```

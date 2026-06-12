@@ -1,0 +1,229 @@
+---
+title: "Decorator Pattern"
+icon: "gift"
+---
+
+Decorator ist ein strukturelles Entwurfsmuster, mit dem du neue Verhaltensweisen an Objekte anhängen kannst, indem du diese Objekte in speziellen Wrapper-Objekten platzierst, die die Verhaltensweisen enthalten.
+
+## Klassendiagramm
+
+<Frame caption="Structural Patterns">
+  ![Abbildung](/images/content/dotnet/class-diagram-6.png)
+</Frame>
+
+
+
+## Implementierung
+
+<Tabs>
+<Tab title="Client">
+```csharp title="Client.cs"
+Component component = new ConcreteDecorator2(
+    component: new ConcreteDecorator1(
+        component: new ConcreteDecorator1(
+            component: new ConcreteComponent())));
+
+component.Operation();
+```
+</Tab>
+
+<Tab title="Component">
+```csharp title="IComponent.cs"
+public interface IComponent
+{
+    void Operation();
+}
+```
+</Tab>
+
+<Tab title="ConcreteComponent">
+```csharp title="ConcreteComponent.cs"
+public class ConcreteComponent : Component
+{
+    public void Operation()
+    {
+        Console.WriteLine("ConcreteComponent");
+    }
+}
+```
+</Tab>
+
+<Tab title="Decorator">
+```csharp title="Decorator.cs"
+public abstract class Decorator(Component component) : Component
+{
+    protected Component _component = component;
+
+    public virtual void Operation()
+    {
+        _component.Operation();
+    }
+}
+```
+</Tab>
+
+<Tab title="ConcreteDecorator1">
+```csharp title="ConcreteDecorator1.cs"
+public abstract class Decorator(Component component) : Component
+{
+    protected Component _component = component;
+
+    public virtual void Operation()
+    {
+        _component.Operation();
+    }
+}
+```
+</Tab>
+
+<Tab title="ConcreteDecorator2">
+```csharp title="ConcreteDecorator2.cs"
+public class ConcreteDecorator2(Component component) : Decorator(component)
+{
+    public override void Operation()
+    {
+        Console.WriteLine("-------- Concrete Decorator 2 -----------");
+        _component.Operation();
+        Console.WriteLine("-------- Concrete Decorator 2 -----------");
+    }
+}
+```
+</Tab>
+</Tabs>
+
+## Beispiele
+
+### Klassendiagramme
+
+<Frame caption="Structural Patterns">
+  ![Abbildung](/images/content/dotnet/class-diagram-7.png)
+</Frame>
+
+### Implementierung
+
+<Tabs>
+<Tab title="Client">
+```csharp
+ITeslaModel3 car = new LongRangeTeslaDecorator(
+    car: new RedPaintTeslaDecorator(
+        car: new BasicTeslaModel3()));
+
+Console.WriteLine($"Description: {car.GetDescription()}");
+Console.WriteLine($"Price: {car.GetPrice()}");
+Console.WriteLine($"Range: {car.GetRange()}");
+```
+</Tab>
+
+<Tab title="Component">
+```csharp
+public interface ITeslaModel3
+{
+    decimal GetPrice();
+    string GetDescription();
+    int GetRange();
+}
+```
+</Tab>
+
+<Tab title="ConcreteComponent">
+```csharp
+public class BasicTeslaModel3 : ITeslaModel3
+{
+    public string GetDescription()
+    {
+        return "Tesla Model 3 Rear-Wheel Drive";
+    }
+
+    public decimal GetPrice()
+    {
+        return 38990m;
+    }
+
+    public int GetRange()
+    {
+        return 272;
+    }
+}
+```
+</Tab>
+
+<Tab title="Decorator">
+```csharp
+public abstract class TeslaDecorator(ITeslaModel3 car) : ITeslaModel3
+{
+    protected ITeslaModel3 _car = car;
+
+    public virtual string GetDescription()
+    {
+        return _car.GetDescription();
+    }
+
+    public virtual decimal GetPrice()
+    {
+        return _car.GetPrice();
+    }
+
+    public virtual int GetRange()
+    {
+        return _car.GetRange();
+    }
+}
+```
+</Tab>
+
+<Tab title="ConcreteDecorator1">
+```csharp
+public class RedPaintTeslaDecorator(ITeslaModel3 car) : TeslaDecorator(car)
+{
+    public override decimal GetPrice()
+    {
+        return base.GetPrice() + 2000;
+    }
+
+    public override string GetDescription()
+    {
+        return $"{base.GetDescription()}, Red Paint";
+    }
+}
+```
+</Tab>
+
+<Tab title="ConcreteDecorator2">
+```csharp
+public class LongRangeTeslaDecorator(ITeslaModel3 car) : TeslaDecorator(car)
+{
+    public override decimal GetPrice()
+    {
+        return base.GetPrice() + 3500;
+    }
+
+    public override string GetDescription()
+    {
+        return $"{base.GetDescription()}, Long Range";
+    }
+
+    public override int GetRange()
+    {
+        return base.GetRange() + 91;
+    }
+}
+```
+</Tab>
+
+<Tab title="ConcreteDecorator3">
+```csharp
+public class BluePaintTeslaDecorator(ITeslaModel3 car) : TeslaDecorator(car)
+{
+    public override decimal GetPrice()
+    {
+        return base.GetPrice() + 1000;
+    }
+
+    public override string GetDescription()
+    {
+        return $"{base.GetDescription()}, Blue Paint";
+    }
+}
+```
+</Tab>
+</Tabs>

@@ -1,0 +1,20 @@
+---
+title: "Intersections"
+icon: "object-group"
+---
+
+Wenn du zwei Typen miteinander mischen möchtest, kannst du Intersections nutzen. Um zwei Typen zu kreuzen, verwende den Operator `&`. Dadurch wird ein neuer Typ erstellt, der alle Eigenschaften beider Typen besitzt.
+
+```typescript
+type User = { name: string } & { age: number };
+```
+
+Die Objekte vereinen also die Eigenschaften beider Typen.
+
+***
+
+Primitive überschneiden sich unterschiedlich. Primitive schneiden sich als die Vereinigung der Typen. Nichts kann sowohl eine Zahl als auch eine Zeichenkette sein, also ist der Typ `never`.
+
+```typescript
+type NumberAndString = number & string;
+```

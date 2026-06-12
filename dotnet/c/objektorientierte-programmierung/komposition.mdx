@@ -1,0 +1,74 @@
+---
+title: "Komposition"
+icon: "boxes-stacked"
+---
+
+Komposition ist eines der grundlegenden Konzepte in der objektorientierten Programmierung. Es beschreibt eine Klasse, die ein oder mehrere Objekte anderer Klassen in Instanzvariablen referenziert. So kannst du eine has-a-Assoziation zwischen Objekten modellieren.
+
+Solche Beziehungen findest du in der realen Welt ziemlich häufig. Ein Auto hat zum Beispiel einen Motor und moderne Kaffeemaschinen haben oft ein integriertes Mahlwerk und eine Brüheinheit.
+
+```csharp
+class Engine {...}
+
+class Wheel {...}
+
+class SteeringWheel {...}
+
+class Transmission {...}
+
+class Car {
+    private Engine _engine;
+    private List<Wheel> _wheels;
+    private SteeringWheel _steeringWheel;
+    private Transmission _transmission;
+
+    public Car(Engine engine, List<Wheel> wheels, SteeringWheel steeringWheel, Transmission transmission) {
+        _engine = engine;
+        _wheels = wheels;
+        _steeringWheel = steeringWheel;
+        _transmission = transmission;
+    }
+
+    public void Drive() 
+    {
+        if (!_engine.IsRunning)
+        {
+            _steeringWheel.Unlock();
+            _transmission.ShiftToDrive();
+            _engine.Start();
+            
+            foreach (var wheel in _wheels)
+            {
+                wheel.Unlock();
+            }
+            
+            Console.WriteLine("Car is ready to drive.");
+        }
+        else 
+        {
+            Console.WriteLine("Car is already running.");
+        }
+    }
+
+    public void Stop() 
+    {
+        if (_engine.IsRunning)
+        {
+            _transmission.ShiftToPark();
+            _engine.Stop();
+            _steeringWheel.Lock();
+            
+            foreach (var wheel in _wheels)
+            {
+                wheel.Lock();
+            }
+            
+            Console.WriteLine("Car has been safely stopped.");
+        }
+        else 
+        {
+            Console.WriteLine("Car is already stopped.");
+        }
+    }
+}
+```

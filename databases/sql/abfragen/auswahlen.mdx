@@ -1,0 +1,67 @@
+---
+title: "Auswählen"
+icon: "arrow-pointer"
+---
+
+Das `SELECT`-Statement wird benutzt um bestimmte Daten aus einer Datenbank auszuwählen.
+
+```sql
+SELECT column1, column2, ...
+FROM table_name;
+```
+
+<Info>
+Um alle Attribute auszuwählen, kann man den `*` benutzen.
+</Info>
+
+## Beispiel
+
+Im folgenden Beispiel wählen wir alle Attribute aus der Tabelle Customer aus:
+
+```sql
+SELECT * FROM Customers;
+```
+
+## `SELECT DISTINCT`
+
+Der `SELECT DISTINCT`-Befehl funktioniert ganz ähnlich, wie der `SELECT`-Befehl. Jedoch filtert er Duplikate heraus.
+
+```sql
+SELECT DISTINCT column1, column2, ...
+FROM table_name;
+```
+
+### Beispiel
+
+Im folgenden Beispiel wählen wir das Attribut `Country` aus der Tabelle `Customers` aus, die einzigartig sind.
+
+```sql
+SELECT DISTINCT Country FROM Customers;
+```
+
+## `LIMIT`
+
+Mit LIMIT können wir die Anzahl Datensätze, die uns eine Abfrage zurückgibt, limitieren.
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+LIMIT number;
+```
+
+### Beispiel
+
+In folgendem Beispiel werden nur 3 Datensätze zurückgegeben.
+
+```sql
+SELECT * FROM Customer
+LIMIT 3;
+```
+
+Was aber, wenn wir die Datensätze 4 bis 6 haben wollen? Kein Problem.
+
+```sql
+SELECT * FROM Customer
+LIMIT 3 OFFSET 3;
+```

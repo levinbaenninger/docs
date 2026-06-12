@@ -1,0 +1,127 @@
+---
+title: "Grundlagen"
+icon: "wave-square"
+---
+
+Der dynamische Test beschreibt die Prüfung des Testobjekts durch dessen Ausführung auf einem Rechner. Damit ein dynamischer Test durchgeführt werden kann, muss ein ablauffähiges Programm vorliegen.
+
+In den unteren Teststufen (Komponenten- und Integrationstest) ist das Testobjekt oft noch nicht als eigenständiges Programm lauffähig. Es muss daher in einen Testrahmen (_Test Bed_) eingebettet werden, um die Ausführung zu ermöglichen.
+
+<Frame caption="Dynamischer Test">
+  ![Abbildung](/images/content/testing/file-excalidraw-3.svg)
+</Frame>
+
+Treiber und Platzhalter bilden zusammen den Testrahmen, der mit dem Testobjekt zusammen das ablauffähige Programm ergibt.
+
+## Unterschied zum statischen Testen
+
+Der wesentliche Unterschied zwischen statischen und dynamischen Tests liegt in der Ausführung des Testobjekts. Während beim statischen Test Dokumente und Programmtext ohne eine Ausführung auf einem Rechner geprüft werden, setzt der dynamische Test ein ablauffähiges Programm voraus, das mit Testdaten versorgt und tatsächlich ausgeführt wird.
+
+<AccordionGroup>
+<Accordion title="Gegenstand der Prüfung">
+
+Statische Tests können auf alle Arten von Arbeitsergebnissen (Anforderungen, Entwürfe, Quellcode, Verträge, Benutzerhandbücher) angewendet werden. Dynamische Tests konzentrieren sich ausschliesslich auf den ausführbaren Programmcode.
+
+</Accordion>
+
+<Accordion title="Art der gefundenen Fehler">
+
+Statische Tests entdecken Fehlerzustände (Defekte) direkt im Dokument. Dynamische Tests weisen dagegen Fehlerwirkungen (Ausfälle) nach, also die sichtbaren Konsequenzen von im Code verborgenen Fehlerzuständen.
+
+</Accordion>
+
+<Accordion title="Zeitpunkt im Lebenszyklus">
+
+Statische Verfahren können sehr früh (z.B. direkt nach der Erstellung einer Spezifikation) eingesetzt werden. Dynamische Tests können erst durchgeführt werden, wenn ein ausführbares Programmfragment vorliegt.
+
+</Accordion>
+
+<Accordion title="Qualitätsmerkmale">
+
+Statische Tests bewerten vor allem die innere Qualität und Wartbarkeit (Struktur, Einhaltung von Standards). Dynamische Tests messen Eigenschaften, die erst zur Laufzeit sichtbar werden, wie Performanz, Antwortzeiten oder das Ressourcenverhalten.
+
+</Accordion>
+</AccordionGroup>
+
+## Vor- und Nachteile
+
+- Realitätsprüfung
+- Sichtbarkeit von Fehlwirkungen
+- Messbarkeit
+
+***
+
+- Späterer Start
+- Aufwendige Diagnose
+- Infrastrukturbedarf
+
+## Elemente des Testrahmens
+
+<AccordionGroup>
+<Accordion title="Testobjekt">
+
+Das Testobjekt ist die Komponente oder das (Teil-)System, das getestet wird. Es wird mit Eingabedaten versehen und zur Ausführung gebracht.
+
+</Accordion>
+
+<Accordion title="Testtreiber">
+
+Ein Testtreiber ist ein Testwerkzeug oder ein speziell entwickeltes Programm, das das Testobjekt aufruft und/oder steuert. Der Treiber muss das Testobjekt mit den Eingabedaten versorgen.
+
+</Accordion>
+
+<Accordion title="Platzhalter">
+
+Das Testobjekt ruft meist weitere Programmteile über definierte Schnittstellen auf. Wenn diese Teile noch nicht implementiert oder nur simuliert werden sollen, werden sie durch Platzhalter (Stubs) realisiert. Platzhalter simulieren das Ein-/Ausgabeverhalten des eigentlich aufzurufenden Programmteils.
+
+</Accordion>
+
+<Accordion title="Laufzeitumgebung, Analysewerkzeuge, Monitore">
+
+Die gesamte Umgebung, in der der Test abläuft, umfasst die benötigte Hardware, Simulatoren, Softwarewerkzeuge und weitere unterstützende Hilfsmittel.
+
+</Accordion>
+
+<Accordion title="Testausgaben, Vergleich und Protokoll">
+
+Das Testobjekt erzeugt Ausgaben. Die Ergebnisse des Testlaufs sind zu protokollieren. Das tatsächliche Ergebnis wird mit dem erwarteten Ergebnis verglichen, um Abweichungen und Fehlerwirkungen festzustellen.
+
+</Accordion>
+</AccordionGroup>
+
+## Blackbox- und Whitebox-Testverfahren
+
+Zur systematischen Erstellung von Testfällen beim dynamischen Testen werden Testverfahren in zwei Hauptkategorien eingeteilt.
+
+<Columns cols={2}>
+<Column>
+<Frame caption="Blackbox">
+  ![Blackbox](/images/content/testing/file-excalidraw-4.svg)
+</Frame>
+</Column>
+
+<Column>
+<Frame caption="Whitebox">
+  ![Whitebox](/images/content/testing/file-excalidraw-5.svg)
+</Frame>
+</Column>
+</Columns>
+
+### Blackbox-Testverfahren
+
+<Columns cols={2}>
+  <Card title="Basis">Blackbox-Verfahren werden auch spezifikationsbasierte oder verhaltensgesteuerte Verfahren genannt. Die Testfälle werden aus der Spezifikation oder Anforderungsbeschreibung abgeleitet.</Card>
+  <Card title="Sichtweise">Das Testobjekt wird als »schwarzer Kasten« angesehen; Informationen über den Programmtext und den inneren Aufbau sind nicht erforderlich.</Card>
+  <Card title="Steuerung und Beobachtung">Der Point of Control (PoC) (Steuerung) und der Point of Observation (PoO) (Beobachtung) liegen ausserhalb des Testobjekts.</Card>
+  <Card title="Fokus">Diese Verfahren konzentrieren sich auf die Eingaben und Ausgaben des Testobjekts.</Card>
+</Columns>
+
+### Whitebox-Testverfahren
+
+<Columns cols={2}>
+  <Card title="Basis">Whitebox-Verfahren werden auch strukturelle oder strukturbasierte Verfahren genannt. Die Testfälle werden aufgrund der Programmstruktur (Programmcode oder detaillierte Spezifikation) gewonnen.</Card>
+  <Card title="Sichtweise">Diese Verfahren fokussieren auf die Struktur und die Abläufe innerhalb des Testobjekts.</Card>
+  <Card title="Steuerung und Beobachtung">Der PoO (Beobachtung) liegt innerhalb des Testobjekts, da der innere Ablauf analysiert wird. In Ausnahmefällen kann der PoC (Eingriff in den Ablauf) auch innerhalb des Testobjekts liegen.</Card>
+  <Card title="Ziel">Ein nachzuweisender Überdeckungsgrad (z. B. 80 % aller Anweisungen des Testobjekts sollen überdeckt werden) wird angestrebt.</Card>
+  <Card title="Anwendung">Das primäre Anwendungsgebiet liegt im Komponententest bzw. dem Test der API der zu testenden Komponenten.</Card>
+</Columns>

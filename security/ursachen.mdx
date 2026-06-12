@@ -1,0 +1,199 @@
+---
+title: "Ursachen"
+icon: "circle-exclamation"
+---
+
+## Aufbau von Web-Applikationen
+
+Web-Applikationen (Online-Applikationen) ermöglichen die Zusammenarbeit zwischen Nutzern und Dienstanbietern über das Internet.
+
+Typischer Aufbau:
+
+* Zugriff über HTTP/HTTPS
+* Bereitstellung über Webserver (z. B. [Apache HTTP Server](chatgpt://generic-entity?number=0) oder [Microsoft IIS](chatgpt://generic-entity?number=1))
+* Entwicklung mit Technologien wie:
+  * .NET
+  * PHP
+  * JSP
+  * Python
+* Speicherung der Daten in SQL-Datenbanken
+
+Der Zugriff erfolgt über eine URL (Uniform Resource Locator).
+
+```text
+https://max:muster@www.example.com:8080/index.html?p1=A&p2=B#resource
+```
+
+### Funktionale Infrastruktur
+
+#### Clientseitige Infrastruktur (Browser)
+
+Die clientseitige Infrastruktur läuft auf dem Gerät des Benutzers. Der Webbrowser übernimmt:
+
+- Darstellung von HTML, CSS und JavaScript
+- Verarbeitung von Benutzereingaben
+- Kommunikation mit dem Server über HTTP/HTTPS
+
+**Forward Proxy (im Unternehmensnetzwerk)**
+
+Ein Forward Proxy kann den Internetverkehr kontrollieren.
+
+<Columns cols={2}>
+  <Card title="Caching">Schnellere Ladezeiten</Card>
+  <Card title="Regelbasiertes Surfen">Zugriffsbeschränkung</Card>
+  <Card title="Protokollierung">Nachverfolgung von Zugriffen</Card>
+  <Card title="Content Filtering">Prüfung auf Schadcode</Card>
+</Columns>
+
+### Serverseitige Infrastruktur
+
+Eine sichere Webapplikation besteht aus mehreren Sicherheits- und Verarbeitungsschichten.
+
+<Frame caption="Security">
+    ![Abbildung](/images/content/security/image.png)
+</Frame>
+
+<AccordionGroup>
+<Accordion title="Netzwerk-Firewall">
+
+* Schützt Netzwerk vor unbefugtem Zugriff
+* Erlaubt nur notwendige Ports (z. B. 80 und 443)
+
+Server befinden sich oft in einer DMZ (Demilitarized Zone), um interne Netzwerke zu schützen.
+
+</Accordion>
+
+<Accordion title="TLS/SSL-Gateway">
+
+* Verschlüsselt und entschlüsselt den Datenverkehr zwischen Client und Server
+* Schützt Daten während der Übertragung
+
+</Accordion>
+
+<Accordion title="Web Application Firewall (WAF)">
+
+Eine Web Application Firewall schützt Webapplikationen vor typischen Angriffen wie:
+
+* Cross-Site Scripting
+* SQL-Injection
+* CSRF
+
+Sie analysiert den Datenverkehr auf Anwendungsebene (Layer 7).
+
+</Accordion>
+
+<Accordion title="Access-Gateway">
+
+* Sorgt für Authentifizierung
+* Verwaltet Benutzersitzungen
+
+</Accordion>
+
+<Accordion title="HTTP-Server">
+
+* Nimmt Anfragen von Clients entgegen
+* Liefert statische Inhalte (HTML, Bilder)
+* Leitet dynamische Anfragen an Backend weiter
+* Verbessert Performance durch Caching
+
+</Accordion>
+
+<Accordion title="Webapplikationsserver">
+
+Der Applikationsserver führt die Geschäftslogik der Anwendung aus.
+
+* Verarbeitung von Benutzeranfragen
+* Eingabevalidierung
+* Authentifizierung
+* Kommunikation mit Datenbanken
+
+</Accordion>
+
+<Accordion title="Datenbank">
+
+Die Datenbank speichert und verwaltet Daten der Anwendung. Sie bietet Mechanismen für:
+
+* Datenintegrität
+* Zugriffskontrolle
+* Verschlüsselung
+
+</Accordion>
+
+<Accordion title="Reverse-Proxy">
+
+Ein Reverse Proxy befindet sich vor dem Webserver und schützt die Infrastruktur.
+
+* Filterung von Anfragen
+* Caching und Komprimierung
+* TLS/SSL-Verarbeitung
+* Benutzerauthentifizierung
+* Load Balancing
+
+Für den Benutzer ist der Proxy unsichtbar.
+
+</Accordion>
+</AccordionGroup>
+
+## Sicherheitsrisiken und Herausforderungen
+
+Viele Angriffe nutzen bekannte Schwachstellen aus.
+
+<AccordionGroup>
+<Accordion title="XSS">
+
+Einschleusen von Schadcode in Webseiten
+
+</Accordion>
+
+<Accordion title="SQL Injection">
+
+Manipulation von Datenbankabfragen
+
+</Accordion>
+
+<Accordion title="Sniffing">
+
+Abhören von Netzwerkverkehr
+
+</Accordion>
+
+<Accordion title="Man-in-the-Middle-Angriff">
+
+Manipulation der Kommunikation
+
+</Accordion>
+
+<Accordion title="Phishing">
+
+Täuschung von Benutzern
+
+</Accordion>
+</AccordionGroup>
+
+### Hauptursache
+
+Die meisten Sicherheitslücken entstehen durch Programmierfehler.
+
+Studien zeigen, dass etwa 75 % der Hackerangriffe direkt Webapplikationen betreffen und nicht das Netzwerk. Daher sollte Sicherheit bereits während der Softwareentwicklung berücksichtigt werden.
+
+### Qualität vs. Sicherheit
+
+Nicht jeder Fehler ist gleich.
+
+<Frame caption="Security">
+  ![Abbildung](/images/content/security/file-excalidraw-1.svg)
+</Frame>
+
+| Kategorie      | Beschreibung                                  |
+| -------------- | --------------------------------------------- |
+| Quality Fault  | Funktion fehlt oder funktioniert nicht        |
+| Works          | Anwendung erfüllt Anforderungen               |
+| Security Fault | Ungeplante Eigenschaften ermöglichen Angriffe |
+
+Ein Sicherheitsproblem ist also nicht unbedingt ein Programmfehler, sondern kann auch eine unerwartete Funktion sein.
+
+### Bedeutung von Tests
+
+Neben funktionalen Tests sind auch nicht-funktionale Tests wichtig: Sicherheitstests, Lasttests, Usabilitytests, Recoverytests.
+
+Diese helfen, Schwachstellen frühzeitig zu erkennen und zu beheben.

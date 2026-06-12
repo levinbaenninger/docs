@@ -1,0 +1,172 @@
+---
+title: "Funktionsweise"
+icon: "gears"
+---
+
+Wir werden im Folgenden die Funktionsweise anhand eines Neuralen Netzwerks erarbeiten, das von handgeschriebene Ziffern erkennen kann.
+
+## Neuronen
+
+Ein **Neuron** ist ein Ding, welches eine **Zahl zwischen 0 und 1** beinhaltet. Diese Zahl nennt man auch die **Aktivierung**.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-22.png)
+</Frame>
+
+In unserem Beispiel haben wir ein Bild mit einer Auflösung von 28px ⋅ 28px. Jeder Pixel repräsentiert ein Neuron, welches den Graustufenwert zwischen 0 und 1 beinhaltet, wobei 0 Schwarz ist und 1 Weiss. 
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-21.png)
+</Frame>
+
+## Layer
+
+Alle diese 784 Neuronen sind unser erster Layer in unserem Netzwerk. 
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-18.png)
+</Frame>
+
+Im letzten Layer haben wir 10 Neuronen, dabei repräsentiert jeder Neuron eine andere Ziffer von 0 bis 9. Die Aktivierung der Neuronen im letzten Layer besagt, wie sehr das System denkt, dass das gegebene Bild der Ziffer entspricht.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-19.png)
+</Frame>
+
+Dazwischen haben wir noch die "versteckten" Layer. In unserem Fall sind es zwei Layer mit jeweils 16 Neuronen. Diese sind jedoch beliebig gewählt und es ist viel Raum für Experimentierung offen.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-20.png)
+</Frame>
+
+Die Aktivierung eines Layers bestimmt die Aktivierung eines anderen Layers.
+
+### Warum Layer?
+
+Jede Zahl ist in verschiedene Komponenten aufgeteilt, z.B. eine Linie oder ein Kreis. 
+
+<Frame caption="Jede Ziffer kann in kleinere, erkennbarere Unterkomponenten aufgeteilt werden">
+  ![Jede Ziffer kann in kleinere, erkennbarere Unterkomponenten aufgeteilt werden](/images/content/miscellaneous/image-14.png)
+</Frame>
+
+In einer perfekten Welt könnten wir hoffen, dass jedes Neuron im vorletzten Layer einer dieser Unterkomponenten entspricht. Jedes Mal, wenn du ein Bild mit einen Kreis oben einfügst, gibt es ein bestimmtes Neuron, dessen Aktivierung nahe bei 1.0 liegt.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-15.png)
+</Frame>
+
+Jedoch birgt das bereit ein weiteres Problem: Wie erkennen wir einen Kreis? Auch dieses Problem können wir in Unterprobleme aufteilen. Dafür könnten wir alle kleinen Kanten erkennen, die den Kreis zusammenstellen.
+
+<Frame caption="Ein Kreis kann in mehrere kleine Kanten aufgeteilt werden">
+  ![Ein Kreis kann in mehrere kleine Kanten aufgeteilt werden](/images/content/miscellaneous/image-16.png)
+</Frame>
+
+<Frame caption="Eine lange Linie besteht auch nur aus vielen kleinen Kanten">
+  ![Eine lange Linie besteht auch nur aus vielen kleinen Kanten](/images/content/miscellaneous/image-17.png)
+</Frame>
+
+Unsere Hoffnung ist also, dass jedes Neuron in der zweiten Schicht des Netzwerks einer kleinen Kante entspricht. Wenn ein Bild hereinkommt, leuchten vielleicht die Neuronen auf, die mit all den kleinen Kanten in diesem Bild verbunden sind. Das wiederum würde die Neuronen in der dritten Schicht aufleuchten lassen, die mit grösseren Mustern wie Kreisen und langen Linien verbunden sind, was dann dazu führt, dass ein Neuron in der letzten Schicht feuert, das der entsprechenden Ziffer entspricht.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-23.png)
+</Frame>
+
+## Kanten-Erkennung
+
+Wie lässt sich diese allgemeine Idee nun konkret umsetzen? Das Ziel ist ein Mechanismus, mit dem man Pixel zu Kanten, Kanten zu Mustern oder Muster zu Ziffern kombinieren kann. Besonders elegant wäre es, wenn all diese verschiedenen Schritte das gleiche mathematische Verfahren verwenden würden.
+
+Um ein ganz konkretes Beispiel zu nennen: Wir hoffen, dass ein bestimmtes Neuron in der zweiten Schicht erkennt, ob das Bild an dieser Stelle eine Kante hat oder nicht:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-24.png)
+</Frame>
+
+### Gewichtung
+
+Wir geben jeder Verbindung zwischen unserem Neuron und dem Neuron aus dem ersten Layer eine Gewichtung. Diese Gewichtung ist einfach nur eine Zahl.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-25.png)
+</Frame>
+
+Jede Gewichtung ist ein Hinweis darauf, wie sein Neuron in der ersten Schicht mit diesem neuen Neuron in der zweiten Schicht korreliert ist.
+
+Wenn das Neuron in der ersten Schicht eingeschaltet ist, deutet eine **positive** Gewichtung darauf hin, dass das Neuron in der zweiten Schicht ebenfalls eingeschaltet sein sollte, und eine **negative** Gewichtung darauf, dass das Neuron in der zweiten Schicht ausgeschaltet sein sollte.
+
+Um den Wert dieses Neurons der zweiten Schicht zu berechnen, nimmst du alle Aktivierungen der Neuronen der ersten Schicht und berechnest ihre gewichtete Summe.
+
+$$
+w_{1}a_{1}+w_{2}a_{2}+w_{3}a_{3}+w_{4}a_{4}+...+w_{n}a_{n}
+$$
+
+Es ist hilfreich, sich vorzustellen, dass all diese Gewichte in einem eigenen Raster angeordnet sind:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-26.png)
+</Frame>
+
+Was wäre, wenn wir die Gewichte für fast alle Pixel auf 0 setzen würden, mit Ausnahme einiger positiver Gewichte für diese Pixel in der Region, in der wir eine Kante erkennen wollen?
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-27.png)
+</Frame>
+
+Mit diesen Gewichten wird das Neuron in der zweiten Schicht stärker aktiviert, wenn die Pixel in dieser Region stärker aktiviert sind.
+
+Aber dieses Gewichtungsmuster erkennt auch grosse Flecken von aktivierten Pixeln (nicht nur Kanten). Um wirklich zu erkennen, ob es sich um eine Kante handelt oder nicht, solltest du den umliegenden Pixeln einige negative Gewichte zuordnen. Dann ist die Summe am grössten, wenn diese Pixel hell sind, die umliegenden Pixel aber dunkel sind.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-28.png)
+</Frame>
+
+### Sigmoid-Funktion
+
+Das Ergebnis der gewichteten Summe kann eine beliebige Zahl sein, aber für dieses Netz wollen wir, dass die Aktivierungen Werte zwischen 0 und 1 sind. Deshalb ist es üblich, diese gewichtete Summe in eine Funktion zu pumpen, die die reale Zahlenreihe in den Bereich zwischen 0 und 1 quetscht.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-29.png)
+</Frame>
+
+Eine gängige Funktion, die dies tut, ist die sogenannte "Sigmoid"-Funktion, auch bekannt als logistische Kurve, die wir mit dem Symbol σ darstellen. Sehr negative Eingaben enden in der Nähe von 0, sehr positive Eingaben enden in der Nähe von 1, und um 0 herum nimmt die Kurve stetig zu. Die Aktivierung des Neurons ist also im Grunde ein Mass dafür, wie positiv die gewichtete Summe ist.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-30.png)
+</Frame>
+
+### Bias
+
+Aber vielleicht wollen wir nicht, dass das Neuron aufleuchtet, wenn die gewichtete Summe grösser als 0 ist. Vielleicht wollen wir nur, dass es aktiv ist, wenn die Summe grösser als, sagen wir, 10 ist.
+
+In diesem Fall addieren wir eine Zahl, z. B. -10, zu der gewichteten Summe, bevor wir sie in die Sigmoid-Funktion einfügen, die alles in den Bereich zwischen 0 und 1 drückt.
+
+Wir nennen diese zusätzliche Zahl einen Bias.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-31.png)
+</Frame>
+
+### Vereinfachte Schreibweise
+
+$$
+\sigma \left( 
+\begin{bmatrix}
+w_{0,0} & w_{0,1} & \cdots & w_{0,n} \\
+w_{1,0} & w_{1,1} & \cdots & w_{1,n} \\
+\vdots  & \vdots  & \ddots & \vdots  \\
+w_{k,0} & w_{k,1} & \cdots & w_{k,n} \\
+\end{bmatrix}
+\begin{bmatrix}
+a_{0}^{(0)} \\
+a_{1}^{(0)} \\
+\vdots \\
+a_{n}^{(0)} \\
+\end{bmatrix}
++
+\begin{bmatrix}
+b_{0} \\
+b_{1} \\
+\vdots \\
+b_{n} \\
+\end{bmatrix}
+\right)
+$$

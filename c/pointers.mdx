@@ -1,0 +1,160 @@
+---
+title: "Pointers"
+icon: "arrow-pointer"
+---
+
+## Adressen
+
+Wenn man eine Variable `var` in einem Programm hat, wird mit `&var` die Adresse im RAM zurückgeben. Diese Adressierung haben wir mehrmals in mit der `scanf()` Funktion benutzt.
+
+```c
+scanf("%d", &var);
+```
+
+Hier wird der Wert vom User in der Adresse der `var` Variable gespeichert. Ein weiteres Beispiel:
+
+<Tabs>
+<Tab title="main.c">
+```c
+#include <stdio.h>
+int main()
+{
+  int var = 5;
+  printf("var: %d\n", var);
+
+  // Notice the use of & before var
+  printf("address of var: %p", &var);
+  return 0;
+}
+```
+</Tab>
+
+<Tab title="Output">
+```bash
+var: 5
+address of var: 2686778
+```
+</Tab>
+</Tabs>
+
+<Warning>
+Du bekommst ein anderes Resultat zurück.
+</Warning>
+
+## Pointers﻿
+
+Pointers sind spezielle Variablen welche benutzt werden, um Adressen anstatt Werte zu speichern.
+
+```c
+int* ptr;
+```
+
+Hier haben wir einen Pointer `ptr` vom Typ `int`. Man kann auch Pointer auch folgendermassen deklarieren.
+
+```c
+int *ptr1;
+int * ptr2;
+```
+
+### Adressen an Pointer zuweisen﻿
+
+```c
+int* ptrC, c;
+c = 5;
+ptrC = &c;
+```
+
+Hier wird der Variable `c` 5 zugewiesen. Die Adresse von `c` wird dem Pointer `ptrC` zugewiesen.
+
+### Wert des von Pointers abrufen﻿
+
+Um den Wert von einem Pointer gezeigten Objekts zu bekommen, benutzt man den `*` Operator.
+
+```c
+int* ptrC, c;
+c = 5;
+ptrC = &c;
+
+printf("%d", *ptrC);
+```
+
+Hier wird die Adresse von `c` ist dem Pointer `ptrC` zugewiesen. Um den Wert, welcher in dieser Adresse ist zu bekommen, haben wir `*ptrC` benutzt.
+
+#### Ändern des Wert von Pointern
+
+```c
+int* ptrC, c;
+c = 5;
+ptrC = &c;
+c = 1;
+
+printf("%d", c);
+printf("%d", *ptrC);
+```
+
+Wir haben die Adresse von `c` dem Pointer `ptrC` zugewiesen. Dann haben wir den Wert von `c` auf 1 geändert. Dadurch, dass die Adresse von `ptrC` und `c` dieselbe ist, gibt uns `*pc` 1 zurück.
+
+Ein weiteres Beispiel:
+
+```c
+int* ptrC, c;
+c = 5;
+ptrC = &c;
+*ptrC = 1
+
+printf("%d", *ptrC);
+printf("%d", c);
+```
+
+Wir haben die Adresse von `c` dem Pointer `ptrC` zugewiesen. Dann haben wir den Wert von `ptrC` auf 1 geändert mit `*ptrC = 1;`. Dadurch, dass die Adresse von `ptrC` und `c` dieselbe ist, gibt uns `c` ebenfalls 1 zurück.
+
+## Zusammenfassung﻿
+
+Folgend ist ein Beispiel, welches alle Möglichkeiten zusammenfasst.
+
+<Tabs>
+<Tab title="main.c">
+```c
+#include <stdio.h>
+
+int main()
+{
+   int* pc, c;
+
+   c = 22;
+   printf("Address of c: %p\n", &c);
+   printf("Value of c: %d\n\n", c);
+
+   pc = &c;
+   printf("Address of pointer pc: %p\n", pc);
+   printf("Content of pointer pc: %d\n\n", *pc);
+
+   c = 11;
+   printf("Address of pointer pc: %p\n", pc);
+   printf("Content of pointer pc: %d\n\n", *pc);
+
+   *pc = 2;
+   printf("Address of c: %p\n", &c);
+   printf("Value of c: %d\n\n", c);
+   
+   return 0;
+}
+```
+</Tab>
+
+<Tab title="Output">
+```bash
+Address of c: 2686784
+Value of c: 22
+
+Address of pointer pc: 2686784
+Content of pointer pc: 22
+
+Address of pointer pc: 2686784
+Content of pointer pc: 11
+
+Address of c: 2686784
+Value of c: 2
+```
+</Tab>
+</Tabs>

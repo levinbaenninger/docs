@@ -1,0 +1,157 @@
+---
+title: "Containerization"
+icon: "docker"
+iconType: "brands"
+---
+
+Da Docker Compose von Azure Container Instances (ACI) nicht mehr unterstützt wird, musste stattdessen eine eigene **ACI-kompatible YAML-Datei (`deploy-aci.yml`)** erstellt werden. Zusätzlich kommt eine **private Azure Container Registry (ACR)** zum Einsatz, in der das Image der Applikation gespeichert ist.
+
+## Azure Container Registry
+
+Die **Azure Container Registry (ACR)** ist ein privater Container-Registry-Dienst in Azure, der ähnlich wie Docker Hub funktioniert, aber besser in Azure integriert ist.
+
+<Steps>
+<Step title="Registry erstellen">
+
+```bash
+az acr create \
+  --resource-group <resource-group-name> \
+  --name <registry-name> \
+  --sku Basic
+```
+
+</Step>
+
+<Step title="Bei der ACR anmelden">
+
+```bash
+az acr login --name <registry-name>
+```
+
+</Step>
+
+<Step title="Service Principal für Zugriff erstellen">
+
+Ein **Service Principal** ist ein Identitätsobjekt in Azure, das es Anwendungen, Skripten oder Diensten erlaubt, sich **authentifiziert und sicher** bei Azure-Diensten anzumelden – ähnlich wie ein Benutzer, aber automatisiert und eingeschränkt. Er wird häufig verwendet, um **Zugriffsrechte gezielt zu vergeben**, z. B. nur Leserechte auf eine Container Registry. So kann eine Anwendung z. B. Images aus der ACR laden, ohne Zugriff auf andere Ressourcen zu erhalten.
+
+```bash
+az ad sp create-for-rbac \
+  --name <sp-name> \
+  --scopes $(az acr show --name <registry-name> --query id --output tsv) \
+  --role Owner
+```
+
+Der Output enthält:
+
+* `appId` = Benutzername
+* `password` = Passwort
+* Diese Werte werden in der YAML-Datei verwendet.
+
+</Step>
+
+<Step title="Bei Docker anmelden">
+
+Nutze nun die `appId` und das `password`, um dich damit mit Docker anzumelden.
+
+```bash
+docker login <registry-name>.azurecr.io
+```
+
+</Step>
+
+<Step title="Image taggen und hochladen">
+
+Angenommen, das lokale Image heisst `studle`, dann:
+
+```bash
+docker tag studle <registry-name>.azurecr.io/studle:latest
+docker push <registry-name>.azurecr.io/studle:latest
+```
+
+</Step>
+</Steps>
+
+## Container Instanzen erstellen
+
+Da **Azure Container Instances (ACI)** kein natives `docker-compose` mehr unterstützt, wird eine eigene **YAML-Datei im Azure-Format** benötigt, um mehrere Container zu definieren und zu konfigurieren. Ziel dieses Auftrags war es, eine bestehende `docker-compose.yml` in das Format `deploy-aci.yml` zu übersetzen und die Containergruppe über die Azure CLI bereitzustellen.
+
+<Steps>
+<Step title="Erstellen der ACI-YAML-Datei">
+
+Die Datei `deploy-aci.yml` beschreibt eine **Containergruppe**, die mehrere Container umfasst:
+
+* **App-Container** mit Spring Boot Anwendung
+* **Datenbank-Container** mit MariaDB
+* **Sidecar-Container** für DNS-Auflösung (ACI-Workaround)
+
+```yaml
+apiVersion: 2019-12-01 
+location: <location>
+name: <container-group-name>
+properties:
+  imageRegistryCredentials:
+    - server: <registry-name>.azurecr.io
+      username: <service-principal-app-id>
+      password: <service-principal-password>
+    - server: index.docker.io
+      username: <username>
+      password: <personal-access-token>
+  containers:
+    - name: app
+      properties:
+        image: <registry-name>.azurecr.io/studle:latest
+        environmentVariables:
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:mariadb://db:3306/studle
+          - name: SERVER_PORT
+            value: '80'
+        resources:
+          requests:
+            cpu: 1
+            memoryInGb: 1
+        ports:
+        - port: 80
+    - name: db
+      properties:
+        image: mariadb:10.9
+        environmentVariables:
+          - name: MARIADB_ROOT_PASSWORD
+            value: password
+          - name: MARIADB_DATABASE
+            value: studle
+        resources:
+          requests:
+            cpu: 1
+            memoryInGb: 1
+    - name: aci--dns--sidecar
+      properties:
+        image: docker/aci-hostnames-sidecar:1.0
+        command:
+          - "/hosts"
+          - app
+          - db
+        resources:
+          requests:
+            cpu: 0.01
+            memoryInGb: 0.1
+    osType: Linuxshow
+    ipAddress:
+      type: Public
+      ports:
+      - protocol: tcp
+        port: 80
+type: Microsoft.ContainerInstance/containerGroups
+```
+
+</Step>
+
+<Step title="Deployment">
+
+```bash
+az container create \
+  --resource-group <RESOURCE_GROUP> \
+  --file deploy-aci.yml
+```
+
+</Step>
+</Steps>

@@ -1,0 +1,53 @@
+---
+title: "if-Statements"
+icon: "circle-question"
+---
+
+Mit `if`-Statements können wir einen Codeblock ausführen, wenn eine bestimmte Bedingung `true` ist.
+
+```csharp
+if (condition)
+{
+    ..
+}
+```
+
+Diese `condition` muss immer einen Boolean zurückgeben, wir können hier also mit [Vergleichsoperatoren](http://w3schools.com/cs/cs_operators_comparison.php) und [logischen Operatoren](/dotnet/c/variablen/booleans#logische-operatoren) arbeiten.
+
+### `else`
+
+Mit dem `else`-Keyword können wir noch einen weiteren Codeblock an das `if`-Statement anhängen, falls die `condition` `false` ist.
+
+```csharp
+if (condition)
+{
+    ..
+}
+else 
+{
+    ..
+}
+```
+
+### `else if`
+
+Mit `else if` können wir nach einer weiteren Condition überprüfen.
+
+```csharp
+if (condition1)
+{
+    ..
+}
+else if (condition2)
+{
+    ..
+}
+else
+{
+    ..
+}
+```
+
+<Info>
+Wir können natürlich beliebig viele `else if` anhängen.
+</Info>

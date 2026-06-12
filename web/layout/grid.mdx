@@ -1,0 +1,280 @@
+---
+title: "Grid"
+icon: "table-cells"
+---
+
+Das CSS-Grid-Layout ist ein zweidimensionales Layoutsystem für das Web. Es ermöglicht dir, Inhalte in Reihen und Spalten zu organisieren und bietet viele Features, um die Erstellung komplexer Layouts zu vereinfachen.
+
+***
+
+Zunächst müssen wir einen Grid-Container erstellen. Dafür nutzen wir die `display`-Eigenschaft. 
+
+```css
+.container {
+  display: grid;
+}
+```
+
+## Reihen und Spalten definieren
+
+Mit `grid-template-columns` bzw. `grid-template-rows` können wir Spalten und Reihen definieren.
+
+```css
+.container {
+  grid-template-columns: ...  ...;
+  /* e.g. 
+      1fr 1fr
+      minmax(10px, 1fr) 3fr
+      repeat(5, 1fr)
+      50px auto 100px 1fr
+  */
+  grid-template-rows: ... ...;
+  /* e.g. 
+      min-content 1fr min-content
+      100px 1fr max-content
+  */
+}
+```
+
+Den Grid-Linien werden automatisch Zahlen zugewiesen.
+
+<Frame caption="Zahlenwerte im Grid-Layout">
+  ![Zahlenwerte im Grid-Layout](/images/content/web/file-excalidraw-20.svg)
+</Frame>
+
+***
+
+Nun können wir mit `grid-column` bzw. `grid-row` den Start und Ende eines Grid-Items bestimmen.
+
+```css
+.item {
+  grid-column: 3 / span 2;
+  grid-row: third-line / 4;
+}
+```
+
+<Frame caption="grid-column und grid-row">
+  ![grid-column und grid-row](/images/content/web/file-excalidraw-22.svg)
+</Frame>
+
+## Template-Areas
+
+Mit Template-Areas können wir bestimmten Bereichen unseres Grids einen Namen geben.
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "header header header header"
+    "main main . sidebar"
+    "footer footer footer footer";
+}
+```
+
+<Frame caption="template-areas">
+  ![template-areas](/images/content/web/file-excalidraw-21.svg)
+</Frame>
+
+***
+
+Mit `grid-area` können wir nun festlegen, welche Items zu welcher Area gehören.
+
+```css
+.item {
+  grid-area: header;
+}
+```
+
+<Frame caption="grid-area">
+  ![grid-area](/images/content/web/file-excalidraw-23.svg)
+</Frame>
+
+<Info>
+`grid-area` kann auch als Shorthand für `grid-row` und `grid-column` genutzt werden.
+
+```css
+.item-d {
+  grid-area: 1 / span 2 / -1 / 6;
+}
+```
+</Info>
+
+## Abstände
+
+Mit `gap` können wir die Abstände zwischen den Reihen und den Spalten bestimmen. 
+
+```css
+.container {
+  gap: 1rem 2rem;
+}
+```
+
+<Info>
+Wenn wir `column-gap` nicht spezifizieren, nutzt es den selben Wert wie `row-gap`.
+</Info>
+
+## Ausrichtung
+
+Mit `justify-items` kannst du Grid-Items anhand der Inline-Achse ausrichten.
+
+```css
+.container {
+  justify-items: start | end | center | stretch;
+}
+```
+
+<Frame caption="justify-items">
+  ![justify-items](/images/content/web/file-excalidraw-24.svg)
+</Frame>
+
+***
+
+Mit `align-items` kannst du Grid-Items anhand der Block-Achse ausrichten.
+
+```css
+.container {
+  align-items: start | end | center | stretch;
+}
+```
+
+<Frame caption="align-items">
+  ![align-items](/images/content/web/file-excalidraw-25.svg)
+</Frame>
+
+***
+
+`place-items` ist ein Shorthand für `align-items` und `justify-items`.
+
+```css
+.center {
+  display: grid;
+  place-items: center / start;
+}
+```
+
+***
+
+Wenn die Grösse des Grids kleiner ist als der eigentliche Grid-Container können wir das Grid innerhalb des Containers ausrichten. Mit `justify-content` richten wir das Grid anhand der Inline-Achse aus.
+
+```css
+.container {
+  justify-content: start | end | center | stretch | space-around | space-between | space-evenly;    
+}
+```
+
+<Frame caption="justify-content">
+  ![justify-content](/images/content/web/file-excalidraw-26.svg)
+</Frame>
+
+***
+
+Mit `justify-content` richten wir das Grid anhand der Block-Achse aus.
+
+```css
+.container {
+  align-content: start | end | center | stretch | space-around | space-between | space-evenly;    
+}
+```
+
+<Frame caption="align-content">
+  ![align-content](/images/content/web/file-excalidraw-27.svg)
+</Frame>
+
+***
+
+`place-content` ist ein Shorthand für `align-content` und `justify-content`.
+
+```css
+.container {
+  display: grid;
+  place-content: center;
+}
+```
+
+## Die `fr`-Einheit
+
+Die `fr`-Einheit repräsentiert eine Fraktion des ürbigen Platzes.
+
+```css
+.container {
+  grid-template-columns: 1fr 3fr;
+}
+```
+
+Hier sagen wir, dass die erste Spalte ca. $$\frac{1}{4}$$ des Platzes und die zweite Spalte ca. $$\frac{3}{4}$$ des Platzes einnimmt.
+
+Die `fr`-Einheit kann aber natürlich auch in Kombination mit anderen Einheiten genutzt werden.
+
+```css
+.container {
+  grid-template-columns: 50px min-content 1fr;
+}
+```
+
+## Sizing-Keywords
+
+<AccordionGroup>
+<Accordion title="`min-content`">
+
+Die Mindestgrösse des Inhalts. Stelle dir eine Textzeile wie „E pluribus unum“ vor. Der Mindestinhalt entspricht wahrscheinlich der Breite des Wortes „pluribus“.
+
+</Accordion>
+
+<Accordion title="`max-content`">
+
+Die maximale Grösse des Inhalts. Stelle dir den [obigen Satz](/web/layout/grid#min-content) vor. Der maximale Inhalt ist die Länge des gesamten Satzes.
+
+</Accordion>
+
+<Accordion title="`auto`">
+
+Dieses Schlüsselwort ist ähnlich wie die `fr`-Einheiten, mit dem Unterschied, dass sie bei der Zuteilung des verbleibenden Platzes den Kampf gegen die `fr`-Einheiten „verlieren“.
+
+</Accordion>
+</AccordionGroup>
+
+## Sizing Funktionen
+
+<AccordionGroup>
+<Accordion title="`fit-content()`">
+
+Nutzt den verfügbaren Platz, jedoch nie weniger als `min-content` und nie mehr als `max-content`.
+
+</Accordion>
+
+<Accordion title="`minmax()`">
+
+Legt einen Mindest- und einen Höchstwert für die Länge fest. Dies ist nützlich in Kombination mit relativen Einheiten. Zum Beispiel kannst du eine Spalte nur bis zu einer gewissen Breite schrumpfen lassen.
+
+```css
+grid-template-columns: minmax(100px, 1fr) 3fr;
+```
+
+</Accordion>
+</AccordionGroup>
+
+## Die `repeat()`-Funktion und Keywords
+
+Die Funktion `repeat()` kann einige Tipparbeit ersparen:
+
+```css
+grid-template-columns:
+  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
+grid-template-columns:
+  repeat(8, 1fr);
+```
+
+Aber `repeat()` kann besonders ausgefallen werden, wenn es mit Schlüsselwörtern kombiniert wird:
+
+* `auto-fill`: Passt so viele Spalten wie möglich in eine Zeile ein, auch wenn sie leer sind.
+* `auto-fit`: Passt alle vorhandenen Spalten in den Platz ein. Bevorzuge expandierende Spalten, um den Platz zu füllen, anstatt leere Spalten.
+
+```css
+grid-template-columns: 
+  repeat(auto-fit, minmax(250px, 1fr));
+```
+
+Mehr Informationen findest du in [diesem Post](https://css-tricks.com/auto-sizing-columns-css-grid-auto-fill-vs-auto-fit/).

@@ -1,0 +1,112 @@
+---
+title: "App Service"
+icon: "server"
+---
+
+Die zuvor entwickelte Java-Anwendung soll nun in der Azure Cloud bereitgestellt (deployt) werden. Anstatt wie bisher über das Azure-Portal zu arbeiten, erfolgt die gesamte Einrichtung über die **Azure CLI**. Dabei werden Ressourcen erstellt, konfiguriert und mit der Datenbank verbunden.
+
+<Steps>
+<Step title="Registrierung des Resource Providers">
+
+Damit Azure weiss, welche Dienste im Abonnement verfügbar sein sollen, muss der benötigte **Resource Provider (Microsoft.Web)** registriert werden. Dies ist notwendig, um z. B. Web-Apps oder App Services erstellen zu können:
+
+</Step>
+
+<Step title="App Service Plan erstellen">
+
+Ein App Service Plan dient als Container für Web-Anwendungen und legt Skalierungsoptionen fest. Er wird mit folgendem Befehl erstellt:
+
+```bash
+az appservice plan create \
+    --name <app-service-name> \
+    --resource-group <resource-group-name> \
+    --sku B1 --is-linux
+```
+
+</Step>
+
+<Step title="Web App erstellen">
+
+Darauf basierend wird die Web App (Java-Anwendung) angelegt:
+
+```bash
+az webapp create \
+    --resource-group <resource-group-name> \
+    --plan <app-service-name> \
+    --name <app-name> \
+    --runtime "JAVA:17-java17"
+```
+
+Die Konsole zeigt eine URL (z. B. `https://<app-name>.azurewebsites.net`) – unter dieser wird die Anwendung später erreichbar sein.
+
+</Step>
+
+<Step title="Deployen der Java-Anewndung">
+
+Die Anwendung wird mittels `.jar`-Datei auf die Web App geladen:
+
+```bash
+az webapp deploy \
+    --resource-group <resource-group-name> \
+    --name <app-name> \
+    --src-path <path-to-jar-file> \
+    --type jar
+```
+
+Falls der erste Versuch fehlschlägt, liegt dies oft an falschen Datenbankverbindungen.
+
+</Step>
+
+<Step title="Fehleranalyse">
+
+Bei Problemen hilft das Live-Loggen der Anwendung:
+
+```bash
+az webapp log tail -g <resource-group-name> -n <app-name>
+```
+
+Ein typischer Fehler: Die Anwendung versucht, lokal auf eine Datenbank zuzugreifen (`localhost:3306`), obwohl sie in der Cloud läuft.
+
+</Step>
+
+<Step title="Konfiguration der Datenbankverbindung">
+
+Die Anwendung muss mit der Azure-Datenbank verbunden werden. Dazu werden die Verbindungsdaten als **Umgebungsvariablen** gesetzt:
+
+```bash
+az webapp config appsettings set \
+    --resource-group <resource-group-name> \
+    --name <app-name> \
+    --settings \
+    SPRING_DATASOURCE_URL=<connection_string> \
+    SPRING_DATASOURCE_USERNAME=<username> \
+    SPRING_DATASOURCE_PASSWORD=<password>
+```
+
+</Step>
+
+<Step title="TLS deaktivieren">
+
+Standardmässig verlangt Azure MySQL eine verschlüsselte Verbindung. Für diesen Auftrag wird TLS deaktiviert:
+
+```bash
+az mysql flexible-server parameter set \
+    --resource-group <resource-group-name> \
+    --server-name <mysql-server-name> \
+    --name require_secure_transport \
+    --value OFF
+
+```
+
+<Warning>
+In Produktivsystem niemals TLS deaktivieren
+</Warning>
+
+</Step>
+
+<Step title="Anwendung erneut deployen">
+
+Nach erfolgreicher Konfiguration wird die `.jar`-Datei nochmals deployed. Wenn alles korrekt ist, ist die Anwendung über die angegebene URL erreichbar – zum Beispiel via Swagger-UI.
+
+</Step>
+</Steps>

@@ -1,0 +1,62 @@
+---
+title: "NoSQL-Familien"
+icon: "sitemap"
+---
+
+NoSQL-Datenbanken sind in vier Hauptkategorien unterteilt, die jeweils für unterschiedliche Anwendungsfälle optimiert sind. Diese Kategorien sind: Key-Value Stores, spaltenorientierte Datenbanken, dokumentenbasierte Datenbanken und graphbasierte Datenbanken.
+
+## Key-Value Stores
+
+### Merkmale
+
+* Speichern Daten als Schlüssel-Wert-Paare.
+* Sehr hohe Leistung durch einfache Abfragen.
+* Keine komplexe Abfragesprache nötig.
+
+### Anwendungsfälle
+
+* Caching (z. B. Redis, Memcached)
+* Sitzungsverwaltung und Konfigurationsspeicherung
+
+## Spaltenorientierte Datenbanken (Columnar Stores)
+
+### Merkmale
+
+* Daten werden spaltenbasiert statt zeilenbasiert gespeichert.
+* Besonders effizient für analytische Abfragen über grosse Datenmengen.
+* Gute Komprimierung und hohe Skalierbarkeit.
+
+### Anwendungsfälle
+
+* Data Warehousing und Big Data (z. B. Apache Cassandra, HBase)
+* Analytische Anwendungen mit hoher Leseperformance
+
+## Dokumentenbasierte Datenbanken
+
+### Merkmale
+
+* Speichern Daten als JSON-, BSON- oder XML-Dokumente.
+* Unterstützen flexible und verschachtelte Datenstrukturen.
+* Ermöglichen schnelle Entwicklung durch Schema-Flexibilität.
+
+### Anwendungsfälle
+
+* Content-Management-Systeme (z. B. MongoDB, CouchDB)
+* E-Commerce-Plattformen mit flexiblen Produktkatalogen
+
+## Graphbasierte Datenbanken
+
+### Merkmale
+
+* Modellieren Daten als Knoten und Beziehungen (Edges).
+* Effiziente Verarbeitung von vernetzten Daten.
+* Ideal für komplexe Abfragen mit vielen Verknüpfungen.
+
+### Anwendungsfälle
+
+* Soziale Netzwerke (z. B. Neo4j, ArangoDB)
+* Empfehlungsalgorithmen und Betrugserkennung
+
+***
+
+Die Wahl der passenden NoSQL-Familie hängt von den spezifischen Anforderungen einer Anwendung ab. Während Key-Value Stores besonders für schnelle Speicher- und Abrufvorgänge geeignet sind, bieten dokumentenbasierte Datenbanken mehr Flexibilität. Spaltenorientierte Datenbanken sind ideal für analytische Anwendungen, während graphbasierte Datenbanken für stark vernetzte Datenstrukturen optimal sind.

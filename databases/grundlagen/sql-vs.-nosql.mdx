@@ -1,0 +1,98 @@
+---
+title: "SQL vs. NoSQL"
+icon: "scale-balanced"
+---
+
+Datenbanken sind essenzielle Komponenten moderner Softwareanwendungen. Zwei Hauptkategorien von Datenbanken sind relationale Datenbanken (SQL) und NoSQL-Datenbanken. Sie unterscheiden sich grundlegend in ihrer Architektur, ihrem Einsatzgebiet und ihren Stärken.
+
+## Relationale Datenbanken (SQL)
+
+### Merkmale
+
+<AccordionGroup>
+<Accordion title="Tabellenbasierte Struktur">
+
+Daten werden in Tabellen mit Zeilen und Spalten gespeichert.
+
+</Accordion>
+
+<Accordion title="Schema-basiert">
+
+Das Datenbankschema ist vordefiniert und erzwingt Datenkonsistenz.
+
+</Accordion>
+
+<Accordion title="ACID-Konformität">
+
+Atomarität, Konsistenz, Isolation und Dauerhaftigkeit gewährleisten Datenintegrität.
+
+</Accordion>
+
+<Accordion title="SQL-Abfragen">
+
+Daten werden mit der standardisierten Structured Query Language (SQL) abgefragt.
+
+</Accordion>
+
+<Accordion title="Vertikale Skalierbarkeit">
+
+Leistungssteigerung durch leistungsfähigere Server (Scaling Up).
+
+</Accordion>
+</AccordionGroup>
+
+### Anwendungsfälle
+
+* Finanztransaktionen (z. B. Bankensysteme)
+* Unternehmenssoftware (ERP, CRM)
+* E-Commerce-Plattformen mit strukturierten Produkt- und Bestelldaten
+
+## NoSQL-Datenbanken
+
+### Merkmale
+
+<AccordionGroup>
+<Accordion title="Flexible Datenspeicherung">
+
+Kein festes Schema, wodurch strukturierte, semi-strukturierte und unstrukturierte Daten gespeichert werden können.
+
+</Accordion>
+
+<Accordion title="BASE-Prinzip">
+
+Starke Verfügbarkeit auf Kosten möglicher temporärer Inkonsistenzen.
+
+</Accordion>
+
+<Accordion title="Verschieden Datenmodelle">
+
+Key-Value, Spaltenorientiert, Dokumentenbasiert, Graphbasiert.
+
+</Accordion>
+
+<Accordion title="Horiziontale Skalierbarkeit">
+
+Verteilung der Daten über mehrere Server (Scaling Out).
+
+</Accordion>
+
+<Accordion title="Dynamische Anpassung">
+
+Geeignet für sich schnell ändernde Anforderungen.
+
+</Accordion>
+</AccordionGroup>
+
+### Anwendungsfälle
+
+* Big Data und Echtzeit-Analysen
+* Social Media und Content Management Systeme
+* IoT und personalisierte Empfehlungssysteme
+
+## Vergleichstabelle
+
+<table><thead><tr><th>Kriterium</th><th width="271">Relationale Datenbanken (SQL)</th><th>NoSQL-Datenbanken</th></tr></thead><tbody><tr><td>Datenstruktur</td><td>Tabellen mit festen Schemata</td><td>Flexible, schema-freie Modelle</td></tr><tr><td>Abfragesprache</td><td>SQL</td><td>Proprietäre APIs oder spezielle Abfragesprachen</td></tr><tr><td>Skalierbarkeit</td><td>Vertikale Skalierung</td><td>Horizontale Skalierung</td></tr><tr><td>Konsistenzmodell</td><td>ACID</td><td>BASE</td></tr><tr><td>Typische Nutzung</td><td>Strukturiere, transaktionssichere Daten</td><td>Unstrukturierte oder skalierende Datenmengen</td></tr></tbody></table>
+
+***
+
+Die Wahl zwischen einer SQL- oder NoSQL-Datenbank hängt von den spezifischen Anforderungen eines Projekts ab. Relationale Datenbanken eignen sich für Anwendungen, bei denen Datenkonsistenz entscheidend ist. NoSQL-Datenbanken bieten dagegen mehr Flexibilität und Skalierbarkeit, insbesondere für moderne Web- und Big-Data-Anwendungen.

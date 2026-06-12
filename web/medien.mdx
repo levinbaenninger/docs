@@ -1,0 +1,122 @@
+---
+title: "Medien"
+icon: "photo-film"
+---
+
+## Bilder
+
+Mit dem `<img>`-Element können wir auf unsere Webseite ein Bild einfügen. Dafür braucht es mindestens zwei Attribute:
+
+* `src` - URL, wo das Bild ist
+* `alt` - Alternativer Text, falls Bild nicht lädt oder für Screenreader
+
+```html
+![The head and torso of a dinosaur skeleton;
+          it has a large head with long sharp teeth](images/dinosaur.jpg)
+
+```
+
+### Höhe und Breite
+
+Wir können die Attribute `width` und `height` benutzen, um die Breite bzw. Höhe unseres Bildes zu spezifizieren. Dabei ist der Wert ein Integer ohne eine Masseinheit und repräsentiert die Breite und Höhe des Bildes in Pixeln.
+
+```html
+![The head and torso of a dinosaur skeleton; it has a large head with long sharp teeth](images/dinosaur.jpg)
+```
+
+### Figuren
+
+```html
+![The head and torso of a dinosaur skeleton;
+            it has a large head with long sharp teeth](images/dinosaur.jpg)
+
+A T-Rex on display in the Manchester University Museum.
+```
+
+Das `<figcaption>`-Element teilt Browsern und Assistenztechnologie mit, dass die Bildunterschrift den anderen Inhalt des `<figure>`-Elements beschreibt.
+
+## Videos
+
+Das [`<video>`](https://developer.mozilla.org/de/docs/Web/HTML/Reference/Elements/video)-Element ermöglicht es dir, ein Video sehr einfach einzubetten. Ein wirklich einfaches Beispiel sieht so aus:
+
+```html
+<video src="rabbit320.webm" controls>
+    <p>
+        Your browser doesn't support HTML video. Here is a
+        <a href="rabbit320.webm">link to the video</a> instead.
+    </p>
+</video>
+```
+
+### Mehrere Quellenformate
+
+Um die Unterstützung für verschiedene Browser zu erhöhen, können wir mehrere Quellenformate einbinden.
+
+```html
+<video controls>
+    <source src="rabbit320.mp4" type="video/mp4" />
+    <source src="rabbit320.webm" type="video/webm" />
+    <p>
+        Your browser doesn't support this video. Here is a
+        <a href="rabbit320.mp4">link to the video</a> instead.
+    </p>
+</video>
+```
+
+### Weitere Attribute
+
+```html
+<video
+    controls
+    width="400"
+    height="400"
+    autoplay
+    loop
+    muted
+    preload="auto"
+    poster="poster.png">
+    <source src="rabbit320.mp4" type="video/mp4" />
+    <source src="rabbit320.webm" type="video/webm" />
+    <p>
+        Your browser doesn't support this video. Here is a
+        <a href="rabbit320.mp4">link to the video</a> instead.
+    </p>
+</video>
+```
+
+## Audios
+
+Das `<audio>`-Element funktioniert genauso wie das `<video>`-Element, mit ein paar kleinen Unterschieden: keine `width`, `height` und `poster`-Attribute. Ein typisches Beispiel könnte so aussehen:
+
+```html
+<audio controls>
+    <source src="viper.mp3" type="audio/mp3" />
+    <source src="viper.ogg" type="audio/ogg" />
+    <p>
+        Your browser doesn't support this audio file. Here is a
+        <a href="viper.mp3">link to the audio</a> instead.
+    </p>
+</audio>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    * `none`
+    * `auto`
+    * `metadata`

@@ -1,0 +1,100 @@
+---
+title: "Operatoren und Ausdrücke"
+icon: "plus-minus"
+---
+
+Mit Operatoren können wir mehrere Werte umwandeln oder miteinander kombinieren.
+
+## Mathematische Operatoren﻿
+
+Wir können alle arithmetischen Operatoren verwenden wie:
+
+* `+`  → Addieren von Werten
+* `-`  → Subtrahieren von Werten
+* `*`  → Multiplikation von Werten
+* `/`  → Dividieren von Werten
+* `%`  → Berechnen des Restes einer Division
+* `**`  → Berechnen der Potenz
+
+```javascript
+10 + 4;
+10 - 4;
+10 * 4;
+10 / 4;
+10 % 4;
+10 ** 4;
+```
+
+## Verkettungsoperator﻿
+
+Der Verkettungsoperator (`+`) wird verwendet, um zwei Zeichenketten miteinander zu verbinden:
+
+```javascript
+let firstName = 'Levin';
+let lastName = 'Bänninger';
+const fullName = firstName + ' ' + lastName;
+
+console.log(fullName); // Levin Bänninger
+```
+
+## Zuweisungsoperator﻿
+
+Die Zuweisungsoperatoren sind:
+
+* `=` → einen Wert setzen
+* `+=` → etwas zu einer Variablen hinzufügen
+* `-=` → etwas von einer Variablen subtrahieren
+* `*=` → etwas mit einer Variablen multiplizieren
+* `/=` → etwas von einer Variablen dividieren
+* `%=` → Rest von einer Variablen berechnen
+* `**=` → Potenz von einer Variablen berechnen
+* `++` → eins zu einer Variablen addieren
+* `--` → eins von einer Variablen subtrahieren
+
+Zuweisungsoperatoren werden verwendet, um die Aktualisierung für eine Variable zu verkürzen:
+
+```javascript
+let a = 10;
+
+a += 10;
+a -= 5;
+a *= 4;
+a /= 2;
+a %= 6; 
+a **= 3;
+a++;
+a--;
+```
+
+## Vergleichsoperatoren﻿
+
+Wir verwenden Vergleichsoperatoren, um boolesche Werte zu erzeugen:
+
+* `==` → gleicher Wert, ignoriert Datentyp
+* `===` → gleicher Wert und gleicher Typ
+* `!=` → nicht gleicher Wert, ignoriert den Datentyp
+* `!==` → ungleicher Wert und Typ
+* `>` → größer als
+* `<` → kleiner als
+* `>=` → größer als oder gleich
+* `<=` → kleiner als oder gleich
+
+```text
+10 == 5;
+10 == '10';
+10 === '10';
+10 === 10;
+10 != 5;
+10 !== '10';
+
+10 > 5;
+10 >= 5;
+10 < 5;
+10 <= 5;
+```
+
+## Reihenfolge der Operationen
+
+Der Vorrang der Operatoren entscheidet darüber, welche Operationen zuerst ausgeführt werden, dann als zweites, ... MDN hat dazu eine sehr gute Referenz: [Reference for Operator Precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence)
+
+Hier sehen wir, dass die Gruppierung die höchste Priorität hat `()`, danach folgen Funktionsaufrufe usw.

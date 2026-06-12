@@ -1,0 +1,103 @@
+---
+title: "Boxmodell"
+icon: "box"
+---
+
+Alles in CSS hat ein Kästchen um sich herum, und das Verständnis dieser Kästchen ist der Schlüssel, um komplexere Layouts mit CSS zu erstellen oder Elemente mit anderen Elementen auszurichten.
+
+## Block- und Inlineboxen
+
+In CSS gibt es verschiedene Arten von Boxen, die im Allgemeinen in die Kategorien **Blockboxen** und **Inlineboxen** fallen. Der Typ bezieht sich darauf, wie sich die Box im Seitenfluss in Bezug auf andere Boxen auf der Seite verhält.
+
+Im Allgemeinen kannst du verschiedene Werte für den Anzeigetyp mit der `display`-Eigenschaft einstellen, die verschiedene Werte haben kann.
+
+<Tabs>
+<Tab title="Blockboxen">
+Wenn eine Box einen Anzeigewert von `block` hat, dann:
+
+* Bricht die Box in eine neue Zeile um.
+* Werden die `width`- und `height`-Eigenschaften respektiert
+* Bewirken Padding, Border und Margin, dass andere Elemente von der Box weggeschoben werden.
+* Wenn `width` nicht spezifiziert ist, wird die Box in der Zeilenrichtung erweitert, um den verfügbaren Platz im Container auszufüllen. In den meisten Fällen wird die Box so breit wie ihr Container und füllt 100 % des verfügbaren Raums aus.
+
+Einige HTML-Elemente, wie z.B. `<h1>` und `<p>`, verwenden standardmässig `block`.
+</Tab>
+
+<Tab title="Inlineboxen">
+Wenn eine Box einen Anzeigewert von `inline` hat, dann:
+
+* Bricht die Box nicht in eine neue Zeile um
+* Gelten die `width`- und `height`-Eigenschaften nicht
+* Gelten Padding, Border und Margin oben und unten, bewirken aber nicht, dass andere Inline-Boxen von der Box wegrücken.
+* Gelten Padding, Border und Margin links und rechts und bewirken, dass andere Inline-Boxen von der Box wegrücken.
+
+Einige HTML-Elemente, wie z.B. `<a>`, `<span>`, `<em>` und `<strong>`, verwenden standardmässig `inline`.
+</Tab>
+</Tabs>
+
+## CSS-Boxmodell
+
+Das CSS-Boxmodell als Ganzes gilt für Block-Boxen und definiert, wie die verschiedenen Teile einer Box — Margin, Border, Padding und Content — zusammenarbeiten, um eine Box auf einer Seite sichtbar zu machen. Inline-Boxen nutzen nur _einige_ der im Boxmodell definierten Verhaltensweisen.
+
+Eine Block-Box in CSS besteht aus:
+
+* **Content**: Der Bereich, in dem dein Content angezeigt wird; seine Grösse kannst du mit Eigenschaften wie `width` und `height` festlegen.
+* **Padding**: Das Padding sitzt als Leerraum um den Inhalt herum; seine Grösse kannst du mit `padding` festlegen.
+* **Border**: Die Border umschliesst den Inhalt und jegliches Padding; ihre Grösse kannst du mit `border`  festlegen.
+* **Margin**: Die Margin ist die äusserste Schicht, die Content, Padding und Border als Leerraum zwischen dieser Box und anderen Elementen umschliesst; ihre Grösse kannst du mit `margin` festlegen.
+
+<Frame caption="Boxmodell">
+  ![Boxmodell](/images/content/web/file-excalidraw-3.svg)
+</Frame>
+
+### Das Standard-CSS-Boxmodell
+
+Im Standard-Boxmodell, wenn du `width`- und `height`-Eigenschaftswerte auf einer Box festlegst, definieren diese Werte die `width` und `height` des _Contents_. Jegliche Paddings und Borders werden dann zu diesen Dimensionen hinzugefügt, um die Gesamtgrösse zu erhalten, die die Box einnimmt.
+
+Wenn wir davon ausgehen, dass eine Box das folgende CSS hat:
+
+```css
+.box {
+  width: 350px;
+  height: 150px;
+  margin: 10px;
+  padding: 25px;
+  border: 5px solid black;
+}
+```
+
+Der _tatsächlich_ von der Box genutzte Raum beträgt 410px in der Breite (350 + 25 + 25 + 5 + 5) und 210px in der Höhe (150 + 25 + 25 + 5 + 5).
+
+<Frame caption="Standard-Boxmodell">
+  ![Standard-Boxmodell](/images/content/web/file-excalidraw-4.svg)
+</Frame>
+
+### Alternatives CSS-Boxmodell
+
+Im alternativen Boxmodell ist jede Breite die Breite der sichtbaren Box auf der Seite. Die Breite des Inhaltsbereichs ist diese Breite minus der Breite für Padding und Border.
+
+Um das alternative Modell für ein Element zu aktivieren, setze `box-sizing: border-box` darauf:
+
+```css
+.box {
+  box-sizing: border-box;
+}
+```
+
+Wenn wir davon ausgehen, dass die Box das gleiche CSS wie oben hat:
+
+```css
+.box {
+  width: 350px;
+  height: 150px;
+  margin: 10px;
+  padding: 25px;
+  border: 5px solid black;
+}
+```
+
+Jetzt beträgt der _tatsächlich_ von der Box genutzte Raum 350px in der Inline-Richtung und 150px in der Block-Richtung.
+
+<Frame caption="Alternatives Boxmodell">
+  ![Alternatives Boxmodell](/images/content/web/file-excalidraw-5.svg)
+</Frame>

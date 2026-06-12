@@ -1,0 +1,72 @@
+---
+title: "Serverless"
+icon: "bolt"
+---
+
+Serverless Computing ist ein modernes Cloud-Konzept, bei dem Entwickler lediglich Code schreiben und deployen – ohne sich um Server oder Infrastruktur kümmern zu müssen.
+
+## Was ist Serverless?
+
+Serverless bedeutet:
+
+* **Keine manuelle Serververwaltung** (wird vom Anbieter übernommen)
+* **Automatische Skalierung** durch den Cloud-Provider
+* **Kosten nur bei tatsächlicher Ausführung** des Codes
+
+<Info>
+Der Entwickler konzentriert sich nur auf die Logik – der Anbieter kümmert sich um Bereitstellung, Skalierung und Verfügbarkeit
+</Info>
+
+## Serverless vs PaaS
+
+<table><thead><tr><th width="186">Merkmal</th><th width="256">Serverless</th><th>PaaS</th></tr></thead><tbody><tr><td>Konfiguration</td><td>Minimal</td><td>Mehr Konfiguration nötig</td></tr><tr><td>Skalierung</td><td>Automatisch</td><td>Muss manuell definiert werden</td></tr><tr><td>Laufzeit</td><td>Nur bei Bedarf</td><td>Applikation läuft dauerhaft</td></tr><tr><td>Kosten bei Inaktivität</td><td>Keine</td><td>Verursacht weiterhin Kosten</td></tr></tbody></table>
+
+## Function as a Service
+
+<AccordionGroup>
+<Accordion title="Spezialisiert">
+
+Einzelne, **spezialisierte Funktionen** übernehmen klar definierte Aufgaben
+
+</Accordion>
+
+<Accordion title="Microservices">
+
+Ideal für **Microservice-Architekturen**
+
+</Accordion>
+
+<Accordion title="Skalierbar">
+
+Hohe **Skalierbarkeit** bei Lastspitzen
+
+</Accordion>
+
+<Accordion title="Automatisierung">
+
+Sehr gut geeignet für **Automatisierung und Ereignisverarbeitung**
+
+</Accordion>
+</AccordionGroup>
+
+- Prozessautomatisierung
+- Internet of Everything
+- Machine Learning
+
+## Trigger
+
+Serverless-Funktionen (z. B. in Azure Functions, AWS Lambda) können durch verschiedene Events gestartet werden:
+
+<Tabs>
+<Tab title="HTTP-Request">
+Direkt über Browser oder REST-Client ansprechbar
+</Tab>
+
+<Tab title="Zeitgesteuert (Timer)">
+Ausführung z. B. täglich oder stündlich
+</Tab>
+
+<Tab title="Event-getriggert">
+Zum Beispiel durch Nachricht in Kafka, neue Datei in Storage etc.
+</Tab>
+</Tabs>

@@ -1,0 +1,43 @@
+---
+title: "Insecure Design"
+icon: "drafting-compass"
+---
+
+Es beschreibt Sicherheitsprobleme, die bereits im Design oder in der Architektur einer Anwendung entstehen, weil wichtige Sicherheitsmassnahmen nicht eingeplant wurden.
+
+Das Problem liegt also nicht nur im Code, sondern bereits im Konzept der Anwendung.
+
+## Problem
+
+Wenn Sicherheitsmechanismen im Design fehlen, können Angreifer Systeme leichter kompromittieren.
+
+```php
+if ($_POST['username'] === 'admin' && $_POST['password'] === 'admin123') {
+    echo "Willkommen, Admin.";
+}
+```
+
+* Hardcodierte Zugangsdaten
+* Schwaches Passwort
+* Keine zusätzlichen Sicherheitsmechanismen
+* Keine Mehrfaktor-Authentifizierung (2FA)
+
+## Lösung
+
+Sicherheit muss bereits beim Design der Anwendung berücksichtigt werden.
+
+* Starke Authentifizierung
+* Mehrfaktor-Authentifizierung (2FA)
+* sichere Passwortregeln
+* Schutz gegen Brute-Force-Angriffe
+
+```php
+// Sichere Authentifizierung mit 2FA
+$twofa_code = $_POST['2fa_code'];
+
+if (validatePassword($_POST['username'], $_POST['password']) && validate2FACode($twofa_code)) {
+    echo "Willkommen, sicher authentifiziert.";
+}
+```
+
+Benutzer müssen mehrere Faktoren zur Authentifizierung liefern (z. B. Passwort + Code).

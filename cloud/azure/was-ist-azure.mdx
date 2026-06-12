@@ -1,0 +1,75 @@
+---
+title: "Was ist Azure?"
+icon: "microsoft"
+iconType: "brands"
+---
+
+Microsoft betreibt mit **Azure** eine eigene Cloud-Plattform, die weltweit genutzt werden kann. Sie umfasst über 300 Rechenzentren in mehr als 140 Ländern und bietet eine Vielzahl an Diensten in den Bereichen **Analytics**, **Computing**, **Storage** und **Networking**. Die Plattform ist nicht nur skalierbar und leistungsfähig, sondern erfüllt auch höchste Anforderungen an Sicherheit und Datenschutz.
+
+## Tenant
+
+Ein **Tenant** ist eine isolierte Azure-Instanz für eine Organisation.
+
+* Unabhängig von anderen Tenants
+* Grundlage für Benutzerverwaltung, Sicherheit und Zugriff
+* Beispiele: **B2C-Tenant**, **Entra ID**
+
+## Ressourcen
+
+In Azure nennt man nutzbare Dienste **Resources**. Beispiele: 
+
+- Virtuelle Maschinen
+- Datenbanken
+- Netzwerke
+- Firewalls
+
+<Info>
+Azure stellt über **800 Ressourcen** zur Verfügung, teils von Microsoft, teils von Drittanbietern.
+</Info>
+
+## Regionen
+
+Eine **Region** ist ein geografisches Gebiet, das **mehrere Rechenzentren** enthält.
+
+* Wahl der Region beeinflusst:
+  * **Latenz / Performance**
+  * **Rechtliche Anforderungen**
+  * **Kosten**
+* Kunden sollten eine Region nahe am Endnutzer wählen.
+
+## Ressourcengruppen
+
+Resource Groups dienen zur **logischen Gruppierung von Ressourcen**.
+
+- Helfen bei der Organisation und Verwaltung.
+- Vereinfachen Zugriffsrechte und Deployment.
+- Kostenlos, da sie nur Struktur bieten.
+
+## Subscriptions
+
+Eine **Subscription** ist eine **Abrechnungseinheit** für Azure-Ressourcen.
+
+- Dient zur Kostenkontrolle und Budgetverwaltung.
+- Kann z. B. als Entwicklungs-, Test- oder Produktionsumgebung verwendet werden.
+- Beispiele: for Students, Sandbox, Development.
+
+## Management Groups
+
+Mit **Management Groups** kann man mehrere Subscriptions zusammenfassen.
+
+* Strukturelement auf hoher Ebene.
+* Oft genutzt, um verschiedene **Abteilungen oder Geschäftseinheiten** zu organisieren.
+
+## Scopes
+
+**Scopes** sind Ebenen zur Verwaltung von **Ressourcen, Rechten und Richtlinien**:
+
+- Tenant
+- Management Group
+- Subscription
+- Resource Group
+- Resource
+
+<Info>
+Azure stellt über **120 vordefinierte Rollen** zur Verfügung, um Berechtigungen auf diesen Scopes zu verwalten.
+</Info>

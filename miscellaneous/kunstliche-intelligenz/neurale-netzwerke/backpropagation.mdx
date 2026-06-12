@@ -1,0 +1,132 @@
+---
+title: "Backpropagation"
+icon: "rotate-left"
+---
+
+Backpropagation ist der zentrale Algorithmus für das Lernen neuronaler Netze.
+
+Zur Erinnerung: Der negative Gradient der Kostenfunktion ist ein 13'002-dimensionaler Vektor, der uns sagt, wie wir alle Gewichtungen und Bias' verschieben müssen, um die Kosten möglichst effizient zu senken. Backpropagation ist ein Algorithmus zur Berechnung dieses negativen Gradienten.
+
+Wie wir in der letzten Lektion besprochen haben, ist es hilfreich, den Gradienten so zu betrachten: Die Grösse der einzelnen Komponenten des Gradienten gibt an, wie empfindlich die Kostenfunktion auf die entsprechenden Gewichte und Verzerrungen reagiert.
+
+Angenommen, du berechnest den negativen Gradienten mit dem Verfahren, das ich gleich beschreiben werde, und die Komponente, die mit dem Gewicht einer Kante verbunden ist, beträgt 3.2, während die Komponente, die mit einer anderen Kante verbunden ist, 0.1 beträgt:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image.png)
+</Frame>
+
+Das bedeutet, dass die Kostenfunktion 32-mal empfindlicher auf Änderungen der ersten Gewichtung reagiert. Wenn du also den Wert dieser Gewichtung ein wenig änderst, führt dies zu einer 32-mal grösseren Änderung der Kostenfunktion als die gleiche Änderung der zweiten Gewichtung.
+
+## Beispiel
+
+Im Moment konzentrieren wir uns jetzt aber erst einmal auf ein einziges Beispiel, dieses Bild einer 2:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-1.png)
+</Frame>
+
+Wie wirkt sich dieses eine Trainingsbeispiel darauf aus, wie die Gewichte und Verzerrungen angepasst werden sollten?
+
+Da das Netz noch nicht gut trainiert ist, sind die Aktivierungen in der Ausgabeschicht praktisch zufällig. Das ist nicht gut. Wir wollen die Aktivierungen so ändern, dass sie die Ziffer 2 richtig erkennen.
+
+Aber denk daran, dass wir nur die Gewichtungen und Bias' des Netzes kontrollieren können. Also müssen wir die Gewichtungen und Bias' so verändern, dass die Ausgabe verbessert wird.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-2.png)
+</Frame>
+
+Obwohl wir die Aktivierungen nicht direkt ändern können, ist es hilfreich, die Anpassungen, die wir in dieser Ausgabeschicht vornehmen wollen, im Auge zu behalten.
+
+Da wir wollen, dass das Netzwerk diese Zahl als 2 klassifiziert, soll der Wert des Neurons mit der Ziffer 2 nach oben und der Wert aller anderen Neuronen nach unten verschoben werden:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-3.png)
+</Frame>
+
+Ausserdem sollte die Grösse dieser Veränderungen proportional dazu sein, wie weit der jeweilige Ausgangswert vom Zielwert entfernt ist. Neuronen, die weit daneben liegen, brauchen grosse Veränderungen, aber Neuronen, die ziemlich nah am eigentlichen Wert liegen, brauchen nur kleine Veränderungen.
+
+Zoomen wir weiter hinein und konzentrieren uns auf das eine Neuron, dessen Aktivierung wir erhöhen wollen:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-4.png)
+</Frame>
+
+Erinnere dich daran, dass der Aktivierungswert (in diesem Fall 0,2) als gewichtete Summe aller Aktivierungen aus der vorherigen Schicht plus eines Bias definiert ist, die dann in etwas wie die Sigmoid-Funktion oder eine ReLU eingefügt wird:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-5.png)
+</Frame>
+
+Es gibt also drei Wege, die zusammenwirken können, um diese Aktivierung zu erhöhen:
+
+* Änderung des Bias'
+* Änderung der Gewichtungen
+* Änderung der Aktivierungen der vorherigen Schicht
+
+### Änderung des Bias'
+
+Die einfachste Möglichkeit, die Aktivierung eines Neurons zu ändern, ist die Änderung des Bias'. Im Gegensatz zur Änderung der Gewichte oder der Aktivierungen der vorherigen Schicht ist die Auswirkung einer Änderung des Bias auf die gewichtete Summe konstant und vorhersehbar.
+
+### Änderung der Gewichtungen
+
+Wie sollten die Gewichte angepasst werden? Beachte, dass die Gewichte, da sie mit den Aktivierungen multipliziert werden, einen unterschiedlichen Einfluss haben:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-6.png)
+</Frame>
+
+Die Verbindungen mit den hellsten Neuronen aus der vorangegangenen Schicht haben den grössten Effekt, da diese Gewichte mit grösseren Aktivierungswerten multipliziert werden. Wenn du also eines dieser Gewichte erhöhst, hat das einen grösseren Einfluss auf die Kostenfunktion als wenn du das Gewicht einer Verbindung mit einem dunkleren Neuron erhöhst. (Auch hier gilt das alles nur für dieses eine Trainingsbeispiel).
+
+Wenn wir über Gradientenabstieg sprechen, geht es nicht nur darum, ob die einzelnen Komponenten nach oben oder unten verschoben werden sollen. Uns geht es darum, welche Komponenten dir den grössten Nutzen bringen.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-7.png)
+</Frame>
+
+### Änderung der Aktivierungen
+
+Die dritte Möglichkeit, die Aktivierung dieses Neurons zu erhöhen, besteht darin, alle Aktivierungen in der vorherigen Schicht zu ändern. Wenn nämlich alles, was mit dem Neuron der Ziffer 2 verbunden ist und ein positives Gewicht hat, heller und alles, was ein negatives Gewicht hat, dunkler wäre, würde das Neuron der Ziffer 2 aktiver sein.
+
+Ähnlich wie bei der Änderung der Gewichte bekommst du den grössten Nutzen heraus, wenn du die Änderungen proportional zur Grösse der entsprechenden Gewichte vornimmst:
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-8.png)
+</Frame>
+
+Natürlich können wir diese Aktivierungen nicht direkt beeinflussen. Wir haben nur die Kontrolle über die Gewichtungen und Bias'. Aber genau wie bei der letzten Schicht ist es hilfreich, sich die gewünschten Änderungen zu notieren.
+
+Vergiss nicht, dass dies nur das ist, was das eine Ziffer-2-Ausgangsneuron will. Wir wollen auch, dass alle anderen Neuronen in der letzten Schicht weniger aktiv werden, und jedes dieser anderen Ausgangsneuronen hat seinen eigenen Einfluss darauf, was mit der vorletzten Schicht passieren soll.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-9.png)
+</Frame>
+
+Der Wunsch dieses Neurons der Ziffer 2 wird also mit den Wünschen aller anderen neun Neuronen zusammengerechnet. Jedes Neuron hat seinen eigenen Vorschlag für die vorletzte Schicht, wiederum im Verhältnis zu den entsprechenden Gewichten und im Verhältnis dazu, wie sehr sich jedes Neuron ändern muss.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-10.png)
+</Frame>
+
+Hier kommt die Idee der Backpropagation ins Spiel. Wenn du all diese gewünschten Effekte addierst, erhältst du eine Liste mit den Änderungen, die du in der vorletzten Schicht vornehmen möchtest. Von dort aus kannst du den gleichen Prozess rekursiv auf die relevanten Gewichtungen und Bias' anwenden, die diese Werte bestimmen, und diesen Vorgang wiederholen, während du dich rückwärts durch das Netzwerk bewegst.
+
+## Wiederholen für alle Trainingsdaten
+
+Alles, was wir gerade durchgenommen haben, hält nur fest, wie ein einziges Trainingsbeispiel die vielen, vielen Gewichtungen und Bias' beeinflussen will.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-11.png)
+</Frame>
+
+Wenn wir nur darauf hören würden, was das Bild einer 2 will, hätte das Netzwerk einen Anreiz, alle Bilder als 2 einzustufen.
+
+Wenn wir etwas weiter ausholen, kannst du dieselbe Backpropagation-Routine auch für jedes andere Trainingsbeispiel durchführen und aufzeichnen, wie die Gewichte und Verzerrungen verändert werden sollen. Dann bildest du den Durchschnitt aus all diesen gewünschten Änderungen.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-12.png)
+</Frame>
+
+Die Summe dieser gemittelten Zuschläge zu jeder Gewichtung und jeden Bias' ist, grob gesagt, die negative Steigung der Kostenfunktion! Oder zumindest etwas, das proportional zu ihr ist.
+
+<Frame caption="Neurale Netzwerke">
+  ![Abbildung](/images/content/miscellaneous/image-13.png)
+</Frame>

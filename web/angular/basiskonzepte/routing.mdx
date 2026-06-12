@@ -1,0 +1,268 @@
+---
+title: "Routing"
+icon: "route"
+---
+
+Wir haben bereits gesehen, wie man Routes einrichtet, um zu verschiedenen Teilen unserer Anwendung zu navigieren:
+
+```typescript
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./settings/settings.component').then((m) => m.SettingsComponent),
+  },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+];
+```
+
+Wir wissen auch, wie man verschiedene Komponenten in der Anwendung über die URL aktiviert, z. B. `http://localhost:4200/home` oder `http://localhost:4200/settings`. Normalerweise navigieren wir jedoch nicht, indem wir Adressen in die URL-Leiste eingeben.
+
+## Navigation
+
+Wie ich gerade erwähnt habe, möchten wir nicht, dass unsere Benutzer die URL manuell ändern müssen. Wir möchten, dass sie auf Buttons klicken, wischen oder einfach automatisch zu der gewünschten Seite weitergeleitet werden können.
+
+Dazu gibt es im Wesentlichen zwei Möglichkeiten:
+
+1. Wenn wir möchten, dass der Benutzer einfach auf etwas klickt und dann zu einer bestimmten Seite weitergeleitet wird, können wir `routerLink` im Template verwenden.
+2. Wenn wir programmgesteuert navigieren müssen, können wir `router.navigate()` in der Klasse verwenden.
+
+Schauen wir uns beide Möglichkeiten genauer an. 
+
+<AccordionGroup>
+<Accordion title="`routerLink`">
+
+```typescript
+import { Component } from '@angular/core';
+import { RouterLink, RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <p>I am the home component</p>
+    <a routerLink="/settings">Go to settings</a>
+  `,
+  imports: [RouterLink],
+})
+export class HomeComponent {}
+```
+
+Wenn wir ein `/` am Anfang unserer Route verwenden, wird die Route vom Stammverzeichnis der Anwendung aus gesucht. Wenn wir `./` verwenden, wird die Route relativ zur aktuell aktiven Route gesucht. Wenn wir stattdessen Folgendes tun würden:
+
+```typescript
+<p>I am the home page</p>
+<a routerLink="./settings">Go to settings</a>
+```
+
+Es würde tatsächlich versuchen, den Pfad `home/settings` zu finden, der nicht existiert. Wenn jedoch innerhalb einzelner Module untergeordnete Pfade vorhanden sind, kann der relative Pfad die Navigation erleichtern.
+
+</Accordion>
+
+<Accordion title="`router.navigate()`">
+
+Sehen wir uns nun an, wie man programmgesteuert navigiert. Nehmen wir an, wir möchten nicht direkt zu einer bestimmten Seite navigieren, sondern zunächst eine Aktion ausführen. Vielleicht möchten wir eine Authentifizierung durchführen und den Benutzer bei erfolgreicher Authentifizierung auf eine andere Seite weiterleiten. In diesem Fall können wir den `Router` injizieren und damit navigieren:
+
+```typescript
+import { Component, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <p>I am the home page</p>
+    <button (click)="handleLogin()">Login</button>
+  `,
+})
+export class HomeComponent {
+  private router = inject(Router);
+
+  handleLogin() {
+    // Do the login and then:
+    this.router.navigate(['settings']);
+  }
+}
+```
+
+Wie in unserem vorherigen Beispiel können wir auch eine relative Route verwenden, wenn wir möchten. Dazu können wir dem Befehl `navigate` `NavigationExtras` übergeben:
+
+```typescript
+import { Component, inject } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <p>I am the home page</p>
+    <button (click)="handleLogin()">Login</button>
+  `,
+})
+export class HomeComponent {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  handleLogin() {
+    // Do the login and then:
+    this.router.navigate(['settings'], { relativeTo: this.route });
+  }
+}
+```
+
+</Accordion>
+</AccordionGroup>
+
+## Routing Parameter
+
+Manchmal möchten wir nicht nur zu einer Route navigieren, sondern ihr auch einige Informationen übergeben. Eine Möglichkeit hierfür sind Routing Parameter. Das Grundprinzip ist relativ einfach. Bei der Definition der Route verwenden wir diese spezielle Syntax mit einem Doppelpunkt:
+
+```typescript
+{
+  path: 'movie/:id',
+  loadComponent: () =>
+    import('./movie/movie.component').then((m) => m.MovieComponent),
+},
+```
+
+Jetzt können wir diese Route wie folgt aktivieren:
+
+```html
+<a routerLink="/movie/2">Dune</a>
+```
+
+Dann können wir auf unserer `Movie`-Page auf diesen Wert zugreifen. Wie genau das funktioniert, besprechen wir im nächsten Abschnitt.
+
+Normalerweise übergeben wir eine dynamische `id` oder einen anderen Wert an eine Route und nicht nur einen statischen Wert wie oben.
+
+```html
+<a routerLink="/movie/{{ movie.id }}">Dune</a>
+```
+
+Oder du kannst die zusätzlichen Funktionen in `routerLink` nutzen, um es zu erstellen:
+
+```html
+<a [routerLink]="['/movie', movie.id]">Dune</a>
+```
+
+Wir können etwas Ähnliches tun, wenn wir die `navigation`-Methode verwenden:
+
+```typescript
+this.router.navigate(['movie', this.movie.id]);
+```
+
+## Daten übertragen
+
+Im vorherigen Abschnitt haben wir gesehen, dass es recht einfach ist, einen Parameter über die Route zu übergeben, wenn man zu einer Seite navigiert, aber wie verwenden wir ihn? Betrachten wir die klassische Situation eines Master/Detail-Musters. Wir haben eine Seite, auf der eine Liste von Daten angezeigt wird – vielleicht Titel von Filmen – und wenn wir auf eines dieser Elemente klicken, gelangen wir zu einer Detailseite mit weiteren Informationen zu diesem Film.
+
+Wir könnten Routen wie folgt einrichten:
+
+```typescript
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'detail/:id',
+    loadComponent: () =>
+      import('./detail/detail.component').then((m) => m.DetailComponent),
+  },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+];
+```
+
+Unsere Master-Komponente sieht wie folgt aus:
+
+```typescript
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <p>I am the home page</p>
+    <ul>
+      @for (movie of movies; track movie.id){
+        <li>
+          <a [routerLink]="['/detail', movie.id]">{{ movie.name }}</a>
+        </li>
+      }
+    </ul>
+  `,
+  imports: [RouterLink],
+})
+export class HomeComponent {
+  movies = [
+    { id: 1, name: 'Dune' },
+    { id: 2, name: 'Coco' },
+    { id: 3, name: 'Soul' },
+  ];
+}
+```
+
+Wir können die `id` unseres Films ganz einfach mithilfe des Routing Parameters an die Detailseite übergeben und auf dieser Seite auf diese `id` zugreifen. Wir möchten jedoch nicht nur eine `id`, sondern das gesamte Filmobjekt – was sich nicht so gut für die Übermittlung über die URL eignet. Möglicherweise möchten wir zusätzliche Informationen zu diesem Film abrufen, wie eine Beschreibung, einen Trailer, eine Bewertung, Kommentare, Rezensionen usw.
+
+Normalerweise übergeben wir einfach eine einfache Kennung als Parameter, beispielsweise die `id`, und rufen dann auf unserer Detailseite die vollständigen Daten von einem Service unter Verwendung dieses `id`-Werts ab.
+
+Wir könnten einen Service wie folgt einrichten:
+
+```typescript
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MoviesService {
+  private http = inject(HttpClient);
+
+  getMovieById(id: string) {
+    return this.http.get(`https://some-api.com/movie/${id}`);
+  }
+}
+```
+
+Dadurch können wir die Methode `getMovieById` aufrufen, die uns einen Stream zurückgibt, der die vom Server abgerufenen Daten ausgibt.
+
+Nachdem wir unseren Service eingerichtet haben, können wir diesen in unsere `DetailPage` einfügen, zusammen mit den Informationen für die `ActivatedRoute`, um die übergebene `id` abzurufen und auf einen Stream mit den Filmdetails zuzugreifen:
+
+```typescript
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { MoviesService } from '../shared/data-access/movies.service';
+import { switchMap } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-detail',
+  template: `{{ movie() }}`,
+})
+export class DetailComponent {
+  private route = inject(ActivatedRoute);
+  private moviesService = inject(MoviesService);
+
+  public movie = toSignal(
+    this.route.params.pipe(
+      switchMap((params) => this.moviesService.getMovieById(params['id']))
+    )
+  );
+}
+```
+
+Jetzt enthält unsere `DetailPage` alle Details zu einem bestimmten Film, und wir können diese in der Vorlage nach Belieben anzeigen. Wenn wir zurück zu unserer Startseite gehen und einen anderen Film auswählen, werden stattdessen die Details zu diesem Film geladen.

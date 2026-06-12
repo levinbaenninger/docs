@@ -1,0 +1,60 @@
+---
+title: "Grundlagen"
+icon: "chalkboard"
+---
+
+Klassen sind eine Blaupause für die Erstellung von Objekten mit Eigenschaften und Methoden. Sie sind eine Möglichkeit, einen neuen Typ zu definieren, der zur Erstellung von Objekten verwendet werden kann.
+
+Genau wie in einfachem JavaScript werden Klassen mit dem Schlüsselwort `class` definiert.
+
+```typescript
+class Person {
+  name: string;
+  age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log(
+      `Hello, my name is ${this.name} and I am ${this.age} years old.`
+    );
+  }
+}
+
+const person = new Person("Alice", 30);
+person.greet();
+```
+
+Diese einfachen Felddeklarationen erzeugen eine öffentliche beschreibbare Eigenschaft.
+
+<Info>
+Wird der Typ des Feldes weggelassen, so ist der Typ `any`.
+</Info>
+
+***
+
+Vererbung sieht genauso aus wie normales JavaScript - verwende das Schlüsselwort `extends`.
+
+```typescript
+class Employee extends Person {
+  jobTitle: string;
+
+  constructor(name: string, age: number, jobTitle: string) {
+    super(name, age);
+    this.jobTitle = jobTitle;
+  }
+
+  greet() {
+    console.log(
+      `Hello, my name is ${this.name}, I am ${this.age} years old, and I work as a ${this.jobTitle}.`
+    );
+  }
+}
+```
+
+Und TypeScript stellt sicher, dass die abgeleitete Klasse dem Vertrag der Basisklasse folgt. Wenn ich eine inkompatible Änderung vornehme, z. B. dass die `greet`-Methode ein Argument akzeptiert, erhalte ich einen Kompilierzeitfehler.
+
+Ausserdem musst du `super` im Konstruktor einer abgeleiteten Klasse aufrufen, wenn sie eine Basisklasse hat.

@@ -1,0 +1,44 @@
+---
+title: "CAP-Theorem"
+icon: "triangle-exclamation"
+---
+
+Das CAP-Theorem, formuliert von Eric Brewer im Jahr 2000, beschreibt eine fundamentale Einschränkung in verteilten Systemen. Es besagt, dass von den drei Eigenschaften **Konsistenz (Consistency)**, **Verfügbarkeit (Availability)** und **Partitionstoleranz (Partition Tolerance)** in einem verteilten System immer nur zwei gleichzeitig garantiert werden können.
+
+## Die drei Eigenschaften
+
+### Konsistenz (Consistency)
+
+* Alle Knoten eines verteilten Systems haben zu einem bestimmten Zeitpunkt denselben Datenstand.
+* Jede Leseoperation gibt den zuletzt bestätigten Schreibvorgang zurück.
+* **Beispiel:** Ein Bankensystem muss sicherstellen, dass ein Kontostand stets aktuell ist.
+
+### Verfügbarkeit (Availability)
+
+* Jeder Anfrage wird garantiert eine Antwort geliefert, unabhängig davon, ob die Antwort den aktuellen Datenstand widerspiegelt.
+* Das System bleibt auch unter hoher Last funktionsfähig.
+* **Beispiel:** Ein Online-Shop zeigt immer Produktverfügbarkeiten an, auch wenn einzelne Server ausfallen.
+
+### Partitionstoleranz (Partition Tolerance)
+
+* Das System funktioniert weiterhin, auch wenn Netzwerkpartitionen auftreten (d.h. einige Knoten nicht miteinander kommunizieren können).
+* In verteilten Systemen ist Partitionstoleranz oft unvermeidlich, da Netzwerkausfälle nicht ausgeschlossen werden können.
+* **Beispiel:** Ein globales Soziales Netzwerk muss auch bei regionalen Verbindungsproblemen weiterarbeiten.
+
+### Kombinationen im CAP-Theorem
+
+Da nur zwei der drei Eigenschaften gleichzeitig gewährleistet werden können, ergeben sich folgende Architekturen:
+
+| Systemtyp                                   | Eigenschaften                                                                            | Beispiel                                                                    |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **CP (Konsistenz + Partitionstoleranz)**    | Garantiert Konsistenz trotz Partitionen, verzichtet aber auf vollständige Verfügbarkeit. | Banken, verteilte Datenbanken (z. B. MongoDB im „Strong Consistency“-Modus) |
+| **AP (Verfügbarkeit + Partitionstoleranz)** | Hohe Verfügbarkeit trotz Partitionen, jedoch keine garantierte Konsistenz.               | DNS, moderne NoSQL-Datenbanken (z. B. Cassandra, DynamoDB)                  |
+| **CA (Konsistenz + Verfügbarkeit)**         | Keine Partitionstoleranz – funktioniert nur in vollständig vernetzten Systemen.          | Klassische relationale Datenbanken (z. B. MySQL ohne Replikation)           |
+
+<Frame caption="CAP-Theorem">
+  ![CAP-Theorem](/images/content/databases/image-3.png)
+</Frame>
+
+***
+
+Das CAP-Theorem ist ein wichtiges Konzept in der verteilten Datenbankentwicklung. Da Netzwerkpartitionen in verteilten Systemen nicht vermeidbar sind, müssen sich Entwickler meist zwischen Konsistenz und Verfügbarkeit entscheiden. Moderne Systeme implementieren oft eine Balance zwischen diesen Aspekten, indem sie verschiedene Konsistenz- und Replikationsstrategien kombinieren.

@@ -1,0 +1,41 @@
+---
+title: "Server-Side Request Forgery"
+icon: "server"
+---
+
+Angreifer bringen den Server dazu, unerwünschte Anfragen an interne oder externe Systeme zu senden, um Informationen zu stehlen oder andere Systeme anzugreifen.
+
+## Problem
+
+Wenn URLs oder Ressourcen ungeprüft vom Benutzer übergeben werden, kann der Server:
+
+* Interne Dienste ansprechen (z. B. Datenbank, interne APIs)
+* Externe bösartige Server kontaktieren
+* Daten zurückliefern, die der Angreifer auswerten kann
+
+```php
+$url = $_GET['url'];
+$response = file_get_contents($url); // Ungeprüfte URL
+echo $response;
+```
+
+Angreifer kann beliebige URLs angeben, z. B. auf schädliche Ressourcen.
+
+## Lösung
+
+* Whitelist erlaubter Hosts
+* Strenge URL-Validierung
+* Einschränkungen für Ports und Protokolle
+
+```php
+$allowed_hosts = ['example.com', 'api.example.com'];
+$parsed_url = parse_url($_GET['url']);
+if (!in_array($parsed_url['host'], $allowed_hosts)) {
+    die("Ungültige URL.");
+}
+$response = file_get_contents($_GET['url']);
+echo $response;
+```
+
+* Server darf nur Anfragen an vertrauenswürdige Ziele senden
+* Manipulierte Eingaben werden blockiert

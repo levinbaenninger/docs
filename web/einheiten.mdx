@@ -1,0 +1,96 @@
+---
+title: "Einheiten"
+icon: "ruler-combined"
+---
+
+## Längen﻿
+
+### Absolute Längen﻿
+
+Es gibt sehr viele absolute Längeneinheiten, wie `cm`, `mm`, `in`, etc., jedoch wird meistens nur eine Einheit wirklich gebraucht, die `px`-Einheit.
+
+```css
+button {
+  border: 2px solid red;
+}
+```
+
+### Relative Längen﻿
+
+Relative längen machen es uns einfacher Webseiten zu skalieren. Sie sind bspw. abhängig von der Schriftgrösse des Parent-Elements oder des Root-Elements.
+
+<AccordionGroup>
+<Accordion title="`em`">
+
+`em` ist relativ zu der Schriftgrösse des übergeordneten Elements, wenn es sich um typografische Eigenschaften wie `font-size` handelt, und Schriftgrösse des Elements selbst, wenn es sich um andere Eigenschaften wie `width` handelt.
+
+</Accordion>
+
+<Accordion title="`rem`">
+
+`rem` ist relativ zur Schriftgrösse des Root-Elements
+
+</Accordion>
+
+<Accordion title="`vw`">
+
+`vw` ist relativ zur Viewport-Breite
+
+</Accordion>
+
+<Accordion title="`vh`">
+
+`vh` ist relativ zur Viewport-Höhe
+
+</Accordion>
+</AccordionGroup>
+
+### Prozente﻿
+
+In den meisten Fällen werden Prozente gleich wie Längen behandelt. Prozente sind immer relativ zu irgendeinem anderen Wert, bspw. `font-size` ist relativ zur `font-size` des Parents oder bei `width` wäre es relativ zur `width` des Parents.
+
+## Nummern﻿
+
+Manche Wertetypen akzeptieren Nummern, ohne eine Einheit. Ein Beispiel für eine solche einheitslose Eigenschaft wäre `opacity`. Diese akzeptiert einen Wert zwischen `0` und `1`.
+
+```css
+div {
+  opacity: 0.8;
+}
+```
+
+## Farben﻿
+
+Farbwerte können in vielen Bereichen von CSS verwendet werden, sei es, um die Farbe von Text, Hintergründen, Rahmen und vieles mehr zu spezifizieren. Es gibt viele Möglichkeiten, Farben in CSS zu setzen, wie RGB, HSL oder bestimmte Keywords.
+
+### Keywords
+
+CSS gibt uns eine beschränkte Anzahl von Farb-Keywords zur Verfügung, bspw. `blue`, `violet`, etc.
+
+```css
+button {
+  background-color: blueviolet;
+}
+```
+
+### Hexadezimale RGB-Werte
+
+Das hexadezimale System verwendet 16 Zeichen von `0-9` und `a-f`, sodass der gesamte Bereich `0123456789abcdef` umfasst. Jeder hexadezimale Farbwert besteht aus einem Hashzeichen (`#`), gefolgt von drei oder sechs hexadezimalen Zeichen (`#fcc` oder `#ffc0cb` zum Beispiel), mit optional einem oder zwei hexadezimalen Zeichen, die die Alpha-Transparenz der vorhergehenden drei oder sechs Zeichen des Farbwerts repräsentieren.
+
+Wenn du Hexadezimalwerte zur Beschreibung von RGB verwendest, repräsentiert jedes **Paar** von hexadezimalen Zeichen eine Dezimalzahl, die einen der Kanäle beschreibt — rot, grün und blau — und es ermöglicht, einen der 256 verfügbaren Werte für jeden (16 x 16 = 256) anzugeben. Diese Werte sind weniger intuitiv als Schlüsselwörter zur Definition von Farben, aber sie sind wesentlich vielseitiger, da Sie mit ihnen jede RGB-Farbe darstellen können.
+
+```scss
+.error {
+  color: #ed3447;
+}
+```
+
+### RGB-Werte
+
+Um RGB-Werte direkt zu erstellen, nimmt die `rgb()` Funktion drei Parameter an, die **rote**, **grüne** und **blaue** Kanalwerte der Farben repräsentieren, mit einem optionalen vierten Wert, der durch einen Schrägstrich (`/`) getrennt ist und die Deckkraft auf ähnliche Weise wie Hexadezimalwerte darstellt.
+
+```css
+.error {
+  color: rgb(237 52 71);
+}
+```

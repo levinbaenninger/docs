@@ -1,0 +1,72 @@
+---
+title: "Vorgehen beim Erstellen"
+icon: "list-check"
+---
+
+Die Entwicklung von Datenbankanwendungen folgt je nach gewähltem Datenbanksystem fundamental unterschiedlichen Ansätzen. Während relationale Datenbanken eine sorgfältige Vorausplanung der Datenstrukturen erfordern, setzen NoSQL-Datenbanken auf maximale Flexibilität bei der Datenspeicherung. Diese grundlegenden Unterschiede prägen den gesamten Entwicklungsprozess und beeinflussen direkt, wie Daten gespeichert und abgefragt werden können.
+
+## Konzeptionsansatz
+
+### Relationale Datenbanken
+
+Strukturierte Planung in drei Phasen:
+
+* Konzeptionelles Datenmodell
+* Logisches Datenmodell
+* Physikalisches Datenmodell
+
+<Info>
+**Wichtig**: Die Struktur muss vor der Implementierung vollständig durchdacht sein.
+</Info>
+
+## NoSQL
+
+Fokus auf Anwendungsfälle:
+
+* Wie werden die Daten abgefragt?
+* Welchen Zweck erfüllen die Daten?
+* Welche Ausgabeformate werden benötigt?
+
+<Info>
+**Wichtig**: Die Struktur kann während der Entwicklung angepasst werden.
+</Info>
+
+## Trade-offs und Konsequenzen
+
+### Relationale Datenbanken
+
+Hoher initialer Aufwand → Flexible Abfragemöglichkeiten
+
+**Vorteile**:
+
+* Konsistente Datenstruktur
+* Komplexe Abfragen möglich
+* Effiziente Datenzugriffe durch JOINs
+
+**Nachteile**:
+
+* Zeitaufwändige Planungsphase
+* Unflexibel bei Strukturänderungen
+* Hohe Komplexität bei der Modellierung
+
+### NoSQL
+
+Minimaler initialer Aufwand → Eingeschränkte Abfragemöglichkeiten
+
+**Vorteile**:
+
+* Schneller Projektstart
+* Flexible Schemaanpassungen
+* Einfache Skalierbarkeit
+
+**Nachteile**:
+
+* Limitierte Abfragemöglichkeiten
+* Potenzielle Redundanzen
+* Weniger Konsistenzgarantien
+
+***
+
+<Warning>
+**Merke**: Bei MySQL wird die Flexibilität durch vorherige Planung erkauft, bei NoSQL durch eingeschränkte Abfragemöglichkeiten.
+</Warning>

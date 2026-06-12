@@ -1,0 +1,18 @@
+---
+title: "Tuples"
+icon: "grip"
+---
+
+Tuples sind ein einfacher Datentyp in F#, um mehrere Werte ohne eigenen Typ zusammenzufassen. Sie bestehen aus einer festen Anzahl von Elementen, die unterschiedliche Datentypen haben können.
+
+Tuples werden häufig verwendet, um mehrere Werte aus einer Funktion zurückzugeben oder Werte kurzfristig zu gruppieren, ohne einen Record definieren zu müssen.
+
+Auf die einzelnen Elemente kann über Pattern Matching oder durch Destructuring zugegriffen werden.
+
+```fsharp
+let person = ("John", "Doe", 30)
+
+let (firstName, lastName, age) = person
+
+printfn "%s %s is %d years old" firstName lastName age
+```

@@ -1,0 +1,41 @@
+---
+title: "Discriminated Unions"
+icon: "filter"
+---
+
+Manchmal muss der Code mit mehreren verschiedenen Typen arbeiten, die unterschiedliche Formen haben. Diskriminierte Unions sind eine Möglichkeit, mit diesen Typen auf typsichere Weise zu arbeiten.
+
+```typescript
+interface Circle {
+  kind: "circle";
+  radius: number;
+}
+
+interface Square {
+  kind: "square";
+  sideLength: number;
+}
+
+type Shape = Circle | Square;
+```
+
+In diesem Beispiel haben wir zwei Schnittstellen: `Circle` und `Square`. Beide haben eine `kind`-Eigenschaft, die ein String-Literal ist. Dies wird als Diskriminante bezeichnet. Die `kind`-Eigenschaft bestimmt, welcher Typ ein Wert ist.
+
+Dies ist nützlich, wenn du eine Funktion hast, die mit beiden Typen arbeitet:
+
+```typescript
+const getArea = (shape: Shape) => {
+  switch (shape.kind) {
+    case "circle":
+      return Math.PI * shape.radius ** 2;
+    case "square":
+      return shape.sideLength ** 2;
+  }
+}
+```
+
+Beachte, dass der Typ jetzt auf der Grundlage der Eigenschaft `kind` eingegrenzt wird. Sobald TypeScript die Art kennt, kennt es die Form des Objekts und weiss daher, welche Felder verfügbar sind.
+
+<Info>
+Zur Verdeutlichung: Die Eigenschaft `kind` kann beliebig benannt werden. Der Punkt ist, dass TypeScript intelligent genug ist, um den Typ basierend auf dem Wert einer Eigenschaft einzugrenzen. Andere gebräuchliche Namen für die diskriminierende Eigenschaft sind `type` und `tag`.
+</Info>

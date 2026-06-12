@@ -1,0 +1,32 @@
+---
+title: "Primitive Typen und Typableitung"
+icon: "font"
+---
+
+Bei TypesScript dreht sich alles um Typen. TypeScript hat die üblichen Typen, die man von einer statisch typisierten Sprache erwartet: `number`, `string`, `boolean`, `object`, `null` und `undefined`.
+
+```typescript
+let age: number = 42;
+let msg: string = "Hello, TypeScript!";
+let isAdmin: boolean = true;
+let nullThing: null = null;
+let undefinedThing: undefined = undefined;
+```
+
+Dies ist keine vollständige Liste, aber dies sind die Typen, die du wahrscheinlich am häufigsten verwenden wirst.
+
+Vielleicht siehst du dir diesen Code an und denkst: "Hmm, das ist im Vergleich zu JavaScript aber unübersichtlich. Die gute Nachricht ist, dass TypeScript den Typ aus dem zugewiesenen Wert ableiten kann.
+
+```typescript
+let age = 42;
+let msg = "Hello, TypeScript!";
+let isAdmin = true;
+let nullThing = null;
+let undefinedThing = undefined;
+```
+
+TypeScript leitet den Typ aus dem Wert ab. Dies wird als Typableitung bezeichnet. Es ist oft nützlich, die Typen explizit anzugeben, aber das muss nicht sein.
+
+<Info>
+Versuche im Allgemeinen, Typen abzuleiten, wenn du. Deklariere Typen im Allgemeinen nur, wenn der Typ nicht abgeleitet werden kann. Das spart Zeit und vermeidet die unnötige Wiederholung von Typen.
+</Info>

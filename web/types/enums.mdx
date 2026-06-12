@@ -1,0 +1,38 @@
+---
+title: "Enums"
+icon: "list-ol"
+---
+
+Enums bilden einen Satz zusammengehöriger benannter Konstanten. In diesem Fall ist `Color` ein Enum mit 3 Werten: `Red`, `Green` und `Blue`.
+
+```typescript
+enum Color {
+  Red,
+  Green,
+  Blue,
+}
+```
+
+Enums sind wahrscheinlich das umstrittenste Feature von TypeScript, weil es Enums in JavaScript nicht gibt. Und Enums sind auch deshalb seltsam, weil im Gegensatz zu anderen Typen der Enum-Code in JavaScript kompiliert wird.
+
+```javascript
+var Color;
+(function (Color) {
+  Color[(Color["Red"] = 0)] = "Red";
+  Color[(Color["Green"] = 1)] = "Green";
+  Color[(Color["Blue"] = 2)] = "Blue";
+})(Color || (Color = {}));
+```
+
+***
+
+Du musst nicht unbedingt einen Enum verwenden. Verwende stattdessen lieber ein als  `as const` gekennzeichnetes Objekt:
+
+```typescript
+const Colors = {
+  Red: "red",
+  Green: "green",
+  Blue: "blue",
+} as const;
+type Colors = typeof Colors[keyof typeof Colors];
+```

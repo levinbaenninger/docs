@@ -8,85 +8,845 @@
     "dark": "#009689"
   },
   "navigation": {
-    "pages": [
-      {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
-        ]
-      }
-    ],
+    "directory": "card",
     "tabs": [
       {
+        "tab": "Start",
+        "groups": [
+          {
+            "group": "Lernreise",
+            "pages": [
+              "index"
+            ],
+            "icon": "route"
+          }
+        ],
+        "icon": "house"
+      },
+      {
         "tab": "Web",
-        "icon": "globe",
-        "pages": [
-          "page-9"
-        ]
+        "groups": [
+          {
+            "group": "HTML",
+            "pages": [
+              "web/html/was-ist-html",
+              "web/html/elemente",
+              "web/html/attribute",
+              "web/html/boilerplate",
+              "web/textelemente",
+              "web/links",
+              "web/dokumentenstruktur",
+              "web/medien",
+              "web/tabellen",
+              "web/formulare"
+            ],
+            "icon": "html5",
+            "iconType": "brands"
+          },
+          {
+            "group": "CSS",
+            "pages": [
+              "web/css/was-ist-css",
+              "web/css/syntax",
+              "web/einheiten",
+              "web/selektoren",
+              "web/boxmodell",
+              "web/hintergrunde-und-rahmen",
+              "web/overflow",
+              "web/bilder",
+              "web/formulare-1",
+              "web/textelemente-1",
+              {
+                "group": "Layout",
+                "pages": [
+                  "web/layout/flexbox",
+                  "web/layout/grid"
+                ],
+                "icon": "table-cells-large"
+              },
+              "web/responsive-design"
+            ],
+            "icon": "css3-alt",
+            "iconType": "brands"
+          },
+          {
+            "group": "JavaScript",
+            "pages": [
+              "web/javascript/was-ist-javascript",
+              "web/javascript/einbindung-in-html",
+              "web/javascript/grundlagen/variablen-und-werte",
+              "web/javascript/grundlagen/datentypen",
+              "web/javascript/grundlagen/operatoren-und-ausdrucke",
+              "web/javascript/grundlagen/kontrollstrukturen",
+              "web/javascript/grundlagen/schleifen",
+              {
+                "group": "Funktionen",
+                "root": "web/javascript/funktionen/README",
+                "pages": [
+                  "web/javascript/funktionen/funktionsdeklarationen-vs.-funktionsausdrucke",
+                  "web/javascript/funktionen/arrow-functions",
+                  "web/javascript/funktionen/standardparameter-und-rest-parameter",
+                  "web/javascript/funktionen/first-class-und-higher-order-funktionen",
+                  "web/javascript/funktionen/closures",
+                  "web/javascript/funktionen/iife-immediately-invoked-function-expressions"
+                ],
+                "icon": "square-root-variable"
+              },
+              {
+                "group": "Arrays",
+                "pages": [
+                  "web/javascript/arrays/erstellen-und-modifizieren",
+                  "web/javascript/arrays/iteration-uber-arrays",
+                  "web/javascript/arrays/sortieren",
+                  "web/javascript/arrays/nutzliche-methoden"
+                ],
+                "icon": "table-list"
+              },
+              {
+                "group": "Objekte und Datenstrukturen",
+                "pages": [
+                  "web/javascript/objekte-und-datenstrukturen/erstellen-und-manipulieren",
+                  "web/javascript/objekte-und-datenstrukturen/destructuring",
+                  "web/javascript/objekte-und-datenstrukturen/sets-und-maps"
+                ],
+                "icon": "cubes"
+              },
+              {
+                "group": "Strings",
+                "pages": [
+                  "web/javascript/strings/template-literals",
+                  "web/javascript/strings/methoden"
+                ],
+                "icon": "font"
+              },
+              {
+                "group": "Moderne JavaScript-Features",
+                "pages": [
+                  "web/javascript/moderne-javascript-features/optionale-verkettung",
+                  "web/javascript/moderne-javascript-features/nullish-coalescing-operator",
+                  "web/javascript/moderne-javascript-features/spread-und-rest-operator",
+                  "web/javascript/moderne-javascript-features/kurzschlussausdrucke"
+                ],
+                "icon": "wand-magic-sparkles"
+              },
+              {
+                "group": "Scope und Kontext",
+                "root": "web/javascript/scope-und-kontext/README",
+                "pages": [
+                  "web/javascript/scope-und-kontext/this-keyword",
+                  "web/javascript/scope-und-kontext/call-apply-und-bind",
+                  "web/javascript/scope-und-kontext/hoisting-und-temporal-dead-zone-tdz"
+                ],
+                "icon": "layer-group"
+              },
+              {
+                "group": "Objektorientierte Programmierung",
+                "root": "web/javascript/objektorientierte-programmierung/README",
+                "pages": [
+                  "web/javascript/objektorientierte-programmierung/prototypes",
+                  "web/javascript/objektorientierte-programmierung/constructor-functions",
+                  "web/javascript/objektorientierte-programmierung/es6-classes",
+                  "web/javascript/objektorientierte-programmierung/die-create-methode"
+                ],
+                "icon": "cubes-stacked"
+              },
+              {
+                "group": "Asynchronous JavaScript",
+                "root": "web/javascript/asynchronous-javascript/README",
+                "pages": [
+                  "web/javascript/asynchronous-javascript/ajax",
+                  "web/javascript/asynchronous-javascript/promises"
+                ],
+                "icon": "hourglass-half"
+              },
+              {
+                "group": "Zahlen, Daten, Internationalisierung und Timer",
+                "pages": [
+                  "web/javascript/zahlen-daten-internationalisierung-und-timer/mathematische-operationen",
+                  "web/javascript/zahlen-daten-internationalisierung-und-timer/datum-und-zeit",
+                  "web/javascript/zahlen-daten-internationalisierung-und-timer/internationalisierung",
+                  "web/javascript/zahlen-daten-internationalisierung-und-timer/timer"
+                ],
+                "icon": "clock"
+              },
+              "web/javascript/modules",
+              {
+                "group": "JavaScript im Browser (DOM und Events)",
+                "pages": [
+                  "web/javascript/javascript-im-browser-dom-und-events/das-dom",
+                  "web/javascript/javascript-im-browser-dom-und-events/elemente-auswahlen-erstellen-und-manipulieren",
+                  "web/javascript/javascript-im-browser-dom-und-events/styles-attribute-und-klassen",
+                  "web/javascript/javascript-im-browser-dom-und-events/events-und-event-listener",
+                  {
+                    "group": "Event Propagation",
+                    "root": "web/javascript/javascript-im-browser-dom-und-events/event-propagation/README",
+                    "pages": [
+                      "web/javascript/javascript-im-browser-dom-und-events/event-propagation/event-delegation"
+                    ],
+                    "icon": "share-nodes"
+                  },
+                  "web/javascript/javascript-im-browser-dom-und-events/dom-traversing"
+                ],
+                "icon": "computer-mouse"
+              },
+              {
+                "group": "JavaScript Engine und Performance",
+                "root": "web/javascript/javascript-engine-und-performance/README",
+                "pages": [
+                  "web/javascript/javascript-engine-und-performance/execution-context-und-call-stack"
+                ],
+                "icon": "gauge-high"
+              }
+            ],
+            "icon": "js",
+            "iconType": "brands"
+          },
+          {
+            "group": "TypeScript",
+            "pages": [
+              "web/was-ist-typescript",
+              "web/compiler-und-runtimes",
+              "web/konfiguration",
+              {
+                "group": "Types",
+                "pages": [
+                  "web/types/primitive-typen-und-typableitung",
+                  "web/types/arrays-und-tupel",
+                  "web/types/objekte",
+                  "web/types/top-und-bottom-types",
+                  "web/types/enums",
+                  {
+                    "group": "Utility Types",
+                    "pages": [
+                      "web/types/utility-types/records"
+                    ],
+                    "icon": "screwdriver-wrench"
+                  }
+                ],
+                "icon": "shapes"
+              },
+              {
+                "group": "Typenkombination",
+                "pages": [
+                  "web/typenkombination/union-types",
+                  "web/typenkombination/discriminated-unions",
+                  "web/typenkombination/intersections"
+                ],
+                "icon": "code-merge"
+              },
+              "web/funktionen",
+              {
+                "group": "Klassen",
+                "pages": [
+                  "web/klassen/grundlagen",
+                  "web/klassen/feldinitialisierer",
+                  "web/klassen/schreibgeschutzte-felder",
+                  "web/klassen/implementieren",
+                  "web/klassen/private-und-geschutzte-member",
+                  "web/klassen/getter-und-setter",
+                  "web/klassen/statische-member",
+                  "web/klassen/abstrakte-klassen-und-member"
+                ],
+                "icon": "cube"
+              },
+              {
+                "group": "Modules",
+                "pages": [
+                  "web/modules/importieren-und-exportieren",
+                  "web/modules/ambient-types",
+                  "web/modules/namespaces",
+                  "web/modules/globals"
+                ],
+                "icon": "box-archive"
+              }
+            ],
+            "icon": "js",
+            "iconType": "brands"
+          },
+          {
+            "group": "React",
+            "pages": [
+              "web/react/was-ist-react",
+              "web/react/jsx",
+              {
+                "group": "Komponenten",
+                "root": "web/react/komponenten/README",
+                "pages": [
+                  "web/react/komponenten/root-komponente",
+                  "web/react/komponenten/styling",
+                  "web/react/komponenten/listen",
+                  "web/react/komponenten/conditional-rendering",
+                  "web/react/komponenten/fragments"
+                ],
+                "icon": "puzzle-piece"
+              },
+              {
+                "group": "Props",
+                "root": "web/react/props/README",
+                "pages": [
+                  "web/react/props/destructuring",
+                  "web/react/props/children"
+                ],
+                "icon": "sliders"
+              },
+              {
+                "group": "Interaktivität",
+                "pages": [
+                  "web/react/interaktivitat/event-handling",
+                  "web/react/interaktivitat/state",
+                  "web/react/interaktivitat/formulare"
+                ],
+                "icon": "hand-pointer"
+              },
+              {
+                "group": "State Management",
+                "root": "web/react/state-management/README",
+                "pages": [
+                  "web/react/state-management/state-anheben",
+                  "web/react/state-management/derived-state"
+                ],
+                "icon": "diagram-project"
+              },
+              {
+                "group": "Komposition und Reusability",
+                "pages": [
+                  "web/react/komposition-und-reusability/komponentenstrukturierung",
+                  "web/react/komposition-und-reusability/prop-drilling",
+                  "web/react/komposition-und-reusability/komposition"
+                ],
+                "icon": "boxes-stacked"
+              }
+            ],
+            "icon": "react",
+            "iconType": "brands"
+          },
+          {
+            "group": "Angular",
+            "pages": [
+              "web/angular/was-ist-angular",
+              {
+                "group": "Erste Schritte",
+                "pages": [
+                  "web/angular/erste-schritte/anwendung-erstellen",
+                  "web/angular/erste-schritte/anatomie",
+                  "web/angular/erste-schritte/cli"
+                ],
+                "icon": "rocket"
+              },
+              {
+                "group": "Basiskonzepte",
+                "pages": [
+                  "web/angular/basiskonzepte/struktur",
+                  "web/angular/basiskonzepte/template-syntax",
+                  "web/angular/basiskonzepte/decorators",
+                  "web/angular/basiskonzepte/komponenten",
+                  "web/angular/basiskonzepte/signals",
+                  "web/angular/basiskonzepte/dependency-injection",
+                  "web/angular/basiskonzepte/change-detection",
+                  "web/angular/basiskonzepte/routing"
+                ],
+                "icon": "book-open"
+              }
+            ],
+            "icon": "angular",
+            "iconType": "brands"
+          }
+        ],
+        "icon": "globe"
       },
       {
         "tab": ".NET",
-        "icon": "computer",
-        "pages": [
-          "page"
-        ]
+        "groups": [
+          {
+            "group": "C\\#",
+            "pages": [
+              {
+                "group": "Variablen",
+                "pages": [
+                  "dotnet/c/variablen/strings",
+                  "dotnet/c/variablen/integers",
+                  "dotnet/c/variablen/floats-und-doubles",
+                  "dotnet/c/variablen/booleans",
+                  "dotnet/c/variablen/casting-und-parsing"
+                ],
+                "icon": "square-root-variable"
+              },
+              {
+                "group": "Kontrollstrukturen",
+                "pages": [
+                  "dotnet/c/kontrollstrukturen/if-statements",
+                  "dotnet/c/kontrollstrukturen/ternary-operator",
+                  "dotnet/c/kontrollstrukturen/switch-statements-und-expressions"
+                ],
+                "icon": "code-branch"
+              },
+              {
+                "group": "Collections",
+                "pages": [
+                  "dotnet/c/collections/arrays",
+                  "dotnet/c/collections/lists",
+                  "dotnet/c/collections/dictionaries"
+                ],
+                "icon": "list"
+              },
+              {
+                "group": "Loops",
+                "pages": [
+                  "dotnet/c/loops/while-loops",
+                  "dotnet/c/loops/for-loops",
+                  "dotnet/c/loops/foreach-loops",
+                  "dotnet/c/loops/continue-und-break"
+                ],
+                "icon": "rotate-right"
+              },
+              {
+                "group": "Methoden",
+                "root": "dotnet/c/methoden/README",
+                "pages": [
+                  "dotnet/c/methoden/callbacks-und-delegates",
+                  "dotnet/c/methoden/extension-methods",
+                  "dotnet/c/methoden/lazy"
+                ],
+                "icon": "square-root-variable"
+              },
+              {
+                "group": "Objektorientierte Programmierung",
+                "root": "dotnet/c/objektorientierte-programmierung/README",
+                "pages": [
+                  "dotnet/c/objektorientierte-programmierung/fields-und-properties",
+                  "dotnet/c/objektorientierte-programmierung/methoden",
+                  "dotnet/c/objektorientierte-programmierung/statisch-vs.-instanzen",
+                  "dotnet/c/objektorientierte-programmierung/konstruktoren",
+                  "dotnet/c/objektorientierte-programmierung/vererbung",
+                  "dotnet/c/objektorientierte-programmierung/komposition",
+                  "dotnet/c/objektorientierte-programmierung/generics",
+                  "dotnet/c/objektorientierte-programmierung/tupel"
+                ],
+                "icon": "cubes-stacked"
+              },
+              {
+                "group": "Referenz- und Wertetypen",
+                "root": "dotnet/c/referenz-und-wertetypen/README",
+                "pages": [
+                  "dotnet/c/referenz-und-wertetypen/enums",
+                  "dotnet/c/referenz-und-wertetypen/structs",
+                  "dotnet/c/referenz-und-wertetypen/records"
+                ],
+                "icon": "copy"
+              },
+              {
+                "group": "Binary und Strings",
+                "pages": [
+                  "dotnet/c/binary-und-strings/kodierung-von-strings-und-bytes",
+                  "dotnet/c/binary-und-strings/streams",
+                  "dotnet/c/binary-und-strings/xml-und-json"
+                ],
+                "icon": "barcode"
+              }
+            ],
+            "icon": "microsoft",
+            "iconType": "brands"
+          },
+          {
+            "group": "F#",
+            "pages": [
+              "dotnet/fsharp/grundlagen/programmierparadigmen",
+              "dotnet/fsharp/grundlagen/lambda-kalkul",
+              "dotnet/fsharp/grundlagen/prinzipien-der-funktionalen-programmierung",
+              "dotnet/fsharp/werte",
+              "dotnet/fsharp/funktionen",
+              "dotnet/fsharp/pattern-matching",
+              "dotnet/fsharp/tuples",
+              "dotnet/fsharp/records",
+              "dotnet/fsharp/type-alias",
+              "dotnet/fsharp/operator-overloading",
+              "dotnet/fsharp/error-handling",
+              "dotnet/fsharp/lists",
+              "dotnet/fsharp/regex"
+            ],
+            "icon": "microsoft",
+            "iconType": "brands"
+          },
+          {
+            "group": "Design Patterns",
+            "pages": [
+              {
+                "group": "Creational Patterns",
+                "pages": [
+                  "dotnet/design-patterns/creational-patterns/singleton"
+                ],
+                "icon": "circle-plus"
+              },
+              {
+                "group": "Structural Patterns",
+                "pages": [
+                  "dotnet/design-patterns/structural-patterns/decorator-pattern"
+                ],
+                "icon": "boxes-stacked"
+              },
+              {
+                "group": "Behavioral Patterns",
+                "pages": [
+                  "dotnet/design-patterns/behavioral-patterns/memento",
+                  "dotnet/design-patterns/behavioral-patterns/strategy"
+                ],
+                "icon": "diagram-project"
+              }
+            ],
+            "icon": "shapes"
+          }
+        ],
+        "icon": "microsoft",
+        "iconType": "brands"
       },
       {
         "tab": "C",
-        "icon": "code",
+        "icon": "cuttlefish",
+        "iconType": "brands",
         "pages": [
-          "page-1"
+          "c/input-und-output",
+          "c/datentypen",
+          "c/variablen",
+          "c/operatoren",
+          "c/kontrollstrukturen/verzweigungen",
+          "c/kontrollstrukturen/loops",
+          "c/funktionen",
+          "c/pointers",
+          "c/structures"
         ]
       },
       {
         "tab": "Cloud",
         "icon": "cloud",
         "pages": [
-          "page-2"
+          "cloud/grundlagen/cloud-computing",
+          "cloud/grundlagen/betriebskonzepte/cloudarten",
+          "cloud/grundlagen/betriebskonzepte/computerdienste",
+          "cloud/grundlagen/betriebskonzepte/dienstmodelle",
+          "cloud/serverless",
+          {
+            "group": "Azure",
+            "pages": [
+              "cloud/azure/was-ist-azure",
+              {
+                "group": "Platform as a Service",
+                "pages": [
+                  "cloud/azure/platform-as-a-service/datenbank",
+                  "cloud/azure/platform-as-a-service/app-service",
+                  "cloud/azure/platform-as-a-service/containerization"
+                ],
+                "icon": "server"
+              },
+              "cloud/azure/function-as-a-service",
+              "cloud/azure/ci-cd",
+              "cloud/azure/iac",
+              "cloud/azure/security",
+              "cloud/azure/berechtigungen",
+              "cloud/azure/netzwerk-und-firewall"
+            ],
+            "icon": "microsoft",
+            "iconType": "brands"
+          }
         ]
       },
       {
         "tab": "Datenbanken",
         "icon": "database",
         "pages": [
-          "page-3"
+          "databases/grundlagen/sql-vs.-nosql",
+          "databases/grundlagen/nosql-familien",
+          "databases/grundlagen/cap-theorem",
+          "databases/grundlagen/vorgehen-beim-erstellen",
+          "databases/grundlagen/acid-base",
+          "databases/grundlagen/indizes",
+          {
+            "group": "SQL",
+            "pages": [
+              {
+                "group": "Struktur",
+                "pages": [
+                  {
+                    "group": "Datenbanken und Tabellen",
+                    "pages": [
+                      "databases/sql/struktur/datenbanken-und-tabellen/datentypen",
+                      "databases/sql/struktur/datenbanken-und-tabellen/erstellen",
+                      "databases/sql/struktur/datenbanken-und-tabellen/bearbeiten",
+                      "databases/sql/struktur/datenbanken-und-tabellen/loschen",
+                      {
+                        "group": "Constraints",
+                        "pages": [
+                          "databases/sql/struktur/datenbanken-und-tabellen/constraints/not-null",
+                          "databases/sql/struktur/datenbanken-und-tabellen/constraints/unique",
+                          "databases/sql/struktur/datenbanken-und-tabellen/constraints/primarschlussel",
+                          "databases/sql/struktur/datenbanken-und-tabellen/constraints/fremdschlussel",
+                          "databases/sql/struktur/datenbanken-und-tabellen/constraints/check",
+                          "databases/sql/struktur/datenbanken-und-tabellen/constraints/default"
+                        ],
+                        "icon": "lock"
+                      }
+                    ],
+                    "icon": "table"
+                  },
+                  {
+                    "group": "Daten",
+                    "pages": [
+                      "databases/sql/struktur/daten/einfugen",
+                      "databases/sql/struktur/daten/aktualisieren",
+                      "databases/sql/struktur/daten/loschen"
+                    ],
+                    "icon": "grip"
+                  }
+                ],
+                "icon": "sitemap"
+              },
+              {
+                "group": "Abfragen",
+                "pages": [
+                  "databases/sql/abfragen/auswahlen",
+                  "databases/sql/abfragen/filtern",
+                  "databases/sql/abfragen/operatoren",
+                  "databases/sql/abfragen/reihenfolge",
+                  "databases/sql/abfragen/joins",
+                  {
+                    "group": "Aggregatsfunktionen",
+                    "root": "databases/sql/abfragen/aggregatsfunktionen/README",
+                    "pages": [
+                      "databases/sql/abfragen/aggregatsfunktionen/gruppieren",
+                      "databases/sql/abfragen/aggregatsfunktionen/filtern"
+                    ],
+                    "icon": "calculator"
+                  },
+                  "databases/sql/abfragen/subqueries"
+                ],
+                "icon": "magnifying-glass"
+              },
+              "databases/sql/transaktionen",
+              {
+                "group": "Datenschutz und Berechtigungen",
+                "root": "databases/sql/datenschutz-und-berechtigungen/README",
+                "pages": [
+                  "databases/sql/datenschutz-und-berechtigungen/benutzerverwaltung",
+                  "databases/sql/datenschutz-und-berechtigungen/rechte"
+                ],
+                "icon": "shield-halved"
+              },
+              "databases/sql/optimierung"
+            ],
+            "icon": "database"
+          },
+          {
+            "group": "MongoDB",
+            "pages": [
+              "databases/mongodb/was-ist-mongodb",
+              {
+                "group": "Struktur",
+                "pages": [
+                  "databases/mongodb/struktur/datenbanken-und-collections",
+                  "databases/mongodb/struktur/daten"
+                ],
+                "icon": "sitemap"
+              },
+              "databases/mongodb/abfragen",
+              "databases/mongodb/indexing",
+              {
+                "group": "Security",
+                "pages": [
+                  "databases/mongodb/security/authentifizierung-und-autorisierung",
+                  "databases/mongodb/security/auditing"
+                ],
+                "icon": "shield-halved"
+              },
+              "databases/mongodb/backups"
+            ],
+            "icon": "envira",
+            "iconType": "brands"
+          }
         ]
       },
       {
         "tab": "Containerisierung",
-        "icon": "container",
+        "icon": "box",
         "pages": [
-          "page-4"
+          "container/grundlagen/containerisierung",
+          {
+            "group": "Docker",
+            "pages": [
+              "container/docker/was-ist-docker",
+              "container/docker/befehle",
+              "container/docker/volumes",
+              "container/docker/netzwerke",
+              "container/docker/images",
+              "container/docker/compose"
+            ],
+            "icon": "docker",
+            "iconType": "brands"
+          }
         ]
       },
       {
         "tab": "Testing",
-        "icon": "test-tube-diagonal",
+        "icon": "vial-virus",
         "pages": [
-          "page-5"
+          "testing/grundlagen/begriffe",
+          "testing/grundlagen/softwarequalitat",
+          "testing/grundlagen/testprozess",
+          "testing/grundlagen/psychologie-denkweisen-und-kompetenzen",
+          {
+            "group": "Softwareentwicklungslebenszyklus",
+            "pages": [
+              "testing/softwareentwicklungslebenszyklus/v-modell",
+              "testing/softwareentwicklungslebenszyklus/tdd",
+              "testing/softwareentwicklungslebenszyklus/teststufen",
+              "testing/softwareentwicklungslebenszyklus/umgebungen",
+              "testing/softwareentwicklungslebenszyklus/regressionstests"
+            ],
+            "icon": "list-check"
+          },
+          {
+            "group": "Statischer Test",
+            "pages": [
+              "testing/statischer-test/grundlagen",
+              "testing/statischer-test/reviews"
+            ],
+            "icon": "magnifying-glass"
+          },
+          {
+            "group": "Dynamischer Test",
+            "pages": [
+              "testing/dynamischer-test/grundlagen",
+              "testing/dynamischer-test/mstest",
+              "testing/dynamischer-test/test-doubles"
+            ],
+            "icon": "wave-square"
+          }
         ]
       },
       {
         "tab": "Security",
-        "icon": "lock-keyhole",
+        "icon": "shield-halved",
         "pages": [
-          "page-6"
+          "security/grundlagen/informationssicherheit",
+          "security/grundlagen/applikationssicherheit",
+          "security/grundlagen/informationsquellen",
+          "security/grundlagen/testen-von-applikationen",
+          {
+            "group": "Sicherheitslücken und Bedrohungen",
+            "pages": [
+              "security/sicherheitslucken",
+              "security/ursachen",
+              "security/identifikation",
+              "security/risiko",
+              {
+                "group": "Angriffsszenarien",
+                "pages": [
+                  "security/angriffsszenarien/cross-site-scripting-xss",
+                  "security/angriffsszenarien/sql-injection"
+                ],
+                "icon": "user-secret"
+              },
+              {
+                "group": "OWASP Top 10",
+                "root": "security/owasp-top-10/README",
+                "pages": [
+                  "security/owasp-top-10/broken-access-control",
+                  "security/owasp-top-10/cryptographic-failures",
+                  "security/owasp-top-10/injection",
+                  "security/owasp-top-10/insecure-design",
+                  "security/owasp-top-10/security-misconfiguration",
+                  "security/owasp-top-10/vulnerable-and-outdated-components",
+                  "security/owasp-top-10/identification-and-authentication-failures",
+                  "security/owasp-top-10/software-and-data-integrity-failures",
+                  "security/owasp-top-10/security-logging-and-monitoring-failures",
+                  "security/owasp-top-10/server-side-request-forgery"
+                ],
+                "icon": "shield-virus"
+              }
+            ],
+            "icon": "triangle-exclamation"
+          }
         ]
       },
       {
         "tab": "Prozesse",
-        "icon": "repeat",
-        "pages": [
-          "page-7"
-        ]
+        "groups": [
+          {
+            "group": "Agile Entwicklung",
+            "pages": [
+              "processes/agile-entwicklung/was-ist-agile-enwicklung",
+              "processes/agile-entwicklung/agiles-manifest",
+              "processes/agile-entwicklung/agile-prinzipien",
+              "processes/agile-entwicklung/agile-werte"
+            ],
+            "icon": "arrows-rotate"
+          },
+          {
+            "group": "Scrum",
+            "pages": [
+              "processes/scrum/was-ist-scrum",
+              "processes/scrum/prinzipien",
+              "processes/scrum/werte",
+              "processes/scrum/rollen",
+              "processes/scrum/sprint",
+              "processes/scrum/meetings",
+              "processes/scrum/artefakte",
+              "processes/scrum/vision",
+              "processes/scrum/epics-und-user-stories",
+              "processes/scrum/priorisierung",
+              "processes/scrum/schatzung",
+              "processes/scrum/sprintplanung",
+              "processes/scrum/kanban",
+              "processes/scrum/release-planning"
+            ],
+            "icon": "users"
+          },
+          {
+            "group": "Extreme Programming",
+            "pages": [
+              "processes/extreme-programming/was-ist-extreme-programming",
+              "processes/extreme-programming/pair-programming",
+              "processes/extreme-programming/test-driven-development"
+            ],
+            "icon": "terminal"
+          }
+        ],
+        "icon": "diagram-project"
       },
       {
         "tab": "Diverses",
-        "icon": "compass",
-        "pages": [
-          "page-8"
-        ]
+        "groups": [
+          {
+            "group": "Künstliche Intelligenz",
+            "pages": [
+              "miscellaneous/kunstliche-intelligenz/grundlagen",
+              "miscellaneous/kunstliche-intelligenz/geschichte",
+              {
+                "group": "Neurale Netzwerke",
+                "root": "miscellaneous/kunstliche-intelligenz/neurale-netzwerke/README",
+                "pages": [
+                  "miscellaneous/kunstliche-intelligenz/neurale-netzwerke/funktionsweise",
+                  "miscellaneous/kunstliche-intelligenz/neurale-netzwerke/lernen",
+                  "miscellaneous/kunstliche-intelligenz/neurale-netzwerke/analyse",
+                  "miscellaneous/kunstliche-intelligenz/neurale-netzwerke/backpropagation"
+                ],
+                "icon": "network-wired"
+              }
+            ],
+            "icon": "brain"
+          },
+          {
+            "group": "Regular Expressions",
+            "pages": [
+              "miscellaneous/regular-expressions/regular-expressions",
+              "miscellaneous/regular-expressions/zeichen",
+              "miscellaneous/regular-expressions/wiederholungen",
+              "miscellaneous/regular-expressions/start-und-ende",
+              "miscellaneous/regular-expressions/gruppen",
+              "miscellaneous/regular-expressions/beispiele"
+            ],
+            "icon": "asterisk"
+          }
+        ],
+        "icon": "wand-magic-sparkles"
       }
     ]
   },
@@ -114,7 +874,7 @@
     }
   },
   "icons": {
-    "library": "lucide"
+    "library": "fontawesome"
   },
   "background": {
     "decoration": "gradient"

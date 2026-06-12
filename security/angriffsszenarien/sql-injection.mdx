@@ -1,0 +1,92 @@
+---
+title: "SQL Injection"
+icon: "syringe"
+---
+
+SQL-Injection ist eine Angriffstechnik, bei der Angreifer bösartigen SQL-Code in Eingabefelder einer Anwendung einschleusen, um die dahinterliegende Datenbank zu manipulieren oder auszulesen.
+
+Der Angriff funktioniert, wenn Benutzereingaben ungeprüft in SQL-Abfragen eingebaut werden.
+
+## Ziele und Folgen
+
+Ein erfolgreicher Angriff kann folgende Folgen haben:
+
+<AccordionGroup>
+<Accordion title="Datenmanipulation">
+
+* Datensätze hinzufügen
+* Datensätze ändern
+* Datensätze löschen
+* ganze Tabellen oder Datenbanken verändern
+
+</Accordion>
+
+<Accordion title="Datendiebstahl">
+
+* Zugriff auf sensible Daten (z. B. Benutzerkonten, Passwörter)
+* Auslesen vertraulicher Informationen
+
+</Accordion>
+
+<Accordion title="Rechteausweitung">
+
+* Angreifer können sich Administratorrechte verschaffen
+* Rechte anderer Nutzer ändern oder entziehen
+
+</Accordion>
+
+<Accordion title="Schadcode platzieren">
+
+* Ersetzen von Webseiten
+* Einfügen von schädlichen Dateien
+* Ausspionieren von Nutzern oder Systemdaten
+
+</Accordion>
+</AccordionGroup>
+
+## Ursachen
+
+SQL-Injection entsteht durch unsichere Programmierung, z. B.:
+
+* Fehlende Hochkommas in SQL-Abfragen
+* Keine Typenprüfung von Eingaben
+* Keine Längenprüfung
+* Keine Maskierung von Sonderzeichen (z. B. ' oder --)
+* Direkte Übernahme von Benutzereingaben in SQL-Befehle
+
+## Angriffsformen
+
+Angreifer verändern bestehende SQL-Abfragen, um:
+
+* logische Bedingungen zu manipulieren
+* Teilabfragen zu entfernen
+* neue SQL-Befehle einzufügen
+* Fehlermeldungen zu erzeugen
+* den Datenbankprozess zu beeinflussen
+
+## Beispiel
+
+Folgender Code wird auf eine Login-Seite ausgeführt:
+
+```php
+$query = "SELECT * FROM users WHERE user='" . $_POST['username'] . "' 
+AND password='" . $_POST['password'] . "'";
+```
+
+Dieser Code überprüft Benutzername und Passwort in der Datenbank.
+
+Nun kann der Hacker folgende Eingaben machen: 
+
+```
+admin
+' OR 'a'='a
+```
+
+Dies ergibt folgende SQL-Abfrage:
+
+```sql
+SELECT * FROM users 
+WHERE user='admin' AND password='' OR 'a'='a'
+```
+
+Da `‘a’=‘a’` immer wahr ist, wird die Bedingung erfüllt. Der Angreifer wird eingeloggt, ohne das Passwort zu kennen.

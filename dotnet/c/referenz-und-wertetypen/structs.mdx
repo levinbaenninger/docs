@@ -1,0 +1,37 @@
+---
+title: "Structs"
+icon: "cube"
+---
+
+Structs sind ähnlich wie Klassen, sind jedoch Wertetypen.
+
+```csharp
+public struct Point
+{
+    public int X { get; set; };
+    public int Y { get; set; };
+    
+    public Point(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+    
+    public void Move(int dx, int dy) 
+    {
+        X += dx;
+        Y += dy;
+    }
+}
+```
+
+<Warning>
+Anders als bei einer Klasse ist der parameterlose Konstruktor immer noch vorhanden, auch wenn ein anderer Konstruktor vorhanden ist.
+</Warning>
+
+## Unterschiede zu Klassen
+
+Der grösste Unterschied zwischen Structs und Klassen ist, dass ein Struct ein Wertetyp und eine Klasse ein Referenztyp ist.
+
+* Der Struct wird auf dem Stack gespeichert, während die Klasse im Heap gespeichert wird
+* Ein Struct wird kopiert wenn er als Argument übergeben wird, eine Klasse wird als Referenz übergeben

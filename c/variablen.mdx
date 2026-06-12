@@ -1,0 +1,50 @@
+---
+title: "Variablen"
+icon: "square-root-variable"
+---
+
+Variablen sind eine sehr wichtige Komponente beim Programmieren, da man sie für verschiedenste Zwecke, wie das Speichern von bestimmten Daten benutzen kann.
+
+## Erstellen von Variablen
+
+Variablen werden folgendermassen erstellt:
+
+```c
+<datatype> <name> = <value>;
+```
+
+Man kann auch mehrere Variablen vom gleichen Typ gleichzeitig deklarieren.
+
+```c
+<datatype> <name> = <value>, <name> = <value>, ...
+```
+
+Ausserdem kann man Variablen deklarieren, ohne sie zu initialisieren:
+
+```c
+<datatype> <name>, <name>, <name>;
+```
+
+## Regeln für Variablennamen﻿
+
+* Eine Variable darf nur Buchstaben (sowohl Gross- als auch Kleinbuchstaben), Ziffern und Unterstriche enthalten.
+* Das erste Zeichen sollte entweder ein Buchstabe oder ein Unterstrich sein.
+* Die Variable sollte nicht länger als 31 Buchstaben sein.
+* Es sollte keine Keywords von C benutzen.
+* Man sollte Variablen einen Sinnvollen Namen vergeben, bspw. `firstName` anstatt `fn`.
+* Auch dürfen sie nicht zweimal mit demselben Namen deklariert werden.
+
+## Konstanten﻿
+
+Mit dem Keyword `const` kann man Konstanten erstellen, also Variablen, die sich nicht verändern sollen:
+
+```c
+const <datatype> <name> = <value>;
+```
+
+Wenn man versucht den Wert einer Konstante zu aktualisieren, gibt es einer Kompilierfehler.
+
+```c
+const float PI = 3.14159;
+PI = 2.9;
+```

@@ -1,0 +1,253 @@
+---
+title: "Backups"
+icon: "box-archive"
+---
+
+Backups sind ein essenzieller Bestandteil jeder Datenbankstrategie. Sie schützen vor Datenverlust durch technische Fehler, versehentliches Löschen oder Sicherheitsvorfälle. MongoDB stellt zwei Hauptwerkzeuge zur Verfügung:
+
+* `mongodump`/`mongorestore` für binäre Backups
+* `mongoexport`/`mongoimport` für JSON- oder CSV-Exporte
+
+## `mongodump` und `mongorestore`
+
+### `mongodump`
+
+`mongodump` erstellt ein binäres Backup der Datenbank, das mit `mongorestore` wieder eingespielt werden kann.
+
+#### Syntax
+
+```bash
+mongodump <options> <connection-string>
+```
+
+#### Optionen
+
+<AccordionGroup>
+<Accordion title="`--db`">
+
+Nur eine bestimmte Datenbank sichern
+
+</Accordion>
+
+<Accordion title="`--collection`">
+
+Nur eine bestimmte Collection sichern
+
+</Accordion>
+
+<Accordion title="`--out`">
+
+Zielverzeichnis für das Backup
+
+</Accordion>
+
+<Accordion title="`--gzip`">
+
+Backup wird komprimiert
+
+</Accordion>
+
+<Accordion title="`--uri`">
+
+Verbindungs-URI (z. B. bei Authentifizierung oder Remote-Verbindung)
+
+</Accordion>
+
+<Accordion title="`--username`, `--password`, `--authenticationDatabase`">
+
+Bei aktivierter Authentifizierung notwendig.
+
+<Info>
+Wenn du den `--password`-Parameter weglässt, fragt dich das CLI in einem zweiten Schritt nach dem Passwort
+</Info>
+
+</Accordion>
+</AccordionGroup>
+
+#### Beispiel
+
+```bash
+mongodump --db vivid --out /backups/mongo/ --gzip --username levinbaenninger --authenticationDatabase admin
+```
+
+### `mongorestore`
+
+`mongorestore` spielt ein binäres Backup, das mit `mongodump` erstellt wurde, wieder ein.
+
+#### Syntax
+
+```bash
+mongorestore <options> <connection-string> <directory or file to restore>
+```
+
+#### Optionen
+
+<AccordionGroup>
+<Accordion title="`--db`">
+
+Ziel-Datenbank
+
+</Accordion>
+
+<Accordion title="`--drop`">
+
+Vorhandene Daten werden vor dem Import gelöscht
+
+</Accordion>
+
+<Accordion title="`--gzip`">
+
+Wenn Backup-Dateien komprimiert sind
+
+</Accordion>
+
+<Accordion title="`--uri`">
+
+Verbindungs-URI (z. B. bei Authentifizierung oder Remote-Verbindung)
+
+</Accordion>
+
+<Accordion title="`--username`, `--password`, `--authenticationDatabase`">
+
+Bei aktivierter Authentifizierung notwendig.
+
+<Info>
+Wenn du den `--password`-Parameter weglässt, fragt dich das CLI in einem zweiten Schritt nach dem Passwort
+</Info>
+
+</Accordion>
+</AccordionGroup>
+
+#### Beispiel
+
+```bash
+mongorestore --db vivid --drop --gzip --username levinbaenninger --authenticationDatabase admin /backups/mongo/vivid/
+```
+
+## `mongoexport` und `mongoimport`
+
+### `mongoexport`
+
+`mongoexport` exportiert Daten aus einer Collection als JSON oder CSV, was z. B. für Datenanalysen nützlich ist.
+
+#### Syntax
+
+```bash
+mongoexport <options> <connection-string>
+```
+
+#### Optionen
+
+<AccordionGroup>
+<Accordion title="`--db`">
+
+Ziel-Datenbank
+
+</Accordion>
+
+<Accordion title="`--collection`">
+
+Collection, die exportiert werden soll
+
+</Accordion>
+
+<Accordion title="`--type`">
+
+`json` (Standard) oder `csv`
+
+</Accordion>
+
+<Accordion title="`--out`">
+
+Ziel-Datei
+
+</Accordion>
+
+<Accordion title="`--uri`">
+
+Verbindungs-URI (z. B. bei Authentifizierung oder Remote-Verbindung)
+
+</Accordion>
+
+<Accordion title="`--username`, `--password`, `--authenticationDatabase`">
+
+Bei aktivierter Authentifizierung notwendig.
+
+<Info>
+Wenn du den `--password`-Parameter weglässt, fragt dich das CLI in einem zweiten Schritt nach dem Passwort
+</Info>
+
+</Accordion>
+</AccordionGroup>
+
+#### Beispiel
+
+```bash
+mongoexport --db vivid --collection users --type=csv --out=users.csv
+```
+
+### `mongoimport`
+
+`mongoimport` importiert strukturierte Daten in eine MongoDB-Collection.
+
+#### Syntax
+
+```bash
+mongoimport <options> <connection-string> <file>
+```
+
+#### Optionen
+
+<AccordionGroup>
+<Accordion title="`--db`">
+
+Ziel-Datenbank
+
+</Accordion>
+
+<Accordion title="`--collection`">
+
+Name der Collection, in welche die Daten importiert werden sollen
+
+</Accordion>
+
+<Accordion title="`--type`">
+
+`json` oder `csv`
+
+</Accordion>
+
+<Accordion title="`--headerline`">
+
+Erste Zeile der CSV enthält Feldnamen (nur bei csv)
+
+</Accordion>
+
+<Accordion title="`--drop`">
+
+Vor dem Import bestehende Collection löschen
+
+</Accordion>
+
+<Accordion title="`--uri`">
+
+Verbindungs-URI (z. B. bei Authentifizierung oder Remote-Verbindung)
+
+</Accordion>
+
+<Accordion title="`--username`, `--password`, `--authenticationDatabase`">
+
+Bei aktivierter Authentifizierung notwendig.
+
+<Info>
+Wenn du den `--password`-Parameter weglässt, fragt dich das CLI in einem zweiten Schritt nach dem Passwort
+</Info>
+
+</Accordion>
+</AccordionGroup>
+
+#### Beispiel
+
+```bash
+mongoimport --db vivid --collection users --type=csv --headerline --file=users.csv
+```

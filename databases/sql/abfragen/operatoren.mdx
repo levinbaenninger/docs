@@ -1,0 +1,136 @@
+---
+title: "Operatoren"
+icon: "filter-circle-dollar"
+---
+
+Folgende Operatoren können in der WHERE-Klausel verwendet werden:
+
+| Operator  | Beschreibung                                  |
+| --------- | --------------------------------------------- |
+| `=`       | Gleich                                        |
+| `>`       | Grösser als                                   |
+| `<`       | Kleiner als                                   |
+| `>=`      | Grösser oder gleich                           |
+| `<=`      | Kleiner oder gleich                           |
+| `<>`      | Nicht gleich                                  |
+| `BETWEEN` | Zwischen einer bestimmten Reichweite          |
+| `LIKE`    | Nach einem Muster suchen (Regular Expression) |
+| `IN`      | Mehrere mögliche Werte spezifizieren          |
+
+## Verknüpfungen
+
+Die `WHERE`-Klausel kann mit den `AND`, `OR` und `NOT` Operatoren kombiniert werden.Sie funktionieren gleich wie in den bekannten Programmiersprachen.
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition1 AND condition2 AND condition3 ...;
+```
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition1 OR condition2 OR condition3 ...;
+```
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE NOT condition;
+```
+
+### Beispiele
+
+Alle Kunden, die aus Deutschland sind und aus Berlin kommen.
+
+```sql
+SELECT * FROM Customers
+WHERE Country = 'Germany' AND City = 'Berlin';
+```
+
+Alle Kunden, die aus Berlin oder Stuttgart sind.
+
+```sql
+SELECT * FROM Customers
+WHERE City = 'Berlin' OR City = 'Stuttgart';
+```
+
+Alle Kunden, die nicht aus Deutschland kommen.
+
+```sql
+SELECT * FROM Customers
+WHERE NOT Country = 'Germany';
+```
+
+Alle Kunden, die von Deutschland kommen und aus Berlin oder Stuttgart sind.
+
+```sql
+SELECT * FROM Customers
+WHERE Country = 'Germany' AND (City = 'Berlin' OR City = 'Stuttgart');
+```
+
+## `LIKE`
+
+Mit dem `LIKE`-Operator können wir nach einem Muster suchen, nach einer Regular Expression.
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column LIKE pattern;
+```
+
+### Beispiele
+
+```sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'a%';
+```
+
+Wählt alle Datensätze aus, die mit a starten.
+
+```sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE '_r%';
+```
+
+Wählt alle Datensätze aus, die ein r an zweiter Stelle haben.
+
+## `IN`
+
+Der `IN`-Operator ist ein Shorthand für mehrere `OR`-Konditionen.
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE column_name IN (value1, value2, ...);
+```
+
+### Beispiel
+
+Alle Kunden, die nicht von Deutschland, Frankreich oder England sind:
+
+```sql
+SELECT * FROM Customers
+WHERE Country NOT IN ('Germany', 'France', 'UK');
+```
+
+## `BETWEEN`
+
+Mit dem `BETWEEN`-Operator können wir Werte in einem bestimmten Wertebereich auswählen. Das können Zahlen, Texte oder Daten sein.
+
+<Info>
+Der Operator ist teilweise inklusiv, heisst der Startwert ist auch im Wertebereich
+</Info>
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE column_name BETWEEN value1 AND value2;
+```
+
+### Beispiel
+
+```sql
+SELECT * FROM Products
+WHERE Price BETWEEN 10 AND 20;
+```

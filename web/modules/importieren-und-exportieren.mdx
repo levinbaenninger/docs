@@ -1,0 +1,57 @@
+---
+title: "Importieren und Exportieren"
+icon: "right-left"
+---
+
+Was ist, wenn du einen Typ aus einer anderen Datei verwenden möchtest? Du kannst Typen exportieren und importieren, genau wie du Funktionen oder Variablen exportierst oder importierst.
+
+<Tabs>
+<Tab title="Exportieren">
+```typescript title="person.types.ts"
+export interface Person = {
+  name: string;
+  age: number;
+  email: string;
+};
+
+export interface Employee extends Person {
+  employeeId: number;
+  department: string;
+}
+```
+</Tab>
+
+<Tab title="Importieren">
+```typescript title="main.ts"
+import { Employee, Person } from "./person.types";
+
+const person: Person = {
+  name: "Cory House",
+  age: 21,
+  email: "cory@example.com",
+};
+
+const employee: Employee = {
+  name: "Cory House",
+  age: 21,
+  email: "cory@example.com",
+  employeeId: 12345,
+  department: "Engineering",
+};
+```
+</Tab>
+</Tabs>
+
+## Type-Only Imports
+
+Wir haben gerade einen grundlegenden Ansatz für den Import von Typen gesehen. Du kannst auch explizit erklären, dass der importierte Typ ein Typ ist, indem du das Schlüsselwort type verwendest.
+
+```typescript
+import type { Product } from "./types";
+```
+
+Dies ist also explizit - es teilt TypeScript mit, dass Sie einen Typ importieren, nicht einen Wert, so dass TypeScript weiss, dass der Import in der resultierenden JS-Datei nicht notwendig ist. Normalerweise spielt das keine Rolle. TypeScripts Compiler ist in der Regel intelligent genug, um den Import auszulassen, wenn es sich nur um einen Typ handelt. Aber in seltenen Fällen kann eine explizite Angabe wie diese nützlich sein.
+
+Je nach TypeScript-Konfiguration und Anwendungsfall kann ein Type-Only-Import die Leistung verbessern, für Klarheit sorgen und unnötige Abhängigkeiten zur Laufzeit verhindern.
+
+Daher ist es generell empfehlenswert, importierten Typen das Schlüsselwort `type` voranzustellen.

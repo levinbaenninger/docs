@@ -1,0 +1,58 @@
+---
+title: "Overflow"
+icon: "box-open"
+---
+
+Alles in CSS ist eine Box. Du kannst die Grösse dieser Boxen durch Zuweisen von Werten wie `width` und `height` begrenzen. **Überlauf passiert, wenn zu viel Inhalt vorhanden ist, um in eine Box zu passen.**
+
+Die `overflow`-Eigenschaft hilft dir, den Überlauf von Inhalten eines Elements zu verwalten. Mit dieser Eigenschaft kannst du einem Browser mitteilen, wie er mit Überlauf-Inhalten umgehen soll. Der Standardwert des `<overflow>`-Wertetypen ist `visible`. Mit dieser Standardeinstellung kann man Inhalte sehen, wenn sie überlaufen.
+
+## Inhalte ausblenden
+
+Um Inhalte auszublenden, wenn sie überlaufen, kannst du `overflow: hidden` festlegen. Dies tut genau das: es blendet den Überlauf aus.
+
+```css
+.box {
+  border: 1px solid #333333;
+  width: 250px;
+  height: 100px;
+  overflow: hidden;
+}
+```
+
+## Scrollbar
+
+Mit `overflow: scroll` zeigen Browser mit sichtbaren Scrollleisten diese immer an — selbst wenn nicht genügend Inhalt zum Überlaufen vorhanden ist. Dies bietet den Vorteil, dass das Layout konsistent bleibt, anstatt dass Scrollleisten erscheinen oder verschwinden, abhängig von der Menge des Inhalts im Container.
+
+```css
+.box {
+  border: 1px solid #333333;
+  width: 250px;
+  height: 100px;
+  overflow: scroll;
+}
+```
+
+Im obigen Beispiel müssen wir nur auf der `y`-Achse scrollen, allerdings bekommen wir Scrollleisten auf beiden Achsen. Um nur auf der `y`-Achse zu scrollen, könntest du die `overflow-y`-Eigenschaft verwenden und `overflow-y: scroll` festlegen.
+
+```css
+.box {
+  border: 1px solid #333333;
+  width: 250px;
+  height: 100px;
+  overflow-y: scroll;
+}
+```
+
+### Scrollbars bei Bedarf
+
+Wenn du möchtest, dass Scrollleisten nur erscheinen, wenn mehr Inhalt vorhanden ist, als in die Box passt, verwende `overflow: auto`. Dies ermöglicht es dem Browser zu bestimmen, ob Scrollleisten angezeigt werden sollen.
+
+```css
+.box {
+  border: 1px solid #333333;
+  width: 250px;
+  height: 100px;
+  overflow: auto;
+}
+```

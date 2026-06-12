@@ -1,0 +1,76 @@
+---
+title: "Styles, Attribute und Klassen"
+icon: "paintbrush"
+---
+
+## Styles
+
+### Styles setzen
+
+Um Styles auf Elementen direkt zu setzen, können wir das `style`-Attribut nutzen, mit welchem wir dann Zugriff auf jedes CSS-Property haben, jedoch in CamelCase-Schreibweise.
+
+```javascript
+btn.style.backgroundColor = '#37383d';
+btn.style.width = '2rem';
+```
+
+<Warning>
+Diese Styles werden als Inline-Styles gesetzt und überschreiben somit alle Regeln ausser die, die mit `!important` markiert sind.
+</Warning>
+
+### Styles auslesen
+
+Um nun auf alle Style-Properties eines Elements zuzugreifen, müssen wir die Methode `getComputedStyle()` nutzen:
+
+```javascript
+console.log(getComputedStyle(btn).color);
+console.log(getComputedStyle(btn).height);
+```
+
+### CSS-Variablen
+
+Wir können auch die Werte der CSS-Variablen verändern oder CSS-Variablen neu erstellen , indem wir das gesamte Dokument auswählen:
+
+```javascript
+document.documentElement.style.setProperty('--color-primary', 'orangered');
+```
+
+## Attribute
+
+### Attribute auslesen
+
+Für Standard-Attribute können wir einfach unser Element nutzen und dann darauf zugreifen:
+
+```javascript
+console.log(logo.alt);
+console.log(logo.src);
+console.log(logo.className);
+```
+
+Für Nicht-Standard-Attribute müssen wir die Methode `getAttribute()` nutzen:
+
+```javascript
+console.log(logo.getAttribute('designer'));
+```
+
+### Attribute setzen
+
+Das Attribut setzen funktioniert ebenfalls über die Properties des HTML-Elements:
+
+```javascript
+logo.alt = 'Beautiful minimalist logo';
+logo.setAttribute('company', 'Bankist');
+```
+
+## Klassen
+
+Bei den Klassen haben wir essenziell vier Methoden, um einem Element Klassen hinzuzufügen, zu entfernen, umzuschalten und zu überprüfen, ob sie bereits angewandt wird:
+
+```javascript
+logo.classList.add('c');
+logo.classList.remove('c');
+logo.classList.toggle('c');
+
+console.log(logo.classList.contains('c'));
+console.log(logo.classList.contains('nav__logo'));
+```

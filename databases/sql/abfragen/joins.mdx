@@ -1,0 +1,79 @@
+---
+title: "JOINS"
+icon: "link"
+---
+
+Wenn wir Abfragen über mehrere Tabellen absetzten möchten, können wir diese mit `JOIN` verbinden. Mit `JOIN` wird der Primary und der Foreign Key zweier Tabellen aufgelöst und Werte beider Tabellen können im Output abgerufen werden.
+
+## `INNER JOIN`
+
+Das `INNER JOIN`-Keyword wählt alle Datensätze aus, Werte in beiden Tabellen vorkommen.
+
+```sql
+SELECT column_name(s)
+FROM table1
+INNER JOIN table2 ON table1.column_name = table2.column_name;
+```
+
+### Beispiel
+
+Dieser Query wählt alle Bestellungen aus mit Informationen zum Kunden.
+
+```sql
+SELECT Orders.Id, Customers.CustomerName
+FROM Orders
+INNER JOIN Customers ON Orders.CustomerId = Customers.Id;
+```
+
+<Info>
+Das `INNER JOIN`-Keyword wählt alle Datensätze von beiden Tabellen aus, solange Werte in beiden Tabellen vorkommen.
+
+**Beispiel:** Wenn es Datensätze in Bestellungen gibt, welche keine Übereinstimmung mit der Tabelle `Customers` haben, dann werden diese Bestellungen nicht angezeigt.
+</Info>
+
+## `LEFT JOIN`
+
+Das `LEFT JOIN`-Keyword gibt alle Datensätze aus der linken Tabelle, und die übereinstimmenden Datensätze von der rechten Tabelle, zurück.
+
+```sql
+SELECT column_name(s)
+FROM table1
+LEFT JOIN table2
+ON table1.column_name = table2.column_name;
+```
+
+### Beispiel
+
+```sql
+SELECT Customers.CustomerName, Orders.Id
+FROM Customers
+LEFT JOIN Orders ON Customers.Id = Orders.CustomerID
+ORDER BY Customers.CustomerName;
+```
+
+<Info>
+Das `LEFT JOIN`-Keyword gibt alle Datensätze aus der Tabelle `Customers` zurück, auch dann wenn es keine Übereinstimmung mit der Tabelle `Orders` gibt.
+</Info>
+
+## `RIGHT JOIN`
+
+Das `RIGHT JOIN`-Keyword gibt alle Datensätze aus der rechten Tabelle, und die übereinstimmenden Datensätze von der linken Tabelle, zurück.
+
+```sql
+SELECT column_name(s)
+FROM table1
+RIGHT JOIN table2
+ON table1.column_name = table2.column_name;
+```
+
+### Beispiel
+
+```sql
+SELECT Orders.Id, Employees.LastName, Employees.FirstName
+FROM Orders
+RIGHT JOIN Employees ON Orders.EmployeeID = Employees.Id;
+```
+
+<Info>
+Das `RIGHT JOIN`-Keyword gibt alle Datensätze aus der Tabelle `Employees` zurück, auch dann, wenn es keine Übereinstimmung mit der Tabelle `Orders` gibt.
+</Info>

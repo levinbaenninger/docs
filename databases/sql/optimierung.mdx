@@ -1,0 +1,33 @@
+---
+title: "Optimierung"
+icon: "gauge-high"
+---
+
+Die Performance einer Datenbank ist gerade in der Zeit von Big Data ein nicht zu vernachlässigendes Thema. Eine Datenbank mit mehreren Millionen Datensätzen braucht viel Ressourcen, weshalb es für uns wichtig ist, diese auch sparsam zu verwenden. Es gibt viele Faktoren, die einen Einfluss auf die Performance haben, wie beispielsweise die Hardware, die Query Komplexität, Datenmenge oder Resultatgrösse um einige zu nennen.
+
+Insbesondere bei grossen Datenmengen, können wir mit einem Index auf eine Spalte, die häufig Teil von komplexen Queries ist, die Dauer stark reduzieren.
+
+## Indizes
+
+`JOIN`-, `WHERE` - und `GROUP BY`-Operationen sind fast immer notwendig, erfordern jedoch viel Rechenleistung. Diese Operationen können mit dem Setzen von Indizes optimiert werden.
+
+### Index erstellen
+
+```sql
+CREATE INDEX index_name
+ON table_name (column1, column2, ...)
+```
+
+#### Beispiel
+
+```sql
+CREATE INDEX idx_Users_Username
+ON Users (Username)
+```
+
+### Index löschen
+
+```sql
+ALTER TABLE
+DROP INDEX index_name
+```

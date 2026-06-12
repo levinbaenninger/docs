@@ -1,0 +1,112 @@
+---
+title: "CI/CD"
+icon: "code-branch"
+---
+
+CI/CD (Continuous Integration, Delivery und Deployment) ist ein grundlegendes Konzept im modernen Softwareentwicklungsprozess. Ziel ist es, Änderungen an Software **häufig, zuverlässig und automatisiert** in Test- und Produktionsumgebungen zu bringen – eine zentrale Idee im **DevOps-Ansatz**.
+
+## Continuous Integration
+
+<AccordionGroup>
+<Accordion title="Regelmässig">
+
+**Kontinuierliche Integration** bedeutet, dass Entwickler ihren Code regelmässig (z. B. mehrmals täglich) in ein zentrales Repository einpflegen.
+
+</Accordion>
+
+<Accordion title="Automatisch">
+
+Der Code wird **automatisch gebaut und getestet**, um frühzeitig Fehler zu erkennen.
+
+</Accordion>
+
+<Accordion title="Erkennen von Problemen">
+
+Ziel ist es, **Integrationsprobleme frühzeitig zu vermeiden** und die Codequalität zu sichern.
+
+</Accordion>
+</AccordionGroup>
+
+### Vorteile
+
+* Kleinere Änderungen → weniger Konflikte
+* Schnellere Fehlersuche
+* Stabilere Builds
+
+## Continuous Delivery
+
+<AccordionGroup>
+<Accordion title="Ready">
+
+Bei der **kontinuierlichen Bereitstellung** wird sichergestellt, dass die Software jederzeit **bereit für ein Deployment** ist.
+
+</Accordion>
+
+<Accordion title="Artefakt">
+
+Der Build-Prozess erzeugt ein **bereitstellbares Artefakt** (z. B. ein Docker-Image oder ein Paket), das in Test- oder Staging-Umgebungen eingesetzt werden kann.
+
+</Accordion>
+
+<Accordion title="Veröffentlichung">
+
+Die Veröffentlichung in die Produktionsumgebung erfolgt **manuell**, aber ist jederzeit möglich.
+
+</Accordion>
+</AccordionGroup>
+
+## Continuous Deployment
+
+<AccordionGroup>
+<Accordion title="Erweiterung">
+
+Eine Erweiterung von Continuous Delivery, bei der auch das Deployment in die **Produktivumgebung automatisiert** ist.
+
+</Accordion>
+
+<Accordion title="Automatisch">
+
+Codeänderungen gelangen automatisch in die Produktion, **sofern alle Tests erfolgreich sind**.
+
+</Accordion>
+</AccordionGroup>
+
+## CI/CD-Pipeline
+
+Eine **Pipeline** ist eine strukturierte Abfolge von Schritten, die automatisch durchlaufen werden, sobald Änderungen am Code vorgenommen werden. Sie besteht aus vier Hauptphasen:
+
+1. **Build**
+2. **Test**
+3. **Delivery**
+4. **Deployment**
+
+### **Build-Phase**
+
+Das Ziel der Build-Phase ist es aus dem Quellcode ein **ausführbares Artefakt** zu erstellen (z. B. `.jar`, `.exe`, Container-Image).
+
+Zu den Aufgaben gehören unter anderem Folgende:
+
+* Quellcode kompilieren
+* Abhängigkeiten laden (z. B. Maven, npm, pip)
+* Docker-Container bauen (z. B. `docker build`)
+* Artefakte erzeugen und versionieren
+
+### Test-Phase
+
+Das Ziel bei der Test-Phase ist es sicherzustellen, dass die Anwendung korrekt funktioniert und keine alten Funktionen kaputtgehen.
+
+<table><thead><tr><th width="290">Testart</th><th>Beschreibung</th></tr></thead><tbody><tr><td>Unit Tests</td><td>Test einzelner Funktionen/Methoden</td></tr><tr><td>Integrationstests</td><td>Test von Schnittstellen zwischen Komponenten</td></tr><tr><td>Regressionstests</td><td>Prüfen, ob bestehende Funktionen weiterhin korrekt arbeiten</td></tr><tr><td>Benutzerakzeptanztests (UAT)</td><td>Manuelle oder automatisierte Endnutzerprüfungen</td></tr></tbody></table>
+
+### Delivery-Phase
+
+Das Ziel der Delivery-Phase ist es die erstellten und getesteten Artefakte in eine Staging- oder Testumgebung zu überführen.
+
+#### Beispiele
+
+* Upload in ein Artefakt-Repository (z. B. Nexus, Artifactory)
+* Bereitstellung als Nightly Build
+* Push in Docker Registry (z. B. Azure Container Registry, Docker Hub)
+
+### Deployment-Phase
+
+Das Ziel der Deployment-Phase ist es die Software **automatisch in die Produktionsumgebung** zu bringen - sobald sie den gesamten Prozess erfolgreich durchlaufen hat.

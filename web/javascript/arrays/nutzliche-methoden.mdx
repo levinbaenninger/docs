@@ -1,0 +1,139 @@
+---
+title: "Nützliche Methoden"
+icon: "screwdriver-wrench"
+---
+
+## `slice()`
+
+Die `slice()`-Methode gibt eine [Shallow Copy](https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy) eines Teils eines Arrays in ein neues Array-Objekt zurück, das von Anfang bis Ende (ohne Ende) ausgewählt wird, wobei Anfang und Ende den Index der Elemente in diesem Array darstellen. Das ursprüngliche Array wird nicht verändert.
+
+```javascript
+const arr = ['a', 'b', 'c', 'd', 'e'];
+
+arr.slice(2);
+arr.slice(2, 4);
+arr.slice(-2);
+arr.slice(-1);
+arr.slice(1, -2);
+arr.slice();
+```
+
+## `splice()`
+
+Die Methode `splice()` ändert den Inhalt eines Arrays, indem sie bestehende Elemente entfernt oder ersetzt und/oder neue Elemente an ihrer Stelle hinzufügt.
+
+```javascript
+const months = ['Jan', 'March', 'April', 'June'];
+months.splice(1, 0, 'Feb');
+months.splice(4, 1, 'May');
+```
+
+## `concat()`
+
+Die Methode **concat()** wird verwendet, um zwei oder mehr Arrays zusammenzuführen. Diese Methode verändert die bestehenden Arrays nicht, sondern gibt ein neues Array zurück.
+
+```javascript
+const arr1 = ['a', 'b', 'c'];
+const arr2 = ['d', 'e', 'f'];
+arr1.concat(arr2);
+```
+
+## `join()`
+
+Die Methode `join()` erstellt eine neue Zeichenkette und gibt sie zurück, indem sie alle Elemente in diesem Array durch Kommas oder eine angegebene Trennzeichenkette trennt. Wenn das Array nur ein Element enthält, wird dieses Element ohne Trennzeichen zurückgegeben.
+
+```javascript
+const elements = ['Fire', 'Air', 'Water'];
+elements.join();
+elements.join('');
+elements.join('-');
+```
+
+## `at()`
+
+Die `at()`-Methode nimmt einen ganzzahligen Wert an und gibt das Element an diesem Index zurück, wobei positive und negative Ganzzahlen möglich sind. Negative Ganzzahlen werden ab dem letzten Element im Array zurückgezählt.
+
+```javascript
+const arr = [5, 12, 8, 130, 44];
+arr.at(2);
+arr.at(-2);
+```
+
+## `indexOf()`
+
+Die Methode `indexOf()` gibt den ersten Index zurück, an dem ein bestimmtes Element im Array gefunden werden kann, oder -1, wenn es nicht vorhanden ist.
+
+```javascript
+const friends = ['Michael', 'Peter', 'John', 'Trina', 'Fred'];
+friends.indexOf('Peter');
+friends.indexOf('Bob');
+```
+
+## `includes()` 
+
+Die Methode `includes()` bestimmt, ob ein Array einen bestimmten Wert in seinen Einträgen enthält, und gibt je nachdem `true` oder `false` zurück.
+
+```javascript
+const friends = ['Michael', 'Peter', 'John', 'Trina', 'Fred'];
+friends.includes('Peter');
+friends.includes('Bob');
+```
+
+## `find()`
+
+Die `find()`-Methode gibt das erste Element im angegebenen Array zurück, das die angegebene Prüffunktion erfüllt. Wenn kein Wert die Prüffunktion erfüllt, wird `undefined` zurückgegeben.
+
+```javascript
+currentAccount = accounts.find(
+    (account) => account.username === inputLoginUsername.value
+);
+```
+
+## `findIndex()`
+
+Die Methode `findIndex()` gibt den Index des ersten Elements in einem Array zurück, das die angegebene Prüffunktion erfüllt. Wenn kein Element die Prüffunktion erfüllt, wird -1 zurückgegeben.
+
+```javascript
+const index = movements.findIndex((movement) => movement < 0);
+```
+
+## `some()`
+
+Die Methode some() prüft, ob mindestens ein Element im Array den von der angegebenen Funktion implementierten Test besteht. Sie gibt `true` zurück, wenn sie in dem Array ein Element findet, für das die angegebene Funktion `true` liefert; andernfalls gibt sie `false` zurück. Das Array wird dabei nicht verändert.
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+arr.some((element) => element % 2 === 0);
+```
+
+## `every()`
+
+Die Methode `every()` prüft, ob alle Elemente im Array den von der angegebenen Funktion implementierten Test bestehen. Sie gibt einen booleschen Wert zurück.
+
+```javascript
+const arr= [1, 2, 3, 4, 5];
+arr.every((element) => element % 2 === 0);
+```
+
+## `flat()`
+
+Die `flat()`-Methode erstellt ein neues Array, in dem alle Unterarrayelemente rekursiv bis zur angegebenen Tiefe verkettet werden.
+
+```javascript
+const arr1 = [0, 1, 2, [3, 4]];
+arr1.flat();
+
+const arr2 = [0, 1, [2, [3, [4, 5]]]];
+arr2.flat();
+arr2.flat(2);
+arr2.flat(Infinity);
+```
+
+## `flatMap()`
+
+Die Methode `flatMap()` gibt ein neues Array zurück, das durch die Anwendung einer bestimmten Callback-Funktion auf jedes Element des Arrays gebildet wird, und reduziert das Ergebnis um eine Ebene. Sie ist identisch mit einer `map()` gefolgt von einer `flat()` der Tiefe 1 (`arr.map(...args).flat()`), aber etwas effizienter als der separate Aufruf dieser beiden Methoden.
+
+```javascript
+const arr = [1, 2, 1];
+arr.flatMap((num) => (num === 2 ? [2, 2] : 1));
+```

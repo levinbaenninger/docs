@@ -1,0 +1,68 @@
+---
+title: "Enums"
+icon: "list-ol"
+---
+
+Enums sind eine Art von Klasse, die eine Gruppe von Konstanten repräsentiert. Anders als Klassen jedoch sind Enums Wertetypen.
+
+```csharp
+enum SeverityLevel 
+{
+    Low,
+    Medium,
+    High,
+    Critical    
+}
+```
+
+Im Hintergrund ist ein Enum einfach ein numerischer Wert, hier hat beispielsweise `SeverityLevel.Low` den Wert `0`.
+
+## Werte auslesen
+
+Wir können sowohl den numerischen Wert, als auch den eigentlichen String von einem Enum erhalten.
+
+```csharp
+int lowSeverityLevel = (int)SeverityLevel.Low;
+string lowServerityLevel = SeverityLevel.Low.ToString();
+```
+
+## String zu Enum
+
+Um einen String zu einem Enum-Wert zu konvertieren müssen wir die Methode `Enum.Parse()` nutzen. 
+
+```csharp
+SeverityLevel mediumSeverity = Enum.Parse<SeverityLevel>("Medium");
+```
+
+<Info>
+Es gibt auch eine `TryParse()`-Methode
+</Info>
+
+## Flags
+
+Wir können Enums auch als Flags nutzen, das heisst wir können sie mit [Bitwise-Operatoren](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/bitwise-and-shift-operators) kombinieren.
+
+```csharp
+[Flags]
+enum Permissions
+{
+    None    = 0,
+    Read    = 1,
+    Write   = 2,
+    Execute = 4
+}
+```
+
+Diese Flags können wir dann mit dem Pipe-Operator `|` verbinden.
+
+```csharp
+Permissions readWrite = Persmissions.Read | Permissions.Write;
+```
+
+Um dann zu testen, ob eine Flag gesetzt ist, können wir den AND-Operator `&` nutzen.
+
+```csharp
+bool canRead = (readWrite & Permissions.Read) == Permissions.Read;
+bool canWrite = (readWrite & Permissions.Write) == Permissions.Write;
+bool canExecute = (readWrite & Permissions.Execute) == Permissions.Execute;
+```

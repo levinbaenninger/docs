@@ -1,0 +1,140 @@
+---
+title: "Authentifizierung und Autorisierung"
+icon: "user-lock"
+---
+
+Datenbanksicherheit ist essenziell – besonders wenn eine Datenbank im Netzwerk erreichbar ist. MongoDB bietet mehrere Mechanismen, um unbefugten Zugriff zu verhindern: **Authentifizierung**, **Autorisierung** über Rollen sowie eine granulare **Benutzerverwaltung**. In dieser Dokumentation lernst du, wie du die Sicherheit in MongoDB aktivierst und verwaltest.
+
+## Authentifizeriung und Autorisierung aktivieren
+
+Standardmässig ist MongoDB im „offenen“ Modus – also ohne Authentifizierung. Um Sicherheit zu gewährleisten, muss man explizit die Authentifizierung aktivieren.
+
+<Steps>
+<Step title="Konfiguration anpassen (`mongod.conf`)">
+
+```yaml
+security:
+  authorization: "enabled"
+```
+
+</Step>
+
+<Step title="Mongodb neustarten">
+
+```bash
+mongod --auth --config /etc/mongod.conf
+```
+
+</Step>
+</Steps>
+
+Ab jetzt muss sich jeder Benutzer mit einem gültigen Benutzernamen und Passwort anmelden. Wenn noch kein Benutzer vorhanden ist gilt die sogenannte Localhost Exception und du kannst einen Admin, bspw. mit der Rolle `userAdminAnyDatabase` erstellen.
+
+## Rollen
+
+MongoDB verwendet ein **rollenbasiertes Zugriffskontrollsystem (RBAC)**. Rollen definieren, **welche Aktionen** ein Benutzer ausführen darf (z. B. `find`, `insert`, `drop`).
+
+**Vordefinierte Rollen**
+
+* `read`: Nur Lesezugriff auf eine Datenbank
+* `readWrite`: Lese- und Schreibrechte auf eine Datenbank
+* `dbAdmin`: Datenbank verwalten (Indexe, Validierung, etc.)
+* `dbOwner`: Kann alle administrativen Aktionen an der Datenbank durchführen
+* `userAdmin`: Benutzer und Rollen verwalten
+* `backup`: Minimale Privilegien um ein Backup einer Datenbanken zu erstellen
+* `restore:` Benötigte Privilegien für einen Restore einer Datenbanken
+* `root`: Superuser
+
+Du kannst auch eigene **benutzerdefinierte Rollen** erstellen.
+
+## Benutzer und Rollen verwalten
+
+### Benutzer erstellen
+
+Um einen Benutzer zu erstellen können wir folgenden Befehl nutzen:
+
+```javascript
+use admin
+
+db.createUser({
+  user: "levin",
+  pwd: "starkespasswort",
+  roles: [
+    { role: "readWrite", db: "vivid" }
+  ]
+})
+```
+
+<Info>
+Die angegebene Datenbank in der der Benutzer definiert wird (im Beispiel `admin`), wird für die Authentifizierung verwendet und muss bei der Anmeldung mit angegeben werden. Obwohl der Benutzer sich bei dieser Datenbank authentifiziert, kann er Berechtigungen auch auf anderen Datenbanken haben.
+</Info>
+
+### Anmelden
+
+Um sich anzumelden musst du folgenden Befehl ausführen:
+
+```javascript
+mongosh --port 27017  --authenticationDatabase "admin" -u "levin" -p
+```
+
+### Rollen vergeben und entziehen
+
+Um Rollen nachträglich zu einem Nutzer hinzuzufügen, nutzen wir folgenden Befehl:
+
+```javascript
+use admin
+
+db.grantRolesToUser(
+  "levin",
+  [
+    { role: "read", db: "accounts" }
+  ]
+)
+```
+
+Um Rollen wieder zu entziehen nutzen wir folgenden Befehl:
+
+```javascript
+use admin
+
+db.revokeRolesFromUser(
+  "levin",
+  [
+    { role: "read", db: "reporting" }
+  ]
+)
+```
+
+<Info>
+Verwende immer dieselbe Datenbank (hier `admin`) für die Authentifizierung.
+</Info>
+
+### Benutzer auflisten
+
+Um alle Benutzer in einer Datenbank aufzulisten, nutzt du folgenden Befehl:
+
+```javascript
+use admin
+
+db.system.users.find()
+```
+
+### Passwort ändern
+
+Um das Passwort eines Nutzers zu ändern, nutzt du folgenden Befehl:
+
+```javascript
+use admin
+
+db.changeUserPassword("levin", "abc123")
+```
+
+### Benutzer löschen
+
+Um einen Benutzer zu löschen, nutzt du folgenden Befehl:
+
+```javascript
+use admin
+
+db.dropUser("levin")
+```

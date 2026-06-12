@@ -1,0 +1,205 @@
+---
+title: "Flexbox"
+icon: "columns"
+---
+
+Flexbox ist eine eindimensionale Layoutmethode zum Anordnen von Elementen in Zeilen oder Spalten. Elemente _flexen_ (dehnen sich aus), um zusätzlichen Raum zu füllen oder ziehen sich zusammen, um in kleinere Räume zu passen.
+
+***
+
+Zunächst müssen wir auswählen, welche Elemente als flexible Boxen angelegt werden sollen. Dazu setzen wir einen speziellen Wert von `display` auf das Elternelement der Elemente, die du beeinflussen möchtest.
+
+```css
+.container {
+  display: flex;
+}
+```
+
+## Das Flex-Modell
+
+Wenn Elemente als Flex-Items angelegt werden, sind sie entlang zwei Achsen angeordnet:
+
+<Frame caption="Das Flex-Modell">
+  ![Das Flex-Modell](/images/content/web/file-excalidraw-11.svg)
+</Frame>
+
+<AccordionGroup>
+<Accordion title="Hauptachse">
+
+Die **Hauptachse** ist die Achse, die in der Richtung verläuft, in der die Flex-Items angeordnet sind (zum Beispiel eine Zeile über die Seite, oder eine Spalte die Seite hinunter.)
+
+</Accordion>
+
+<Accordion title="Querachse">
+
+Die **Querachse** ist die Achse, die senkrecht zur Richtung verläuft, in der die Flex-Items angeordnet sind.
+
+</Accordion>
+
+<Accordion title="Flex-Container">
+
+Das Elternelement, das `display: flex` auf sich gesetzt hat wird als **Flex-Container** bezeichnet.
+
+</Accordion>
+
+<Accordion title="Flex-Items">
+
+Die Elemente, die als flexible Boxen innerhalb des Flex-Containers angelegt sind, werden als **Flex-Items** bezeichnet
+
+</Accordion>
+</AccordionGroup>
+
+## Spalten oder Zeilen
+
+Flexbox bietet eine Eigenschaft namens `flex-direction`, die festlegt, in welche Richtung die Hauptachse verläuft. Standardmässig ist dies auf `row` gesetzt, was bewirkt, dass sie in einer Zeile angeordnet sind.
+
+```css
+.container {
+  display: flex;
+  flex-direction: row | column | row-reverse | column-reverse;
+}
+```
+
+<Frame caption="Spalten oder Zeilen">
+  ![Spalten oder Zeilen](/images/content/web/file-excalidraw-12.svg)
+</Frame>
+
+## Umbrüche
+
+Standardmässig versuchen die Flex-Elemente, alle in eine Zeile zu passen. Mit dieser Eigenschaft kannst du das ändern und die Elemente nach Bedarf umbrechen lassen.
+
+```css
+.container {
+  display: flex;
+  flex-wrap: nowrap | wrap | wrap-reverse;
+}
+```
+
+<Frame caption="Umbrüche">
+  ![Umbrüche](/images/content/web/file-excalidraw-13.svg)
+</Frame>
+
+## Horizontale und Vertikale Ausrichtung
+
+`justify-content` definiert die Ausrichtung entlang der Hauptachse.
+
+```css
+.container {
+  display: flex;
+  justify-content: flex-start | flex-end | center | space-between | space-around | space-evenly;
+}
+```
+
+<Frame caption="Ausrichtung entlang der Hauptachse">
+  ![Ausrichtung entlang der Hauptachse](/images/content/web/file-excalidraw-14.svg)
+</Frame>
+
+***
+
+`align-items` definiert die Ausrichtung entlang der Querachse.
+
+```css
+.container {
+  display: flex;
+  align-items: stretch | flex-start | flex-end | center | baseline;
+}
+```
+
+<Frame caption="Ausrichtung entlang der Querachse">
+  ![Ausrichtung entlang der Querachse](/images/content/web/file-excalidraw-15.svg)
+</Frame>
+
+***
+
+`align-content` richtet die Zeilen eines Flex-Containers aus, wenn in der Querachse zusätzlicher Platz vorhanden ist, ähnlich wie `justify-content` einzelne Elemente innerhalb der Hauptachse ausrichtet.
+
+<Info>
+Diese Eigenschaft wird nur bei mehrzeiligen flexiblen Containern wirksam, bei denen `flex-wrap` entweder auf `wrap` oder `wrap-reverse` eingestellt ist. Ein einzeiliger flexibler Container (d. h. ein Container, bei dem `flex-wrap` auf den Standardwert `no-wrap` eingestellt ist) spiegelt `align-content` nicht wider.
+</Info>
+
+```css
+.container {
+  align-content: flex-start | flex-end | center | space-between | space-around | space-evenly | stretch;
+}
+```
+
+<Frame caption="Ausrichtung entlang der Querachse bei zu viel Platz">
+  ![Ausrichtung entlang der Querachse bei zu viel Platz](/images/content/web/file-excalidraw-19.svg)
+</Frame>
+
+## Abstände
+
+Die Eigenschaft `gap` steuert ausdrücklich den Abstand zwischen Flex-Elementen. Dieser Abstand wird nur zwischen den Elementen und nicht an den Aussenkanten angewendet.
+
+```css
+.container {
+  display: flex;
+  ...
+  gap: 1rem;
+  gap: 1rem 2rem;
+  row-gap: 1rem;
+  column-gap: 2rem;
+}
+```
+
+## Flex-Items anordnen
+
+Standardmässig werden die Flex-Elemente in der Reihenfolge der Quelle angeordnet. Die Eigenschaft `order` steuert jedoch die Reihenfolge, in der sie im Flex-Container erscheinen.
+
+```css
+.item {
+  order: 5;
+}
+```
+
+<Frame caption="Reihenfolge der Flex-Items">
+  ![Reihenfolge der Flex-Items](/images/content/web/file-excalidraw-16.svg)
+</Frame>
+
+## Flexible Grössenanpassung
+
+`flex-grow` definiert die Fähigkeit eines Flex-Items, bei Bedarf zu wachsen. Er akzeptiert einen einheitenlosen Wert, der als Proportion dient. Er gibt an, wie viel des verfügbaren Platzes innerhalb des Flex-Containers das Element einnehmen soll.
+
+```css
+.item {
+  flex-grow: 2;
+}
+```
+
+<Frame caption="flex-grow">
+  ![flex-grow](/images/content/web/file-excalidraw-17.svg)
+</Frame>
+
+***
+
+Die **`flex-shrink`-**Eigenschaft legt den Verkleinerungsfaktor eines Flex-Elements fest.
+
+```css
+.item {
+  flex-shrink: 2;
+}
+```
+
+<Frame caption="flex-shrink">
+  ![flex-shrink](/images/content/web/file-excalidraw-18.svg)
+</Frame>
+
+***
+
+Die **`flex-basis`-**Eigenschaft legt die anfängliche Hauptgrösse eines Flex-Elements fest. 
+
+```css
+.item {
+  flex-basis: 20%;
+}
+```
+
+***
+
+`flex` ist die Kurzform für `flex-grow`, `flex-shrink` und `flex-basis`. Der zweite und dritte Parameter (`flex-shrink` und `flex-basis`) sind optional. Der Standardwert ist `0 1 auto`, aber wenn du einen einzelnen Zahlenwert angibst, z. B. `flex: 5;`, ändert sich die `flex-basis` auf `0%`, d. h. es ist wie die Einstellung `flex-grow: 5; flex-shrink: 1; flex-basis: 0%;`.
+
+```css
+.item {
+  flex: 2;
+}
+```

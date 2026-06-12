@@ -1,0 +1,86 @@
+---
+title: "Identifikation"
+icon: "magnifying-glass"
+---
+
+## Penetrationstests und Sicherheitswerkzeuge
+
+Um Sicherheitslücken in Webapplikationen zu finden, werden Penetrationstests (Pentests) durchgeführt. Dabei simulieren Sicherheitsexperten Angriffe, um Schwachstellen aufzudecken und zu beheben.
+
+Ein häufig verwendetes Werkzeug ist das Metasploit Framework. Es dient zur Entwicklung und Ausführung von Exploits gegen Zielsysteme.
+
+Ein weiteres Beispiel ist OWASP Zed Attack Proxy (ZAP), das speziell zur Analyse von Webapplikationen genutzt wird.
+
+Angreifer können Werkzeuge kombinieren, z. B.:
+
+* Shodan → sucht im Internet nach verwundbaren Systemen
+* Metasploit → nutzt gefundene Schwachstellen automatisch aus
+
+Diese Kombination ermöglicht Angriffe auch ohne grosse Fachkenntnisse.
+
+## Ablauf
+
+<Steps>
+<Step title="Vorbereitung">
+
+Ziele und Rahmenbedingungen des Tests werden festgelegt. Folgendes wird definiert:
+
+* Welche Systeme getestet werden
+* Welche Methoden erlaubt sind
+* Wie aggressiv der Test durchgeführt wird
+* Wie Kommunikation und Reporting erfolgen
+
+</Step>
+
+<Step title="Informationsbeschaffung">
+
+In dieser Phase werden Informationen über das Zielsystem gesammelt.
+
+* Port-Scanning
+* Web-Crawler
+* Analyse von Technologien und Schnittstellen
+
+</Step>
+
+<Step title="Bewertung / Risikoanalyse">
+
+Die gesammelten Informationen werden analysiert:
+
+* Identifikation von Schwachstellen
+* Bewertung des Risikos
+* Planung möglicher Angriffsszenarien
+
+Typische Angriffsvektoren:
+
+* Cross-Site Scripting (XSS)
+* SQL-Injection
+
+Tools wie Metasploit helfen bei der Auswahl passender Exploits.
+
+</Step>
+
+<Step title="Aktive Eindringversuche">
+
+Die Tester versuchen nun, gefundene Schwachstellen auszunutzen.
+
+* Zugriff auf Systeme oder Daten
+* Überprüfung der tatsächlichen Gefahr
+* Simulation realer Angriffe
+
+</Step>
+
+<Step title="Abschlussanalyse">
+
+Am Ende wird ein Abschlussbericht erstellt.
+
+Dieser enthält:
+
+* gefundene Schwachstellen
+* technische Details
+* Bewertung des Risikos
+* Empfehlungen zur Verbesserung der Sicherheit
+
+Ziel ist es, Sicherheitslücken zu beheben und zukünftige Angriffe zu verhindern.
+
+</Step>
+</Steps>

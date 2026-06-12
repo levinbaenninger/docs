@@ -1,0 +1,49 @@
+---
+title: "Risiko"
+icon: "chart-line"
+---
+
+Risiko wird folgendermassen berechnet:
+
+$$
+Risiko = Eintrittswahrscheinlichkeit \cdot Schaden
+$$
+
+## Faktoren der Eintrittswahrscheinlichkeit
+
+Die Eintrittswahrscheinlichkeit setzt sich aus drei gleich gewichteten Faktoren zusammen:
+
+<AccordionGroup>
+<Accordion title="Ausnutzbarkeit">
+
+* Wie einfach ein Angriff durchgeführt werden kann
+* Existieren bereits Tools oder Exploits?
+
+Je einfacher der Angriff durchführbar ist, desto höher die Wahrscheinlichkeit.
+
+</Accordion>
+
+<Accordion title="Verbreitung der Schwachstelle">
+
+* Wie häufig kommt die Schwachstelle in Anwendungen vor?
+
+Weit verbreitete Software wird häufiger angegriffen.
+
+</Accordion>
+
+<Accordion title="Auffindbarkeit der Schwachstelle">
+
+* Wie leicht kann eine Schwachstelle entdeckt werden?
+
+Anwendungen mit vielen Fehlermeldungen oder offenen Informationen sind leichter angreifbar.
+
+</Accordion>
+</AccordionGroup>
+
+## Schaden
+
+Der zweite Faktor ist der technische Schaden, den eine Schwachstelle verursachen kann.
+
+- Datenverlust
+- Systemkompromittierung
+- Ausfall

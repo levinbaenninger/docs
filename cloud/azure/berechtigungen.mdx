@@ -1,0 +1,122 @@
+---
+title: "Berechtigungen"
+icon: "user-lock"
+---
+
+Die Verwaltung von Zugriffen und Rollen ist ein zentraler Bestandteil der Cloud-Sicherheit. In Microsoft Azure wird dafür **RBAC (Role-Based Access Control)** verwendet – ein **rollenbasiertes Berechtigungskonzept**, das den Zugriff auf Ressourcen gezielt und nachvollziehbar regelt.
+
+## Identitäts- und Zugriffverwaltung
+
+<AccordionGroup>
+<Accordion title="Microsoft Entra ID">
+
+* **Cloud-basiertes Verzeichnis** für Benutzer, Gruppen, Geräte und Rollen
+* Unterstützt **moderne Authentifizierungsprotokolle** (OpenID, OAuth2, SAML, SCIM)
+* Wird für die Verwaltung von Identitäten in **Microsoft Azure und Microsoft 365** verwendet
+
+**Identities**
+
+* Identities sind Objekte, welche authentifiziert werden können
+* Accounts sind Identities, denen Daten zugeordnet werden
+* Guests stammen aus einem anderen Entra ID
+
+**Groups**
+
+* Security Groups oder M365 Groups
+* Direkte oder dynamische Zuweisung
+
+</Accordion>
+
+<Accordion title="Microsoft Active Directory">
+
+* Traditionelles **lokales Verzeichnis (on-prem)**
+* Häufig per **Azure AD Connect** mit Entra ID synchronisert
+* Langfristig soll Entra ID das lokale AD ersetzen
+
+</Accordion>
+</AccordionGroup>
+
+## Role Based Access Management
+
+> _Benutzer oder Gruppen erhalten Rollen, und Rollen enthalten die Berechtigungen._
+
+<table><thead><tr><th width="190">Element</th><th>Bedeutung</th></tr></thead><tbody><tr><td>Identität</td><td>Benutzer, Gruppen oder Service Principal</td></tr><tr><td>Rolle</td><td>Sammlung von Berechtigungen</td></tr><tr><td>Scope</td><td>Geltungsbereich der Rolle (z.B. Ressourcengruppe, Ressource)</td></tr></tbody></table>
+
+<Warning>
+In Entra ID können Rollen nur auf Tenant- oder Administrative Unit-Ebene vergeben werden.
+</Warning>
+
+### Azure-spezifische Scopes
+
+RBAC lässt sich auf verschiedene Ebene anwenden:
+
+1. **Management Group**
+2. **Susbcription**
+3. **Resource Group**
+4. **Einzelne Ressourcen**
+
+Je tiefer der Scope, desto **feingranularer** und **sicherer** die Rechtevergabe.
+
+### Integrierte Rollen
+
+<table><thead><tr><th width="177">Rolle</th><th>Beschreibung</th></tr></thead><tbody><tr><td>Owner</td><td>Volle Kontrolle über Ressourcen und Rollenverwaltung</td></tr><tr><td>Contributor</td><td>Ressourcen erstellen, änder, löschen - keine Rechtevergabe</td></tr><tr><td>Reader</td><td>Lesen von Ressourcen - keine Änderungen möglich</td></tr></tbody></table>
+
+Diese Rollen können direkt zugewiesen oder zur Erstellung eigener Rollen verwendet werden.
+
+### Vorteile
+
+<AccordionGroup>
+<Accordion title="Flexibilität">
+
+Rollen können an Gruppen oder Benutzer vergeben werden – sogar temporär.
+
+</Accordion>
+
+<Accordion title="Geringer Verwaltungsaufwand">
+
+Kein Einzelrechtemanagement nötig.
+
+</Accordion>
+
+<Accordion title="Sicherheit">
+
+Prinzip der geringsten Rechte (PoLP) wird gefördert.
+
+</Accordion>
+
+<Accordion title="Transparenz">
+
+Klare Zuweisungen durch verständliche Rollenbezeichnungen.
+
+</Accordion>
+</AccordionGroup>
+
+### Nachteile
+
+<AccordionGroup>
+<Accordion title="Initialer Aufwand">
+
+Struktur und Rollenkonzept müssen gut durchdacht werden.
+
+</Accordion>
+
+<Accordion title="Temporäre Zuweisungen">
+
+Müssen aktiv überwacht werden.
+
+</Accordion>
+
+<Accordion title="Für kleine Teams">
+
+Wartung kann aufwändiger wirken als direkte Berechtigungen.
+
+</Accordion>
+</AccordionGroup>
+
+### Best Practices
+
+* [x] **Rollen nur Gruppen zuweisen**, nicht direkt Benutzern
+* [x] **Priviligierte Rollen (z.B. Owner)** nur gezielt einsetzen
+* [x] **Priviliged Identity Management (PIM)** nutzen, um zeitlich begrenzten Zugriff zu ermöglichen
+* [x] **Regelmässige Kontrolle** der Berechtigungen (z.B. Access Reviews)
+* [x] **Dokumentation und Naming Convention** einführen für bessere Nachvollziehbarkeit

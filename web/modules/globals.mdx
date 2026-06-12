@@ -1,0 +1,14 @@
+---
+title: "Globals"
+icon: "globe"
+---
+
+Manchmal musst du in deinem Code auf eine globale Variable oder Funktion verweisen. Ein gutes Beispiel hierfür ist der Verweis auf `window` im Browser. In TypeScript kannst du das globale Schlüsselwort verwenden, um eine Variable oder Funktion zu deklarieren, die im globalen Bereich verfügbar ist.
+
+```typescript
+declare global {
+  interface Window {
+    username: string;
+  }
+}
+```

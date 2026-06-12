@@ -1,0 +1,18 @@
+---
+title: "Optionale Verkettung"
+icon: "link"
+---
+
+Der optionale Verkettungsoperator (`?.`) greift auf die Eigenschaft eines Objekts zu oder ruft eine Funktion auf. Wenn das Objekt, auf das zugegriffen wird, oder die Funktion, die mit diesem Operator aufgerufen wird, `undefined` oder `null` ist, wird der Ausdruck kurzgeschlossen und als `undefined` ausgewertet, anstatt einen Fehler zu verursachen.
+
+```javascript
+const adventurer = {
+  name: 'Alice',
+  cat: {
+    name: 'Dinah',
+  },
+};
+
+adventurer.dog?.name;
+adventurer.someNonExistentMethod?.();
+```

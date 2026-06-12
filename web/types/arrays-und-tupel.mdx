@@ -1,0 +1,47 @@
+---
+title: "Arrays und Tupel"
+icon: "table-list"
+---
+
+## Arrays
+
+TypeScript unterstützt die Typisierung von Arrays mit zwei Ansätzen.
+
+```typescript
+const numbers: number[] = [1, 2, 3];
+const numbers: Array<number> = [1, 2, 3];
+```
+
+Diese beiden Syntaxen sind gleichwertig. Sie deklarieren beide ein Array von Zahlen. Die 2. Syntax verwendet den generischen Typ `Array`. Generics sind ein fortgeschritteneres Thema, aber kurz gesagt kann man dies als "ein Array von Zahlen" lesen.
+
+***
+
+Arrays können auch mit einer festen Länge deklariert werden.
+
+```typescript
+const fixedLength: [number, number, number] = [1, 2, 3];
+```
+
+Dies deklariert ein Array mit einer festen Länge von 3 Zahlen. Wenn du versuchst, mehr oder weniger als 3 Zahlen hinzuzufügen, gibt uns TypeScript einen Fehler zurück.
+
+## Tupel
+
+Ein Array kann auch eine Mischung von Typen enthalten, was als Tupel bezeichnet wird. 
+
+```typescript
+const tuple: [number, string] = [1, "hello"];
+```
+
+Dies deklariert ein Tupel mit einer Zahl und einer Zeichenkette. Die Reihenfolge der Typen ist wichtig. Wenn du versuchst, die Typen zu vertauschen, gibt uns TypeScript einen Fehler zurück.
+
+***
+
+Das Tupel kann auch mit dem Typ `Array` deklariert werden:
+
+```typescript
+const tuple: Array<number | string> = [1, "hello"];
+```
+
+<Warning>
+Diese beiden Syntaxen sind jedoch nicht gleichwertig. Diese Syntax gibt nicht die Reihenfolge der Typen an. Sie besagt nur, dass das Array Zahlen oder Zeichenketten enthalten kann. Die durch Pipes begrenzte Liste wird Union genannt.
+</Warning>

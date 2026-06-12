@@ -1,0 +1,23 @@
+---
+title: "Gruppieren"
+icon: "object-group"
+---
+
+Das `GROUP BY`-Statement gruppiert Datensätze mit den gleichen Werten.Es wird oft zusammen mit Aggregatsfunktionen genutzt, um das Resultat zu gruppieren.
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+ORDER BY column_name(s);
+```
+
+### Beispiel
+
+```sql
+SELECT COUNT(*), Country
+FROM Customers
+GROUP BY Country
+ORDER BY COUNT(*) DESC;
+```
