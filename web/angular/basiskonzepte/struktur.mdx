@@ -1,5 +1,6 @@
 ---
 title: "Struktur"
+icon: "sitemap"
 ---
 
 ## Startpunkt
@@ -59,7 +60,9 @@ Damit wir das `<router-outlet>`-Tag in unserem Template nutzen können, müssen 
 
 Die Hauptaufgabe unserer Root-Komponente (`AppComponent`) besteht darin, als Container für unsere Anwendung zu dienen. Im Allgemeinen verfügen fast alle Angular-Anwendungen über eine einzige Root-Komponente, innerhalb derer sich weitere Komponenten befinden, die wiederum weitere Komponenten enthalten können, sodass eine Baumstruktur aus verschachtelten Komponenten entsteht:
 
-![Komponentenbaum](/images/content/web/file-excalidraw-1.svg)
+<Frame caption="Komponentenbaum">
+  ![Komponentenbaum](/images/content/web/file-excalidraw-1.svg)
+</Frame>
 
 Um die Struktur im obigen Diagramm zu erstellen, könnte unser Template wie folgt aussehen (vorausgesetzt, wir hätten bereits alle diese zusätzlichen Komponenten erstellt):
 
@@ -228,7 +231,9 @@ Nun wird unsere `WelcomeComponent` innerhalb unserer `HomeComponent` angezeigt w
 
 Unser vollständiger Komponentenbaum sieht nun in etwa so aus:
 
-![Komponentenbaum](/images/content/web/file-excalidraw.svg)
+<Frame caption="Komponentenbaum">
+  ![Komponentenbaum](/images/content/web/file-excalidraw.svg)
+</Frame>
 
 Der Grund, warum wir auf dem Bildschirm sehen, was wir sehen, ist folgender:
 

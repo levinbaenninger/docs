@@ -1,9 +1,9 @@
 ---
 title: "Verzweigungen"
-icon: "git-fork"
+icon: "folder-tree"
 ---
 
-## `if`﻿
+## `if`
 
 Die Syntax eines `if`-Statements sieht folgendermassen aus:
 
@@ -16,8 +16,8 @@ if (test expression)
 
 Das `if-statement` evaluiert den Testausdruck in den Klammern `()`.
 
-* Wenn der Testausdruck tu `true` ausgewertet wird, werden die Anweisungen innerhalb des Körpers von `if` ausgeführt.
-* Wenn der Testausdruck tu `false` ausgewertet wird, werden die Anweisungen innerhalb des Körpers von `if` nicht ausgeführt.
+- Wenn der Testausdruck tu `true` ausgewertet wird, werden die Anweisungen innerhalb des Körpers von `if` ausgeführt.
+- Wenn der Testausdruck tu `false` ausgewertet wird, werden die Anweisungen innerhalb des Körpers von `if` nicht ausgeführt.
 
 ### Beispiel
 
@@ -29,11 +29,11 @@ int main() {
 
     printf("Enter an integer: ");
     scanf("%d", &number);
-    
+
     if (number < 0) {
         printf("You entered %d.\n", number);
     }
-    
+
     return 0;
 }
 ```
@@ -55,13 +55,13 @@ else {
 
 Wenn der Testausdruck als `true` ausgewertet wird,
 
-* werden Anweisungen innerhalb des Körpers von `if` ausgeführt.
-* werden die Anweisungen innerhalb des Körpers von `else` nicht ausgeführt.
+- werden Anweisungen innerhalb des Körpers von `if` ausgeführt.
+- werden die Anweisungen innerhalb des Körpers von `else` nicht ausgeführt.
 
 Wenn der Testausdruck als `false` ausgewertet wird,
 
-* werden die Anweisungen im Körper von `else` ausgeführt
-* werden Anweisungen innerhalb des Körpers von `if` nicht ausgeführt.
+- werden die Anweisungen im Körper von `else` ausgeführt
+- werden Anweisungen innerhalb des Körpers von `if` nicht ausgeführt.
 
 ### Beispiel
 
@@ -73,14 +73,14 @@ int main() {
 
     printf("Enter an integer: ");
     scanf("%d", &number);
-    
+
     if (number % 2 == 0) {
         printf("%d is an even integer.", number);
     }
     else {
         printf("%d is an odd integer.", number);
     }
-    
+
     return 0;
 }
 ```
@@ -118,7 +118,7 @@ int main() {
 
     printf("Enter two integers: ");
     scanf("%d %d", &number1, &number2);
-    
+
     if (number1 == number2) {
         printf("%d = %d", number1, number2);
     }
@@ -128,7 +128,7 @@ int main() {
     else {
         printf("%d < %d", number1, number2);
     }
-    
+
     return 0;
 }
 ```
@@ -157,12 +157,12 @@ switch (expression)
 
 Die `expression` wird einmal ausgewertet und mit den Werten der einzelnen `case` verglichen.
 
-* Gibt es eine Übereinstimmung, werden die entsprechenden Anweisungen nach dem übereinstimmenden Label ausgeführt. Ist der Wert des Ausdrucks beispielsweise gleich der `constant2`, werden die Anweisungen nach case `constant2:` ausgeführt, bis ein `break` auftritt.
-* Wenn es keine Übereinstimmung gibt, werden die Standardanweisungen ausgeführt.
+- Gibt es eine Übereinstimmung, werden die entsprechenden Anweisungen nach dem übereinstimmenden Label ausgeführt. Ist der Wert des Ausdrucks beispielsweise gleich der `constant2`, werden die Anweisungen nach case `constant2:` ausgeführt, bis ein `break` auftritt.
+- Wenn es keine Übereinstimmung gibt, werden die Standardanweisungen ausgeführt.
 
 <Warning>
-- Wenn wir die `break`-Anweisung nicht verwenden, werden alle Anweisungen nach dem entsprechenden Label ebenfalls ausgeführt.
-- Der `default` Wert in einem `switch`-Statement ist optional.
+  - Wenn wir die `break`-Anweisung nicht verwenden, werden alle Anweisungen nach dem entsprechenden Label ebenfalls ausgeführt. - Der `default` Wert in einem `switch`-Statement ist
+  optional.
 </Warning>
 
 ### Beispiel
@@ -185,19 +185,19 @@ int main()
         case '+':
             printf("%.1lf + %.1lf = %.1lf", n1, n2, n1 + n2);
             break;
-    
+
         case '-':
             printf("%.1lf - %.1lf = %.1lf", n1, n2, n1 - n2);
             break;
-    
+
         case '*':
             printf("%.1lf * %.1lf = %.1lf", n1, n2, n1 * n2);
             break;
-    
+
         case '/':
             printf("%.1lf / %.1lf = %.1lf", n1, n2, n1 / n2);
             break;
-    
+
         // operator doesn't match any case constant +, -, *, /
         default:
             printf("Error! Operator is not correct");

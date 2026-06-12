@@ -1,6 +1,6 @@
 ---
 title: "Event Propagation"
-icon: "network"
+icon: "share-nodes"
 ---
 
 Event Propagation beschreibt den Prozess, wie sich Events (wie Klicks oder Tastatureingaben) durch den DOM-Baum einer Webseite ausbreiten - zunächst in der Capturing-Phase von oben nach unten, dann in der Bubbling-Phase von unten nach oben durch die verschachtelten HTML-Elemente.
@@ -12,9 +12,9 @@ Es passiert folgendes, wenn beispielweise ein Click Event erstellt wird:
 
 Das Click Event wird an das `document` angehängt.
 
-![document](/images/content/web/image-20.png)
-
-document
+<Frame caption="document">
+  ![document](/images/content/web/image-20.png)
+</Frame>
 
 </Step>
 
@@ -22,9 +22,9 @@ document
 
 Das Event durchläuft jedes Parent-Element des Target-Elements (Element mit dem Event-Listener).
 
-![Capturing Phase](/images/content/web/image-21.png)
-
-Capturing Phase
+<Frame caption="Capturing Phase">
+  ![Capturing Phase](/images/content/web/image-21.png)
+</Frame>
 
 </Step>
 
@@ -32,9 +32,9 @@ Capturing Phase
 
 In der Target Phase werden die Events beim Target verarbeitet. Das machen wir mit Event-Listeners.
 
-![Target Phase](/images/content/web/image-22.png)
-
-Target Phase
+<Frame caption="Target Phase">
+  ![Target Phase](/images/content/web/image-22.png)
+</Frame>
 
 </Step>
 
@@ -44,9 +44,9 @@ Das Event durchläuft nun wieder jedes Parent-Element bis zum `document`. Wenn d
 
 Das heisst wir können an unsere Parent-Elemente ebenfalls Event-Listener anhängen. Diese werden auch dann aufgerufen, wenn ein Child-Element das Target-Element war.
 
-![Bubbling Phase](/images/content/web/image-23.png)
-
-Bubbling Phase
+<Frame caption="Bubbling Phase">
+  ![Bubbling Phase](/images/content/web/image-23.png)
+</Frame>
 
 Mit einem kleinen Trick können wir uns das auch in der Capturing Phase zu nutze machen.
 

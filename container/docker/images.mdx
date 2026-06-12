@@ -1,5 +1,6 @@
 ---
 title: "Images"
+icon: "image"
 ---
 
 Eigene Docker-Images ermöglichen die Erstellung massgeschneiderter Container mit individuellen Konfigurationen, Abhängigkeiten und Anwendungen. Sie basieren auf einer `Dockerfile`, die die Anweisungen zum Aufbau des Images enthält.
@@ -115,8 +116,17 @@ ENTRYPOINT ["echo"]
 
 Startet man den Container mit `docker run my-image Test`, ergibt sich:
 
-* **CMD** wird überschrieben → Ausgabe: `Test`
-* **ENTRYPOINT** bleibt bestehen → Ausgabe: `echo Test`
+<CodeGroup>
+
+```text title="CMD"
+Test
+```
+
+```text title="ENTRYPOINT"
+echo Test
+```
+
+</CodeGroup>
 
 <Info>
 `ENTRYPOINT` für festgelegte Startbefehle, `CMD` für Standardwerte.

@@ -1,6 +1,6 @@
 ---
 title: "Spread und Rest Operator"
-icon: "unfold-horizontal"
+icon: "arrows-left-right"
 ---
 
 ## Spread Operator
@@ -87,8 +87,8 @@ Du kannst ein [Destructuring ](/web/javascript/objekte-und-datenstrukturen/destr
 
 ```javascript
 const { a, ...others } = { a: 1, b: 2, c: 3 };
-console.log(others);
+console.log(others); // { b: 2, c: 3 }
 
 const [first, ...others2] = [1, 2, 3];
-console.log(others2);
+console.log(others2); // [2, 3]
 ```

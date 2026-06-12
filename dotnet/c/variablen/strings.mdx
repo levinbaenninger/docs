@@ -1,6 +1,6 @@
 ---
 title: "Strings"
-icon: "type"
+icon: "font"
 ---
 
 Strings werden zum Speichern von Text verwendet. Eine String-Variable enthält eine Sammlung von Zeichen, die von doppelten Anführungszeichen umgeben sind.
@@ -18,7 +18,7 @@ Wir können auf die Länge eines Strings über das Property `Length` zugreifen.
 
 ```csharp
 string upperCaseAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-Console.WriteLine(upperCaseAlphabet.Length);
+Console.WriteLine(upperCaseAlphabet.Length); // 26
 ```
 
 ***
@@ -28,8 +28,8 @@ Wir können Strings auch mit verschiedenen Methoden manipulieren.
 ```csharp
 string greeting = "Hello, World!";
 
-Console.WriteLine(greeting.ToUpper());
-Console.WriteLine(greeting.ToLower());
+Console.WriteLine(greeting.ToUpper()); // HELLO, WORLD!
+Console.WriteLine(greeting.ToLower()); // hello, world!
 ```
 
 <Info>
@@ -68,7 +68,7 @@ Du kannst auf die Zeichen in einer Zeichenkette zugreifen, indem du dich auf den
 
 ```csharp
 string firstName = "Levin";
-Console.WriteLine(firstName[0]);
+Console.WriteLine(firstName[0]); // L
 ```
 
 ## Zeichen

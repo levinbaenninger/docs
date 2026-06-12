@@ -1,6 +1,6 @@
 ---
 title: "Datentypen"
-icon: "type"
+icon: "shapes"
 ---
 
 | `char`                                          | -128 bis 127                                             | 1 Byte  | `%c`, `%d` oder `%s` |
@@ -38,8 +38,8 @@ Wenn ein falscher Wert einem falschen Variablentyp zugewiesen wird, wird der Wer
 int character = 'a';
 short boolean = true;
 
-printf("%c\n", character);
-printf("%d\n", boolean);
+printf("%c\n", character); // a
+printf("%d\n", boolean); // 1
 ```
 
 ### Floats und Integer﻿
@@ -48,7 +48,7 @@ Wenn ein Float-Wert einer Integer-Variable zugewiesen wird, werden die Zahlen na
 
 ```c
 int num = 12.6;
-printf("%d\n", num);
+printf("%d\n", num); // 12
 ```
 
 ### Float und Double﻿
@@ -59,15 +59,15 @@ Sowohl `float`, als auch `double` werden standardmässig mit 6 Dezimalstellen ge
 float floatNum = 12.6;
 double doubleNum = 12.6;
 
-printf("%f\n", floatNum);
-printf("%lf\n", doubleNum);
+printf("%f\n", floatNum); // 12.600000
+printf("%lf\n", doubleNum); // 12.600000
 ```
 
 Wenn man jedoch die Anzahl der Dezimalstellen ändern möchte, kann man `%.nf` verwenden, wobei `n` die Anzahl der Dezimalstellen ist.
 
 ```c
-printf("%.2f\n", floatNum);
-printf("%.10lf\n", doubleNum);
+printf("%.2f\n", floatNum); // 12.60
+printf("%.10lf\n", doubleNum); // 12.6000000000
 ```
 
 ## Zeichen﻿
@@ -90,20 +90,20 @@ printf("%s", string);
 Wenn wir aber die Nummer von einem `char` drucken wollen, dann benutzt man `%d`.
 
 ```c
-printf("%d", num);
+printf("%d", num); // 23
 ```
 
 Würde man bei einem Zeichen `%d` benutzen, würde die entsprechende Zahl auf der ASCII-Tabelle ausgegeben werden.
 
 ```c
-printf("%d", character);
+printf("%d", character); // 97
 ```
 
 Man kann auch eine Nummer als Eingabe übergeben und erhält das dazu passende ASCII-Zeichen zurück.
 
 ```c
 char num = 98;
-printf("%c", num);
+printf("%c", num); // b
 ```
 
 ## Strings﻿
@@ -124,7 +124,7 @@ int main() {
     char word[100];
     strcpy(word, "Hello");
 
-    printf("%s", word);
+    printf("%s", word); // Hello
 }
 ```
 
@@ -146,6 +146,6 @@ bool isVegetableTasty = false;
 Diese Variablen kann man mit dem Formatzeichen `%d` ausgeben.
 
 ```c
-printf("%d", isProgrammingFun);
-printf("%d\n", isVegetableTasty);
+printf("%d", isProgrammingFun); // 1
+printf("%d\n", isVegetableTasty); // 0
 ```

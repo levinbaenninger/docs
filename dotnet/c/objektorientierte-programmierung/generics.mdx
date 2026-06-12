@@ -1,6 +1,6 @@
 ---
 title: "Generics"
-icon: "combine"
+icon: "screwdriver-wrench"
 ---
 
 Mit C# Generics können wir eine einzige Klasse oder Methode erstellen, die mit verschiedenen Datentypen verwendet werden kann. Das hilft uns, unseren Code wiederzuverwenden.
@@ -15,8 +15,8 @@ public class Calculator<T> where T : IComparable
 }
 
 Calculator<int> intCalculator = new Calculator<int>();
-Console.WriteLine("Max(3, 5): " + intCalculator.Max(3, 5));
+Console.WriteLine("Max(3, 5): " + intCalculator.Max(3, 5)); // Max(3, 5): 5
 
 Calculator<double> doubleCalculator = new Calculator<double>();
-Console.WriteLine("Max(7.2, 3.4): " + doubleCalculator.Max(7.2, 3.4));
+Console.WriteLine("Max(7.2, 3.4): " + doubleCalculator.Max(7.2, 3.4)); // Max(7.2, 3.4): 7.2
 ```

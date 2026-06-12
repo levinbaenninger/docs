@@ -9,6 +9,8 @@ Mit den beiden Keywords `continue` und `break` können wir den Fluss in einem Lo
 
 Das Keyword `continue` überspringt einfach die aktuelle Iteration.
 
+<Tabs>
+<Tab title="C#">
 ```csharp
 for (int i = 0; i < 10; i++) 
 {
@@ -19,11 +21,29 @@ for (int i = 0; i < 10; i++)
     Console.WriteLine(i);
 }
 ```
+</Tab>
+
+<Tab title="Output">
+```text
+0
+1
+2
+3
+5
+6
+7
+8
+9
+```
+</Tab>
+</Tabs>
 
 ## `break`
 
 Mit dem Keyword `break` bricht die gesamte Schleife ab.
 
+<Tabs>
+<Tab title="C#">
 ```csharp
 for (int i = 0; i < 10; i++) 
 {
@@ -34,3 +54,14 @@ for (int i = 0; i < 10; i++)
     Console.WriteLine(i);
 }
 ```
+</Tab>
+
+<Tab title="Output">
+```text
+0
+1
+2
+3
+```
+</Tab>
+</Tabs>

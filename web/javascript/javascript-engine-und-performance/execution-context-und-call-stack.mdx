@@ -1,6 +1,6 @@
 ---
 title: "Execution Context und Call Stack"
-icon: "layers"
+icon: "bars-staggered"
 ---
 
 Nachdem unser Code kompiliert wurde, wird ein **globaler Execution Context** erstellt (für Top-Level-Code). Top-Level-Code ist Code, der sich **nicht in einer Funktion** befindet.
@@ -28,9 +28,9 @@ Innerhalb eines Ausführungskontextes sind:
 
 All diese Dinge werden während der **Erstellungsphase**, direkt vor der Ausführung, erstellt.
 
-![Execution Context](/images/content/web/image-16.png)
-
-Execution Context
+<Frame caption="Execution Context">
+  ![Execution Context](/images/content/web/image-16.png)
+</Frame>
 
 <Info>
 Ein weiterer wichtiger Faktor ist, dass Pfeilfunktionen weder das Objekt `arguments` noch das Schlüsselwort `this` erhalten. Stattdessen können sie das `arguments`-Objekt und das `this`-Schlüsselwort von ihrer nächsten übergeordneten Funktion verwenden.
@@ -42,6 +42,6 @@ Der Call Stack bildet zusammen mit dem Memory Heap die JavaScript-Engine selbst.
 
 Der Ausführungskontext, der oben auf dem Stapel liegt, ist derjenige, der gerade ausgeführt wird. Wenn die Ausführung beendet ist, wird er vom Stapel entfernt und der Ausführungskontext kehrt zum vorherigen Ausführungskontext zurück.
 
-![Call Stack](/images/content/web/image-17.png)
-
-Call Stack
+<Frame caption="Call Stack">
+  ![Call Stack](/images/content/web/image-17.png)
+</Frame>

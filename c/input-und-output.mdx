@@ -8,7 +8,7 @@ icon: "terminal"
 Um in C etwas in die Konsole auszugeben, benutzt man hauptsächlich die `printf()`-Funktion.
 
 ```c
-printf("Hallo Welt");
+printf("Hallo Welt"); // Hallo Welt
 ```
 
 ### Variablen ausgeben﻿
@@ -17,7 +17,7 @@ Um Variablen auszugeben, benutzt man das Formatzeichen des Typs an der Stelle, w
 
 ```c
 int num = 5;
-printf("Number = %d", num);
+printf("Number = %d", num); // Number = 5
 ```
 
 ## Input﻿
@@ -57,7 +57,7 @@ char input[100];
 
 printf("Type full name: ");
 fgets(input, 100, stdin);
-printf("Input is: &s");
+printf("Input is: %s", input);
 ```
 
 Die `100` ist dabei durch die Grösse des Strings zu ersetzen.
