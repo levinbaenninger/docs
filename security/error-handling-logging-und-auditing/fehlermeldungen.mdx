@@ -1,0 +1,76 @@
+---
+title: "Fehlermeldungen"
+icon: "comments"
+---
+
+Informative Fehlermeldungen sind wichtig, weil Benutzer verstehen müssen, was sie tun können. Gleichzeitig dürfen Fehlermeldungen keine internen Details preisgeben.
+
+## Problem
+
+Zu detaillierte Fehlermeldungen helfen Angreifern. Zu unklare Fehlermeldungen helfen Benutzern nicht.
+
+Schlecht sind Meldungen mit:
+
+* Stack Traces
+* SQL-Fehlern
+* internen Pfaden
+* Klassennamen
+* Secrets
+* Hinweisen, ob ein Benutzerkonto existiert
+
+## Lösung
+
+Eine gute Fehlermeldung ist:
+
+- verständlich
+- handlungsorientiert
+- konsistent
+- ohne Stack Trace, SQL, Pfade oder Secrets
+- für Login und Passwort-Reset bewusst generisch
+
+## Beispiele
+
+| Schlecht | Warum schlecht? | Besser |
+| --- | --- | --- |
+| `SQLSTATE[42S02]: Table users not found` | Verrät Datenbankdetails | `Die Anfrage konnte nicht verarbeitet werden.` |
+| `User max@example.com does not exist` | Ermöglicht User Enumeration | `E-Mail oder Passwort ist ungültig.` |
+| `NullReferenceException in /var/www/auth/reset.php:42` | Verrät Pfade und Implementierung | `Der Link konnte nicht geprüft werden.` |
+| `Fehler` | Zu unklar für Benutzer | `Das Passwort muss mindestens 12 Zeichen lang sein.` |
+
+## Best-Practice-Vergleich nach SonarSource
+
+SonarSource empfiehlt robustes Error Handling, damit Anwendungen zuverlässig, sicher und benutzerfreundlich bleiben. Beim Vergleich einer vorhandenen Anwendung kannst du diese Checkliste verwenden.
+
+| Best Practice | Prüffrage | Verbesserung |
+| --- | --- | --- |
+| Fehler nicht ignorieren | Gibt es leere `catch`-Blöcke? | Fehler behandeln oder bewusst weiterwerfen |
+| Informative Meldungen | Versteht der Benutzer den nächsten Schritt? | Sichere, konkrete Meldungen schreiben |
+| Keine internen Details | Werden Stack Traces oder SQL-Fehler angezeigt? | Details nur intern loggen |
+| Recoverable vs. unrecoverable trennen | Wird jeder Fehler gleich behandelt? | Retry/Fallback nur bei recoverable errors |
+| Zentrales Handling | Gibt es viele uneinheitliche Fehlerpfade? | Middleware oder zentrale Error Handler nutzen |
+| Logging und Monitoring | Werden relevante Fehler protokolliert? | Kontext loggen, Alerting für kritische Fehler |
+| Tests | Werden Fehlerfälle getestet? | Unit- und Integrationstests für Fehlerpfade ergänzen |
+
+## Beispiel
+
+```ts
+// Schlecht: Fehler verschwindet.
+try {
+  await resetPassword(email);
+} catch {}
+```
+
+```ts
+// Besser: sicher für Benutzer, nützlich für Betrieb.
+try {
+  await resetPassword(email);
+} catch (error) {
+  logger.warn("Password reset failed", { emailHash: hash(email), error });
+}
+
+showMessage("Falls ein Konto existiert, senden wir dir einen Link.");
+```
+
+## Merksatz
+
+Zeige Benutzern, was sie tun können. Logge intern, was technisch passiert ist. Verrate Angreifern keine Details.

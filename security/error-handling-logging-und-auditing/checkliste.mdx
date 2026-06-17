@@ -1,0 +1,91 @@
+---
+title: "Checkliste"
+icon: "list-check"
+---
+
+Diese Checkliste fasst die wichtigsten Punkte zu Error Handling, Logging und Auditing zusammen.
+
+## Error Handling
+
+Typische Punkte für eine Kontrollliste:
+
+| Bereich | Möglicher Fehler | Erwartetes Handling |
+| --- | --- | --- |
+| Login | Falsches Passwort | Generische Meldung, Versuch loggen, kein Hinweis ob Benutzer existiert |
+| Passwort-Reset | Unbekannte E-Mail | Gleiche Meldung wie bei bekannter E-Mail |
+| API-Aufruf | Externer Dienst nicht erreichbar | Timeout behandeln, Retry nur wenn sinnvoll, Benutzer informieren |
+| Datenbank | Verbindung fehlgeschlagen | Fehler intern loggen, keine SQL-Details anzeigen |
+| Autorisierung | Fehlende Rechte | Zugriff verweigern, Security-Event loggen |
+| Validierung | Ungültige Eingabe | Konkrete, sichere Korrekturhinweise anzeigen |
+
+## Vergleich
+
+Prüfe vorhandenes Error Handling mit diesen Fragen:
+
+- Werden Fehler behandelt oder ignoriert?
+- Sind Fehlermeldungen hilfreich, aber sicher?
+- Werden interne Details nur intern geloggt?
+- Wird zwischen recoverable und unrecoverable errors unterschieden?
+- Gibt es zentrale Error Handler oder viele Einzellösungen?
+- Werden relevante Fehler und Security-Ereignisse geloggt?
+- Werden Fehlerfälle getestet?
+
+## Authentifizierung
+
+Prüfe besonders:
+
+- Login
+- Logout
+- Sessionprüfung
+- Passwort-Reset
+- Registrierung
+- Rollenprüfung
+- API-Zugriff auf geschützte Ressourcen
+
+Bei Authentifizierung und Autorisierung gilt:
+
+> Zugriff ist verboten, bis er ausdrücklich erlaubt wurde.
+
+## Logging
+
+Gute Logs enthalten:
+
+- Zeitstempel
+- Log-Level
+- Event-Name
+- betroffene Komponente
+- Request-ID oder Correlation-ID
+- Ergebnis
+- sichere Kontextdaten
+
+Schlechte Logs enthalten:
+
+- Passwörter
+- Tokens
+- Session-Cookies
+- API-Keys
+- vollständige personenbezogene Daten
+- Stack Traces in Benutzerantworten
+
+## Audit-Logs
+
+Audit-Logs beantworten:
+
+- Wer hat gehandelt?
+- Welche Aktion wurde ausgeführt?
+- Welche Ressource war betroffen?
+- Wann ist es passiert?
+- Von wo kam die Aktion?
+- War die Aktion erfolgreich?
+- Was hat sich verändert?
+
+## Merksätze
+
+- Zeige Benutzern hilfreiche, aber sichere Fehlermeldungen.
+- Logge technische Details intern, nicht auf der Benutzeroberfläche.
+- Security Checks müssen **fail closed** sein.
+- Recoverable errors erlauben eine kontrollierte Weiterarbeit.
+- Unrecoverable errors stoppen den Vorgang und bringen das System in einen sicheren Zustand.
+- Audit-Logs beantworten: Wer hat wann was woran geändert?
+- System-Logs beantworten: Was ist technisch passiert?
+- Log-Level helfen, Ereignisse nach Wichtigkeit zu ordnen.

@@ -1,0 +1,80 @@
+---
+title: "Logging"
+icon: "clipboard-list"
+---
+
+Logs sind Aufzeichnungen von Ereignissen in einem System. Sie helfen bei Diagnose, Betrieb, Security Monitoring und forensischer Analyse.
+
+TryHackMe beschreibt Logs als historische Aufzeichnungen, mit denen man Aktivitäten rekonstruieren und Angriffe erkennen kann.
+
+## Zweck
+
+Logging hilft dabei:
+
+* Fehler nachzuvollziehen
+* Angriffe zu erkennen
+* Systeme zu überwachen
+* Vorfälle zu analysieren
+* technische Abläufe zu rekonstruieren
+
+## Typische Logquellen
+
+Typische Logquellen sind:
+
+- Webserver
+- Applikation
+- Datenbank
+- Betriebssystem
+- Firewall
+- Authentifizierungssystem
+- Cloud-Dienste
+
+Eine Logzeile sollte genug Kontext enthalten, damit ein Ereignis später verstanden werden kann.
+
+```json
+{
+  "timestamp": "2026-06-17T10:15:30Z",
+  "level": "WARN",
+  "event": "login_failed",
+  "userId": "u_123",
+  "ip": "203.0.113.10",
+  "requestId": "req_789"
+}
+```
+
+## Log-Level
+
+Log-Level klassifizieren, wie wichtig ein Ereignis ist.
+
+| Level | Bedeutung | Beispiel |
+| --- | --- | --- |
+| `DEBUG` | Detailinformationen für Entwicklung und Fehlersuche | Ausgewählte Konfigurationswerte ohne Secrets |
+| `INFO` | Normale Ereignisse | Anwendung gestartet |
+| `WARN` | Auffälliges Ereignis, aber Anwendung läuft weiter | Mehrere fehlgeschlagene Logins |
+| `ERROR` | Fehler in einem Vorgang | Datenbankabfrage fehlgeschlagen |
+| `FATAL` oder `CRITICAL` | Schwerer Fehler, Anwendung kann nicht weiterarbeiten | Sicherheitskomponente startet nicht |
+
+## Was nicht in Logs gehört
+
+Logge keine:
+
+- Passwörter
+- Tokens
+- Session-Cookies
+- API-Keys
+- Kreditkartendaten
+- vollständigen personenbezogenen Daten
+- geheimen Konfigurationswerte
+
+## Log-Analyse
+
+TryHackMe beschreibt Log-Analyse als Prozess aus mehreren Schritten:
+
+- Parsing: Logdaten in einzelne Felder zerlegen.
+- Normalisierung: Unterschiedliche Formate vereinheitlichen.
+- Sortierung: Nach Zeit, Quelle, Event-Typ oder Schweregrad ordnen.
+- Klassifikation: Ereignisse nach Kategorien einteilen.
+- Korrelation: Zusammenhänge zwischen Logs erkennen.
+- Visualisierung und Reporting: Erkenntnisse verständlich darstellen.
+
+Für Security ist besonders wichtig, Ereignisse über mehrere Quellen hinweg zu verbinden. Ein einzelner fehlgeschlagener Login kann harmlos sein. Viele fehlgeschlagene Logins aus derselben IP-Adresse können ein Brute-Force-Angriff sein.

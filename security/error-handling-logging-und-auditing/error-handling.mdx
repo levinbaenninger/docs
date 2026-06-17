@@ -1,0 +1,157 @@
+---
+title: "Error Handling"
+icon: "circle-exclamation"
+---
+
+Error Handling sorgt dafür, dass eine Anwendung auf Fehler kontrolliert reagiert. Ohne saubere Fehlerbehandlung können Anwendungen abstürzen, Daten verlieren oder in einen unsicheren Zustand geraten.
+
+OWASP beschreibt Improper Error Handling als Sicherheitsproblem, weil detaillierte Fehlermeldungen interne Informationen verraten können. Dazu gehören Stack Traces, SQL-Fehler, Pfade, Konfigurationen oder interne Fehlercodes.
+
+## Problem
+
+Fehler entstehen nicht nur durch falsche Benutzereingaben. Auch Datenbanken, externe Dienste, Dateisysteme oder Netzwerkverbindungen können fehlschlagen.
+
+Wenn diese Fehler nicht kontrolliert behandelt werden, kann eine Anwendung:
+
+* interne Details preisgeben
+* falsche Antworten liefern
+* in einen unsicheren Zustand geraten
+* abstürzen
+* Zugriff erlauben, obwohl eine Sicherheitsprüfung fehlgeschlagen ist
+
+## Typische Fehlerstellen
+
+Fehler können an vielen Stellen entstehen:
+
+- Login
+- Passwort-Reset
+- Formularvalidierung
+- API-Aufrufe
+- Datenbankabfragen
+- Dateioperationen
+- Netzwerk-Timeouts
+- externe Dienste
+- Rollen- und Rechteprüfungen
+
+## Fehlerstellen identifizieren
+
+Beim Analysieren einer einfachen Anwendung suchst du nach allen Stellen, an denen etwas fehlschlagen kann.
+
+| Bereich | Worauf achten? |
+| --- | --- |
+| Eingaben | Formulare, URL-Parameter, JSON-Bodies und Uploads |
+| Externe Abhängigkeiten | API-Aufrufe, Datenbankzugriffe und externe Services |
+| Dateisystem | Uploads, Downloads, Pfade und Berechtigungen |
+| Authentifizierung | Login, Logout, Sessionprüfung und Passwort-Reset |
+| Autorisierung | Rollenprüfung und Zugriff auf geschützte Ressourcen |
+| Implementierung | `try`/`catch`, `throw`, Error Middleware und Logging-Aufrufe |
+
+## JavaScript und TypeScript
+
+JavaScript verwendet `try`, `catch`, `finally`, `throw` und `Error`-Objekte.
+
+```ts
+try {
+  const response = await fetch("/api/profile");
+
+  if (!response.ok) {
+    throw new Error("Profile request failed");
+  }
+
+  const profile = await response.json();
+  renderProfile(profile);
+} catch (error) {
+  console.error("Could not load profile", error);
+  showMessage("Das Profil konnte nicht geladen werden. Versuche es später erneut.");
+} finally {
+  hideLoadingSpinner();
+}
+```
+
+Wichtige Begriffe:
+
+- `try`: Code, der fehlschlagen kann.
+- `catch`: Reaktion auf den Fehler.
+- `finally`: Code, der immer ausgeführt wird, z. B. Aufräumen oder Ladezustand beenden.
+- `throw`: Erzeugt oder leitet einen Fehler weiter.
+- `Error`: Objekt mit Fehlermeldung und oft auch Stack Trace.
+
+In TypeScript solltest du im `catch` nicht blind davon ausgehen, dass der Fehler ein `Error` ist.
+
+```ts
+catch (error: unknown) {
+  if (error instanceof Error) {
+    logger.error("Payment failed", { message: error.message });
+  } else {
+    logger.error("Payment failed with unknown error");
+  }
+}
+```
+
+## Recoverable und unrecoverable errors
+
+Ein **recoverable error** ist ein Fehler, von dem sich die Anwendung erholen kann.
+
+Beispiele:
+
+- Netzwerk-Timeout bei einem API-Aufruf
+- ungültige Benutzereingabe
+- temporär nicht erreichbarer externer Dienst
+- abgelaufene Session, die durch erneutes Login behoben werden kann
+
+Mögliche Reaktionen:
+
+- Benutzer zur Korrektur auffordern
+- Retry mit Begrenzung ausführen
+- Fallback anzeigen
+- Vorgang abbrechen, ohne die Anwendung zu beenden
+
+Ein **unrecoverable error** ist ein Fehler, bei dem die Anwendung nicht sinnvoll weiterarbeiten kann.
+
+Beispiele:
+
+- fehlende zentrale Konfiguration
+- korrupter Anwendungszustand
+- nicht initialisierte Sicherheitskomponente
+- Datenbankmigration fehlt und Datenmodell passt nicht mehr
+
+Mögliche Reaktionen:
+
+- Vorgang stoppen
+- sicheren Zustand herstellen
+- Fehler mit hoher Priorität loggen
+- Zugriff verweigern statt unsicher weiterarbeiten
+
+## Authentifizierungs-Bypass
+
+Ein Authentifizierungs-Bypass entsteht, wenn ein Angreifer ohne gültige Anmeldung Zugriff erhält. Fehlerbehandlung kann solche Schwachstellen begünstigen oder verhindern.
+
+Gefährliche Muster:
+
+- **Fail open**: Bei einem Fehler wird Zugriff erlaubt.
+- Unterschiedliche Login-Meldungen zeigen, ob ein Benutzer existiert.
+- Fehler im Session-Check werden ignoriert.
+- Passwort-Reset verrät, ob eine E-Mail registriert ist.
+- Nach einem API-Fehler wird eine Standardrolle wie `admin` oder `user` gesetzt.
+
+Sichere Regel:
+
+```ts
+if (!session || !session.isValid) {
+  denyAccess();
+  return;
+}
+```
+
+Bei Security-Checks gilt: Zugriff ist standardmässig verboten und wird nur nach erfolgreicher Kontrolle erlaubt.
+
+## Lösung
+
+Eine sichere Fehlerbehandlung sollte:
+
+* Fehler kontrolliert abfangen
+* Benutzern verständliche Meldungen anzeigen
+* technische Details nur intern loggen
+* Security Checks standardmässig verweigern
+* recoverable und unrecoverable errors unterscheiden
+* Fehlerfälle testen

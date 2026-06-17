@@ -42,6 +42,6 @@ The export command writes `export.zip` in the repository root.
 - Use sentence case for headings.
 - Use active voice and second person where possible.
 - Use Mintlify-native components such as `Card`, `Columns`, `AccordionGroup`, `Accordion`, `Steps`, `Tabs`, `Info`, `Warning`, and `Frame`.
-- Use Lucide icon names only. The site is configured with `"icons": { "library": "lucide" }`.
+- Use Font Awesome icon names. The site is configured with `"icons": { "library": "fontawesome" }`.
 - Add page icons only when there is a clear semantic match. Leave weak matches out.
 - Store local images under `images/` and reference them with root-relative paths.

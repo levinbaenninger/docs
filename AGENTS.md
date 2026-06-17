@@ -26,6 +26,7 @@
 - Use sentence case for headings
 - Bold for UI elements: Click **Settings**
 - Code formatting for file names, commands, paths, and code references
+- Use Font Awesome icon names for page and navigation icons. The site is configured with `"icons": { "library": "fontawesome" }`.
 
 ## Content boundaries
 

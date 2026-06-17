@@ -729,6 +729,18 @@
           "security/grundlagen/applikationssicherheit",
           "security/grundlagen/informationsquellen",
           "security/grundlagen/testen-von-applikationen",
+          "security/genai-und-security",
+          {
+            "group": "Error Handling, Logging und Auditing",
+            "pages": [
+              "security/error-handling-logging-und-auditing/error-handling",
+              "security/error-handling-logging-und-auditing/fehlermeldungen",
+              "security/error-handling-logging-und-auditing/logging",
+              "security/error-handling-logging-und-auditing/audit-logs",
+              "security/error-handling-logging-und-auditing/checkliste"
+            ],
+            "icon": "clipboard-list"
+          },
           {
             "group": "Sicherheitslücken und Bedrohungen",
             "pages": [

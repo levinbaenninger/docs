@@ -1,0 +1,72 @@
+---
+title: "Audit-Logs"
+icon: "scroll"
+---
+
+Audit-Logs dokumentieren sicherheits- und nachvollziehbarkeitsrelevante Aktionen. Sie zeigen, wer wann was getan hat.
+
+Splunk unterscheidet Audit-Logs von System-Logs über ihren Zweck: Audit-Logs dienen Nachvollziehbarkeit, Compliance, Security und forensischen Untersuchungen. System-Logs dienen vor allem Betrieb, Debugging und Performanceanalyse.
+
+## Zweck
+
+Audit-Logs werden verwendet für:
+
+* Nachvollziehbarkeit
+* Verantwortlichkeit
+* Compliance
+* Security Monitoring
+* forensische Untersuchungen
+
+## Audit-Logs und System-Logs
+
+| Art | Zweck | Typische Fragen |
+| --- | --- | --- |
+| Audit-Log | Nachvollziehbarkeit und Verantwortlichkeit | Wer hat wann was getan? |
+| System-Log | Betrieb, Debugging und Performance | Was ist technisch passiert? |
+
+Audit-Logs werden oft länger und strenger geschützt aufbewahrt als normale System-Logs.
+
+## Wichtige Felder
+
+Ein Audit-Log sollte mindestens diese Felder enthalten:
+
+- Zeitstempel
+- Benutzer oder Systemakteur
+- Rolle oder Gruppe
+- Aktion
+- betroffenes Objekt oder Ressource
+- Ergebnis, z. B. `success` oder `failure`
+- Quelle, z. B. IP-Adresse oder Gerät
+- Request-ID oder Correlation-ID
+- Beschreibung des Ereignisses
+- Änderungen am Zustand, z. B. alter und neuer Wert
+
+## Beispiel
+
+```json
+{
+  "timestamp": "2026-06-17T10:20:00Z",
+  "actorId": "u_123",
+  "actorRole": "admin",
+  "action": "user.role.changed",
+  "target": "u_456",
+  "result": "success",
+  "sourceIp": "203.0.113.10",
+  "requestId": "req_abc",
+  "before": { "role": "member" },
+  "after": { "role": "admin" }
+}
+```
+
+## Schutz von Audit-Logs
+
+Audit-Logs sind selbst sicherheitsrelevant. Wenn Angreifer Audit-Logs verändern oder löschen können, verschleiern sie ihre Spuren.
+
+Wichtige Schutzmassnahmen:
+
+- Zugriff nur für berechtigte Rollen
+- manipulationsgeschützte Speicherung
+- zentrale Logsammlung
+- klare Aufbewahrungsfristen
+- Zeitstempel mit synchronisierter Systemzeit
+- Monitoring auf ungewöhnliche Audit-Ereignisse
